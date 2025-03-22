@@ -121,7 +121,7 @@ SDL_Surface *d3dSDL_SetVideoMode(int width, int height, int bpp, Uint32 flags) {
     if (SDL_GetWMInfo(&info) == -1)
         return NULL;
 
-	LOG_DEBUG(("hwnd: %x", (unsigned)info.window));
+	LOG_DEBUG(("hwnd: %p", static_cast<void*>(info.window)));
 
     g_pD3D = Direct3DCreate9( D3D_SDK_VERSION );
 
