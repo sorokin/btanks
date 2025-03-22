@@ -1,5 +1,3 @@
-include_directories(. src)
-
 add_definitions(-DBTANKSAPI=DLLEXPORT)
 
 set(bt_SOURCES
@@ -49,33 +47,26 @@ set(bt_SOURCES
 	src/version.cpp
 )
 
-if (EXISTS ${CMAKE_SOURCE_DIR}/.revision)
-	file(READ ${CMAKE_SOURCE_DIR}/.revision BTANKS_REVISION)
-	string(REGEX REPLACE "[\n\r]" "" BTANKS_REVISION "${BTANKS_REVISION}")
-	message(STATUS "release revision: ${BTANKS_REVISION}")
-else ()
-	find_package(Git REQUIRED)
-	exec_program(${GIT_EXECUTABLE} ARGS rev-list HEAD --count OUTPUT_VARIABLE BTANKS_REVISION)
-	message(STATUS "git revision: ${BTANKS_REVISION}")
-endif ()
+set_source_files_properties(src/version.cpp PROPERTIES COMPILE_DEFINITIONS "VERSION=\"git\";REVISION=1")
 
-set_source_files_properties(src/version.cpp PROPERTIES COMPILE_DEFINITIONS "VERSION=\"git\";REVISION=${BTANKS_REVISION}")
+find_package(Ogg CONFIG REQUIRED)
+find_package(Vorbis CONFIG REQUIRED)
 
 #lua support
-find_package(Lua51)
-if (Lua51_FOUND)
-	include_directories(${LUA_INCLUDE_DIR})
-	add_definitions(-DENABLE_LUA)
-	list(APPEND bt_SOURCES luaxx/state.cpp luaxx/lua_hooks.cpp)
-endif (Lua51_FOUND)
+find_package(Lua51 REQUIRED)
 
-add_library(btanks_engine SHARED ${bt_SOURCES})
-target_link_libraries(btanks_engine vorbisfile SDL mrt sdlx vorbis clunk ${LUA_LIBRARY})
+include_directories(${LUA_INCLUDE_DIR})
+add_definitions(-DENABLE_LUA)
+list(APPEND bt_SOURCES luaxx/state.cpp luaxx/lua_hooks.cpp)
+
+add_library(btanks_engine ${bt_SOURCES})
+target_include_directories(btanks_engine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_link_libraries(btanks_engine PUBLIC SDL::SDL mrt sdlx Ogg::ogg Vorbis::vorbisfile clunk ${LUA_LIBRARIES})
 if (SMPEG_FOUND)
 	add_definitions(-DENABLE_SMPEG)
-	target_link_libraries(btanks_engine smpeg)
+	target_link_libraries(btanks_engine PUBLIC smpeg)
 endif()
 
 if (WIN32)
-	target_link_libraries(btanks_engine Ws2_32 user32)
-endif (WIN32)
+	target_link_libraries(btanks_engine PRIVATE Ws2_32 user32)
+endif ()

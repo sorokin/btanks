@@ -1,0 +1,14 @@
+{
+  "name": "example",
+  "version-string": "0.0.1",
+  "dependencies": [
+    "expat",
+    "ijg-libjpeg",
+    "libogg",
+    "libpng",
+    "libvorbis",
+    "lua",
+    "sdl1",
+    "zlib"
+  ]
+}

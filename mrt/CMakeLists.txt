@@ -1,10 +1,7 @@
-cmake_minimum_required(VERSION 2.8.12)
+cmake_minimum_required(VERSION 3.28)
 
 add_definitions(-DMRTAPI=DLLEXPORT)
 include_directories(.)
-
-find_package(EXPAT REQUIRED)
-find_package(ZLIB REQUIRED)
 
 set(mrt_SOURCES
 	exception.cpp fmt.cpp ioexception.cpp logger.cpp chunk.cpp random.cpp
@@ -15,5 +12,5 @@ set(mrt_SOURCES
 	net_exception.cpp dict_serializator.cpp
 )
 
-add_library(mrt SHARED ${mrt_SOURCES})
-target_link_libraries(mrt expat z)
+add_library(mrt ${mrt_SOURCES})
+target_link_libraries(mrt PUBLIC expat::expat ZLIB::ZLIB ws2_32.lib)

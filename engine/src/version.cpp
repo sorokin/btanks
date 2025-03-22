@@ -27,10 +27,6 @@
 */
 
 #include "version.h"
-#ifdef _WINDOWS
-#pragma comment(exestr, "Battle Tanks (c)2006-2009 Battle tanks team. version " VERSION)
-#pragma comment( user, "Compiled on " __DATE__ " at " __TIME__ ) 
-#endif
 
 #ifdef RELEASE
 #	define RELEASE_NAME " beta"

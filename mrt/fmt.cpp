@@ -24,19 +24,6 @@
 #include <algorithm>
 #include "exception.h"
 
-#if defined _WINDOWS
-#	if !defined vsnprintf
-#		define vsnprintf _vsnprintf
-#	endif
-/*
-#	include <malloc.h>
-#	if !defined alloca
-#		define alloca _alloca
-#	endif
-*/
-
-#endif
-
 using namespace mrt;
 
 #define FORMAT_BUFFER_SIZE 1024

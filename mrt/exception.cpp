@@ -19,12 +19,6 @@
 #include "exception.h"
 #include <stdarg.h>
 
-#if defined _WINDOWS
-#	if !defined snprintf
-#		define snprintf _snprintf
-#	endif
-#endif
-
 using namespace mrt;
 
 Exception::Exception() : _error() {}

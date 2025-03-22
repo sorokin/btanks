@@ -14,17 +14,11 @@ set(bted_SOURCES
 	resize_dialog.cpp
 )
 
-include_directories(${CMAKE_SOURCE_DIR}/engine)
-include_directories(${CMAKE_SOURCE_DIR}/engine/src)
-
 add_executable(bted ${bted_SOURCES})
-target_link_libraries(bted mrt sdlx btanks_engine)
-add_dependencies(bted bt_objects)
-
-add_custom_command(TARGET bted POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ARGS $<TARGET_FILE:bted> ${CMAKE_BINARY_DIR})
+target_link_libraries(bted PUBLIC mrt sdlx btanks_engine expat::expat bt_objects)
 
 if (WIN32)
-	target_link_libraries(bted SDL sdlx_main user32)
+	target_link_libraries(bted PRIVATE SDL::SDL sdlx_main user32 dxguid.lib)
 else(WIN32)
-	target_link_libraries(bted ${SDLMAIN_LIBRARY})
+	target_link_libraries(bted PRIVATE ${SDLMAIN_LIBRARY})
 endif(WIN32)

@@ -27,12 +27,6 @@ SOFTWARE.
 #include <stdio.h>
 #include <string.h>
 
-#if defined _MSC_VER
-#    ifndef snprintf
-#        define snprintf _snprintf
-#    endif
-#endif
-
 void clunk::Exception::add_message(const char *file, int line) {
 	char buf[1024];
 	snprintf(buf, sizeof(buf), "[%s:%d] ", file, line);

@@ -1,6 +1,5 @@
-include_directories(../engine ../engine/src)
-
-set(bt_objects_SOURCES
+add_library(bt_objects OBJECT ${bt_objects_SOURCES})
+target_sources(bt_objects PRIVATE
 	bullet.cpp explosion.cpp single_pose.cpp
 	tank.cpp shilka.cpp launcher.cpp ai_tank.cpp
 	ai_launcher.cpp ai_shilka.cpp ai_trooper.cpp ai_machinegunner_player.cpp
@@ -19,6 +18,4 @@ set(bt_objects_SOURCES
 	shilka_turret.cpp gta_car.cpp
 )
 
-add_library(bt_objects SHARED ${bt_objects_SOURCES})
-target_link_libraries(bt_objects btanks_engine sdlx mrt)
-add_custom_command(TARGET bt_objects POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ARGS $<TARGET_FILE:bt_objects> ${CMAKE_BINARY_DIR})
+target_link_libraries(bt_objects PUBLIC btanks_engine sdlx mrt expat::expat SDL::SDL)

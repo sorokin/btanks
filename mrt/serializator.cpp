@@ -21,9 +21,6 @@
 #	include <arpa/inet.h>
 #else
 #	include <winsock2.h>
-#	ifndef snprintf
-#		define snprintf _snprintf
-#	endif
 #endif
 
 #include "serializator.h"
@@ -33,24 +30,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include "exception.h"
-
-#ifdef _WINDOWS
-#	ifndef uint32_t
-#		define uint32_t unsigned __int32
-#	endif
-#	ifndef uint16_t
-#		define uint16_t unsigned __int16
-#	endif
-#endif
-
-#ifdef _WINDOWS
-#	include <float.h>
-#	include <limits>
-#	define isnan(f) _isnan(f)
-#	define isinf(f) ((_fpclass(f) == _FPCLASS_PINF)? 1: ((_fpclass(f) == _FPCLASS_NINF)? -1: 0))
-#	define INFINITY (std::numeric_limits<float>::infinity())
-#	define NAN (std::numeric_limits<float>::quiet_NaN())
-#endif
 
 //#define IEEE_754_SERIALIZATION
 //define it to use machine/compiler specific binary format 
