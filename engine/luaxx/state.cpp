@@ -59,7 +59,7 @@ static const char * chunk_reader(lua_State *L, void *data, size_t *size) {
 void State::load(const std::string &fname, const mrt::Chunk &data) {
 	//throw_ex(("implement me[%s]", fname.c_str()));
 	reader_state x(data);
-	int err = lua_load(state, chunk_reader, &x, fname.c_str());
+	int err = lua_load(state, chunk_reader, &x, fname.c_str(), nullptr);
 	check_error(state, err);
 }
 
@@ -80,8 +80,7 @@ void State::call(const int nargs, const int nresults) const {
 void State::init() {
 	assert(state == NULL);
 
-	//state = lua_newstate(l_alloc, this);
-	state = lua_open();
+	state = luaL_newstate();
 	if (state == NULL)
 		throw_ex(("cannot create lua interpreter"));
 
