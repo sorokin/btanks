@@ -66,6 +66,7 @@ static int    stream_close_func (void *datasource) {
 	mrt::BaseFile *file = (mrt::BaseFile *)datasource;
 	TRY { 
 		file->close();
+		delete file;
 		return 0;
 	} CATCH("close_cb", return -1);
 }
@@ -133,13 +134,13 @@ bool OggStream::read(clunk::Buffer &data, unsigned hint) {
 }
 
 OggStream::~OggStream() {
-
+	ov_clear(&_ogg_stream);
 }
 
 #include "mrt/scoped_ptr.h"
 
 void OggStream::decode(clunk::Sample &sample, const std::string &fname) {
-	scoped_ptr<mrt::BaseFile> file(Finder->get_file(fname, "rb"));
+	mrt::BaseFile* file(Finder->get_file(fname, "rb"));
 	
 	ov_callbacks ov_cb = {};
 
@@ -149,7 +150,7 @@ void OggStream::decode(clunk::Sample &sample, const std::string &fname) {
 	ov_cb.close_func = stream_close_func;
 		
 	OggVorbis_File ogg;
-	int r = ov_open_callbacks(file.get(), &ogg, NULL, 0, ov_cb);
+	int r = ov_open_callbacks(file, &ogg, NULL, 0, ov_cb);
 	if (r < 0)
 		throw_ogg(r, ("ov_open('%s')", fname.c_str()));
 

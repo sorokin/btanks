@@ -132,9 +132,6 @@ void Context::process(void *stream, size_t size) {
 		if (buf_size == 0) {
 			//all data buffered. continue;
 			LOG_DEBUG(("stream %d finished. dropping.", i->first));
-			TRY {
-				delete stream_info.stream;
-			} CATCH("mixing stream", {});
 			streams.erase(i++);
 			continue;
 		}
@@ -233,6 +230,12 @@ void Context::delete_object(Object *o) {
 		i = objects.erase(i); //just for fun
 }
 
+Context::stream_info::stream_info(): stream(nullptr), loop(false), gain(1.0f), paused(false), buffer()
+{}
+
+Context::stream_info::~stream_info()
+{}
+
 void Context::deinit() {
 	AudioLocker l;
 	delete _listener;
@@ -255,8 +258,7 @@ void Context::play(const int id, Stream *stream, bool loop) {
 	LOG_DEBUG(("play(%d, %p, %s)", id, (const void *)stream, loop?"'loop'":"'once'"));
 	AudioLocker l;
 	stream_info & stream_info = streams[id];
-	delete stream_info.stream;
-	stream_info.stream = stream;
+	stream_info.stream.reset(stream);
 	stream_info.loop = loop;
 	stream_info.paused = false;
 	stream_info.gain = 1.0f;
@@ -282,12 +284,6 @@ void Context::stop(const int id) {
 	if (i == streams.end())
 		return;
 	
-	TRY {
-		delete i->second.stream;
-	} CATCH(clunk::format_string("stop(%d)", id).c_str(), {
-		streams.erase(i);
-		throw;
-	})
 	streams.erase(i);
 }
 
@@ -315,9 +311,6 @@ void Context::set_fx_volume(float volume) {
 
 void Context::stop_all() {
 	AudioLocker l;
-	for(streams_type::iterator i = streams.begin(); i != streams.end(); ++i) {
-		delete i->second.stream;
-	}
 	streams.clear();
 }
 

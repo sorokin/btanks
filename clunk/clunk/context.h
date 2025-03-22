@@ -27,6 +27,7 @@ SOFTWARE.
 
 #include <map>
 #include <deque>
+#include <memory>
 #include <vector>
 #include <stdio.h>
 
@@ -139,8 +140,10 @@ private:
 	objects_type objects;
 	
 	struct stream_info {
-		stream_info() : stream(nullptr), loop(false), gain(1.0f), paused(false), buffer() {}
-		Stream *stream;
+		stream_info();
+		~stream_info();
+
+		std::unique_ptr<Stream> stream;
 		bool loop;
 		float gain;
 		bool paused;
