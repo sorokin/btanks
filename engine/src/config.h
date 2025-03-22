@@ -33,6 +33,7 @@
 #include "mrt/xml.h"
 #include <string>
 #include <map>
+#include <memory>
 #include <set>
 #include "sl08/sl08.h"
 #include "export_btanks.h"
@@ -86,7 +87,7 @@ private:
 	sl08::slot2<const std::string, const std::string &, const std::string &, IConfig> on_console_slot;
 	const std::string onConsole(const std::string &cmd, const std::string &param);
 
-	typedef std::map<std::string, Var*> VarMap;
+	typedef std::map<std::string, Var> VarMap;
 
 	std::string _file;
 

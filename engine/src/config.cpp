@@ -58,8 +58,8 @@ void IConfig::save() const {
 	for(VarMap::const_iterator i = _map.begin(); i != _map.end(); ++i) {
 		data += mrt::format_string("\t<value name=\"%s\" type=\"%s\">%s</value>\n", 
 			XMLParser::escape(i->first).c_str(), 
-			i->second->type.c_str(), 
-			XMLParser::escape(i->second->toString()).c_str());
+			i->second.type.c_str(),
+			XMLParser::escape(i->second.toString()).c_str());
 	}
 	data += "</config>\n";
 	mrt::File f;
@@ -93,13 +93,8 @@ void IConfig::end(const std::string &name) {
 	} CATCH("fromString", return;);
 
 	//LOG_DEBUG(("read config value %s of type %s (%s)", _name.c_str(), _type.c_str(), _data.c_str()));
-	VarMap::iterator i = _map.find(_name);
-	if (i == _map.end()) {
-		_map[_name] = new Var(v);
-	} else {
-		delete i->second;
-		i->second = new Var(v);
-	}
+	_map[_name] = v;
+
 	_name.clear();
 	_data.clear();
 }
@@ -121,104 +116,100 @@ const bool IConfig::has(const std::string &name) const {
 void IConfig::get(const std::string &name, float &value, const float default_value) {
 	VarMap::iterator t_i = _temp_map.find(name);
 	if (t_i != _temp_map.end()) { //override found
-		t_i->second->check("float");
-		value = t_i->second->f;
+		t_i->second.check("float");
+		value = t_i->second.f;
 		return;
 	}
 
 	VarMap::iterator i = _map.find(name); 
 	if (i == _map.end()) {
-		_map[name] = new Var("float");
-		_map[name]->f = default_value;
+		_map[name] = Var("float");
+		_map[name].f = default_value;
 	} else {
-		i->second->check("float");
+		i->second.check("float");
 	}
-	value = _map[name]->f;
+	value = _map[name].f;
 }
 void IConfig::get(const std::string &name, int &value, const int default_value) {
 	VarMap::iterator t_i = _temp_map.find(name);
 	if (t_i != _temp_map.end()) { //override found
-		t_i->second->check("int");
-		value = t_i->second->i;
+		t_i->second.check("int");
+		value = t_i->second.i;
 		return;
 	}
 
 	VarMap::iterator i = _map.find(name); 
 	if (i == _map.end()) {
-		_map[name] = new Var("int");
-		_map[name]->i = default_value;
+		_map[name] = Var("int");
+		_map[name].i = default_value;
 	} else {
-		i->second->check("int");
+		i->second.check("int");
 	}
-	value = _map[name]->i;
+	value = _map[name].i;
 }
 
 void IConfig::get(const std::string &name, bool &value, const bool default_value) {
 	VarMap::iterator t_i = _temp_map.find(name);
 	if (t_i != _temp_map.end()) { //override found
-		t_i->second->check("bool");
-		value = t_i->second->b;
+		t_i->second.check("bool");
+		value = t_i->second.b;
 		return;
 	}
 
 	VarMap::iterator i = _map.find(name); 
 	if (i == _map.end()) {
-		_map[name] = new Var("bool");
-		_map[name]->b = default_value;
+		_map[name] = Var("bool");
+		_map[name].b = default_value;
 	} else {
-		i->second->check("bool");
+		i->second.check("bool");
 	}
-	value = _map[name]->b;
+	value = _map[name].b;
 }
 
 void IConfig::get(const std::string &name, std::string &value, const std::string& default_value) {
 	VarMap::iterator t_i = _temp_map.find(name);
 	if (t_i != _temp_map.end()) { //override found
-		t_i->second->check("string");
-		value = t_i->second->s;
+		t_i->second.check("string");
+		value = t_i->second.s;
 		return;
 	}
 	
 	VarMap::iterator i = _map.find(name); 
 	if (i == _map.end()) {
-		_map[name] = new Var("string");
-		value = _map[name]->s = default_value;
+		_map[name] = Var("string");
+		value = _map[name].s = default_value;
 	} else {
-		i->second->check("string");
-		value = i->second->s;
+		i->second.check("string");
+		value = i->second.s;
 	}
 }
 
 void IConfig::set(const std::string &name, const float value) {
-	Var *v = _map[name];
-	if (v == NULL) {
-		v = _map[name] = new Var("float");
-	} else v->type = "float";
-	v->f = value;
+	Var tmp("float");
+	tmp.f = value;
+
+	_map[name] = tmp;
 }
 
 void IConfig::set(const std::string &name, const std::string &value) {
-	Var *v = _map[name];
-	if (v == NULL) {
-		v = _map[name] = new Var("string");
-	} else v->type = "string";
-	v->s = value;
+	Var tmp("string");
+	tmp.s = value;
+
+	_map[name] = tmp;
 }
 
 void IConfig::set(const std::string &name, const int value) {
-	Var *v = _map[name];
-	if (v == NULL) {
-		v = _map[name] = new Var("int");
-	}
-	v->i = value;
+	Var tmp("int");
+	tmp.i = value;
+
+	_map[name] = tmp;
 }
 
 void IConfig::set(const std::string &name, const bool value) {
-	Var *v = _map[name];
-	if (v == NULL) {
-		v = _map[name] = new Var("bool");
-	}
-	v->b = value;
+	Var tmp("bool");
+	tmp.b = value;
+
+	_map[name] = tmp;
 }
 
 void IConfig::remove(const std::string &name) {
@@ -231,7 +222,7 @@ void IConfig::rename(const std::string &old_name, const std::string &new_name) {
 	
 	VarMap::iterator i = _map.find(old_name);
 	if (i != _map.end()) {
-		_map[new_name] = i->second;
+		_map[new_name] = std::move(i->second);
 		_map.erase(i);
 	}
 }
@@ -242,11 +233,7 @@ void IConfig::registerInvalidator(bool *ptr) {
 
 void IConfig::setOverride(const std::string &name, const Var &var) {
 	LOG_DEBUG(("adding override for '%s'", name.c_str()));
-	Var * v = _temp_map[name];
-	if (v == NULL) 
-		_temp_map[name] = new Var(var);
-	else 
-		*v = var;	
+	_temp_map[name] = var;
 }
 
 void IConfig::deserializeOverrides(const mrt::Serializator &s) {
@@ -256,7 +243,6 @@ void IConfig::deserializeOverrides(const mrt::Serializator &s) {
 
 void IConfig::clearOverrides() {
 	LOG_DEBUG(("clearing %u overrides...", (unsigned)_temp_map.size()));
-	std::for_each(_temp_map.begin(), _temp_map.end(), delete_ptr2<VarMap::value_type>());
 	_temp_map.clear();
 }
 
@@ -280,11 +266,7 @@ const std::string IConfig::onConsole(const std::string &cmd, const std::string &
 		Var v(par[0]);
 		v.fromString(par[2]);
 		const std::string &name = par[1];
-		Var * var = _map[name];
-		if  (var == NULL)
-			var = _map[name] = new Var(v);
-		else 
-			*var = v;
+		_map[name] = v;
 		invalidateCachedValues();
 	} catch(std::exception &e) {
 		return std::string("error") + e.what();
@@ -295,8 +277,6 @@ const std::string IConfig::onConsole(const std::string &cmd, const std::string &
 
 IConfig::~IConfig() {
 	LOG_DEBUG(("cleaning up config..."));
-	std::for_each(_temp_map.begin(), _temp_map.end(), delete_ptr2<VarMap::value_type>());
-	std::for_each(_map.begin(), _map.end(), delete_ptr2<VarMap::value_type>());
 }
 
 void IConfig::enumerateKeys(std::set<std::string> &keys, const std::string &pattern) const {
