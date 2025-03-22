@@ -978,7 +978,10 @@ IPlayerManager::IPlayerManager() :
 	on_object_death_slot.assign(this, &IPlayerManager::onPlayerDeath, World->on_object_death);
 }
 
-IPlayerManager::~IPlayerManager() {}
+IPlayerManager::~IPlayerManager() {
+	delete _client;
+	delete _server;
+}
 
 void IPlayerManager::start_server() {
 	clear();
