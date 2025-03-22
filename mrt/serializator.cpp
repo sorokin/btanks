@@ -214,22 +214,18 @@ void Serializator::get(int &n)  const {
 	if (len == 0) {
 		n = 0; 
 	} else if(len == 1) {
-		n = *(ptr + _pos++);
+		n = uint8_t(ptr[_pos]);
+		++_pos;
 	} else if (len == 2) {
-		n = ntohs(*((uint16_t *)(ptr + _pos)));
+		n = uint16_t(ptr[_pos]) << 8
+		  | uint16_t(ptr[_pos + 1]);
 		_pos += 2;
 	} else if (len == 4) {
-		n = ntohl(*((uint32_t *)(ptr + _pos)));
+		n = uint32_t(ptr[_pos]) << 24
+		  | uint32_t(ptr[_pos + 1]) << 16
+		  | uint32_t(ptr[_pos + 2]) << 8
+		  | uint32_t(ptr[_pos + 3]);
 		_pos += 4;
-#if defined _WIN64 || __WORDSIZE == 64
-//temp hack for 64 bit arch
-	} else if (len == 8) {
-		long nh = ntohl(*((uint32_t *)(ptr + _pos)));
-		_pos += 4;
-		long nl = ntohl(*((uint32_t *)(ptr + _pos)));
-		_pos += 4;
-		n = (nh << 32) | nl;
-#endif
 	} else 
 		throw_ex(("control byte 0x%02x is unsupported. (corrupted data?) (position: %u, size: %u)", (unsigned)type, (unsigned)_pos, (unsigned)_data->get_size()));
 
