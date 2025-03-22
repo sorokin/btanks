@@ -1,0 +1,157 @@
+/*
+MIT License
+
+Copyright (c) 2008-2019 Netive Media Group & Vladimir Menshakov
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+#ifndef MDCT_CONTEXT_H__
+#define MDCT_CONTEXT_H__
+
+#include <clunk/fft_context.h>
+#include <clunk/clunk_assert.h>
+#include <string.h>
+
+namespace clunk {
+
+template<int N, typename T, typename impl>
+struct window_func_base {
+	window_func_base() {
+		for(int i = 0; i < N; ++i) {
+			cache[i] = static_cast<impl &>(*this)(i);
+		}
+	}
+
+	T cache[N];
+};
+
+
+template<int BITS, template <int, typename> class window_func_type , typename T = float>
+class mdct_context {
+private:
+	typedef fft_context<BITS - 2, T> fft_type;
+	fft_type fft;
+
+public:
+	enum { N = 1 << BITS , M = N / 2, N2 = M, N4 =  fft_type::N };
+
+private:
+	const window_func_type<N, T> window_func;
+
+	std::complex<T> angle_cache[N4];
+	T sqrt_N;
+
+	clunk_static_assert(N == N4 * 4);
+
+public:
+	typedef T value_type;
+	typedef std::complex<T> complex_type;
+
+	T data[N];
+
+	mdct_context() : window_func(), sqrt_N((T)sqrt((T)N)), data() {
+		for(unsigned t = 0; t < N4; ++t) {
+			angle_cache[t] = std::polar<T>(1, 2 * T(M_PI) * (t + T(0.125)) / N);
+		}
+	}
+
+	void mdct() {
+		T rotate[N];
+		for(unsigned t = 0; t < N4; ++t) {
+			rotate[t] = -data[t + 3 * N4];
+		}
+		for(unsigned t = N4; t < N; ++t) {
+			rotate[t] = data[t - N4];
+		}
+
+		for(unsigned t = 0; t < N4; ++t) {
+			T re = (rotate[t * 2] - rotate[N - 1 - t * 2]) / 2;
+			T im = (rotate[M + t * 2] - rotate[M - 1 - t * 2]) / -2;
+			const std::complex<T> & a = angle_cache[t];
+			fft.data[t] = std::complex<T>(re * a.real() + im * a.imag(), -re * a.imag() + im * a.real());
+		}
+		fft.fft();
+
+		for(unsigned t = 0; t < N4; ++t) {
+			const std::complex<T>& a = angle_cache[t];
+			std::complex<T> &f = fft.data[t];
+			f = std::complex<T>(
+				2 / sqrt_N * (f.real() * a.real() + f.imag() * a.imag()),
+				2 / sqrt_N * (-f.real() * a.imag() + f.imag() * a.real())
+			);
+		}
+
+		for(unsigned t = 0; t < N4; ++t) {
+			data[2 * t] = fft.data[t].real();
+			data[M - 2 * t - 1] = -fft.data[t].imag();
+		}
+	}
+
+	void imdct() {
+		for(unsigned t = 0; t < N4; ++t) {
+			T re = data[t * 2] / 2, im = data[M - 1 - t * 2] / 2;
+			std::complex<T> a = angle_cache[t];
+			fft.data[t] = std::complex<T>(re * a.real() + im * a.imag(), - re * a.imag() + im * a.real());
+		}
+
+		fft.fft();
+
+		for(unsigned t = 0; t < N4; ++t) {
+			std::complex<T> a = angle_cache[t];
+			std::complex<T>& f = fft.data[t];
+			fft.data[t] = std::complex<T>(
+				8 / sqrt_N * (f.real() * a.real() + f.imag() * a.imag()),
+				8 / sqrt_N * (-f.real() * a.imag() + f.imag() * a.real())
+			);
+		}
+
+		T rotate[N];
+		for(unsigned t = 0; t < N4; ++t) {
+			const std::complex<T> &f = fft.data[t];
+			rotate[2 * t] = f.real();
+			rotate[M + 2 * t] = f.imag();
+		}
+		for(unsigned t = 1; t < N; t += 2) {
+			rotate[t] = - rotate[N - t - 1];
+		}
+
+		//shift
+		for(unsigned t = 0; t < 3 * N4; ++t) {
+			data[t] = rotate[t + N4];
+		}
+		for(unsigned t = 3 * N4; t < N; ++t) {
+			data[t] = -rotate[t - 3 * N4];
+		}
+	}
+
+	void apply_window() {
+		for(int i = 0; i < N; ++i) {
+			data[i] *= window_func.cache[i];
+		}
+	}
+
+	void clear() {
+		memset(data, 0, sizeof(data));
+	}
+};
+
+}
+
+#endif

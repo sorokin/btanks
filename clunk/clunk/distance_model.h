@@ -1,0 +1,84 @@
+/*
+MIT License
+
+Copyright (c) 2008-2019 Netive Media Group & Vladimir Menshakov
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+#ifndef CLUNK_DISTANCE_MODEL_H__
+#define CLUNK_DISTANCE_MODEL_H__
+
+#include <clunk/export_clunk.h>
+#include <clunk/v3.h>
+
+namespace clunk {
+
+//!Distance model used in context.
+
+struct CLUNKAPI DistanceModel {
+	//!Type of the distance model: inversed, linear or exponent.
+	enum Type { Inverse, Linear, Exponent };
+
+	//!Type of the distance model
+	Type type;
+	//!Clamping means cutting off max_distance, you must set max_distance to some value then.
+	bool clamped;
+	
+	//!Minimal distance for distance model, default == 1
+	float reference_distance;
+	//!Maximum distance for clamping distance models. MUST NOT BE DEFAULT
+	float max_distance; 
+
+	//!Rolloff factor for distance models
+	float rolloff_factor;
+	
+	//!Dopple factor. 0 disables dopple effect
+	float doppler_factor;
+	
+	//!Speed of sound
+	float speed_of_sound;
+	
+	//! distance_divisor
+	float distance_divisor;
+	
+	//! limit same sounds near you
+	unsigned same_sounds_limit;
+	
+	/*!
+		\brief Constructor
+		\param[in] type type of the distance model: inversed, linear or exponent.
+		\param[in] clamped means that max_distance will be used.
+		\param[in] max_distance maximum distance for the model.
+	*/ 
+	DistanceModel(Type type, bool clamped, float max_distance = 0): type(type), clamped(clamped), 
+	reference_distance(1), max_distance(max_distance), rolloff_factor(1), doppler_factor(0), 
+	speed_of_sound(343.3f), distance_divisor(1), same_sounds_limit(2)
+	{}
+	
+	//! Computes gain by distance. Return values is in [0-1] range.
+	float gain(float distance) const;
+	//! Computes doppler pitch.
+	float doppler_pitch(const v3f &sl, const v3f &s_vel, const v3f &l_vel) const;
+};
+
+}
+
+#endif
+
