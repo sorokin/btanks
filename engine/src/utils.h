@@ -32,14 +32,14 @@
 #include <algorithm>
 #include <functional>
 
-template <class T> struct delete_ptr : public std::unary_function<T, void> {
+template <class T> struct delete_ptr {
 	void operator()(const T &x) {
 		delete x;
 	}
 };
 
 
-template <class T> struct delete_ptr2 : public std::unary_function<T, void> {
+template <class T> struct delete_ptr2 {
 	void operator()(T &x) {
 		delete x.second;
 		x.second = NULL;
