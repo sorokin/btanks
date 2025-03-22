@@ -46,13 +46,12 @@ public:
 private: 
 
 #ifdef _WINDOWS
-	typedef long dir_t;
+	intptr_t _handle;
 	mutable std::string _first_value;
 #else
-	typedef DIR * dir_t;
+	DIR * _handle;
 #endif
 
-	dir_t _handle;
 };
 }
 
