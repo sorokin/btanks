@@ -182,10 +182,11 @@ void Object::cancel_all(bool force, float fadeout) {
 }
 
 Object::~Object() {
+	AudioLocker l;
+	cancel_all(true);
 	if (dead)
 		return;
-	AudioLocker l;
-	cancel_all();
+
 	context->delete_object(this);
 }
 

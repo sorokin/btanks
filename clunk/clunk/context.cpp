@@ -241,6 +241,15 @@ void Context::deinit() {
 		fclose(_fdump);
 		_fdump = NULL;
 	}
+
+	for (Object* obj : objects)
+	{
+		if (obj->dead)
+			delete obj;
+		else
+			assert(false);
+	}
+	objects.clear();
 }
 	
 Context::~Context() {
