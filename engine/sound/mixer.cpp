@@ -115,8 +115,6 @@ void IMixer::deinit() {
 	if (_backend != NULL) {
 		_context->stop_all();
 		
-		_context->deinit();
-		
 		std::for_each(_sounds.begin(), _sounds.end(), delete_ptr2<Sounds::value_type>());
 		_sounds.clear();
 

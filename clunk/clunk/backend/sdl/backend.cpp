@@ -78,6 +78,8 @@ Backend::~Backend() {
 
 	stop();
 
+	_context.deinit();
+
 	SDL_CloseAudio();
 
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
