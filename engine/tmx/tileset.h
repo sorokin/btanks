@@ -22,7 +22,7 @@ private:
 	Attrs  _attr;
 	std::string _cdata;
 
-	typedef std::map<const std::string, GeneratorObject *> Objects;
+	typedef std::map<std::string, GeneratorObject *> Objects;
 	Objects _objects;
 };
 

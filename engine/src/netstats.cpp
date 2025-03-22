@@ -35,7 +35,7 @@ float NetStats::updatePing(const float p) {
 	return ping;
 }
 
-typedef std::map<const NetStats::delta_t, unsigned> gist_t;
+typedef std::map<NetStats::delta_t, unsigned> gist_t;
 
 NetStats::public_delta_t NetStats::updateDelta(const int d) {
 	//LOG_DEBUG(("updateDelta(%d)", d));

@@ -84,7 +84,7 @@ public:
 	
 	void getAllClasses(std::set<std::string> &classes);
 
-	typedef std::map<const std::pair<std::string, std::string>, std::set<std::string> > PreloadMap;
+	typedef std::map<std::pair<std::string, std::string>, std::set<std::string> > PreloadMap;
 
 private:
 	void preload(const std::string &animation);
@@ -100,19 +100,19 @@ private:
 	virtual void end(const std::string &name);
 	virtual void cdata(const std::string &data);
 	
-	typedef std::map<const std::string, Animation*> AnimationMap;
+	typedef std::map<std::string, Animation*> AnimationMap;
 	AnimationMap _animations;
 
-	typedef std::map<const std::string, AnimationModel *> AnimationModelMap;
+	typedef std::map<std::string, AnimationModel *> AnimationModelMap;
 	AnimationModelMap _animation_models;
 
-	typedef std::map<const std::string, sdlx::Surface *> SurfaceMap;
+	typedef std::map<std::string, sdlx::Surface *> SurfaceMap;
 	SurfaceMap _surfaces;
 
-	typedef std::map<const std::pair<std::string, bool>, sdlx::Font *> FontMap;
+	typedef std::map<std::pair<std::string, bool>, sdlx::Font *> FontMap;
 	FontMap _fonts;
 
-	typedef std::map<const std::string, sdlx::CollisionMap *> CollisionMap;
+	typedef std::map<std::string, sdlx::CollisionMap *> CollisionMap;
 	CollisionMap _cmaps;
 
 	//parser specific stuff	
@@ -122,7 +122,7 @@ private:
 	
 	long _tw, _th;
 	
-	typedef std::map<const std::string, Object *> ObjectMap;
+	typedef std::map<std::string, Object *> ObjectMap;
 	ObjectMap _objects;
 	
 	mutable PreloadMap _preload_map, _object_preload_map;

@@ -1501,7 +1501,7 @@ void IWorld::generateUpdate(mrt::Serializator &s, const bool clean_sync_flag, co
 	int n = 0, max_n = _objects.size() / sync_div;
 
 	//slow O(N * log(N)~N) iteration/set filling
-	typedef std::map<const int, Object *> LocalObjectMap;
+	typedef std::map<int, Object *> LocalObjectMap;
 	LocalObjectMap local_objects;
 	for(ObjectMap::iterator i = _objects.begin(); i != _objects.end(); ++i) {
 		if (i->first >= id0)

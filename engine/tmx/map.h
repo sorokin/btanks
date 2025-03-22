@@ -78,7 +78,7 @@ public:
 	void getLayers(std::set<int> &layers_z) const;
 	Layer* getLayer(const int z);
 
-	typedef std::map<const std::string, std::string> PropertyMap;
+	typedef std::map<std::string, std::string> PropertyMap;
 	PropertyMap properties;
 
 	IMap(); 
@@ -261,9 +261,9 @@ private:
 	const sdlx::CollisionMap* getCollisionMap(const Layer *l, const int x, const int y) const;
 	const sdlx::CollisionMap* getVisibilityMap(const Layer *l, const int x, const int y) const;
 
-	typedef std::map<const std::pair<int, bool> , Matrix<int> > MatrixMap;
+	typedef std::map<std::pair<int, bool> , Matrix<int> > MatrixMap;
 	MatrixMap _imp_map;
-	typedef std::map<const std::string, Matrix<int> > ObjectAreaMap;
+	typedef std::map<std::string, Matrix<int> > ObjectAreaMap;
 	ObjectAreaMap _area_map;
 	
 	inline const bool collides(const Object *obj, const int dx, const int dy, const sdlx::CollisionMap *tile) const;
@@ -280,12 +280,12 @@ private:
 
 	PropertyMap _properties;
 	
-	typedef std::map<const int, Layer *> LayerMap;
+	typedef std::map<int, Layer *> LayerMap;
 	LayerMap _layers;
 	Matrix<int> _cover_map;
 	
-	std::map<const std::string, std::string> _damage4;
-	std::map<const std::string, int> _layer_z;
+	std::map<std::string, std::string> _damage4;
+	std::map<std::string, int> _layer_z;
 	bool _layer;
 	std::string _layer_name;
 
@@ -310,7 +310,7 @@ private:
 	
 	bool _torus;
 	
-	typedef std::map<const int, int> CorrectionMap;
+	typedef std::map<int, int> CorrectionMap;
 	CorrectionMap _corrections;
 	
 	void correctGids();

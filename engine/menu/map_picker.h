@@ -68,7 +68,7 @@ private:
 	ModePanel *_mode_panel;
 	Notepad *notepad;
 	
-	std::map<const int, int> map_indexes;
+	std::map<int, int> map_indexes;
 	
 	int ybase1, ybase2;
 };

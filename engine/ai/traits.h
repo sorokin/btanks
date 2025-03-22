@@ -33,7 +33,7 @@
 #include <string>
 
 namespace ai {
-class Traits : public std::map<const std::string, float> {
+class Traits : public std::map<std::string, float> {
 public: 
 	const float get(const std::string &value, const std::string& object, const float hint1, const float hint2);
 	

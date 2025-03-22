@@ -62,8 +62,8 @@ public:
 private:
 	int mode;
 
-	typedef std::map<const std::string, std::vector<SlotConfig> > VariantMap;
-	typedef std::map<const std::string, VariantMap> ConfigMap;
+	typedef std::map<std::string, std::vector<SlotConfig> > VariantMap;
+	typedef std::map<std::string, VariantMap> ConfigMap;
 	ConfigMap _config;
 
 };

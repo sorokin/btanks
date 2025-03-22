@@ -55,7 +55,7 @@ public:
 		return i->second;
 	}
 private:
-	typedef std::map<const std::pair<int, int> , T> EdgeMap;
+	typedef std::map<std::pair<int, int> , T> EdgeMap;
 	EdgeMap _edges;
 };
 

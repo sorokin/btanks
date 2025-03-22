@@ -154,7 +154,7 @@ void Hud::renderTeamStats(sdlx::Surface &surface) {
 	unsigned slots = PlayerManager->get_slots_count(), teams = RTConfig->teams;
 	
 	int max_w = 0;
-	std::map<const Team::ID, int> team_frags;
+	std::map<Team::ID, int> team_frags;
 	
 	for(unsigned p = 0; p < slots; ++p) {
 		PlayerSlot &slot = PlayerManager->get_slot(p);

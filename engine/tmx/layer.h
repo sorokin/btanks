@@ -61,7 +61,7 @@ public:
 	
 	const bool isVisible() const { return visible || solo; }
 
-	typedef std::map<const std::string, std::string> PropertyMap;
+	typedef std::map<std::string, std::string> PropertyMap;
 	PropertyMap properties; //doesnt used at runtime.
 
 	Layer();

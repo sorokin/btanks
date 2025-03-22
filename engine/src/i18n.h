@@ -68,7 +68,7 @@ private:
 	
 	std::deque<std::string> _path;
 
-	typedef std::map<const std::string, std::string, lessnocase> Strings;
+	typedef std::map<std::string, std::string, lessnocase> Strings;
 	std::string _lang, _string_id, _string_lang, _cdata;
 	Strings _strings;
 	

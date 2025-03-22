@@ -34,7 +34,7 @@ DERIVE_EXCEPTION(MRTAPI, XMLException);
 
 class MRTAPI XMLParser {
 public:
-	struct Attrs : public std::map<const std::string, std::string> {
+	struct Attrs : public std::map<std::string, std::string> {
 		inline bool get(const std::string &name, bool defv) const {
 			const_iterator i = find(name);
 			return i != end()? (i->second == "true" || i->second == "yes"): defv;

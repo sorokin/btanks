@@ -147,7 +147,7 @@ private:
 		clunk::Buffer buffer;
 	};
 	
-	typedef std::map<const int, stream_info> streams_type;
+	typedef std::map<int, stream_info> streams_type;
 	streams_type streams;
 
 	ListenerObject *_listener;

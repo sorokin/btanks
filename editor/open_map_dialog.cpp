@@ -205,7 +205,7 @@ OpenMapDialog::OpenMapDialog() {
 	}
 
 
-	for(std::map<const std::string, Chooser *>::const_iterator i = _map_chooser.begin(); i != _map_chooser.end(); ++i) {
+	for(std::map<std::string, Chooser *>::const_iterator i = _map_chooser.begin(); i != _map_chooser.end(); ++i) {
 		int cw, ch;
 		i->second->get_size(cw, ch);
 		add(mx + (w - cw) / 2, yp, i->second);

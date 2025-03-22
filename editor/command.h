@@ -68,7 +68,7 @@ private:
 	typedef std::vector< ternary<int, int, int> > Queue;
 	Queue queue;
 	
-	typedef std::map<const std::pair<int, int>, int> Backup;
+	typedef std::map<std::pair<int, int>, int> Backup;
 	Backup backup;
 	
 	std::string property_backup;

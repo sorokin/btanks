@@ -147,10 +147,10 @@ private:
 		}
 	};
 	
-	typedef std::map<const std::pair<int, int>, bool, collision_map_hash_func> CollisionMap;
+	typedef std::map<std::pair<int, int>, bool, collision_map_hash_func> CollisionMap;
 	mutable CollisionMap _collision_map;
 
-	typedef std::map<const std::pair<int, int>, ternary<int, int, bool>, collision_map_hash_func > StaticCollisionMap;
+	typedef std::map<std::pair<int, int>, ternary<int, int, bool>, collision_map_hash_func > StaticCollisionMap;
 	mutable StaticCollisionMap _static_collision_map;
 	
 	const bool collides(Object *obj, const v2<int> &position, Object *other, const bool probe = false) const;

@@ -24,7 +24,7 @@ private:
 		int peak;
 		data() : micros(0), objects(0), life_time(0), peak(0) {}
 	};
-	typedef std::map<const std::string, data> Samples;
+	typedef std::map<std::string, data> Samples;
 	Samples samples;
 	sdlx::Timer timer;
 };

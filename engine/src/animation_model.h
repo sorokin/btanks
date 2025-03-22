@@ -57,7 +57,7 @@ public:
 	~AnimationModel();
 
 private:
-	typedef std::map<const std::string, Pose *> PoseMap;
+	typedef std::map<std::string, Pose *> PoseMap;
 	PoseMap _poses;
 };
 

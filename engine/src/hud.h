@@ -80,7 +80,7 @@ private:
 	const sdlx::Surface *_pointer;
 	mutable int _pointer_dir;
 	Alarm _update_radar;
-	typedef std::map<const std::string, int> IconMap;
+	typedef std::map<std::string, int> IconMap;
 	IconMap _icons_map;
 
 	enum MapMode {MapNone, MapSmall, MapFull} _map_mode;

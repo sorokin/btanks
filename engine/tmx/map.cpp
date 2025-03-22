@@ -489,7 +489,7 @@ void IMap::load(const std::string &name) {
 	LOG_DEBUG(("optimizing layers..."));
 	
 	
-	for(std::map<const std::string, std::string>::const_iterator i = _damage4.begin(); i != _damage4.end(); ++i) {
+	for(std::map<std::string, std::string>::const_iterator i = _damage4.begin(); i != _damage4.end(); ++i) {
 		Layer *dl = NULL, *l = NULL;
 		dl = _layers[_layer_z[i->first]];
 		if (dl == NULL)

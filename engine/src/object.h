@@ -219,7 +219,7 @@ protected:
 
 	typedef std::set<v2<int> > CloseList;
 	typedef std::priority_queue<PD> OpenList;
-	typedef std::map<const v2<int>, Point> PointMap;
+	typedef std::map<v2<int>, Point> PointMap;
 
 
 	void find_path(const v2<int> target, const int step);
@@ -285,7 +285,7 @@ private:
 	typedef std::deque<Event> EventQueue;
 	EventQueue _events;
 	
-	typedef std::map<const std::string, float> EffectMap;
+	typedef std::map<std::string, float> EffectMap;
 	EffectMap _effects;
 	
 	int _tw, _th;
@@ -301,7 +301,7 @@ private:
 	int _dst_direction;
 	
 	//grouped objects stuff
-	typedef std::map<const std::string, Object *> Group;
+	typedef std::map<std::string, Object *> Group;
 	Group _group;
 	
 	int _slot_id;

@@ -74,7 +74,7 @@ private:
 		sdlx::Surface *surface;
 		bool alpha;
 	};
-	typedef std::map<const unsigned int, Page, std::greater<const unsigned int> > Pages;
+	typedef std::map<unsigned int, Page, std::greater<const unsigned int> > Pages;
 	Pages _pages;
 };
 

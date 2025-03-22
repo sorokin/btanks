@@ -91,7 +91,7 @@ private:
 };
 
 const MapDesc &MapPicker::getCurrentMap() const { 
-	std::map<const int, int>::const_iterator i = map_indexes.find(_index);
+	std::map<int, int>::const_iterator i = map_indexes.find(_index);
 	if (i == map_indexes.end())
 		throw_ex(("getCurrentMap called before initialization"));
 	int idx = i->second;

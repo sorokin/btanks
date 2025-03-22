@@ -20,7 +20,7 @@ private:
 	void validate();
 	Box *_background;
 
-	typedef std::map<const int, std::string> TimeLimits;
+	typedef std::map<int, std::string> TimeLimits;
 	TimeLimits _time_limits;
 
 	Chooser *_time_limit, *_teams;

@@ -40,7 +40,7 @@ private:
 		FileDesc() : flags(0), method(0), offset(0), csize(0), usize(0) {}
 	};
 	mrt::File archive;
-	typedef std::map<const std::string, FileDesc, lessnocase> Headers;
+	typedef std::map<std::string, FileDesc, lessnocase> Headers;
 	Headers headers;
 	std::string fname;
 };

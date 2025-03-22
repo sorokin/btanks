@@ -92,13 +92,13 @@ private:
 
 	bool _nosound, _nomusic;
 
-	typedef std::map<const std::string, clunk::Sample *> Sounds;
+	typedef std::map<std::string, clunk::Sample *> Sounds;
 	Sounds _sounds;
 	
-	typedef std::map<const std::string, std::set<std::string> > Classes;
+	typedef std::map<std::string, std::set<std::string> > Classes;
 	Classes _classes;
 
-	typedef std::map<const std::string, bool> PlayList;
+	typedef std::map<std::string, bool> PlayList;
 	PlayList _playlist;
 	std::string _now_playing;
 	

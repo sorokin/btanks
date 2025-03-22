@@ -41,8 +41,8 @@ private:
 	
 	//static const std::string getDescName(const std::string &fname);
 	
-	std::map<const std::string, int> first_gid;
-	typedef std::map<const std::string, Tileset *> Tilesets;
+	std::map<std::string, int> first_gid;
+	typedef std::map<std::string, Tileset *> Tilesets;
 	Tilesets _tilesets;
 	
 	Layer *_layer;

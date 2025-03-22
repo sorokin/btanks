@@ -92,7 +92,7 @@ public:
 		}
 	}
 private: 
-	typedef std::map<const std::string, std::set<std::string> > PreloadMap;
+	typedef std::map<std::string, std::set<std::string> > PreloadMap;
 	
 	std::string current_object, current_map;
 	PreloadMap data, object_data;
@@ -467,7 +467,7 @@ void IResourceManager::clear() {
 	if (RTConfig->editor_mode)
 		return;
 	
-	std::map<const std::string, std::string> xml_data;
+	std::map<std::string, std::string> xml_data;
 	for(PreloadMap::const_iterator i = _preload_map.begin(); i != _preload_map.end(); ++i) {
 		std::string &dst = xml_data[i->first.first];
 		dst += mrt::format_string("\t<map id=\"%s\">\n", escape(i->first.second).c_str());
@@ -488,7 +488,7 @@ void IResourceManager::clear() {
 	}
 	
 
-	for(std::map<const std::string, std::string>::iterator i = xml_data.begin(); i != xml_data.end(); ++i) {
+	for(std::map<std::string, std::string>::iterator i = xml_data.begin(); i != xml_data.end(); ++i) {
 		//LOG_DEBUG(("xml data for %s, size: %u", i->first.c_str(), (unsigned)i->second.size()));
 		TRY {
 			assert(!i->first.empty());

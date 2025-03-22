@@ -77,7 +77,7 @@ private:
 	volatile bool _running;
 	
 	virtual const int run();
-	typedef std::map<const int, Connection *> ConnectionMap;
+	typedef std::map<int, Connection *> ConnectionMap;
 	
 	struct Task {
 		Task(const int id);

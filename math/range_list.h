@@ -4,9 +4,9 @@
 #include <map>
 
 template<typename T>
-class range_list : public std::map<const T, T> {
+class range_list : public std::map<T, T> {
 public: 
-	typedef std::map<const T, T> parent_type;
+	typedef std::map<T, T> parent_type;
 
 private: 
 	typename parent_type::iterator pack_left(typename parent_type::iterator i) {

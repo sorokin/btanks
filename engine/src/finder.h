@@ -76,7 +76,7 @@ private:
 	std::vector<std::string> _path;
 	std::vector<std::string> patches;
 	
-	typedef std::map<const std::string, Package*> Packages;
+	typedef std::map<std::string, Package*> Packages;
 	Packages packages;
 	
 	std::string _base_path;

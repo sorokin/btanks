@@ -138,16 +138,16 @@ public:
 	//std::map
 	
 	template <typename T1, typename T2>
-	void add(const std::map<const T1, T2> &m) {
+	void add(const std::map<T1, T2> &m) {
 		add((unsigned)m.size());
-		for(typename std::map<const T1, T2>::const_iterator i = m.begin(); i != m.end(); ++i) {
+		for(typename std::map<T1, T2>::const_iterator i = m.begin(); i != m.end(); ++i) {
 			add(i->first);
 			add(i->second);
 		}
 	}
 
 	template <typename T1, typename T2>
-	void get(std::map<const T1, T2> &m) const {
+	void get(std::map<T1, T2> &m) const {
 		m.clear();
 		unsigned n;
 		get(n);
@@ -156,7 +156,7 @@ public:
 		while(n--) {
 			get(key);
 			get(value);
-			m.insert(typename std::map<const T1, T2>::value_type(key, value));
+			m.insert(typename std::map<T1, T2>::value_type(key, value));
 		}
 	}
 

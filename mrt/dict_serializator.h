@@ -42,8 +42,8 @@ private:
 	void read_dict();
 	
 	int next_id;
-	typedef std::map<const std::string, int> Dict;
-	typedef std::map<const int, std::string> RDict;
+	typedef std::map<std::string, int> Dict;
+	typedef std::map<int, std::string> RDict;
 	Dict dict;
 	RDict rdict;
 };
