@@ -4,7 +4,7 @@
 #include "container.h"
 
 class Box;
-class MapDesc;
+struct MapDesc;
 class Chooser;
 class Checkbox;
 class Label;
