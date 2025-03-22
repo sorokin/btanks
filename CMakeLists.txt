@@ -14,10 +14,6 @@ if (WIN32)
 	add_definitions(-D_WINDOWS -DWIN32)
 endif(WIN32)
 
-if (MSVC)
-	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /wd4305") # truncation double -> float, too noisy
-endif()
-
 find_package(SDL REQUIRED)
 find_package(expat CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
