@@ -45,7 +45,7 @@ Context::Context() : _listener(NULL), max_sources(8), fx_volume(1), distance_mod
 }
 
 template<class Sources>
-bool Context::process_object(Object *o, Sources &sset, std::vector<source_t> &lsources, unsigned n) {
+void Context::process_object(Object *o, Sources &sset, std::vector<source_t> &lsources, unsigned n) {
 	typedef typename std::map<typename Sources::key_type, unsigned> stats_type;
 	stats_type sources_stats;
 	
@@ -74,11 +74,6 @@ bool Context::process_object(Object *o, Sources &sset, std::vector<source_t> &ls
 		}
 		++j;
 	}
-
-	if (sset.empty() && o->dead) 
-		return false;
-
-	return true;
 }
 
 void Context::process(void *stream, size_t size) {
@@ -96,14 +91,15 @@ void Context::process(void *stream, size_t size) {
 	for(objects_type::iterator i = objects.begin(); i != objects.end(); ) {
 		Object *o = *i;
 		//bool _process_object(Object *o, Sources &sset, std::vector<source_t> &lsources, unsigned max_sources, const DistanceModel &distance_model, Object *listener, unsigned n) {
-		bool ok_1 = process_object<Object::NamedSources>(o, o->named_sources, lsources, n),
-			ok_2 = process_object<Object::IndexedSources>(o, o->indexed_sources, lsources, n);
-		if (ok_1 || ok_2) 
-			++i;
-		else {
+		process_object<Object::NamedSources>(o, o->named_sources, lsources, n);
+		process_object<Object::IndexedSources>(o, o->indexed_sources, lsources, n);
+
+		if (o->dead && o->named_sources.empty() && o->indexed_sources.empty()) {
 			delete o;
 			i = objects.erase(i);
 		}
+		else
+			++i;
 	}
 
 	memset(stream, 0, size);

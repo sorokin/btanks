@@ -172,7 +172,7 @@ private:
 		source(source), s_pos(s_pos), s_vel(s_vel), l_vel(l_vel) {}
 	};
 	template<class Sources>
-	bool process_object(Object *o, Sources &sset, std::vector<source_t> &lsources, unsigned n);
+	void process_object(Object *o, Sources &sset, std::vector<source_t> &lsources, unsigned n);
 };
 }
 
