@@ -67,7 +67,6 @@ public:
 	virtual void tick(const float dt) = 0;
 	virtual void render(sdlx::Surface &surf, const int x, const int y) = 0;
 	void get_velocity(v2<float> &vel) const { vel = _velocity; vel.normalize(); vel *= speed; }
-	static const float get_collision_time(const v2<float> &pos, const v2<float> &vel, const float r);
 	
 	inline const bool is_dead() const { return _dead; }
 	inline const int get_id() const { return _id; }

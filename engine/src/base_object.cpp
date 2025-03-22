@@ -371,16 +371,3 @@ const float BaseObject::get_effective_impassability(const float impassability) c
 void BaseObject::update_variants(const Variants &vars, const bool remove_old) {
 	_variants.update(vars, remove_old);
 }
-
-const float BaseObject::get_collision_time(const v2<float> &dpos, const v2<float> &vel, const float range) {
-	if (vel.is0())
-		return -1;
-
-	float r = dpos.length(), v = vel.length(), t = r / v;
-	v2<float> d = dpos + vel * t;
-	r = d.length();
-	if (r <= range)
-		return t;
-	return -1;
-}
-
