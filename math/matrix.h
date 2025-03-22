@@ -63,8 +63,8 @@ public:
 			
 			throw_ex(("get(%d, %d) is out of bounds", y, x));
 		}
-		register int idx = y * _w + x;
-		register const T *ptr = (const T*) _data.get_ptr();
+		int idx = y * _w + x;
+		const T *ptr = (const T*) _data.get_ptr();
 		return *(ptr + idx);
 	}
 	
@@ -75,8 +75,8 @@ public:
 			throw_ex(("set(%d, %d) is out of bounds", y, x));
 		}
 		
-		register int idx = y * _w + x;
-		register T *ptr = (T*) _data.get_ptr();
+		int idx = y * _w + x;
+		T *ptr = (T*) _data.get_ptr();
 		*(ptr + idx) = v;
 	}
 	
