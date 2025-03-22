@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.28)
 project(btanks)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+
 set(CMAKE_USE_RELATIVE_PATHS TRUE)
 set(MACOSX_RPATH TRUE)
 
@@ -17,6 +20,7 @@ endif(WIN32)
 find_package(SDL REQUIRED)
 find_package(expat CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
+find_package(DirectXSDK REQUIRED)
 
 add_subdirectory(SDL_image)
 add_subdirectory(mrt)
