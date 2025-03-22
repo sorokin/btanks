@@ -28,9 +28,15 @@ add_subdirectory(sdlx)
 add_subdirectory(clunk)
 add_subdirectory(engine)
 add_subdirectory(objects)
-add_subdirectory(editor)
 
-#include_directories(engine)
+
+add_custom_target(data_copy
+	COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+        "${CMAKE_CURRENT_SOURCE_DIR}/data"
+        "$<TARGET_FILE_DIR:btanks>/data"
+	COMMENT "Copying data directory"
+)
+
 
 add_executable(btanks)
 target_sources(btanks PRIVATE engine/src/main.cpp)
@@ -39,3 +45,32 @@ if (WIN32)
 endif()
 
 target_link_libraries(btanks PRIVATE mrt sdlx btanks_engine bt_objects SDL::SDL sdlx_main user32 dxguid.lib)
+add_dependencies(btanks data_copy)
+
+
+add_executable(bted)
+
+target_sources(bted PRIVATE
+	editor/base_brush.cpp
+	editor/editor.cpp
+	editor/open_map_dialog.cpp
+	editor/tileset_dialog.cpp
+	editor/layer_item.cpp
+	editor/layer_list_dialog.cpp
+	editor/command.cpp
+	editor/add_tileset_dialog.cpp
+	editor/add_object_dialog.cpp
+	editor/object_properties.cpp
+	editor/tilebox_brush.cpp
+	editor/morph_dialog.cpp
+	editor/resize_dialog.cpp
+)
+
+target_link_libraries(bted PUBLIC mrt sdlx btanks_engine expat::expat bt_objects)
+
+if (WIN32)
+	target_link_libraries(bted PRIVATE SDL::SDL sdlx_main user32 dxguid.lib)
+else(WIN32)
+	target_link_libraries(bted PRIVATE ${SDLMAIN_LIBRARY})
+endif(WIN32)
+add_dependencies(bted data_copy)
