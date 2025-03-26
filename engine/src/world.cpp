@@ -217,7 +217,6 @@ void IWorld::addObject(Object *o, const v2<float> &pos, const int id) {
 }
 
 #include "game_monitor.h"
-#include "mrt/timespy.h"
 
 struct ObjectZCompare {
 	inline bool operator()(const Object * a, const Object * b) const {
