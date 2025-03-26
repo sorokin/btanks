@@ -28,6 +28,11 @@ set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 include(CheckLibraryExists)
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+	# too noisy on SDL1
+	add_compile_options("-Wno-pragma-pack" "-Wno-language-extension-token")
+endif()
+
 add_definitions(-DUSE_GLSDL -DV3_DISABLE_Z -D_REENTRANT)
 include_directories(${CMAKE_SOURCE_DIR})
 
