@@ -162,33 +162,13 @@ public:
 		return v3<T>(x / other, y / other, z / other);
 	}
 
-	inline const v3<T>& operator/=(const T& other) {
-		x /= other;
-		y /= other;
-		z /= other;
-		return *this;
-	}
+	inline const v3<T>& operator/=(const T& other) = delete;
 
-	inline const v3<T>& operator*=(const T& other) {
-		x *= other;
-		y *= other;
-		z *= other;
-		return *this;
-	}
+	inline const v3<T>& operator*=(const T& other) = delete;
 
-	inline const v3<T>& operator+=(const T& other) {
-		x += other;
-		y += other;
-		z += other;
-		return *this;
-	}
+	inline const v3<T>& operator+=(const T& other) = delete;
 
-	inline const v3<T>& operator-=(const T& other) {
-		x -= other;
-		y -= other;
-		z -= other;
-		return *this;
-	}
+	inline const v3<T>& operator-=(const T& other) = delete;
 
 public:	
 
@@ -213,35 +193,23 @@ public:
 };
 	
 template <typename T>
-	const v3<T> operator+(const T a, const v3<T> &v)  {
-		return v3<T>(v.x + a, v.y + a, v.z + a);
-	}
+	const v3<T> operator+(const T a, const v3<T> &v) = delete;
 
 template <typename T>
-	const v3<T> operator+(const v3<T> &v, const T a)  {
-		return v3<T>(v.x + a, v.y + a, v.z + a);
-	}
+	const v3<T> operator+(const v3<T> &v, const T a) = delete;
 
 
 template <typename T>
-	const v3<T> operator*(const T a, const v3<T> &v)  {
-		return v3<T>(v.x *a, v.y * a, v.z * a);
-	}
+	const v3<T> operator*(const T a, const v3<T> &v) = delete;
 
 template <typename T>
-	const v3<T> operator*(const v3<T> &v, const T a)  {
-		return v3<T>(v.x *a, v.y * a, v.z * a);
-	}
+	const v3<T> operator*(const v3<T> &v, const T a) = delete;
 
 template <typename T>
-	const v3<T> operator/(const T a, const v3<T> &v)  {
-		return v3<T>(a / v.x, a / v.y, a / v.z);
-	}
+	const v3<T> operator/(const T a, const v3<T> &v) = delete;
 
 template <typename T>
-	const v3<T> operator/(const v3<T> &v, const T a)  {
-		return v3<T>(v.x / a, v.y  / a, v.z / a);
-	}
+	const v3<T> operator/(const v3<T> &v, const T a) = delete;
 
 #endif
 
