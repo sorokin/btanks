@@ -50,12 +50,6 @@ target_sources(btanks_engine PRIVATE
 
 set_source_files_properties(src/version.cpp PROPERTIES COMPILE_DEFINITIONS "VERSION=\"git\";REVISION=1")
 
-find_package(Ogg CONFIG REQUIRED)
-find_package(Vorbis CONFIG REQUIRED)
-
-#lua support
-find_package(Lua51 REQUIRED)
-
 include_directories(${LUA_INCLUDE_DIR})
 add_definitions(-DENABLE_LUA)
 target_sources(btanks_engine PRIVATE luaxx/state.cpp luaxx/lua_hooks.cpp)

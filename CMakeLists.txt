@@ -17,9 +17,19 @@ if (BTANKS_ENABLE_VENDORED_VCPKG AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
 	endif()
 endif()
 
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 project(btanks)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+find_package(expat CONFIG REQUIRED)
+find_package(Ogg CONFIG REQUIRED)
+find_package(Lua51 REQUIRED)
+find_package(SDL REQUIRED)
+find_package(Threads REQUIRED)
+find_package(Vorbis CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
+if (WIN32)
+	find_package(DirectXSDK REQUIRED)
+endif()
 
 set(MACOSX_RPATH TRUE)
 
@@ -40,14 +50,6 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 if (WIN32)
 	add_definitions(-D_WINDOWS -DWIN32)
-endif()
-
-find_package(SDL REQUIRED)
-find_package(Threads REQUIRED)
-find_package(expat CONFIG REQUIRED)
-find_package(ZLIB REQUIRED)
-if (WIN32)
-	find_package(DirectXSDK REQUIRED)
 endif()
 
 add_subdirectory(SDL_image)
