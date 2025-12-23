@@ -14,6 +14,7 @@ if (BTANKS_ENABLE_VENDORED_VCPKG AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
 	set(CMAKE_TOOLCHAIN_FILE "${vcpkg_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake" CACHE FILEPATH "Vcpkg toolchain file")
 	if (NOT DEFINED VCPKG_TARGET_TRIPLET AND WIN32)
 		set(VCPKG_TARGET_TRIPLET "x64-windows-static")
+		set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 	endif()
 endif()
 
@@ -30,8 +31,6 @@ find_package(ZLIB REQUIRED)
 if (WIN32)
 	find_package(DirectXSDK REQUIRED)
 endif()
-
-set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 include(CheckLibraryExists)
 
