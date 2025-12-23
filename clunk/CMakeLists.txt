@@ -30,13 +30,6 @@ endif()
 
 add_definitions(-DCLUNKAPI=DLLEXPORT)
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
-if (SDL_FOUND)
-	include_directories(${SDL_INCLUDE_DIR})
-endif()
-
-if (SDL2_FOUND)
-	include_directories(${SDL2_INCLUDE_DIRS})
-endif()
 
 set(SOURCES
 	clunk/buffer.cpp
@@ -54,13 +47,11 @@ set(SOURCES
 #	clunk/clunk_c.cpp
 )
 
-if (SDL_FOUND OR SDL2_FOUND)
-	set(CLUNK_BACKEND_SDL 1)
-	list(APPEND SOURCES
-		clunk/backend/sdl/sdl_ex.cpp
-		clunk/backend/sdl/backend.cpp
-	)
-endif ()
+set(CLUNK_BACKEND_SDL 1)
+list(APPEND SOURCES
+	clunk/backend/sdl/sdl_ex.cpp
+	clunk/backend/sdl/backend.cpp
+)
 
 set(PUBLIC_HEADERS
 	clunk/buffer.h
@@ -87,11 +78,9 @@ set(PUBLIC_HEADERS
 	${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h
 )
 
-if (SDL_FOUND OR SDL2_FOUND)
-	list(APPEND PUBLIC_HEADERS
-		clunk/backend/sdl/backend.h
-	)
-endif ()
+list(APPEND PUBLIC_HEADERS
+	clunk/backend/sdl/backend.h
+)
 
 if (WITH_SSE)
 	set(SOURCES ${SOURCES} clunk/sse_fft_context.cpp)
@@ -110,19 +99,9 @@ target_include_directories(clunk PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 install(TARGETS clunk DESTINATION lib)
 install(FILES ${PUBLIC_HEADERS} DESTINATION include/clunk)
 
-if (SDL_FOUND)
-    target_link_libraries(clunk ${SDL_LIBRARY})
-endif ()
-
-if (SDL2_FOUND)
-    target_link_libraries(clunk ${SDL2_LIBRARIES})
-endif ()
+target_link_libraries(clunk PRIVATE SDL::SDL)
 
 if(BUILD_TEST)
-	if (NOT SDL_FOUND AND NOT SDL2_FOUND)
-		message(FATAL_ERROR "you need SDL library to build test")
-	endif ()
-
 	add_executable(clunk-test test.cpp)
 	target_link_libraries(clunk-test clunk)
 
