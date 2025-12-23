@@ -38,7 +38,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 if (WIN32)
 	add_definitions(-D_WINDOWS -DWIN32)
-endif(WIN32)
+endif()
 
 find_package(SDL REQUIRED)
 find_package(expat CONFIG REQUIRED)
@@ -95,7 +95,7 @@ target_link_libraries(bted PUBLIC mrt sdlx btanks_engine expat::expat bt_objects
 
 if (WIN32)
 	target_link_libraries(bted PRIVATE SDL::SDL sdlx_main user32 dxguid.lib)
-else(WIN32)
+else()
 	target_link_libraries(bted PRIVATE ${SDLMAIN_LIBRARY})
-endif(WIN32)
+endif()
 add_dependencies(bted data_copy)

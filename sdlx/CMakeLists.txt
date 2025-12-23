@@ -11,9 +11,9 @@ set(sdlx_SOURCES
 
 if (WIN32)
 	list(APPEND sdlx_SOURCES wrappers/d3dsdl.cpp)
-else(WIN32)
+else()
 	list(APPEND sdlx_SOURCES wrappers/glSDL.c)
-endif(WIN32)
+endif()
 
 add_library(sdlx ${sdlx_SOURCES})
 target_link_libraries(sdlx PRIVATE
