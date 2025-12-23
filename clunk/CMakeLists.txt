@@ -2,7 +2,6 @@ project(clunk)
 cmake_minimum_required(VERSION 3.28)
 
 option(BUILD_TEST "Build simple test application" false)
-option(WITH_SSE "Use highly optimized SSE FFT/MDCT routines" false)
 
 find_package(SDL REQUIRED)
 
@@ -69,11 +68,6 @@ set(PUBLIC_HEADERS
 list(APPEND PUBLIC_HEADERS
 	clunk/backend/sdl/backend.h
 )
-
-if (WITH_SSE)
-	target_sources(clunk PRIVATE clunk/sse_fft_context.cpp)
-	set(CLUNK_USES_SSE 1)
-endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/clunk/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h)
 
