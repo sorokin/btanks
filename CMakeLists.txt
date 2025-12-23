@@ -31,8 +31,6 @@ if (WIN32)
 	find_package(DirectXSDK REQUIRED)
 endif()
 
-set(MACOSX_RPATH TRUE)
-
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
 include(CheckLibraryExists)
