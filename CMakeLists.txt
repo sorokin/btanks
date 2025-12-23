@@ -93,7 +93,7 @@ target_sources(bted PRIVATE
 	editor/resize_dialog.cpp
 )
 
-target_link_libraries(bted PUBLIC mrt sdlx btanks_engine expat::expat bt_objects)
+target_link_libraries(bted PRIVATE mrt sdlx btanks_engine expat::expat bt_objects)
 
 target_link_libraries(bted PRIVATE SDL::SDL)
 if (WIN32)
