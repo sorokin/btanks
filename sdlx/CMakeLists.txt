@@ -2,7 +2,8 @@ include_directories(.)
 include_directories(../mrt)
 add_definitions(-DSDLXAPI=DLLEXPORT)
 
-set(sdlx_SOURCES 
+add_library(sdlx)
+target_sources(sdlx PRIVATE
 	cursor.cpp sdl_ex.cpp surface.cpp system.cpp joystick.cpp
 	thread.cpp mutex.cpp semaphore.cpp color.cpp
 	c_map.cpp font.cpp timer.cpp module.cpp file_rw.cpp
@@ -10,12 +11,10 @@ set(sdlx_SOURCES
 )
 
 if (WIN32)
-	list(APPEND sdlx_SOURCES wrappers/d3dsdl.cpp)
+	target_sources(sdlx PRIVATE wrappers/d3dsdl.cpp)
 else()
-	list(APPEND sdlx_SOURCES wrappers/glSDL.c)
+	target_sources(sdlx PRIVATE wrappers/glSDL.c)
 endif()
-
-add_library(sdlx ${sdlx_SOURCES})
 target_link_libraries(sdlx PUBLIC
 	mrt
 	SDL::SDL

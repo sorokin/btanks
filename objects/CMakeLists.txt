@@ -1,4 +1,4 @@
-add_library(bt_objects OBJECT ${bt_objects_SOURCES})
+add_library(bt_objects OBJECT)
 target_sources(bt_objects PRIVATE
 	bullet.cpp explosion.cpp single_pose.cpp
 	tank.cpp shilka.cpp launcher.cpp ai_tank.cpp

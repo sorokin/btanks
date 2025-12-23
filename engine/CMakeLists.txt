@@ -1,6 +1,7 @@
 add_definitions(-DBTANKSAPI=DLLEXPORT)
 
-set(bt_SOURCES
+add_library(btanks_engine)
+target_sources(btanks_engine PRIVATE
 #networking
 	net/message.cpp net/server.cpp net/client.cpp net/connection.cpp net/monitor.cpp net/scanner.cpp
 #menu
@@ -57,9 +58,8 @@ find_package(Lua51 REQUIRED)
 
 include_directories(${LUA_INCLUDE_DIR})
 add_definitions(-DENABLE_LUA)
-list(APPEND bt_SOURCES luaxx/state.cpp luaxx/lua_hooks.cpp)
+target_sources(btanks_engine PRIVATE luaxx/state.cpp luaxx/lua_hooks.cpp)
 
-add_library(btanks_engine ${bt_SOURCES})
 target_include_directories(btanks_engine PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/src")
 target_link_libraries(btanks_engine PUBLIC SDL::SDL mrt sdlx Ogg::ogg Vorbis::vorbisfile clunk ${LUA_LIBRARIES})
 if (SMPEG_FOUND)

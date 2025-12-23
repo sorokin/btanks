@@ -22,7 +22,8 @@ endif()
 add_definitions(-DCLUNKAPI=DLLEXPORT)
 set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
-set(SOURCES
+add_library(clunk)
+target_sources(clunk PRIVATE
 	clunk/buffer.cpp
 	clunk/clunk_ex.cpp
 	clunk/context.cpp
@@ -39,7 +40,7 @@ set(SOURCES
 )
 
 set(CLUNK_BACKEND_SDL 1)
-list(APPEND SOURCES
+target_sources(clunk PRIVATE
 	clunk/backend/sdl/sdl_ex.cpp
 	clunk/backend/sdl/backend.cpp
 )
@@ -74,15 +75,11 @@ list(APPEND PUBLIC_HEADERS
 )
 
 if (WITH_SSE)
-	set(SOURCES ${SOURCES} clunk/sse_fft_context.cpp)
+	target_sources(clunk PRIVATE clunk/sse_fft_context.cpp)
 	set(CLUNK_USES_SSE 1)
 endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/clunk/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h)
-
-add_library(clunk
-	${SOURCES}
-)
 
 target_include_directories(clunk PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(clunk PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
