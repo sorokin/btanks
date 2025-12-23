@@ -1,6 +1,5 @@
 project(clunk)
 cmake_minimum_required(VERSION 3.28)
-set(CMAKE_USE_RELATIVE_PATHS TRUE)
 
 option(BUILD_TEST "Build simple test application" false)
 option(WITH_SSE "Use highly optimized SSE FFT/MDCT routines" false)
