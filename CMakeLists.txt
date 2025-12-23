@@ -12,7 +12,7 @@ if (BTANKS_ENABLE_VENDORED_VCPKG AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
 	FetchContent_MakeAvailable(vcpkg)
 
 	set(CMAKE_TOOLCHAIN_FILE "${vcpkg_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake" CACHE FILEPATH "Vcpkg toolchain file")
-	if (NOT DEFINED VCPKG_TARGET_TRIPLET)
+	if (NOT DEFINED VCPKG_TARGET_TRIPLET AND WIN32)
 		set(VCPKG_TARGET_TRIPLET "x64-windows-static")
 	endif()
 endif()
