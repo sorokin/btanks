@@ -13,4 +13,7 @@ set(mrt_SOURCES
 )
 
 add_library(mrt ${mrt_SOURCES})
-target_link_libraries(mrt PUBLIC expat::expat ZLIB::ZLIB Ws2_32)
+target_link_libraries(mrt PUBLIC expat::expat ZLIB::ZLIB)
+if (WIN32)
+	target_link_libraries(mrt PUBLIC Ws2_32)
+endif()

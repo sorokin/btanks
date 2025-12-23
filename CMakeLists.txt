@@ -69,7 +69,10 @@ if (WIN32)
 	target_sources(btanks PRIVATE engine/src/bt.rc)
 endif()
 
-target_link_libraries(btanks PRIVATE mrt sdlx btanks_engine bt_objects SDL::SDL sdlx_main User32 DxGuid)
+target_link_libraries(btanks PRIVATE mrt sdlx btanks_engine bt_objects SDL::SDL)
+if (WIN32)
+	target_link_libraries(btanks PRIVATE sdlx_main User32 DxGuid)
+endif()
 add_dependencies(btanks data_copy)
 
 
@@ -93,9 +96,8 @@ target_sources(bted PRIVATE
 
 target_link_libraries(bted PUBLIC mrt sdlx btanks_engine expat::expat bt_objects)
 
+target_link_libraries(bted PRIVATE SDL::SDL)
 if (WIN32)
-	target_link_libraries(bted PRIVATE SDL::SDL sdlx_main User32 DxGuid)
-else()
-	target_link_libraries(bted PRIVATE ${SDLMAIN_LIBRARY})
+	target_link_libraries(bted PRIVATE sdlx_main User32 DxGuid)
 endif()
 add_dependencies(bted data_copy)

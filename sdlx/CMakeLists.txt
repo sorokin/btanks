@@ -16,7 +16,7 @@ else()
 endif()
 
 add_library(sdlx ${sdlx_SOURCES})
-target_link_libraries(sdlx PRIVATE
+target_link_libraries(sdlx PUBLIC
 	mrt
 	SDL::SDL
 	SDL_image
