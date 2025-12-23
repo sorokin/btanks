@@ -32,7 +32,7 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Ap
 	add_compile_options("-Wno-pragma-pack" "-Wno-language-extension-token")
 endif()
 
-add_definitions(-DUSE_GLSDL -DV3_DISABLE_Z -D_REENTRANT)
+add_definitions(-DUSE_GLSDL -DV3_DISABLE_Z)
 include_directories(${CMAKE_SOURCE_DIR})
 
 if (WIN32)
@@ -40,6 +40,7 @@ if (WIN32)
 endif()
 
 find_package(SDL REQUIRED)
+find_package(Threads REQUIRED)
 find_package(expat CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
 if (WIN32)

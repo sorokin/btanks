@@ -20,6 +20,7 @@ target_link_libraries(sdlx PUBLIC
 	mrt
 	SDL::SDL
 	SDL_image
+	Threads::Threads
 )
 
 if (WIN32)

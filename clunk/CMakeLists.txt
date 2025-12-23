@@ -90,7 +90,7 @@ target_include_directories(clunk PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 install(TARGETS clunk DESTINATION lib)
 install(FILES ${PUBLIC_HEADERS} DESTINATION include/clunk)
 
-target_link_libraries(clunk PRIVATE SDL::SDL)
+target_link_libraries(clunk PRIVATE SDL::SDL Threads::Threads)
 
 if(BUILD_TEST)
 	add_executable(clunk-test test.cpp)
