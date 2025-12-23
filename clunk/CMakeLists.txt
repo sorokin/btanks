@@ -15,15 +15,6 @@ if (${CMAKE_BUILD_TYPE} MATCHES Debug)
 	add_definitions(-DDEBUG)
 endif ()
 
-if (CMAKE_CXX_COMPILER MATCHES ".*clang")
-	set(CMAKE_COMPILER_IS_CLANGXX 1)
-endif ()
-
-if (CMAKE_COMPILER_IS_GNUCXX OR CMAKE_COMPILER_IS_CLANGXX)
-	add_definitions(-ggdb -Wall -pedantic -Wno-unused-variable)
-	set(CMAKE_CXX_FLAGS "-fvisibility=hidden -fvisibility-inlines-hidden -DGCC_HASCLASSVISIBILITY=1")
-endif ()
-
 if(WIN32)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_WINDOWS)
 endif()
