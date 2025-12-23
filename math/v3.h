@@ -48,13 +48,7 @@ public:
 	inline v3<T>(const T x, const T y, const T z) : x(x), y(y), z(z) {} 
 
 	inline void clear() { x = y = z = 0; }
-	inline const bool is0() const {
-#ifndef V3_DISABLE_Z		
-		return x== 0 && y == 0 && z == 0;
-#else
-		return x== 0 && y == 0;
-#endif
-	}
+	inline const bool is0() const = delete;
 	
 	inline const T normalize() {
 		const T len = length();
@@ -78,29 +72,9 @@ public:
 		return len;
 	}
 	
-	inline const T length() const {
-#ifndef V3_DISABLE_Z		
-		const T ql = x * x + y * y + z * z;
-		if (ql == (T)0 || ql == (T)1) 
-			return ql;
-		
-		return (T)sqrt(ql);
-#else 
-		const T ql = x * x + y * y;
-		if (ql == (T)0 || ql == (T)1) 
-			return ql;
-		
-		return (T)sqrt(ql);
-#endif
-	}
+	inline const T length() const = delete;
 
-	inline const T quick_length() const {
-#ifndef V3_DISABLE_Z		
-		return (T)(x * x + y * y + z * z);
-#else
-		return (T)(x * x + y * y);
-#endif
-	}
+	inline const T quick_length() const = delete;
 
 	template <typename T2> 
 		inline v3<T2> convert() const { return v3<T2>((T2)x, (T2)y, (T2)z); }
@@ -112,53 +86,10 @@ public:
 	}
 	
 	
-	inline const T quick_distance(const v3<T>& other) const {
-		const T dx = x - other.x;
-		const T dy = y - other.y;
-#ifndef V3_DISABLE_Z		
-		const T dz = z - other.z;
-		return (dx * dx + dy * dy + dz * dz);
-#else
-		return (dx * dx + dy * dy);
-#endif
-	}
+	inline const T quick_distance(const v3<T>& other) const = delete;
+	inline const T scalar(const v3<T> &other) const = delete;
 
-	inline const T scalar(const v3<T> &other) const {
-#ifndef V3_DISABLE_Z		
-		return (x * other.x + y * other.y + z * other.z);
-#else
-		return (x * other.x + y * other.y);
-#endif
-	}
-
-	inline const bool same_sign(const v3<T> &other) const {
-		
-		if (x == 0) {
-			if (other.x != 0)
-				return false;
-		} else { //x != 0
-			if (other.x * x < 0)
-				return false;
-		}
-
-		if (y == 0) {
-			if (other.y != 0)
-				return false;
-		} else { //y != 0
-			if (other.y * y < 0)
-				return false;
-		}
-#ifndef V3_DISABLE_Z		
-		if (z == 0) {
-			if (other.z != 0)
-				return false;
-		} else { //z != 0
-			if (other.z * z < 0)
-				return false;
-		}
-#endif		
-		return true;
-	}
+	inline const bool same_sign(const v3<T> &other) const = delete;
 	
 	//operators 
 	inline const bool operator<(const v3<T> &other) const {

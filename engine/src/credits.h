@@ -47,8 +47,8 @@ private:
 	unsigned int _w, _h;
 	const sdlx::Font *_font, *_medium_font;
 	sdlx::Surface _surface;
-	v3<float> _position;
-	v3<float> _velocity;
+	v2<float> _position;
+	v2<float> _velocity;
 };
 
 
