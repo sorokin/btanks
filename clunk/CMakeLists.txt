@@ -10,10 +10,6 @@ set (CMAKE_CXX_STANDARD 11)
 set(clunk_VERSION_MAJOR 1)
 set(clunk_VERSION_MINOR 3)
 
-message(STATUS "build type: ${CMAKE_BUILD_TYPE}")
-if (${CMAKE_BUILD_TYPE} MATCHES Debug)
-	add_definitions(-DDEBUG)
-endif ()
 
 if(WIN32)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_WINDOWS)
