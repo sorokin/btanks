@@ -68,5 +68,5 @@ if (SMPEG_FOUND)
 endif()
 
 if (WIN32)
-	target_link_libraries(btanks_engine PRIVATE Ws2_32 user32)
+	target_link_libraries(btanks_engine PRIVATE Ws2_32 User32)
 endif ()

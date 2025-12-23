@@ -13,4 +13,4 @@ set(mrt_SOURCES
 )
 
 add_library(mrt ${mrt_SOURCES})
-target_link_libraries(mrt PUBLIC expat::expat ZLIB::ZLIB ws2_32.lib)
+target_link_libraries(mrt PUBLIC expat::expat ZLIB::ZLIB Ws2_32)

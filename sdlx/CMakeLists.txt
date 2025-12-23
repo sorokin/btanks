@@ -23,7 +23,7 @@ target_link_libraries(sdlx PRIVATE
 )
 
 if (WIN32)
-	target_link_libraries(sdlx PUBLIC DirectXSDK::D3D9 DirectXSDK::D3DX9 winmm user32 gdi32 advapi32)
+	target_link_libraries(sdlx PUBLIC DirectXSDK::D3D9 DirectXSDK::D3DX9 Winmm User32 Gdi32 Advapi32)
 	add_library(sdlx_main SDL_win32_main.c)
 	target_link_libraries(sdlx_main PUBLIC
 		SDL::SDL
