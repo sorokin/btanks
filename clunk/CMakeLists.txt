@@ -38,7 +38,6 @@ target_sources(clunk PRIVATE
 set(PUBLIC_HEADERS
 	clunk/buffer.h
 	clunk/clunk.h
-	clunk/clunk_assert.h
 	clunk/context.h
 	clunk/distance_model.h
 	clunk/export_clunk.h

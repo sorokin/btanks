@@ -26,7 +26,6 @@ SOFTWARE.
 #define MDCT_CONTEXT_H__
 
 #include <clunk/fft_context.h>
-#include <clunk/clunk_assert.h>
 #include <string.h>
 
 namespace clunk {
@@ -58,7 +57,7 @@ private:
 	std::complex<T> angle_cache[N4];
 	T sqrt_N;
 
-	clunk_static_assert(N == N4 * 4);
+	static_assert(N == N4 * 4);
 
 public:
 	typedef T value_type;

@@ -27,7 +27,6 @@ SOFTWARE.
 #include <clunk/buffer.h>
 #include <clunk/sample.h>
 #include <assert.h>
-#include <clunk/clunk_assert.h>
 #include <clunk/mixer.h>
 
 #if defined _MSC_VER || __APPLE__ || __FreeBSD__

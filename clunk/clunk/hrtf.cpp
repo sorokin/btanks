@@ -38,7 +38,7 @@ SOFTWARE.
 namespace clunk
 {
 
-clunk_static_assert(Hrtf::WINDOW_BITS > 2);
+static_assert(Hrtf::WINDOW_BITS > 2);
 
 Hrtf::Hrtf(): overlap_data()
 { }
