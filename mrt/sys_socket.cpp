@@ -22,7 +22,7 @@
 #include <string.h>
 #include "fmt.h"
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include "Winsock2.h"
 #else
 #	include <sys/socket.h>
@@ -64,7 +64,7 @@ void Socket::addr::parse(const std::string &ip) {
 	if (ipport.size() > 1) {
 		port = atoi(ipport[1].c_str());
 	}
-#ifdef _WINDOWS
+#ifdef _WIN32
 	this->ip = inet_addr(ipport[0].c_str());
 	if (this->ip == INADDR_NONE)
 		this->ip = 0;
@@ -90,7 +90,7 @@ void Socket::init() {
 	if (inited)
 		return;
 	
-#ifdef _WINDOWS
+#ifdef _WIN32
 	struct WSAData WSAData;
 	if (WSAStartup (MAKEWORD(1,1), &WSAData) != 0) 
 		throw_ex(("failed to initialize winsock 1.1. upgrade your windows installation and/or upgrade mrt runtime"));
@@ -114,7 +114,7 @@ void Socket::close() {
 		return;
 	
 	//shutdown(_sock, 2); //we use do not use lingering by default
-#ifdef _WINDOWS
+#ifdef _WIN32
 	::closesocket(_sock);
 #else
 	::close(_sock);

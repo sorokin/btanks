@@ -20,7 +20,7 @@
 #include <stdio.h>
 #include "ioexception.h"
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	define WINDOWS_LEAN_AND_MEAN
 #	include <windows.h>
 #else
@@ -72,7 +72,7 @@ void ILogger::log(const int level, const char *file, const int line, const std::
 	if (level < _level) return;
 	++_lines;
 	int h, m, s, ms;
-#ifdef _WINDOWS
+#ifdef _WIN32
 	struct _SYSTEMTIME st;
 	GetLocalTime(&st);
 	h = st.wHour; m = st.wMinute; s = st.wSecond; ms = st.wMilliseconds;

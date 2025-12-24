@@ -98,7 +98,7 @@ IGame::IGame() : _main_menu(NULL),
 	path = mrt::Directory::get_app_dir("Battle Tanks", "btanks") + "/";
 	Config->load(path + "bt.xml");
 
-#ifndef _WINDOWS
+#ifndef _WIN32
 	std::string log;
 	Config->get("engine.log", log, "log");
 	if (!log.empty() && log != "stderr" && log != "<stderr>" ) {
@@ -652,7 +652,7 @@ bool IGame::onKey(const SDL_keysym key, const bool pressed) {
 -			break;
 -			
 */
-#	ifndef _WINDOWS
+#	ifndef _WIN32
 	if (key.sym==SDLK_RETURN && key.mod & KMOD_CTRL) {
 		TRY {
 			Window->get_surface().toggle_fullscreen();

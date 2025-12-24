@@ -32,7 +32,7 @@
 #include "sdlx/font.h"
 #include "box.h"
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	define strcasecmp _stricmp
 #endif
 

@@ -19,7 +19,7 @@
 #include "timer.h"
 #include "mrt/ioexception.h"
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include <windows.h>
 #elif defined __APPLE__
 #	include <errno.h>
@@ -34,7 +34,7 @@ static clockid_t clock_id = CLOCK_REALTIME;
 using namespace sdlx;
 
 Timer::Timer() {
-#ifdef _WINDOWS
+#ifdef _WIN32
 #ifdef SDLX_TIMER_USES_QPC
 	tm = new LARGE_INTEGER;
 	freq = new LARGE_INTEGER;
@@ -53,7 +53,7 @@ Timer::Timer() {
 }
 
 Timer::~Timer() {
-#ifdef _WINDOWS
+#ifdef _WIN32
 #ifdef SDLX_TIMER_USES_QPC
 	delete tm; delete freq;
 #endif
@@ -62,7 +62,7 @@ Timer::~Timer() {
 
 
 void Timer::reset() {
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	ifdef SDLX_TIMER_USES_QPC
 	if (!QueryPerformanceCounter(tm)) 
 		throw_ex(("QueryPerformanceCounter failed"));
@@ -83,7 +83,7 @@ void Timer::reset() {
 }
 
 const int Timer::microdelta() const {
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	ifdef SDLX_TIMER_USES_QPC
 	LARGE_INTEGER now;
 	if (!QueryPerformanceCounter(&now)) 
@@ -113,7 +113,7 @@ const int Timer::microdelta() const {
 
 
 void Timer::microsleep(const char *why, const int micros) {
-#ifdef _WINDOWS
+#ifdef _WIN32
 	timeBeginPeriod(1);
 	//LOG_DEBUG(("microsleep('%s', %d)", why, micros));
 

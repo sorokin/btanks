@@ -32,7 +32,7 @@ bool Directory::opened() const {
 	return _handle != 0;
 }
 
-#ifndef _WINDOWS
+#ifndef _WIN32
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -159,7 +159,7 @@ void Directory::create(const std::string &path, const bool recurse) {
 #endif
 
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #include <shlobj.h>
 
 const std::string Directory::get_app_dir(const std::string &name, const std::string &shortname) {

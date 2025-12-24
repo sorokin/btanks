@@ -4,13 +4,13 @@
 #include <vector>
 #include "export_btanks.h"
 
-#ifndef _WINDOWS
+#ifndef _WIN32
 #	include <stdint.h>
 #endif
 
 class BTANKSAPI NetStats {
 public:
-#ifdef _WINDOWS
+#ifdef _WIN32
 	typedef __int64 delta_t;
 	typedef __int32 public_delta_t;
 #else

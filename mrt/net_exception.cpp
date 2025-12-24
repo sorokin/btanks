@@ -18,7 +18,7 @@
 
 #include "net_exception.h"
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 
 #include <Winsock2.h>
 

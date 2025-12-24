@@ -21,7 +21,7 @@
 #include "mrt/chunk.h"
 #include <string.h>
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include "Winsock2.h"
 #	ifndef socklen_t 
 #		define socklen_t int
@@ -96,7 +96,7 @@ UDPSocket::UDPSocket() {
 	create();
 }
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	ifndef SIO_UDP_CONNRESET
 #		define SIO_UDP_CONNRESET _WSAIOW(IOC_VENDOR, 12)
 #	endif
@@ -106,7 +106,7 @@ UDPSocket::UDPSocket() {
 void UDPSocket::create() {
 	Socket::create(PF_INET, SOCK_DGRAM, 0);
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 	DWORD dwBytesReturned = 0;
 	BOOL bNewBehavior = FALSE;
 	DWORD status;
@@ -157,7 +157,7 @@ void UDPSocket::set_broadcast_mode(int val) {
 	} CATCH("setsockopt(IPPROTO_UDP, SO_BROADCAST)", {});
 }
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 void UDPSocket::broadcast(const mrt::Chunk &data, const int port) {
 	TRY {
 		LOG_DEBUG(("broadcasting packet[%u]", (unsigned)data.get_size()));

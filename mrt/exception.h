@@ -66,7 +66,7 @@ private:
 
 #define TRY try 
 
-#if defined _WINDOWS && defined DEBUG
+#if defined _WIN32 && defined DEBUG
 #	define CATCH_D(where, code) /* bye bye */
 #else
 #	define CATCH_D(where, code) catch(...) {\

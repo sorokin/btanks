@@ -949,7 +949,7 @@ void Editor::onEvent(const SDL_Event &event) {
 }
 
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include "sdlx/SDL_main.h"
 #	define WIN32_LEAN_AND_MEAN
 #	include <windows.h>
@@ -969,7 +969,7 @@ try {
 	editor.init(argc, argv);
 	editor.run();
 	editor.deinit();
-#ifdef _WINDOWS
+#ifdef _WIN32
 	} catch(const std::exception &e) {
 		sdlx::System::deinit();
 		LOG_ERROR(("main:%s", e.what()));
@@ -991,7 +991,7 @@ try {
 #include "mrt/directory.h"
 #include <string>
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 extern "C" {
 #ifdef _WIN32_WCE
 int WINAPI SDLWinMain(HINSTANCE hInst, HINSTANCE hPrev, LPWSTR szCmdLine, int sw);

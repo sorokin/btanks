@@ -74,7 +74,7 @@ public:
 	}
 	
 	inline const T length() const {
-#ifdef _WINDOWS
+#ifdef _WIN32
 		return (T)_hypot(x, y);
 #else
 		return (T)hypot(x, y);

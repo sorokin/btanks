@@ -18,7 +18,7 @@
 
 
 #include "memory_info.h"
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include <windows.h>
 #else
 #	include <unistd.h>
@@ -27,7 +27,7 @@
 using namespace mrt;
 
 int MemoryInfo::available() {
-#ifdef _WINDOWS
+#ifdef _WIN32
 	MEMORYSTATUS mstat;
 	GlobalMemoryStatus(&mstat);
 	return mstat.dwAvailPhys / 1048576;

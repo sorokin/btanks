@@ -31,7 +31,7 @@
 #include "game.h"
 #include <stdlib.h>
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include "sdlx/SDL_main.h"
 #	define WIN32_LEAN_AND_MEAN
 #	include <windows.h>
@@ -58,7 +58,7 @@ extern "C"
 
 int main(int argc, char *argv[]) {
 	try {
-#ifndef _WINDOWS
+#ifndef _WIN32
 		struct sigaction sa;
 		memset(&sa, 0, sizeof(sa));
 		sa.sa_flags = SA_RESTART;
@@ -79,7 +79,7 @@ int main(int argc, char *argv[]) {
 		Game->run();
 		Game->deinit();
 		LOG_DEBUG(("exiting"));
-#ifdef _WINDOWS
+#ifdef _WIN32
 	} catch(const std::exception &e) {
 		LOG_ERROR(("main:%s", e.what()));
 		TRY { LOG_DEBUG(("calling Game->deinit()")); Game->deinit(); } CATCH("deinit", {});
@@ -102,7 +102,7 @@ int main(int argc, char *argv[]) {
 #include "mrt/directory.h"
 #include <string>
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 extern "C" {
 #ifdef _WIN32_WCE
 int WINAPI SDLWinMain(HINSTANCE hInst, HINSTANCE hPrev, LPWSTR szCmdLine, int sw);

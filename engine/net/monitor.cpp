@@ -42,7 +42,7 @@
 #include "player_manager.h"
 #include "rt_config.h"
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include "Winsock2.h"
 #else
 #	include <sys/socket.h>
@@ -53,7 +53,7 @@
 #endif              
 
 #include <set>
-#ifdef _WINDOWS
+#ifdef _WIN32
 	typedef unsigned __int32 uint32_t;
 #else
 #	include <stdint.h>

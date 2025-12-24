@@ -25,7 +25,7 @@
  * from your version and license this file solely under the GPL without exception. 
 */
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include <windows.h>
 #endif
 
@@ -39,7 +39,7 @@
 #include <stdlib.h>
 #include <assert.h>
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	define putenv _putenv
 
 static STICKYKEYS g_StartupStickyKeys = {sizeof(STICKYKEYS), 0};
@@ -114,7 +114,7 @@ void IWindow::initSDL() {
 	//putenv(strdup("SDL_VIDEO_WINDOW_POS"));
 	putenv(strdup("SDL_VIDEO_CENTERED=1"));
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 	LOG_DEBUG(("direct3d: %s, vsync: %s", _dx?"yes":"no", _vsync?"yes":"no"));
 	putenv(strdup("SDL_VIDEO_RENDERER=gdi"));
 
@@ -168,7 +168,7 @@ void IWindow::initSDL() {
 
 	int default_flags = sdlx::Surface::Hardware | sdlx::Surface::Alpha;
 
-#ifndef _WINDOWS
+#ifndef _WIN32
 	default_flags |= (_opengl? SDL_OPENGL: 0);
 
 	if (_opengl) {
@@ -182,7 +182,7 @@ void IWindow::initSDL() {
 
 #endif
 	
-#ifdef _WINDOWS
+#ifdef _WIN32
 	if (_dx) {
 #else
 	if (_opengl) {
@@ -200,7 +200,7 @@ void IWindow::initSDL() {
 	//sdlx::TTF::init();
 }
 
-#if !defined _WINDOWS && !defined __APPLE__
+#if !defined _WIN32 && !defined __APPLE__
 static std::string getGLString(const GLenum name) {
 	typedef const GLubyte * (APIENTRY * PGLGETSTRING) (GLenum);
 	union {
@@ -227,7 +227,7 @@ static std::string getGLString(const GLenum name) {
 #include "mrt/chunk.h"
 
 void IWindow::init(const int argc, char *argv[]) {
-#ifdef _WINDOWS
+#ifdef _WIN32
 	{
 		GET_CONFIG_VALUE("engine.use-high-priority-class", bool, uhpc, true);
 		if (uhpc) {
@@ -245,7 +245,7 @@ void IWindow::init(const int argc, char *argv[]) {
 	_vsync = false;
 	_fsaa = 0;
 
-#ifndef _WINDOWS
+#ifndef _WIN32
 	_opengl = true;
 	_force_soft = false;
 #else
@@ -259,7 +259,7 @@ void IWindow::init(const int argc, char *argv[]) {
 	
 	for(int i = 1; i < argc; ++i) {
 		if (strcmp(argv[i], "--fs") == 0) _fullscreen = true;
-#ifndef _WINDOWS
+#ifndef _WIN32
 		else if (strcmp(argv[i], "--no-gl") == 0) _opengl = false;
 		else if (strcmp(argv[i], "--force-gl") == 0) { force_gl = true; }
 		else if (strcmp(argv[i], "--force-soft-gl") == 0) { _force_soft = true; }
@@ -291,7 +291,7 @@ void IWindow::init(const int argc, char *argv[]) {
 	initSDL();
 
 #if 0
-#ifdef _WINDOWS
+#ifdef _WIN32
 	LOG_DEBUG(("loading icon..."));
 	TRY {
 		HANDLE h = LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(1), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
@@ -307,7 +307,7 @@ void IWindow::init(const int argc, char *argv[]) {
 LOG_DEBUG(("setting caption..."));		
 SDL_WM_SetCaption(("Battle tanks - " + getVersion()).c_str(), "btanks");
 
-#if !defined _WINDOWS && !defined __APPLE__
+#if !defined _WIN32 && !defined __APPLE__
 	TRY {
 		mrt::Chunk data;
 		Finder->load(data, "tiles/icon.png");
@@ -326,7 +326,7 @@ SDL_WM_SetCaption(("Battle tanks - " + getVersion()).c_str(), "btanks");
 
 	createMainWindow();
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 	SystemParametersInfo(SPI_GETSTICKYKEYS, sizeof(STICKYKEYS), &g_StartupStickyKeys, 0);
 	SystemParametersInfo(SPI_GETTOGGLEKEYS, sizeof(TOGGLEKEYS), &g_StartupToggleKeys, 0);
 	SystemParametersInfo(SPI_GETFILTERKEYS, sizeof(FILTERKEYS), &g_StartupFilterKeys, 0);
@@ -383,7 +383,7 @@ void IWindow::createMainWindow() {
 		}
 	} CATCH("screen modes probe", {});
 	
-#ifndef _WINDOWS
+#ifndef _WIN32
 	if (_opengl) {
 #if SDL_VERSION_ATLEAST(1,2,10)
 		LOG_DEBUG(("setting GL swap control to %d...", _vsync?1:0));
@@ -405,7 +405,7 @@ void IWindow::createMainWindow() {
 		}
 #endif
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 		LOG_DEBUG(("setting GL accelerated visual..."));
 
 		//SIGSEGV in SDL under linux if no GLX visual present. (debian sid, fc6)
@@ -473,7 +473,7 @@ void IWindow::createMainWindow() {
 	   	})
 	}
 
-#else //_WINDOWS
+#else //_WIN32
 
 #ifdef USE_GLSDL
 		flags |= _dx?SDL_GLSDL : 0;
@@ -574,7 +574,7 @@ void IWindow::init_dummy() {
 }
 
 void IWindow::deinit() {
-#ifdef _WINDOWS
+#ifdef _WIN32
 	AllowAccessibilityShortcutKeys(true);
 #endif
 	_running = false;

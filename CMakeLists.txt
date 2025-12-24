@@ -44,7 +44,7 @@ endif()
 include_directories(${CMAKE_SOURCE_DIR})
 
 if (WIN32)
-	add_definitions(-D_WINDOWS -DWIN32)
+	add_definitions(-DWIN32)
 endif()
 
 add_subdirectory(SDL_image)

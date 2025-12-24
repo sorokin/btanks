@@ -2,7 +2,7 @@
 #define __SDLX__COMMON_H__
 
 #ifdef USE_GLSDL
-#	ifdef _WINDOWS
+#	ifdef _WIN32
 #		include "wrappers/d3dsdl.h"
 #	else
 #		include "wrappers/glSDL.h"

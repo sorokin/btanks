@@ -21,7 +21,7 @@
 #include "net_exception.h"
 #include <assert.h>
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include <Winsock2.h>
 #else
 #	include <sys/select.h>
@@ -95,7 +95,7 @@ const int SocketSet::check(const unsigned int timeout) {
 	
 	int r = select(_n, (fd_set*)_r_set, (fd_set*)_w_set, (fd_set*)_e_set, &tv);
 	if (r == -1) {
-#ifndef _WINDOWS
+#ifndef _WIN32
 		if (errno == EINTR) 
 			return 0;
 #endif

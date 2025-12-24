@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	define WIN32_LEAN_AND_MEAN
 #	include <windows.h>
 #endif
@@ -32,7 +32,7 @@
 #endif
 
 const std::string mrt::get_lang_code() {
-#ifdef _WINDOWS
+#ifdef _WIN32
 	LANGID lang_id = GetUserDefaultLangID();
 	LOG_DEBUG(("GetUserDefaultLangID() returned %08x", (unsigned)lang_id));
 

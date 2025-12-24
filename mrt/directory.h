@@ -20,7 +20,7 @@
 */
 
 
-#ifndef _WINDOWS
+#ifndef _WIN32
 #	include <sys/types.h>
 #	include <dirent.h>
 #endif
@@ -45,7 +45,7 @@ public:
 	
 private: 
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 	intptr_t _handle;
 	mutable std::string _first_value;
 #else

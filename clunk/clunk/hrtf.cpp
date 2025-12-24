@@ -79,7 +79,7 @@ void Hrtf::get_kemar_data(kemar_ptr & kemar_data, int & elev_n, const v3f &pos) 
 	if (pos.is0())
 		return;
 
-#ifdef _WINDOWS
+#ifdef _WIN32
        float len = (float)_hypot(pos.x, pos.y);
 #else
        float len = (float)hypot(pos.x, pos.y);

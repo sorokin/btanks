@@ -22,7 +22,7 @@
 
 using namespace mrt;
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	ifndef int32_t
 #		define int32_t __int32
 #	endif

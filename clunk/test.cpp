@@ -27,7 +27,7 @@ SOFTWARE.
 #include <clunk/source.h>
 #include <clunk/wav_file.h>
 #include <stdlib.h>
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include <Windows.h>
 #	define usleep(us) ::Sleep(((us) + 999) / 1000)
 #else

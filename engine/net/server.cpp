@@ -37,7 +37,7 @@
 #include "config.h"
 #include "rt_config.h"
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include <Winsock2.h>
 #else
 #	include <arpa/inet.h>

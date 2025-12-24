@@ -26,7 +26,7 @@
 
 using namespace sdlx;
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 
@@ -61,7 +61,7 @@ const bool System::accelerated_gl(const bool windowed) {
 	LOG_DEBUG(("checking for accelerating GL..."));
 TRY {
 #if 0
-//#ifdef _WINDOWS
+//#ifdef _WIN32
 	HWND hwnd = CreateWindow("SDL_app", "SDL_app", WS_POPUP | WS_DISABLED,
 	                    0, 0, 10, 10,
 	                    NULL, NULL, GetModuleHandle(NULL), NULL);
@@ -134,7 +134,7 @@ TRY {
 	DestroyWindow(hwnd);
 	WIN_FlushMessageQueue();
 #endif
-#if !defined(_WINDOWS) && !defined(__APPLE__)
+#if !defined(_WIN32) && !defined(__APPLE__)
 	int errorBase, eventBase; 
 	
 	if (SDL_GL_LoadLibrary(NULL) != 0) {

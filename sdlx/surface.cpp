@@ -347,7 +347,7 @@ Surface::~Surface() {
 
 void Surface::load_from_resource(const char * lpResName) {
 #if 0
-#ifdef _WINDOWS
+#ifdef _WIN32
 	free();
 
 	HINSTANCE hInst = GetModuleHandle(NULL);

@@ -10,7 +10,7 @@
 #include "mrt/net_exception.h"
 #include "mrt/tcp_socket.h"
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	include <Winsock2.h>
 #else
 #	include <sys/socket.h>
@@ -56,7 +56,7 @@ TRY {
 
 	std::set<mrt_uint32_t> banned_addrs;
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 
 	TRY {
 		char ac[256];

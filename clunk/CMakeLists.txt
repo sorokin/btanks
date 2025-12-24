@@ -6,7 +6,7 @@ set(clunk_VERSION_MINOR 3)
 
 
 if(WIN32)
-	add_definitions(-D_CRT_SECURE_NO_WARNINGS -D_WINDOWS)
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()
 
 add_definitions(-DCLUNKAPI=DLLEXPORT)

@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#ifdef _WINDOWS
+#ifdef _WIN32
 	union _LARGE_INTEGER;
 #	define SDLX_TIMER_USES_QPC
 
@@ -42,7 +42,7 @@ public:
 	const int microdelta() const;
 	static void microsleep(const char *why, const int micros);
 private: 
-#ifdef _WINDOWS
+#ifdef _WIN32
 #	ifdef SDLX_TIMER_USES_QPC
 	_LARGE_INTEGER *tm, *freq;
 #	else
