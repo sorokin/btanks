@@ -28,21 +28,13 @@ target_compile_definitions(SDL_image PRIVATE
 	LOAD_BMP
 	LOAD_GIF
 	LOAD_JPG
-#	LOAD_JPG_DYNAMIC="libjpeg-8.dll"
 	LOAD_LBM
 	LOAD_PCX
 	LOAD_PNG
-#	LOAD_PNG_DYNAMIC="libpng15-15.dll"
 	LOAD_PNM
 	LOAD_TGA
-#	LOAD_TIF
-#	LOAD_TIF_DYNAMIC="libtiff-5.dll"
-#	LOAD_WEBP
-#	LOAD_WEBP_DYNAMIC="libwebp-7.dll"
 	LOAD_XPM
 	LOAD_XV
-#	PNG_USE_DLL
-#	ZLIB_DLL
 )
 
 target_link_libraries(SDL_image PUBLIC SDL::SDL PNG::PNG JPEG::JPEG)
