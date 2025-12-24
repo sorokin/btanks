@@ -38,13 +38,6 @@
 
 using namespace mrt;
 
-#ifdef DEBUG
-#define ASSERT_POS(size) assert(_pos + (size) <= _data->get_size())
-#else
-#define ASSERT_POS(size) if (_pos + (size) > _data->get_size()) \
-	throw_ex(("buffer overrun %u + %u > %u", (unsigned)_pos, (unsigned)(size), (unsigned)_data->get_size()))
-#endif
-
 //ugly hackish trick, upcast const pointer to non-const variant.
 
 Serializator::Serializator() : _data(new mrt::Chunk), _pos(0), _owns_data(true) {}
@@ -199,7 +192,7 @@ void Serializator::add(const float f) {
 void Serializator::get(int &n)  const {
 	unsigned char * ptr = (unsigned char *) _data->get_ptr();
 
-	ASSERT_POS(1);
+	assert_pos(1);
 	unsigned char type = *(ptr + _pos++);
 	if ((type & 0x40) == 0) {
 		n = type & 0x3f;
@@ -209,7 +202,7 @@ void Serializator::get(int &n)  const {
 	}
 
 	unsigned char len = type & 0x3f;
-	ASSERT_POS(len);
+	assert_pos(len);
 	
 	if (len == 0) {
 		n = 0; 
@@ -308,14 +301,14 @@ void Serializator::get(std::string &str)  const {
 	unsigned int size;
 	get(size);
 
-	ASSERT_POS(size);
+	assert_pos(size);
 	const char * ptr = (const char *) _data->get_ptr() + _pos;
 	str = std::string(ptr, size);
 	_pos += size;
 }
 
 void Serializator::get(void *raw, const int size) const {
-	ASSERT_POS(size);
+	assert_pos(size);
 	if (size == 0) 
 		return;
 	
@@ -324,12 +317,18 @@ void Serializator::get(void *raw, const int size) const {
 	_pos += size;
 }
 
+void Serializator::assert_pos(size_t size) const
+{
+	if (_pos + size > _data->get_size())
+		throw_ex(("buffer overrun %u + %u > %u", (unsigned)_pos, (unsigned)(size), (unsigned)_data->get_size()));
+}
+
 
 void Serializator::get(Chunk &c)  const {
 	int size;
 	get(size);
 
-	ASSERT_POS(size);
+	assert_pos(size);
 	c.set_size(size);
 	
 	if (size == 0) 

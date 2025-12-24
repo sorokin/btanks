@@ -66,15 +66,6 @@ private:
 
 #define TRY try 
 
-#if defined _WIN32 && defined DEBUG
-#	define CATCH_D(where, code) /* bye bye */
-#else
-#	define CATCH_D(where, code) catch(...) {\
-		LOG_ERROR(("%s: unknown error", where));\
-		code;\
-		}
-#endif
-
 #define CATCH(where, code)  catch(const char * _e) {\
 		LOG_ERROR(("%s: (const char*) %s", where, _e)); \
 		code;\

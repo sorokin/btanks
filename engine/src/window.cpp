@@ -136,12 +136,9 @@ void IWindow::initSDL() {
 #endif
 
 	LOG_DEBUG(("initializing SDL..."));
-	Uint32 subsystems = SDL_INIT_VIDEO | SDL_INIT_TIMER | (_init_joystick? SDL_INIT_JOYSTICK: 0);
-#ifdef DEBUG
-	sdlx::System::init(subsystems | SDL_INIT_NOPARACHUTE);
-#else
-	sdlx::System::init(subsystems);
-#endif
+	sdlx::System::init(SDL_INIT_VIDEO | SDL_INIT_TIMER |
+		(_init_joystick ? SDL_INIT_JOYSTICK : 0) | SDL_INIT_NOPARACHUTE);
+
 	{
 		SDL_version compiled;
 		SDL_VERSION(&compiled);
@@ -546,12 +543,12 @@ void IWindow::run() {
 		int t_delta = _timer.microdelta();
 
 		//LOG_DEBUG(("tdelta: %d, max_delay: %d, delay: %d", t_delta, max_delay, max_delay - t_delta));
-#ifdef DEBUG
-		assert(t_delta >= 0);
-#else
 		if (t_delta < 0)
+		{
+			assert(false);
 			t_delta = 0;
-#endif
+		}
+
 		if (t_delta < max_delay) {
 			sdlx::Timer::microsleep("fps limit", max_delay - t_delta);
 		}

@@ -168,6 +168,7 @@ public:
 
 protected:
 	void get(void *raw, const int size) const; //this one doesnt check anything, just copy next `size` bytes to pointer.
+	void assert_pos(size_t size) const;
 
 	Chunk *_data;
 	mutable size_t _pos;
