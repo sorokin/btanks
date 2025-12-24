@@ -32,8 +32,6 @@ if (WIN32)
 	find_package(DirectXSDK REQUIRED)
 endif()
 
-include(CheckLibraryExists)
-
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
 	# too noisy on SDL1
 	add_compile_options("-Wno-pragma-pack" "-Wno-language-extension-token")
