@@ -32,7 +32,7 @@
 #if HAS_SDL_OPENGL_H
 #include "SDL_opengl.h"
 #else
-#ifdef WIN32
+#ifdef _WIN32
 #include <windows.h>
 #endif
 #if defined(__APPLE__) && defined(__MACH__)

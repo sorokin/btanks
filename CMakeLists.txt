@@ -43,9 +43,6 @@ if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
 endif()
 include_directories(${CMAKE_SOURCE_DIR})
 
-if (WIN32)
-	add_definitions(-DWIN32)
-endif()
 
 add_subdirectory(SDL_image)
 add_subdirectory(mrt)
