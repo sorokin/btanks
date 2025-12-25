@@ -48,7 +48,7 @@ target_sources(btanks_engine PRIVATE
 	src/version.cpp
 )
 
-set_source_files_properties(src/version.cpp PROPERTIES COMPILE_DEFINITIONS "VERSION=\"git\";REVISION=1")
+set_source_files_properties(src/version.cpp PROPERTIES COMPILE_DEFINITIONS "VERSION=\"git\"")
 
 include_directories(${LUA_INCLUDE_DIR})
 add_definitions(-DENABLE_LUA)

@@ -44,5 +44,5 @@ const std::string& getVersion() {
 }
 
 const int getRevision() {
-	return REVISION;
+	return 8100;
 }
