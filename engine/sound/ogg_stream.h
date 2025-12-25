@@ -53,10 +53,14 @@ public:
 	bool read(clunk::Buffer &data, unsigned hint);
 	~OggStream();
 
+	bool is_seekable();
+	int64_t get_pcm_total();
+	vorbis_info const *get_info() const;
+
 private: 
 	mrt::BaseFile * _file;
 	OggVorbis_File _ogg_stream;
-	vorbis_info * _vorbis_info;
+	vorbis_info const* _vorbis_info;
 };
 
 #endif

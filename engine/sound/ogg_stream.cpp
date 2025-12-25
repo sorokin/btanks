@@ -137,52 +137,69 @@ OggStream::~OggStream() {
 	ov_clear(&_ogg_stream);
 }
 
-#include "mrt/scoped_ptr.h"
+bool OggStream::is_seekable() {
+	return ov_seekable(&_ogg_stream) != 0;
+}
+
+int64_t OggStream::get_pcm_total() {
+	return ov_pcm_total(&_ogg_stream, -1);
+}
+
+vorbis_info const *OggStream::get_info() const {
+	return _vorbis_info;
+}
 
 void OggStream::decode(clunk::Sample &sample, const std::string &fname) {
-	mrt::BaseFile* file(Finder->get_file(fname, "rb"));
-	
-	ov_callbacks ov_cb = {};
+	OggStream ogg(fname);
 
-	ov_cb.read_func = stream_read_func;
-	ov_cb.seek_func = stream_seek_func;
-	ov_cb.tell_func = stream_tell_func;
-	ov_cb.close_func = stream_close_func;
-		
-	OggVorbis_File ogg;
-	int r = ov_open_callbacks(file, &ogg, NULL, 0, ov_cb);
-	if (r < 0)
-		throw_ogg(r, ("ov_open('%s')", fname.c_str()));
+	vorbis_info const *info = ogg.get_info();
+	assert(info != NULL);
 
-	GET_CONFIG_VALUE("engine.sound.file-buffer-size", int, buffer_size, 441000);
+	// At first glance the only reason when file
+	// can be non-seekable is when we didn't pass
+	// .seek_func callback or when it returned
+	// an error.
+	//
+	// Maybe this if can be replaced with an
+	// assert, but  I don't want to rely on
+	// implementation detail of libvorbis.
+	if (!ogg.is_seekable())
+		throw_ex(("ogg file '%s' is not seekable", fname.c_str()));
+
+	// From looking at the source code of libvorbis
+	// the only reason this can fail is when the
+	// file is non-seekable.
+	//
+	// Maybe this if can be replaced with an
+	// assert, but I don't want to rely on
+	// implementation detail of libvorbis.
+	int64_t samples_total = ogg.get_pcm_total();
+	if (samples_total < 0)
+		throw_ogg(samples_total, ("ov_pcm_total('%s')", fname.c_str()));
 
 	clunk::Buffer data;
 
-	size_t pos = 0;
-	data.free();
-	int section = 0;
-	
-	do {
-		data.set_size(buffer_size + pos);
-		r = ov_read(&ogg, ((char *)data.get_ptr()) + pos, buffer_size, 0, 2, 1, & section);
-		if (r == OV_HOLE) {
-			LOG_WARN(("hole in ogg data, attempt to recover"));
-			continue;
-		}
-    
-		if(r > 0) {
-			pos += r;
-		} else if(r < 0) {
-			ov_clear(&ogg);
-			throw_ogg(r, ("ov_read"));
-		} else break;
-	} while(true);
-	data.set_size(pos);
-	
-	vorbis_info *info = ov_info(&ogg, -1);
-	assert(info != NULL);
-	
-	sample.init(data, clunk::AudioSpec(clunk::AudioSpec::S16, info->rate, info->channels));
+	data.set_size(samples_total * info->channels * sizeof(int16_t));
 
-	ov_clear(&ogg);	
+	size_t pos = 0;
+	for (;;) {
+		assert(pos <= data.get_size());
+		if (pos == data.get_size())
+			break;
+
+		int section = 0;
+		long r = ov_read(&ogg._ogg_stream, (char *)data.get_ptr() + pos, data.get_size() - pos, 0, 2, 1, & section);
+		if (r < 0)
+			throw_ogg(r, ("ov_read('%s')", fname.c_str()));
+
+		if (r == 0)
+			break;
+
+		pos += r;
+	}
+
+	if (pos != data.get_size())
+		throw_ex(("incomplete ov_read('%s'), expected %zu, actual %zu", fname.c_str(), data.get_size(), pos));
+
+	sample.init(data, clunk::AudioSpec(clunk::AudioSpec::S16, info->rate, info->channels));
 }
