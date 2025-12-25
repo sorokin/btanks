@@ -104,13 +104,8 @@ int main(int argc, char *argv[]) {
 
 #ifdef _WIN32
 extern "C" {
-#ifdef _WIN32_WCE
-int WINAPI SDLWinMain(HINSTANCE hInst, HINSTANCE hPrev, LPWSTR szCmdLine, int sw);
-int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPWSTR szCmdLine, int sw)
-#else
 int WINAPI SDLWinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR szCmdLine, int sw);
 int WINAPI WinMain(HINSTANCE hInst, HINSTANCE hPrev, LPSTR szCmdLine, int sw)
-#endif
 {
 	std::string logpath = mrt::format_string("SDL_LOG_PATH=%s", mrt::Directory::get_app_dir("Battle Tanks", "btanks").c_str());
 	_putenv(_strdup(logpath.c_str()));
