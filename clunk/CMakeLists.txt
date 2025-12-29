@@ -7,12 +7,8 @@ set(clunk_VERSION_MAJOR 1)
 set(clunk_VERSION_MINOR 3)
 
 
-if(WIN32)
-	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
-endif()
 
 add_definitions(-DCLUNKAPI=DLLEXPORT)
-set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
 add_library(clunk)
 target_sources(clunk PRIVATE

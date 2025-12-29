@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.28)
 
 add_definitions(-DMRTAPI=DLLEXPORT)
-include_directories(.)
 
 add_library(mrt)
 target_sources(mrt PRIVATE
@@ -12,6 +11,9 @@ target_sources(mrt PRIVATE
 	memory_info.cpp calendar.cpp base_directory.cpp zip_dir.cpp zip_file.cpp
 	net_exception.cpp dict_serializator.cpp
 )
+
+target_include_directories(mrt PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/..")
+
 target_link_libraries(mrt PUBLIC expat::expat ZLIB::ZLIB)
 if (WIN32)
 	target_link_libraries(mrt PUBLIC Ws2_32)

@@ -1,5 +1,3 @@
-include_directories(.)
-include_directories(../mrt)
 add_definitions(-DSDLXAPI=DLLEXPORT)
 
 add_library(sdlx)
@@ -15,6 +13,9 @@ if (WIN32)
 else()
 	target_sources(sdlx PRIVATE wrappers/glSDL.c)
 endif()
+
+target_include_directories(sdlx PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/..")
+
 target_link_libraries(sdlx PUBLIC
 	mrt
 	SDL::SDL

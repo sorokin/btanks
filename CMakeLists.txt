@@ -38,7 +38,10 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Ap
 endif()
 
 add_definitions(-DUSE_GLSDL)
-include_directories(${CMAKE_SOURCE_DIR})
+
+if (WIN32)
+	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
+endif()
 
 
 add_subdirectory(SDL_image)
