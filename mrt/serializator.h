@@ -32,7 +32,7 @@
 
 namespace mrt {
 class Chunk;
-class DLLEXPORT Serializator {
+class MRTAPI Serializator {
 public:
 	Serializator();
 	Serializator(const mrt::Chunk *chunk);

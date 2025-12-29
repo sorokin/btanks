@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.28)
 
-add_definitions(-DMRTAPI=DLLEXPORT)
-
 add_library(mrt)
 target_sources(mrt PRIVATE
 	exception.cpp fmt.cpp ioexception.cpp logger.cpp chunk.cpp random.cpp
@@ -12,7 +10,12 @@ target_sources(mrt PRIVATE
 	net_exception.cpp dict_serializator.cpp
 )
 
-target_include_directories(mrt PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/..")
+generate_export_header(mrt
+	EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/export_mrt.h"
+	EXPORT_MACRO_NAME MRTAPI
+)
+
+target_include_directories(mrt PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 target_link_libraries(mrt PUBLIC expat::expat ZLIB::ZLIB)
 if (WIN32)

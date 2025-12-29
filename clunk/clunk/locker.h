@@ -25,6 +25,8 @@ SOFTWARE.
 #ifndef CLUNK_BACKEND_LOCKER_H
 #define CLUNK_BACKEND_LOCKER_H
 
+#include <clunk/config.h>
+
 #ifdef CLUNK_BACKEND_SDL
 #	include <clunk/backend/sdl/locker.h>
 #endif

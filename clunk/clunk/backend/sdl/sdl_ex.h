@@ -27,6 +27,7 @@ SOFTWARE.
 
 #include <clunk/export_clunk.h>
 #include <clunk/clunk_ex.h>
+#include <clunk/config.h>
 
 #ifndef CLUNK_BACKEND_SDL
 #	error invalid configuration

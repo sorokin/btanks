@@ -23,7 +23,7 @@
 
 namespace mrt {
 
-class DLLEXPORT DictionarySerializator : public Serializator {
+class MRTAPI DictionarySerializator : public Serializator {
 public:
 	DictionarySerializator();
 	DictionarySerializator(const mrt::Chunk *chunk);

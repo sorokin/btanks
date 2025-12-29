@@ -26,6 +26,7 @@ SOFTWARE.
 #define CLUNK_LOGGER_H__
 
 #include <clunk/export_clunk.h>
+#include <clunk/config.h>
 #include <string>
 #include <exception>
 

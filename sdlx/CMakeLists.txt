@@ -1,5 +1,3 @@
-add_definitions(-DSDLXAPI=DLLEXPORT)
-
 add_library(sdlx)
 target_sources(sdlx PRIVATE
 	cursor.cpp sdl_ex.cpp surface.cpp system.cpp joystick.cpp
@@ -14,7 +12,12 @@ else()
 	target_sources(sdlx PRIVATE wrappers/glSDL.c)
 endif()
 
-target_include_directories(sdlx PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/..")
+generate_export_header(sdlx
+	EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/export_sdlx.h"
+	EXPORT_MACRO_NAME SDLXAPI
+)
+
+target_include_directories(sdlx PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 target_compile_definitions(sdlx PUBLIC USE_GLSDL)
 

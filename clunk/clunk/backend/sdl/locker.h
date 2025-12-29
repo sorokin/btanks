@@ -26,6 +26,7 @@ SOFTWARE.
 #define CLUNK_LOCKER_H__
 
 #include <SDL_audio.h>
+#include <clunk/config.h>
 #include <clunk/export_clunk.h>
 
 #ifndef CLUNK_BACKEND_SDL

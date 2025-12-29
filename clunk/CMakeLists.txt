@@ -2,8 +2,6 @@ option(BUILD_TEST "Build simple test application" false)
 option(CLUNK_BACKEND_SDL "Enable SDL backend" true)
 option(CLUNK_ENABLE_DEBUG_LOGGING "Enable debug-mode logging" false)
 
-add_definitions(-DCLUNKAPI=DLLEXPORT)
-
 add_library(clunk)
 target_sources(clunk PRIVATE
 	clunk/buffer.cpp
@@ -31,7 +29,7 @@ set(PUBLIC_HEADERS
 	clunk/clunk.h
 	clunk/context.h
 	clunk/distance_model.h
-	clunk/export_clunk.h
+	"${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
 	clunk/fft_context.h
 	clunk/hrtf.h
 	clunk/kemar.h
@@ -47,7 +45,7 @@ set(PUBLIC_HEADERS
 	clunk/v3.h
 	clunk/clunk_c.h
 	clunk/window_function.h
-	${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h
+	"${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h"
 )
 
 list(APPEND PUBLIC_HEADERS
@@ -55,6 +53,11 @@ list(APPEND PUBLIC_HEADERS
 )
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/clunk/config.h.in ${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h)
+
+generate_export_header(clunk
+	EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
+	EXPORT_MACRO_NAME CLUNKAPI
+)
 
 target_include_directories(clunk PUBLIC ${CMAKE_CURRENT_BINARY_DIR})
 target_include_directories(clunk PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

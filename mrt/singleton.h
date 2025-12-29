@@ -1,7 +1,7 @@
 #ifndef __STACKVM_SINGLETON_H__
 #define __STACKVM_SINGLETON_H__
 
-#include "mrt/export_mrt.h"
+#include "export_mrt.h"
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov

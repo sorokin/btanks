@@ -20,6 +20,7 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 project(btanks)
+include(GenerateExportHeader)
 
 find_package(expat CONFIG REQUIRED)
 find_package(Ogg CONFIG REQUIRED)
