@@ -38,9 +38,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Ap
 endif()
 
 add_definitions(-DUSE_GLSDL)
-if ("${CMAKE_BUILD_TYPE}" STREQUAL "Debug")
-	add_definitions(-DDEBUG)
-endif()
 include_directories(${CMAKE_SOURCE_DIR})
 
 

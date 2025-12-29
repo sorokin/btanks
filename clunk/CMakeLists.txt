@@ -1,4 +1,6 @@
 option(BUILD_TEST "Build simple test application" false)
+option(CLUNK_BACKEND_SDL "Enable SDL backend" true)
+option(CLUNK_ENABLE_DEBUG_LOGGING "Enable debug-mode logging" false)
 
 set (CMAKE_CXX_STANDARD 11)
 set(clunk_VERSION_MAJOR 1)
@@ -29,7 +31,6 @@ target_sources(clunk PRIVATE
 #	clunk/clunk_c.cpp
 )
 
-set(CLUNK_BACKEND_SDL 1)
 target_sources(clunk PRIVATE
 	clunk/backend/sdl/sdl_ex.cpp
 	clunk/backend/sdl/backend.cpp

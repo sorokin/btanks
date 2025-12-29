@@ -38,7 +38,7 @@ namespace clunk {
 	const std::string CLUNKAPI format_string(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 }
 
-#ifdef DEBUG
+#ifdef CLUNK_ENABLE_DEBUG_LOGGING
 #	define LOG_DEBUG(fmt)	clunk::log_debug fmt
 #	define LOG_INFO(fmt)	clunk::log_debug fmt
 #	define LOG_ERROR(fmt)	clunk::log_debug fmt
