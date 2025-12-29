@@ -37,8 +37,6 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "Ap
 	add_compile_options("-Wno-pragma-pack" "-Wno-language-extension-token")
 endif()
 
-add_definitions(-DUSE_GLSDL)
-
 if (WIN32)
 	add_definitions(-D_CRT_SECURE_NO_WARNINGS)
 endif()

@@ -16,6 +16,8 @@ endif()
 
 target_include_directories(sdlx PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
+target_compile_definitions(sdlx PUBLIC USE_GLSDL)
+
 target_link_libraries(sdlx PUBLIC
 	mrt
 	SDL::SDL
