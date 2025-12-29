@@ -173,6 +173,9 @@ private:
 	};
 	template<class Sources>
 	void process_object(Object *o, Sources &sset, std::vector<source_t> &lsources, unsigned n);
+
+	Context(Context const&) = delete;
+	Context operator=(Context const&) = delete;
 };
 }
 

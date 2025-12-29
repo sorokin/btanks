@@ -96,6 +96,9 @@ private:
 	std::string _name, _type, _data;
 	
 	std::set<bool *> _invalidators;
+
+	IConfig(IConfig const&) = delete;
+	IConfig& operator=(IConfig const&) = delete;
 };
 
 PUBLIC_SINGLETON(BTANKSAPI, Config, IConfig);
