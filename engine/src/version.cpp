@@ -28,18 +28,8 @@
 
 #include "version.h"
 
-#ifdef RELEASE
-#	define RELEASE_NAME " beta"
-#else
-#	define RELEASE_NAME " "
-#endif
-
 const std::string& getVersion() {
-#ifdef DEBUG
-	static std::string version(VERSION "D" RELEASE_NAME);
-#else
-	static std::string version(VERSION RELEASE_NAME);
-#endif
+	static std::string version(VERSION);
 	return version;
 }
 
