@@ -58,10 +58,6 @@ target_sources(btanks_engine PRIVATE luaxx/state.cpp luaxx/lua_hooks.cpp)
 
 target_include_directories(btanks_engine PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/src" "${LUA_INCLUDE_DIR}")
 target_link_libraries(btanks_engine PUBLIC SDL::SDL mrt sdlx Ogg::ogg Vorbis::vorbisfile clunk ${LUA_LIBRARIES})
-if (SMPEG_FOUND)
-	target_compile_definitions(btanks_engine PUBLIC ENABLE_SMPEG)
-	target_link_libraries(btanks_engine PUBLIC smpeg)
-endif()
 
 if (WIN32)
 	target_link_libraries(btanks_engine PRIVATE Ws2_32 User32)
