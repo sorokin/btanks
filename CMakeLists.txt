@@ -52,7 +52,7 @@ add_subdirectory(objects)
 
 
 add_custom_target(data_copy
-	COMMAND ${CMAKE_COMMAND} -E copy_directory_if_different
+	COMMAND "${CMAKE_COMMAND}" -E copy_directory_if_different
         "${CMAKE_CURRENT_SOURCE_DIR}/data"
         "$<TARGET_FILE_DIR:btanks>/data"
 	COMMENT "Copying data directory"
