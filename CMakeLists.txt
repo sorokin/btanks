@@ -14,6 +14,8 @@ find_package(Vorbis CONFIG REQUIRED)
 find_package(ZLIB REQUIRED)
 if (WIN32)
 	find_package(DirectXSDK REQUIRED)
+else()
+	find_package(X11 REQUIRED)
 endif()
 
 if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang" OR CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")

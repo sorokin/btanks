@@ -35,7 +35,7 @@ if (WIN32)
 		SDL::SDL
 	)
 else ()
-	target_link_libraries(sdlx PRIVATE X11)
+	target_link_libraries(sdlx PRIVATE X11::X11)
 endif ()
 
 
