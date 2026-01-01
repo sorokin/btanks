@@ -41,7 +41,12 @@ public:
 	virtual void serialize(mrt::Serializator &s) const;
 	virtual void deserialize(const mrt::Serializator &s);
 	void check(const std::string &t) const;
-	
+
+	int get_int() const;
+	bool get_bool() const;
+	float get_float() const;
+	std::string const& get_string() const;
+
 	const std::string toString() const;
 	static Var fromString(const std::string &type, const std::string &str);
 	
@@ -50,6 +55,7 @@ public:
 	static Var create_float(float value);
 	static Var create_string(const std::string &value);
 
+private:
 	int i;
 	bool b;
 	float f;

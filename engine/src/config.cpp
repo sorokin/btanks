@@ -116,69 +116,56 @@ const bool IConfig::has(const std::string &name) const {
 void IConfig::get(const std::string &name, float &value, const float default_value) {
 	VarMap::iterator t_i = _temp_map.find(name);
 	if (t_i != _temp_map.end()) { //override found
-		t_i->second.check("float");
-		value = t_i->second.f;
+		value = t_i->second.get_float();
 		return;
 	}
 
-	VarMap::iterator i = _map.find(name); 
-	if (i == _map.end()) {
+	if (_map.find(name) == _map.end()) {
 		_map[name] = Var::create_float(default_value);
-	} else {
-		i->second.check("float");
 	}
-	value = _map[name].f;
+
+	value = _map[name].get_float();
 }
 void IConfig::get(const std::string &name, int &value, const int default_value) {
 	VarMap::iterator t_i = _temp_map.find(name);
 	if (t_i != _temp_map.end()) { //override found
-		t_i->second.check("int");
-		value = t_i->second.i;
+		value = t_i->second.get_int();
 		return;
 	}
 
-	VarMap::iterator i = _map.find(name); 
-	if (i == _map.end()) {
+	if (_map.find(name) == _map.end()) {
 		_map[name] = Var::create_int(default_value);
-	} else {
-		i->second.check("int");
 	}
-	value = _map[name].i;
+
+	value = _map[name].get_int();
 }
 
 void IConfig::get(const std::string &name, bool &value, const bool default_value) {
 	VarMap::iterator t_i = _temp_map.find(name);
 	if (t_i != _temp_map.end()) { //override found
-		t_i->second.check("bool");
-		value = t_i->second.b;
+		value = t_i->second.get_bool();
 		return;
 	}
 
-	VarMap::iterator i = _map.find(name); 
-	if (i == _map.end()) {
+	if (_map.find(name) == _map.end()) {
 		_map[name] = Var::create_bool(default_value);
-	} else {
-		i->second.check("bool");
 	}
-	value = _map[name].b;
+
+	value = _map[name].get_bool();
 }
 
 void IConfig::get(const std::string &name, std::string &value, const std::string& default_value) {
 	VarMap::iterator t_i = _temp_map.find(name);
 	if (t_i != _temp_map.end()) { //override found
-		t_i->second.check("string");
-		value = t_i->second.s;
+		value = t_i->second.get_string();
 		return;
 	}
 	
-	VarMap::iterator i = _map.find(name); 
-	if (i == _map.end()) {
+	if (_map.find(name) == _map.end()) {
 		_map[name] = Var::create_string(default_value);
-		value = _map[name].s;
-	} else {
-		i->second.check("string");
-		value = i->second.s;
 	}
+
+	value = _map[name].get_string();
 }
 
 void IConfig::set(const std::string &name, const float value) {

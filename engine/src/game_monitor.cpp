@@ -903,13 +903,14 @@ void IGameMonitor::loadMap(Campaign *campaign, const std::string &name, const bo
 					mrt::split(key_names, name, ".");
 					if (key_names.size() > 2 && key_names[2] == "respawn-interval") {
 						const std::string &item_name = key_names[1];
-						if ((var.i < 0 || var.i >= 10000) &&
+						int var_val = var.get_int();
+						if ((var_val < 0 || var_val >= 10000) &&
 							(
 								(item_name.size() > 5 && item_name.compare(item_name.size() - 5, 5, "-item") == 0) ||
 								item_name == "megaheal" || item_name == "heal"
 							)
 						) { //stupid vz! :)
-							LOG_DEBUG(("skipping: '%s' = %d override [difficulty]", name.c_str(), var.i));
+							LOG_DEBUG(("skipping: '%s' = %d override [difficulty]", name.c_str(), var_val));
 							continue;
 						}
 					}

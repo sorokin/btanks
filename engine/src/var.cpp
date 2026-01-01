@@ -77,7 +77,31 @@ void Var::check(const std::string &t) const {
 		if (type != t)
 			throw_ex(("invalid type requested(%s), real type: %s", t.c_str(), type.c_str()));
 	}
-	
+
+int Var::get_int() const
+{
+	check("int");
+	return i;
+}
+
+bool Var::get_bool() const
+{
+	check("bool");
+	return b;
+}
+
+float Var::get_float() const
+{
+	check("float");
+	return f;
+}
+
+std::string const& Var::get_string() const
+{
+	check("string");
+	return s;
+}
+
 const std::string Var::toString() const {
 		assert(!type.empty());
 		if (type == "int")
