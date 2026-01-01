@@ -895,8 +895,7 @@ void IGameMonitor::loadMap(Campaign *campaign, const std::string &name, const bo
 					continue;
 				}
 				
-				Var var(value[0]);
-				var.fromString(value[1]);
+				Var var = Var::fromString(value[0], value[1]);
 
 				if (difficulty <= 1 && name.compare(0, 4, "map.") == 0) { //easy + normal
 					//-item.respawn-interval

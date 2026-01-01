@@ -43,7 +43,7 @@ public:
 	void check(const std::string &t) const;
 	
 	const std::string toString() const;
-	void fromString(const std::string &str);
+	static Var fromString(const std::string &type, const std::string &str);
 	
 	static Var create_int(int value);
 	static Var create_bool(bool value);

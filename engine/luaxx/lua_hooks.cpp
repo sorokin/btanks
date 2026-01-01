@@ -888,16 +888,17 @@ LUA_TRY {
 		return 0;
 	}
 	const char * name = lua_tostring(L, 1);
-	const char *value = lua_tostring(L, 2);
-	if (name == NULL || value == NULL) {
-		lua_pushstring(L, mrt::format_string("set_config_override: %s argument must be a string", (name == NULL)?"first":"second").c_str());
+	const char *type = lua_tostring(L, 2);
+	const char *value = lua_tostring(L, 3);
+	if (name == NULL || type == NULL || value == NULL) {
+		const char *arg = (name == NULL)?"first":
+		                  (type == NULL)?"second":"third";
+		lua_pushstring(L, mrt::format_string("set_config_override: %s argument must be a string", arg).c_str());
 		lua_error(L);
 		return 0;
 	}
 	
-	Var var;
-	var.fromString(value);
-	Config->setOverride(name, var);
+	Config->setOverride(name, Var::fromString(type, value));
 	Config->invalidateCachedValues();
 	
 } LUA_CATCH("set_config_override")	

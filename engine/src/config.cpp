@@ -86,10 +86,10 @@ void IConfig::end(const std::string &name) {
 		return;
 	}
 
-	Var v(_type);
+	Var v;
 	TRY {
 		mrt::trim(_data);
-		v.fromString(_data);
+		v = Var::fromString(_type, _data);
 	} CATCH("fromString", return;);
 
 	//LOG_DEBUG(("read config value %s of type %s (%s)", _name.c_str(), _type.c_str(), _data.c_str()));
@@ -248,8 +248,7 @@ const std::string IConfig::onConsole(const std::string &cmd, const std::string &
 		if (par.size() < 3 || par[0].empty() || par[1].empty() || par[2].empty())
 			return "usage: set [int|string|bool] name value";
 		
-		Var v(par[0]);
-		v.fromString(par[2]);
+		Var v = Var::fromString(par[0], par[2]);
 		const std::string &name = par[1];
 		_map[name] = v;
 		invalidateCachedValues();

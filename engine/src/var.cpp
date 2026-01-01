@@ -92,23 +92,23 @@ const std::string Var::toString() const {
 		return "";//stub
 	}
 
-void Var::fromString(const std::string &str) {
-		assert(!type.empty());
-		
-		if (type == "int")
-			i = atoi(str.c_str());
-		else if (type == "bool") {
-			if (str == "true") {
-				b = true;
-			} else if (str == "false") {
-				b = false;
-			} else throw_ex(("'%s' used as boolean value.", str.c_str()));
-		} else if (type == "float") 
-			f = atof(str.c_str());
-		else if (type == "string") 
-			s = str;
-		else throw_ex(("cannot construct %s from string", type.c_str()));
-	}
+Var Var::fromString(const std::string &type, const std::string &str) {
+	assert(!type.empty());
+
+	if (type == "int")
+		return create_int(atoi(str.c_str()));
+	else if (type == "bool") {
+		if (str == "true") {
+			return create_bool(true);
+		} else if (str == "false") {
+			return create_bool(false);
+		} else throw_ex(("'%s' used as boolean value.", str.c_str()));
+	} else if (type == "float")
+		return create_float(atof(str.c_str()));
+	else if (type == "string")
+		return create_string(str);
+	else throw_ex(("cannot construct %s from string", type.c_str()));
+}
 
 Var Var::create_int(int value) {
 	Var v("int");
