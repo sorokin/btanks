@@ -136,8 +136,7 @@ TRY {
 	redo_queue.clear();
 
 	{
-		Var bt("bool");
-		bt.b = true;
+		Var bt = Var::create_bool(true);
 		Config->setOverride("engine.mark-map-tiles", bt);
 		Config->setOverride("engine.show-waypoints", bt);
 	}

@@ -123,8 +123,7 @@ void IConfig::get(const std::string &name, float &value, const float default_val
 
 	VarMap::iterator i = _map.find(name); 
 	if (i == _map.end()) {
-		_map[name] = Var("float");
-		_map[name].f = default_value;
+		_map[name] = Var::create_float(default_value);
 	} else {
 		i->second.check("float");
 	}
@@ -140,8 +139,7 @@ void IConfig::get(const std::string &name, int &value, const int default_value) 
 
 	VarMap::iterator i = _map.find(name); 
 	if (i == _map.end()) {
-		_map[name] = Var("int");
-		_map[name].i = default_value;
+		_map[name] = Var::create_int(default_value);
 	} else {
 		i->second.check("int");
 	}
@@ -158,8 +156,7 @@ void IConfig::get(const std::string &name, bool &value, const bool default_value
 
 	VarMap::iterator i = _map.find(name); 
 	if (i == _map.end()) {
-		_map[name] = Var("bool");
-		_map[name].b = default_value;
+		_map[name] = Var::create_bool(default_value);
 	} else {
 		i->second.check("bool");
 	}
@@ -176,8 +173,8 @@ void IConfig::get(const std::string &name, std::string &value, const std::string
 	
 	VarMap::iterator i = _map.find(name); 
 	if (i == _map.end()) {
-		_map[name] = Var("string");
-		value = _map[name].s = default_value;
+		_map[name] = Var::create_string(default_value);
+		value = _map[name].s;
 	} else {
 		i->second.check("string");
 		value = i->second.s;
@@ -185,31 +182,19 @@ void IConfig::get(const std::string &name, std::string &value, const std::string
 }
 
 void IConfig::set(const std::string &name, const float value) {
-	Var tmp("float");
-	tmp.f = value;
-
-	_map[name] = tmp;
+	_map[name] = Var::create_float(value);
 }
 
 void IConfig::set(const std::string &name, const std::string &value) {
-	Var tmp("string");
-	tmp.s = value;
-
-	_map[name] = tmp;
+	_map[name] = Var::create_string(value);
 }
 
 void IConfig::set(const std::string &name, const int value) {
-	Var tmp("int");
-	tmp.i = value;
-
-	_map[name] = tmp;
+	_map[name] = Var::create_int(value);
 }
 
 void IConfig::set(const std::string &name, const bool value) {
-	Var tmp("bool");
-	tmp.b = value;
-
-	_map[name] = tmp;
+	_map[name] = Var::create_bool(value);
 }
 
 void IConfig::remove(const std::string &name) {

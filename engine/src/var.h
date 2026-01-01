@@ -45,6 +45,11 @@ public:
 	const std::string toString() const;
 	void fromString(const std::string &str);
 	
+	static Var create_int(int value);
+	static Var create_bool(bool value);
+	static Var create_float(float value);
+	static Var create_string(const std::string &value);
+
 	int i;
 	bool b;
 	float f;

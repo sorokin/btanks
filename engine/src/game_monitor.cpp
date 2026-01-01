@@ -803,8 +803,7 @@ void IGameMonitor::loadMap(Campaign *campaign, const std::string &name, const bo
 	
 		Config->get("campaign." + profile + "." + campaign->name + ".difficulty", difficulty, 1);
 
-		Var v_true("bool");
-		v_true.b = (difficulty >= 3);
+		Var v_true = Var::create_bool(difficulty >= 3);
 		Config->setOverride("engine.fog-of-war.enabled", v_true);
 	}
 

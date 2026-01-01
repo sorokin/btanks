@@ -98,8 +98,7 @@ void Cheater::onEvent(const SDL_Event &event) {
 		float speed;
 		Config->get("engine.speed", speed, 1.0f);
 		LOG_DEBUG(("current speed = %g", speed));
-		Var v_speed("float");
-		v_speed.f = (speed <= 0.2f)?1.0f:0.2f;
+		Var v_speed = Var::create_float((speed <= 0.2f)?1.0f:0.2f);
 		Config->setOverride("engine.speed", v_speed);
 		Config->invalidateCachedValues();
 	} else if (cheat == "gh0st" || cheat == "phant0m") {

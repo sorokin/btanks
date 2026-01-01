@@ -161,8 +161,7 @@ TRY {
 		GameMonitor->loadMap(NULL, Map->getName(), false, true);
 		
 		if (message.has("fog")) {
-			Var v_true("bool");
-			v_true.b = true;
+			Var v_true = Var::create_bool(true);
 			Config->setOverride("engine.fog-of-war.enabled", v_true);
 		}
 		

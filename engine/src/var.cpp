@@ -109,3 +109,27 @@ void Var::fromString(const std::string &str) {
 			s = str;
 		else throw_ex(("cannot construct %s from string", type.c_str()));
 	}
+
+Var Var::create_int(int value) {
+	Var v("int");
+	v.i = value;
+	return v;
+}
+
+Var Var::create_bool(bool value) {
+	Var v("bool");
+	v.b = value;
+	return v;
+}
+
+Var Var::create_float(float value) {
+	Var v("float");
+	v.f = value;
+	return v;
+}
+
+Var Var::create_string(const std::string &value) {
+	Var v("string");
+	v.s = value;
+	return v;
+}

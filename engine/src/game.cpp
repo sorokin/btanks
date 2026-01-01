@@ -401,8 +401,7 @@ void IGame::init(const int argc, char *argv[]) {
 		no_sound = no_music = true;
 	}
 	if (!bind.empty()) {
-		Var v("string");
-		v.s = bind;
+		Var v = Var::create_string(bind);
 		Config->setOverride("multiplayer.bind-address", v);
 	}
 	

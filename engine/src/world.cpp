@@ -1697,9 +1697,7 @@ TRY {
 void IWorld::setSpeed(const float speed) {
 	GET_CONFIG_VALUE("engine.speed", float, e_speed, 1.0f);
 	if (speed != e_speed) {
-		Var v;
-		v.type = "float";
-		v.f = speed;
+		Var v = Var::create_float(speed);
 		Config->setOverride("engine.speed", v);
 		Config->invalidateCachedValues();
 	}
