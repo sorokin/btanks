@@ -56,9 +56,9 @@ public:
 	static Var create_string(const std::string &value);
 
 private:
-	int i;
-	bool b;
-	float f;
+	int i = 0;
+	bool b = false;
+	float f = 0.f;
 	std::string s;
 };
 
