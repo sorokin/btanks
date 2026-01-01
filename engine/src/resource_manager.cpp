@@ -181,9 +181,11 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 		} else { 
 			LOG_DEBUG(("tile '%s' was already loaded, skipped.", tile.c_str()));
 		}
-	
+
+		if (_animations.find(id) != _animations.end())
+			throw_ex(("attempt to create animation with duplicate name ('%s')", id.c_str()));
+
 		_animations[id] = new Animation(model, _base_dir, tile, tw, th);
-	
 	} else if (name == "animation-model") {
 		status = "model";
 
