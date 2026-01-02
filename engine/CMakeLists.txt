@@ -57,7 +57,7 @@ target_compile_definitions(btanks_engine PUBLIC ENABLE_LUA)
 target_sources(btanks_engine PRIVATE luaxx/state.cpp luaxx/lua_hooks.cpp)
 
 target_include_directories(btanks_engine PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/src" "${LUA_INCLUDE_DIR}")
-target_link_libraries(btanks_engine PUBLIC SDL::SDL mrt sdlx Ogg::ogg Vorbis::vorbisfile clunk ${LUA_LIBRARIES} Threads::Threads)
+target_link_libraries(btanks_engine PUBLIC SDL2::SDL2 mrt sdlx Ogg::ogg Vorbis::vorbisfile clunk ${LUA_LIBRARIES} Threads::Threads)
 
 if (WIN32)
 	target_link_libraries(btanks_engine PRIVATE Ws2_32 User32)

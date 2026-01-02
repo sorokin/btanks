@@ -18,4 +18,4 @@ target_sources(bt_objects PRIVATE
 	shilka_turret.cpp gta_car.cpp
 )
 
-target_link_libraries(bt_objects PRIVATE btanks_engine sdlx mrt expat::expat SDL::SDL)
+target_link_libraries(bt_objects PRIVATE btanks_engine sdlx mrt expat::expat SDL2::SDL2)

@@ -15,15 +15,15 @@ target_include_directories(sdlx PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CU
 
 target_link_libraries(sdlx PUBLIC
 	mrt
-	SDL::SDL
-	SDL_image
+	SDL2::SDL2
+	$<IF:$<TARGET_EXISTS:SDL2_image::SDL2_image>,SDL2_image::SDL2_image,SDL2_image::SDL2_image-static>
 )
 
 if (WIN32)
 	target_link_libraries(sdlx PUBLIC Winmm User32 Gdi32 Advapi32)
 	add_library(sdlx_main STATIC SDL_win32_main.c)
 	target_link_libraries(sdlx_main PUBLIC
-		SDL::SDL
+		SDL2::SDL2
 	)
 else ()
 	target_link_libraries(sdlx PRIVATE X11::X11)
