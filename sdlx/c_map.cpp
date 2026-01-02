@@ -26,25 +26,29 @@
 #include "math/binary.h"
 #include "math/matrix.h"
 
+#include <limits>
+
 using namespace sdlx;
 
 CollisionMap::CollisionMap() : _empty(true), _full(false), _w(0), _h(0), _data() {}
 
 
-//DO NOT USE THIS FUNCTION FOR SIGNED TYPES! :(
-template <typename T> 
-static inline const bool type_collide(T* &ptr1, const int shift1, T* &ptr2, const int shift2, const T mask = ~(T)0) {
-	T a, b;
+static inline const bool type_collide(const unsigned char* &ptr1, const int shift1, const unsigned char* &ptr2, const int shift2, const unsigned char mask = std::numeric_limits<unsigned char>::max()) {
+	unsigned char a, b;
 
 	if (shift1 != 0) {
-		a = (*ptr1++ << shift1);
-		a |= *ptr1 >> (sizeof(T) * 8 - shift1);
+		a = *ptr1++ << shift1;
+		int shift1_hi = sizeof(unsigned char) * 8 - shift1;
+		if (((std::numeric_limits<unsigned char>::max() >> shift1_hi) & mask) != 0)
+			a |= *ptr1 >> shift1_hi;
 	} else
 		a = *ptr1++;
 
 	if (shift2 != 0) {
-		b = (*ptr2++ << shift2);
-		b |= *ptr2 >> (sizeof(T) * 8 - shift2);
+		b = *ptr2++ << shift2;
+		int shift2_hi = sizeof(unsigned char) * 8 - shift2;
+		if (((std::numeric_limits<unsigned char>::max() >> shift2_hi) & mask) != 0)
+			b |= *ptr2 >> shift2_hi;
 	}
 	else
 		b = *ptr2++;
@@ -65,18 +69,10 @@ static inline const bool bitline_collide(
 	assert((line_size - 1) / 8 + 1 <= size1);
 	assert((line_size - 1) / 8 + 1 <= size2);
 
-	unsigned int *iptr1 = (unsigned int *) (base1 + pos1);
-	unsigned int *iptr2 = (unsigned int *) (base2 + pos2);
+	const unsigned char *ptr1 = base1 + pos1;
+	const unsigned char *ptr2 = base2 + pos2;
 
-	for(; line_size >= 8 * (int)sizeof(int); line_size -= 8 * (int)sizeof(int)) {
-		if (type_collide(iptr1, shift1, iptr2, shift2))
-			return true;
-	}
-
-	Uint8 *ptr1 = (Uint8 *) iptr1;
-	Uint8 *ptr2 = (Uint8 *) iptr2;
-
-	for(; line_size >= 8 * (int)sizeof(Uint8); line_size -= 8 * (int)sizeof(Uint8)) {
+	for(; line_size >= 8 * (int)sizeof(unsigned char); line_size -= 8 * (int)sizeof(unsigned char)) {
 		if (type_collide(ptr1, shift1, ptr2, shift2))
 			return true;
 	}
@@ -84,7 +80,7 @@ static inline const bool bitline_collide(
 	if (line_size == 0)
 		return false; //no collision, line_size aligned by 8 bits.
 
-	const Uint8 mask = ~((1 << (8 - line_size)) - 1);
+	const unsigned char mask = ~((1 << (8 - line_size)) - 1);
 	//LOG_DEBUG(("a: 0x%x, b: 0x%x, line_size: %d, mask: 0x%x", a, b, line_size, mask));
 	return type_collide(ptr1, shift1, ptr2, shift2, mask);
 }
@@ -124,8 +120,8 @@ const bool CollisionMap::collides(const sdlx::Rect &src, const CollisionMap *oth
 
 	//LOG_DEBUG(("%p->collide(%p, src:(%d, %d, %d, %d), osrc:(%d, %d, %d, %d), [%d, %d, %d, %d])", this, other, src.x, src.y, aw, ah, other_src.x, other_src.y, bw, bh, inter_x0, inter_y0, inter_y0, inter_y1));
 
-	unsigned char * ptr1 = (unsigned char *) _data.get_ptr();
-	unsigned char * ptr2 = (unsigned char *) other->_data.get_ptr();
+	const unsigned char * ptr1 = (const unsigned char *) _data.get_ptr();
+	const unsigned char * ptr2 = (const unsigned char *) other->_data.get_ptr();
 
 	int size1 = _data.get_size();
 	int size2 = other->_data.get_size();
