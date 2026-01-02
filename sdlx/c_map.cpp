@@ -26,12 +26,6 @@
 #include "math/binary.h"
 #include "math/matrix.h"
 
-#if defined(__GNUC__)
-#define restrict __restrict__
-#elif !defined(restrict)
-#	define restrict
-#endif
-
 using namespace sdlx;
 
 CollisionMap::CollisionMap() : _empty(true), _full(false), _w(0), _h(0), _data() {}
@@ -130,8 +124,8 @@ const bool CollisionMap::collides(const sdlx::Rect &src, const CollisionMap *oth
 
 	//LOG_DEBUG(("%p->collide(%p, src:(%d, %d, %d, %d), osrc:(%d, %d, %d, %d), [%d, %d, %d, %d])", this, other, src.x, src.y, aw, ah, other_src.x, other_src.y, bw, bh, inter_x0, inter_y0, inter_y0, inter_y1));
 
-	unsigned char * restrict ptr1 = (unsigned char *) _data.get_ptr();
-	unsigned char * restrict ptr2 = (unsigned char *) other->_data.get_ptr();
+	unsigned char * ptr1 = (unsigned char *) _data.get_ptr();
+	unsigned char * ptr2 = (unsigned char *) other->_data.get_ptr();
 
 	int size1 = _data.get_size();
 	int size2 = other->_data.get_size();
