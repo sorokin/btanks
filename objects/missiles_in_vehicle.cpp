@@ -118,9 +118,6 @@ private:
 	int n, max_v, max_n;
 	bool hold;
 	std::string _vehicle, _object, _type;
-	
-	//serialization is not needed: 
-	bool _install_default;
 };
 
 const bool MissilesInVehicle::skip_rendering() const {
