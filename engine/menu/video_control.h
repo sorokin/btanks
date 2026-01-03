@@ -31,7 +31,6 @@ private:
 	sdlx::Surface shadow, frame;
 	SDL_mutex * lock;
 	bool active, started;
-	//volatile bool updated;
 };
 
 

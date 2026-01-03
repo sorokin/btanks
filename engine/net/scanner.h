@@ -1,6 +1,7 @@
 #ifndef BTANKS_NET_SCANNER_H__
 #define BTANKS_NET_SCANNER_H__
 
+#include <atomic>
 #include <set>
 #include <string>
 #include <map>
@@ -42,7 +43,7 @@ private:
 	void ping(mrt::UDPSocket &udp_sock);
 
 	virtual const int run();
-	volatile bool _running, _scan, _changed;
+	std::atomic<bool> _running, _scan, _changed;
 	sdlx::Mutex _hosts_lock;
 	HostMap _hosts;
 	typedef std::queue<std::pair<mrt::Socket::addr, std::string> > CheckQueue;

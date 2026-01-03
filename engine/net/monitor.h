@@ -29,6 +29,7 @@
 */
 
 
+#include <atomic>
 #include <list>
 #include <map>
 #include <string>
@@ -74,7 +75,7 @@ public:
 private:
 	void _accept();
 	void _connect();
-	volatile bool _running;
+	std::atomic<bool> _running;
 	
 	virtual const int run();
 	typedef std::map<int, Connection *> ConnectionMap;
