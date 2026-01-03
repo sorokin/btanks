@@ -20,21 +20,8 @@
 #include <time.h>
 #include "serializator.h"
 
-#ifdef _WIN32
-#	ifndef uint64_t
-#		define uint64_t unsigned __int64
-#	endif
-#	ifndef uint32_t
-#		define uint32_t unsigned __int32
-#	endif
-#	ifndef uint16_t
-#		define uint16_t unsigned __int16
-#	endif
-#else
-#	include <stdint.h>
-#endif
-
 #include <assert.h>
+#include <cstdint>
 
 static uint32_t mrt_rand_seed;
 

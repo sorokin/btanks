@@ -1,22 +1,14 @@
 #ifndef BTANKS_NETSTATS_H__
 #define BTANKS_NETSTATS_H__
 
+#include <cstdint>
 #include <vector>
 #include "export_btanks.h"
 
-#ifndef _WIN32
-#	include <stdint.h>
-#endif
-
 class BTANKSAPI NetStats {
 public:
-#ifdef _WIN32
-	typedef __int64 delta_t;
-	typedef __int32 public_delta_t;
-#else
 	typedef int64_t delta_t;
 	typedef int32_t public_delta_t;
-#endif
 
 	NetStats();
 	float updatePing(const float ping);

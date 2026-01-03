@@ -52,12 +52,8 @@
 #	include <netdb.h>
 #endif              
 
+#include <cstdint>
 #include <set>
-#ifdef _WIN32
-	typedef unsigned __int32 uint32_t;
-#else
-#	include <stdint.h>
-#endif
 
 
 void Monitor::connect(const mrt::Socket::addr &host) {

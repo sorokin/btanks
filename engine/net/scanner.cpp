@@ -54,7 +54,7 @@ TRY {
 	udp_sock.set_broadcast_mode(1);
 	LOG_DEBUG(("udp socket started..."));
 
-	std::set<mrt_uint32_t> banned_addrs;
+	std::set<uint32_t> banned_addrs;
 
 #ifdef _WIN32
 

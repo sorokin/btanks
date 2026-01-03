@@ -20,16 +20,9 @@
 #include "mrt/chunk.h"
 #include "ioexception.h"
 
-using namespace mrt;
+#include <cstdint>
 
-#ifdef _WIN32
-#	ifndef int32_t
-#		define int32_t __int32
-#	endif
-#	ifndef int16_t
-#		define int16_t __int16
-#	endif
-#endif
+using namespace mrt;
 
 
 void BaseFile::readLE16(int &x) const {

@@ -23,26 +23,15 @@
 #include "export_mrt.h"
 #include <string>
 
-#ifdef _WIN32
-#	ifndef mrt_uint32_t
-#		define mrt_uint32_t unsigned __int32
-#	endif
-#	ifndef mrt_uint16_t
-#		define mrt_uint16_t unsigned __int16
-#	endif
-#else
-#	include <stdint.h>
-	typedef uint32_t mrt_uint32_t;
-	typedef uint16_t mrt_uint16_t;
-#endif
+#include <cstdint>
 
 namespace mrt {
 	class Serializator;
 	class MRTAPI Socket {
 	public:
 		struct MRTAPI addr {
-			mrt_uint32_t ip;
-			mrt_uint16_t port;
+			uint32_t ip;
+			uint16_t port;
 
 			addr() : ip(0), port(0) {}
 			addr(unsigned ip, unsigned port) : ip(ip), port(port) {}
