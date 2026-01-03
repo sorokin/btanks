@@ -107,8 +107,8 @@ TRY {
 					mrt::Socket::addr addr;
 					s.get(addr);
 					LOG_DEBUG(("got %s from master server", addr.getAddr().c_str()));
-				
-					sdlx::AutoMutex m(_hosts_lock);
+
+					std::lock_guard<std::mutex> m(_hosts_lock);
 					check_queue.push(CheckQueue::value_type(addr, std::string()));
 				}
 			} CATCH("scanning", {});
@@ -184,7 +184,7 @@ TRY {
 				}
 				LOG_DEBUG(("found name: %s", name.c_str()));
 				
-				sdlx::AutoMutex m(_hosts_lock);
+				std::lock_guard<std::mutex> m(_hosts_lock);
 				Host &host = _hosts[addr];
 				host.ping = 1 + delta / 2;
 				host.name = name;
@@ -204,7 +204,7 @@ void Scanner::ping(mrt::UDPSocket &udp_sock) {
 		mrt::Socket::addr addr;
 		std::string host;
 		{
-			sdlx::AutoMutex l(_hosts_lock);
+			std::lock_guard<std::mutex> l(_hosts_lock);
 			if (check_queue.empty())
 				return;
 			addr = check_queue.front().first;
@@ -235,7 +235,7 @@ void Scanner::ping(mrt::UDPSocket &udp_sock) {
 					host = new_host;
 					_changed = true;
 
-					sdlx::AutoMutex l(_hosts_lock);
+					std::lock_guard<std::mutex> l(_hosts_lock);
 					Host &h = _hosts[addr];
 					h.name = host;
 					h.ping = 0;
@@ -251,12 +251,12 @@ void Scanner::ping(mrt::UDPSocket &udp_sock) {
 }
 
 void Scanner::get(HostMap &hosts) const {
-	sdlx::AutoMutex m(_hosts_lock);
+	std::lock_guard<std::mutex> m(_hosts_lock);
 	hosts = _hosts;
 }
 
 void Scanner::add(const mrt::Socket::addr &addr_, const std::string &name) {
-	sdlx::AutoMutex m(_hosts_lock);
+	std::lock_guard<std::mutex> m(_hosts_lock);
 	mrt::Socket::addr addr = addr_;
 	if (addr.port == 0)
 		addr.port = _port;

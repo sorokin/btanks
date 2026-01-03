@@ -57,7 +57,7 @@
 
 
 void Monitor::connect(const mrt::Socket::addr &host) {
-	sdlx::AutoMutex m(_connections_mutex);
+	std::lock_guard<std::mutex> m(_connections_mutex);
 	if (_connect_host.ip != 0)
 		return;
 	_connect_host = host;
@@ -66,7 +66,7 @@ void Monitor::connect(const mrt::Socket::addr &host) {
 void Monitor::_connect() {
 	mrt::Socket::addr host;
 	{
-		sdlx::AutoMutex m(_connections_mutex);
+		std::lock_guard<std::mutex> m(_connections_mutex);
 		host = _connect_host;
 		_connect_host.ip = 0;
 		_connect_host.port = 0;
@@ -87,7 +87,7 @@ void Monitor::_connect() {
 
 void Monitor::accept() {
 	{
-		sdlx::AutoMutex m(_connections_mutex);
+		std::lock_guard<std::mutex> m(_connections_mutex);
 		if (_new_connections.empty())
 			return;
 	}
@@ -98,7 +98,7 @@ void Monitor::accept() {
 	LOG_DEBUG(("assigning id %d to client...", id));
 
 	{
-		sdlx::AutoMutex m(_connections_mutex);
+		std::lock_guard<std::mutex> m(_connections_mutex);
 		delete _connections[id];
 		_connections[id] = new Connection(_new_connections.front());
 		_new_connections.pop_front();
@@ -118,7 +118,7 @@ void Monitor::_accept() {
 		_server_sock->accept(*s);
 		s->noDelay();
 		LOG_DEBUG(("game client connected from %s", s->getAddress().getAddr().c_str()));
-		sdlx::AutoMutex m(_connections_mutex);
+		std::lock_guard<std::mutex> m(_connections_mutex);
 		_new_connections.push_back(s);
 	} CATCH("_accept", { delete s; s = NULL; throw; })
 }
@@ -153,13 +153,13 @@ void Monitor::add(mrt::TCPSocket *socket) {
 }
 
 void Monitor::add(const int id, Connection *c) {
-	sdlx::AutoMutex m(_connections_mutex);
+	std::lock_guard<std::mutex> m(_connections_mutex);
 	delete _connections[id];
 	_connections[id] = c;
 }
 
 const bool Monitor::active() const {
-	sdlx::AutoMutex m(_connections_mutex);
+	std::lock_guard<std::mutex> m(_connections_mutex);
 	return !_connections.empty();
 }
 
@@ -212,27 +212,27 @@ void Monitor::pack(mrt::Chunk &result, const mrt::Chunk &rawdata, const int comp
 void Monitor::send(const int id, const mrt::Chunk &rawdata, const bool dgram) {
 	//LOG_DEBUG(("send(%d): %s", id, rawdata.dump().c_str()));
 	{
-		sdlx::AutoMutex m(_connections_mutex);
+		std::lock_guard<std::mutex> m(_connections_mutex);
 		if (_connections.find(id) == _connections.end()) {
 			throw_ex(("sending data to non-existent connection %d", id));
 		}
 	}
 	Task *t = createTask(id, rawdata);
 	
-	sdlx::AutoMutex m(dgram?_send_dgram_mutex:_send_q_mutex);
+	std::lock_guard<std::mutex> m(dgram?_send_dgram_mutex:_send_q_mutex);
 	(dgram?_send_dgram:_send_q).push_back(t);
 }
 
 void Monitor::broadcast(const mrt::Chunk &data, const bool dgram) {
 	std::queue<Task *> tasks;
 	{
-		sdlx::AutoMutex m(_connections_mutex);
+		std::lock_guard<std::mutex> m(_connections_mutex);
 		for(ConnectionMap::const_iterator i = _connections.begin(); i != _connections.end(); ++i) {
 			tasks.push(createTask(i->first, data));	
 		}
 	}
 	
-	sdlx::AutoMutex m(dgram?_send_dgram_mutex:_send_q_mutex);
+	std::lock_guard<std::mutex> m(dgram?_send_dgram_mutex:_send_q_mutex);
 	while(!tasks.empty()) {
 		(dgram?_send_dgram:_send_q).push_back(tasks.front());
 		tasks.pop();
@@ -251,7 +251,7 @@ Monitor::TaskQueue::iterator Monitor::findTask(TaskQueue &queue, const int conn_
 
 const bool Monitor::recv(int &id, mrt::Chunk &data) {
 	{
-		sdlx::AutoMutex m(_result_dgram_mutex);
+		std::unique_lock<std::mutex> m(_result_dgram_mutex);
 		if (!_result_q_dgram.empty()) {
 			Task *task = _result_q_dgram.front();
 			_result_q_dgram.pop_front();
@@ -265,7 +265,7 @@ const bool Monitor::recv(int &id, mrt::Chunk &data) {
 			return true;
 		}
 	}
-	sdlx::AutoMutex m(_result_mutex);
+	std::unique_lock<std::mutex> m(_result_mutex);
 	if (_result_q.empty())
 		return false;
 	
@@ -282,7 +282,7 @@ const bool Monitor::recv(int &id, mrt::Chunk &data) {
 }
 
 const bool Monitor::disconnected(int &id) {
-	sdlx::AutoMutex m(_result_mutex);
+	std::lock_guard<std::mutex> m(_result_mutex);
 	if (_disconnections.empty())
 		return false;
 	id = _disconnections.front();
@@ -309,7 +309,7 @@ void Monitor::eraseTasks(TaskQueue &q, const int conn_id) {
 void Monitor::disconnect(const int cid) {
 	LOG_DEBUG(("disconnecting client %d.", cid));
 	{ 
-		sdlx::AutoMutex m(_connections_mutex); 
+		std::lock_guard<std::mutex> m(_connections_mutex);
 		ConnectionMap::iterator i = _connections.find(cid);
 		if (i != _connections.end()) {
 			delete i->second;
@@ -318,12 +318,12 @@ void Monitor::disconnect(const int cid) {
 	}
 	
 	{ 
-		sdlx::AutoMutex m(_send_q_mutex); 
+		std::lock_guard<std::mutex> m(_send_q_mutex);
 		eraseTasks(_send_q, cid);
 	}
 				
 	{
-		sdlx::AutoMutex m(_result_mutex);
+		std::lock_guard<std::mutex> m(_result_mutex);
 		_disconnections.push_back(cid);
 	}
 }
@@ -356,7 +356,7 @@ TRY {
 	_running = true;
 	LOG_DEBUG(("network monitor thread was started..."));
 	{
-		sdlx::AutoMutex m(_connections_mutex);
+		std::lock_guard<std::mutex> m(_connections_mutex);
 		if (!_connect_host.empty())
 			_connect();
 	}
@@ -364,7 +364,7 @@ TRY {
 		std::set<int> cids;
 		mrt::SocketSet set; 
 		{
-			sdlx::AutoMutex m(_connections_mutex);
+			std::lock_guard<std::mutex> m(_connections_mutex);
 			for(ConnectionMap::iterator i = _connections.begin(); i != _connections.end(); ++i) {
 				cids.insert(i->first);
 				int how = mrt::SocketSet::Read | mrt::SocketSet::Exception;
@@ -381,7 +381,7 @@ TRY {
 		}
 		
 		if (_dgram_sock != NULL) {
-			sdlx::AutoMutex m(_send_dgram_mutex);
+			std::lock_guard<std::mutex> m(_send_dgram_mutex);
 			set.add(_dgram_sock, _send_dgram.empty()? mrt::SocketSet::Read: mrt::SocketSet::Read | mrt::SocketSet::Write);
 		}
 
@@ -406,7 +406,7 @@ TRY {
 			//LOG_DEBUG(("recv() == %d", r));
 			//if (r > 5) {
 			TRY {
-				sdlx::AutoMutex m(_connections_mutex);
+				std::unique_lock<std::mutex> m(_connections_mutex);
 				ConnectionMap::iterator i;
 				for(i = _connections.begin(); i != _connections.end(); ++i) {
 					//fixme: translate remote udp socket to connection id ! 
@@ -433,7 +433,7 @@ TRY {
 					
 					//LOG_DEBUG(("recv(%d, %u)", t->id, (unsigned)t->data->get_size()));
 
-					sdlx::AutoMutex m2(_result_dgram_mutex);
+					std::lock_guard<std::mutex> m2(_result_dgram_mutex);
 					_result_q_dgram.push_back(t);
 				} else {
 					bool ok = false;
@@ -482,14 +482,14 @@ TRY {
 		if (_dgram_sock != NULL && set.check(_dgram_sock, mrt::SocketSet::Write)) {
 			Task *task = NULL;
 			{
-				sdlx::AutoMutex m(_send_dgram_mutex);
+				std::lock_guard<std::mutex> m(_send_dgram_mutex);
 				if (!_send_dgram.empty()) {
 					task = _send_dgram.front();
 					_send_dgram.pop_front();
 				} else LOG_WARN(("no event in datagram write queue!"));
 			}
 			if (task != NULL) {
-				sdlx::AutoMutex m(_connections_mutex);
+				std::lock_guard<std::mutex> m(_connections_mutex);
 				ConnectionMap::const_iterator i = _connections.find(task->id);
 				if (i != _connections.end()) {
 					mrt::Socket::addr addr= i->second->addr.empty()?i->second->sock->getAddress():i->second->addr;
@@ -510,7 +510,7 @@ TRY {
 			const int cid = *i;
 			const mrt::TCPSocket *sock = NULL;
 			{
-				sdlx::AutoMutex m(_connections_mutex);
+				std::lock_guard<std::mutex> m(_connections_mutex);
 				ConnectionMap::const_iterator i = _connections.find(cid);
 				if (i == _connections.end())
 					continue;
@@ -573,14 +573,14 @@ TRY {
 
 						//sdlx::Timer::microsleep("debug delay", 100000);
 
-						sdlx::AutoMutex m2(_result_mutex);
+						std::lock_guard<std::mutex> m2(_result_mutex);
 						_result_q.push_back(t);
 					}
 				}
 			}
 
 			if (set.check(sock, mrt::SocketSet::Write)) {
-				sdlx::AutoMutex m(_send_q_mutex);
+				std::unique_lock<std::mutex> m(_send_q_mutex);
 				TaskQueue::iterator ti = findTask(_send_q, cid);
 				if (ti != _send_q.end()) {
 					Task *t = *ti;
@@ -641,7 +641,7 @@ Connection *Monitor::pop() {
 	int cid;
 	Connection *r;
 	{
-		sdlx::AutoMutex m(_connections_mutex);
+		std::lock_guard<std::mutex> m(_connections_mutex);
 		ConnectionMap::iterator i = _connections.begin();
 		if (i == _connections.end())
 			return NULL;
@@ -651,17 +651,17 @@ Connection *Monitor::pop() {
 	}
 
 	{ 
-		sdlx::AutoMutex m(_send_q_mutex); 
+		std::lock_guard<std::mutex> m(_send_q_mutex);
 		eraseTasks(_send_q, cid);
 	}
 				
 	{
-		sdlx::AutoMutex m(_result_mutex);
+		std::lock_guard<std::mutex> m(_result_mutex);
 		eraseTasks(_result_q, cid);
 	}
 
 	{
-		sdlx::AutoMutex m(_result_dgram_mutex);
+		std::lock_guard<std::mutex> m(_result_dgram_mutex);
 		eraseTasks(_result_q_dgram, cid);
 	}
 	
@@ -669,6 +669,6 @@ Connection *Monitor::pop() {
 }
 
 bool Monitor::connected(int id) const {
-	sdlx::AutoMutex m(_connections_mutex);
+	std::lock_guard<std::mutex> m(_connections_mutex);
 	return _connections.find(id) != _connections.end();
 }

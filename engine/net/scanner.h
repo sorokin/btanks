@@ -5,9 +5,9 @@
 #include <set>
 #include <string>
 #include <map>
+#include <mutex>
 #include <queue>
 #include "sdlx/thread.h"
-#include "sdlx/mutex.h"
 #include "mrt/sys_socket.h"
 #include "game_type.h"
 
@@ -44,7 +44,7 @@ private:
 
 	virtual const int run();
 	std::atomic<bool> _running, _scan, _changed;
-	sdlx::Mutex _hosts_lock;
+	mutable std::mutex _hosts_lock;
 	HostMap _hosts;
 	typedef std::queue<std::pair<mrt::Socket::addr, std::string> > CheckQueue;
 	CheckQueue check_queue;

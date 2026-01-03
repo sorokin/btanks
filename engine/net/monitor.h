@@ -32,9 +32,9 @@
 #include <atomic>
 #include <list>
 #include <map>
+#include <mutex>
 #include <string>
 #include "sdlx/thread.h"
-#include "sdlx/mutex.h"
 #include "mrt/sys_socket.h"
 #include "mrt/chunk.h"
 
@@ -105,7 +105,7 @@ private:
 	std::list<int> _disconnections;
 	
 	ConnectionMap _connections;
-	sdlx::Mutex _connections_mutex, _result_mutex, _result_dgram_mutex, _send_q_mutex, _send_dgram_mutex;
+	mutable std::mutex _connections_mutex, _result_mutex, _result_dgram_mutex, _send_q_mutex, _send_dgram_mutex;
 	
 	TaskQueue::iterator findTask(TaskQueue &queue, const int conn_id);
 	void eraseTask(TaskQueue &q, const TaskQueue::iterator &i);

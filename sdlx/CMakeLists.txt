@@ -1,7 +1,7 @@
 add_library(sdlx)
 target_sources(sdlx PRIVATE
 	cursor.cpp sdl_ex.cpp surface.cpp system.cpp joystick.cpp
-	thread.cpp mutex.cpp semaphore.cpp color.cpp
+	thread.cpp semaphore.cpp color.cpp
 	c_map.cpp font.cpp timer.cpp module.cpp file_rw.cpp
 	gfx/SDL_rotozoom.c
 )
