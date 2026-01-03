@@ -2,10 +2,6 @@
   "name": "example",
   "version-string": "0.0.1",
   "dependencies": [
-    {
-      "name": "directxsdk",
-      "platform": "windows"
-    },
     "expat",
     "ijg-libjpeg",
     "libogg",

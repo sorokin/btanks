@@ -1,16 +1,7 @@
 #ifndef __SDLX__COMMON_H__
 #define __SDLX__COMMON_H__
 
-#ifdef USE_GLSDL
-#	ifdef _WIN32
-#		include "wrappers/d3dsdl.h"
-#	else
-#		include "wrappers/glSDL.h"
-#	endif
-#else
-#	include <SDL.h>
-#endif
-
+#include <SDL.h>
 #include "export_sdlx.h"
 
 #endif

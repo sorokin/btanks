@@ -165,18 +165,6 @@ void IWindow::initSDL() {
 	}
 
 #endif
-	
-#ifdef _WIN32
-	if (_dx) {
-#else
-	if (_opengl) {
-#endif
-
-#ifdef USE_GLSDL
-		default_flags &= ~SDL_OPENGL;
-		default_flags |= SDL_GLSDL;
-#endif
-	}
 
 	sdlx::Surface::set_default_flags(default_flags);
 
@@ -409,10 +397,6 @@ void IWindow::createMainWindow() {
 			SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, _fsaa);
 		}
 	
-#ifdef USE_GLSDL
-		flags |= SDL_GLSDL;
-#endif
-
 		try {
 			_window.set_video_mode(_w, _h, 0, flags );
 	   	} CATCH("setting video mode", {
@@ -459,9 +443,6 @@ void IWindow::createMainWindow() {
 
 #else //_WIN32
 
-#ifdef USE_GLSDL
-		flags |= _dx?SDL_GLSDL : 0;
-#endif
 		try {
 			_window.set_video_mode(_w, _h, 0, flags);
 	   	} CATCH("setting video mode", {
