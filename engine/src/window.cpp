@@ -118,21 +118,8 @@ void IWindow::initSDL() {
 	LOG_DEBUG(("direct3d: %s, vsync: %s", _dx?"yes":"no", _vsync?"yes":"no"));
 	putenv(strdup("SDL_VIDEO_RENDERER=gdi"));
 
-	if (_dx) 
-#	if SDL_MAJOR_VERSION >= 1 && SDL_MINOR_VERSION >= 3
-		_putenv(strdup("SDL_VIDEO_RENDERER=d3d"));
-#	else
-		//_putenv(strdup("SDL_VIDEODRIVER=directx"));
-#	endif
-
 #else 
 	LOG_DEBUG(("gl: %s, vsync: %s", _opengl?"yes":"no", _vsync?"yes":"no"));
-#endif
-
-//opengl renderer
-#if SDL_MAJOR_VERSION >= 1 && SDL_MINOR_VERSION >= 3
-	if (_opengl)
-		_putenv(strdup("SDL_VIDEO_RENDERER=opengl"));
 #endif
 
 	LOG_DEBUG(("initializing SDL..."));
