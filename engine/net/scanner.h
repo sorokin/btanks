@@ -7,7 +7,7 @@
 #include <map>
 #include <mutex>
 #include <queue>
-#include "sdlx/thread.h"
+#include <thread>
 #include "mrt/sys_socket.h"
 #include "game_type.h"
 
@@ -16,7 +16,7 @@ namespace mrt {
 	class UDPSocket;
 }
 
-class Scanner : public sdlx::Thread {
+class Scanner {
 public:
 	struct Host {
 		std::string name, map;
@@ -42,7 +42,7 @@ private:
 	void createMessage(mrt::Chunk & data);
 	void ping(mrt::UDPSocket &udp_sock);
 
-	virtual const int run();
+	const int run();
 	std::atomic<bool> _running, _scan, _changed;
 	mutable std::mutex _hosts_lock;
 	HostMap _hosts;
@@ -59,6 +59,8 @@ private:
 	
 	typedef std::map<std::string, mrt::Socket::addr> dns_cache_t;
 	dns_cache_t dns_cache;
+
+	std::thread _thread;
 };
 
 #endif

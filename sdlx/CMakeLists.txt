@@ -1,7 +1,7 @@
 add_library(sdlx)
 target_sources(sdlx PRIVATE
 	cursor.cpp sdl_ex.cpp surface.cpp system.cpp joystick.cpp
-	thread.cpp semaphore.cpp color.cpp
+	color.cpp
 	c_map.cpp font.cpp timer.cpp module.cpp file_rw.cpp
 	gfx/SDL_rotozoom.c
 )
@@ -25,7 +25,6 @@ target_link_libraries(sdlx PUBLIC
 	mrt
 	SDL::SDL
 	SDL_image
-	Threads::Threads
 )
 
 if (WIN32)

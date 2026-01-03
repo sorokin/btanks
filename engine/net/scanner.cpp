@@ -9,6 +9,7 @@
 #include "mrt/serializator.h"
 #include "mrt/net_exception.h"
 #include "mrt/tcp_socket.h"
+#include <sdlx.h>
 
 #ifdef _WIN32
 #	include <Winsock2.h>
@@ -22,13 +23,13 @@
 Scanner::Scanner() : _running(true), _scan(false), _changed(false) {
 	//Config->get("multiplayer.bind-address", _bindaddr, std::string());
 	Config->get("multiplayer.port", _port, 27255);
-	start();
+	_thread = std::thread([this] { run(); });
 }
 
 Scanner::~Scanner() {
 	LOG_DEBUG(("stopping scanner..."));
 	_running = false;
-	sdlx::Thread::wait();
+	_thread.join();
 }
 
 #include "monitor.h" //hack me, move all packet related code to message! 

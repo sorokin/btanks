@@ -34,7 +34,7 @@
 #include <map>
 #include <mutex>
 #include <string>
-#include "sdlx/thread.h"
+#include <thread>
 #include "mrt/sys_socket.h"
 #include "mrt/chunk.h"
 
@@ -45,11 +45,12 @@ namespace mrt {
 }
 
 class Connection;
-class Monitor : public sdlx::Thread {
+class Monitor {
 public:
 	Monitor(const int cl);
 	void setCompressionLevel(const int level = 3);
 	void add(const int id, Connection *);
+	void start();
 	const bool active() const;
 	
 	void connect(const mrt::Socket::addr &host);
@@ -77,7 +78,7 @@ private:
 	void _connect();
 	std::atomic<bool> _running;
 	
-	virtual const int run();
+	const int run();
 	typedef std::map<int, Connection *> ConnectionMap;
 	
 	struct Task {
@@ -115,6 +116,7 @@ private:
 	mrt::UDPSocket *_dgram_sock;
 	mrt::TCPSocket *_server_sock;
 	mrt::Socket::addr _connect_host;
+	std::thread _thread;
 };
 
 #endif

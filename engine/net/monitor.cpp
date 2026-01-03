@@ -158,6 +158,11 @@ void Monitor::add(const int id, Connection *c) {
 	_connections[id] = c;
 }
 
+void Monitor::start()
+{
+	_thread = std::thread([this] { run(); });
+}
+
 const bool Monitor::active() const {
 	std::lock_guard<std::mutex> m(_connections_mutex);
 	return !_connections.empty();
@@ -612,7 +617,8 @@ TRY {
 
 Monitor::~Monitor() {
 	_running = false;
-	wait();
+	if (_thread.joinable())
+		_thread.join();
 	LOG_DEBUG(("stopped network monitor thread."));
 
 	for(ConnectionMap::iterator i = _connections.begin(); i != _connections.end(); ++i) {
