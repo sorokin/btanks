@@ -66,10 +66,3 @@ const int Thread::wait() {
 	_thread = NULL;
 	return r;
 }
-
-void Thread::kill() {
-	if (_thread == NULL)
-		throw_sdl(("kill: thread was not started"));
-	SDL_KillThread(_thread);
-	_thread = NULL;
-}

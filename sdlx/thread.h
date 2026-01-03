@@ -39,7 +39,6 @@ public:
 	Uint32 get_id() const;
 	
 	const int wait();
-	void kill();
 protected: 
 	virtual const int run() = 0;
 	friend int ::sdlx_thread_starter(void *o);
