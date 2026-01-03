@@ -115,7 +115,7 @@ void IWindow::initSDL() {
 	putenv(strdup("SDL_VIDEO_CENTERED=1"));
 
 #ifdef _WIN32
-	LOG_DEBUG(("direct3d: %s, vsync: %s", _dx?"yes":"no", _vsync?"yes":"no"));
+	LOG_DEBUG(("vsync: %s", _vsync?"yes":"no"));
 	putenv(strdup("SDL_VIDEO_RENDERER=gdi"));
 
 #else 
@@ -220,8 +220,6 @@ void IWindow::init(const int argc, char *argv[]) {
 #ifndef _WIN32
 	_opengl = true;
 	_force_soft = false;
-#else
-	_dx = true;
 #endif
 
 	bool force_gl = false;
@@ -235,9 +233,6 @@ void IWindow::init(const int argc, char *argv[]) {
 		else if (strcmp(argv[i], "--no-gl") == 0) _opengl = false;
 		else if (strcmp(argv[i], "--force-gl") == 0) { force_gl = true; }
 		else if (strcmp(argv[i], "--force-soft-gl") == 0) { _force_soft = true; }
-#else
-		else if (strcmp(argv[i], "--no-dx") == 0) { _dx = false; }
-		else if (strcmp(argv[i], "--no-gl") == 0) { _dx = false; }
 #endif
 		else if (strcmp(argv[i], "--vsync") == 0) _vsync = true;
 		//else if (strcmp(argv[i], "--320x200") == 0) { _w = 320; _h = 200; }
