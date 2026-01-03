@@ -58,7 +58,6 @@ add_dependencies(btanks data_copy)
 
 
 add_executable(bted)
-
 target_sources(bted PRIVATE
 	editor/base_brush.cpp
 	editor/editor.cpp
@@ -75,9 +74,7 @@ target_sources(bted PRIVATE
 	editor/resize_dialog.cpp
 )
 
-target_link_libraries(bted PRIVATE mrt sdlx btanks_engine expat::expat bt_objects)
-
-target_link_libraries(bted PRIVATE SDL::SDL)
+target_link_libraries(bted PRIVATE mrt sdlx btanks_engine expat::expat bt_objects SDL::SDL)
 if (WIN32)
 	target_link_libraries(bted PRIVATE sdlx_main User32 DxGuid)
 endif()
