@@ -20,7 +20,7 @@ Battle Tanks used `SDL_SetVideoMode` and `SDL_Flip`, which are removed in SDL 2.
     - **Step 1**: Implement a wrapper that maintains the `SDL_Surface` for the screen if a direct port to `SDL_Texture` is too complex initially. 
     - **Step 2**: Use `SDL_UpdateWindowSurface` if using the software surface, or preferably, migrate to `SDL_Texture` and use `SDL_RenderPresent`.
 - **Display Flags**: 
-    - `SDL_HWSURFACE`, `SDL_ANYFORMAT`, `SDL_DOUBLEBUF` are removed.
+    - `SDL_HWSURFACE`, `SDL_ANYFORMAT`, `SDL_DOUBLEBUF` are removed. (Completed in `engine/src/window.cpp`)
     - `SDL_FULLSCREEN` replaced by `SDL_WINDOW_FULLSCREEN`.
     - `SDL_OPENGL` replaced by `SDL_WINDOW_OPENGL`.
 - **Surface Conversions**:
