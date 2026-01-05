@@ -4,7 +4,7 @@
 #include "sdl_ex.h"
 #include <assert.h>
 
-static int mrt_seek(struct SDL_RWops *context, int offset, int whence) {
+static int64_t mrt_seek(struct SDL_RWops *context, int64_t offset, int whence) {
 	assert(context->hidden.unknown.data1 != NULL);
 	const mrt::BaseFile *file = (const mrt::BaseFile *)context->hidden.unknown.data1;
 	TRY {
@@ -13,13 +13,13 @@ static int mrt_seek(struct SDL_RWops *context, int offset, int whence) {
 	} CATCH("mrt_seek", return -1);
 }
 
-static int mrt_read(struct SDL_RWops *context, void *ptr, int size, int maxnum) {
+static size_t mrt_read(struct SDL_RWops *context, void *ptr, size_t size, size_t maxnum) {
 	assert(context->hidden.unknown.data1 != NULL);
 	const mrt::BaseFile *file = (const mrt::BaseFile *)context->hidden.unknown.data1;
 	TRY {
 		int r = file->read(ptr, size * maxnum);
 		return (r > 0) ? r / size : r;
-	} CATCH("mrt_read", return -1);
+	} CATCH("mrt_read", return 0;);
 }
 
 static int mrt_close(struct SDL_RWops *context) {
