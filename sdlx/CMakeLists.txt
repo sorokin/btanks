@@ -3,6 +3,7 @@ target_sources(sdlx PRIVATE
 	cursor.cpp sdl_ex.cpp surface.cpp system.cpp joystick.cpp
 	color.cpp
 	c_map.cpp font.cpp module.cpp file_rw.cpp
+	window.cpp renderer.cpp
 	gfx/SDL_rotozoom.c
 )
 
