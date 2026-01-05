@@ -473,7 +473,7 @@ void IGame::init(const int argc, char *argv[]) {
 
 	if (!RTConfig->server_mode) {
 		Window->get_surface().fill(0);
-		Window->get_surface().flip();
+		Window->flip();
 	
 		LOG_DEBUG(("initializing hud..."));
 		sdlx::Rect window_size = Window->get_size();
