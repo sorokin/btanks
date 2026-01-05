@@ -100,7 +100,7 @@ namespace sdlx {
 		void fill(Uint32 color);
 		void fill_rect(const Rect &r, Uint32 color);
 
-		void set_color_key(Uint32 key, Uint32 flag = SDL_SRCCOLORKEY);
+		void set_color_key(bool enabled, Uint32 key);
 		void set_alpha(Uint8 alpha, Uint32 flags = SDL_SRCALPHA);
 		void display_format_alpha();
 		void display_format();
