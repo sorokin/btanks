@@ -248,18 +248,6 @@ void Surface::blit(const Surface &from, const Rect &fromRect) {
     if (SDL_BlitSurface(from.surface, const_cast<Rect*>(&fromRect), surface, NULL) == -1) throw_sdl(("SDL_BlitSurface"));
 }
 
-void Surface::update(const Rect &rect) {
-    SDL_UpdateRect(surface, rect.x, rect.y, rect.w, rect.h);
-}
-
-void Surface::update() {
-    SDL_UpdateRect(surface, 0, 0, 0, 0);
-}
-
-void Surface::update(const int x, const int y, const int w, const int h) {
-    SDL_UpdateRect(surface, x, y, w, h);
-}
-
 void Surface::flip() {
 	//SDL_Flip(surface);
 	if ((surface->flags & SDL_OPENGL) == SDL_OPENGL) {

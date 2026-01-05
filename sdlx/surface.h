@@ -88,9 +88,6 @@ namespace sdlx {
 		void blit(const Surface &s, const Rect &from, const int x, const int y);
 		void blit(const Surface &s, const Rect &from); //to pos 0:0
 		
-		void update();
-		void update(const Rect &rect);
-		void update(const int x, const int y, const int w, const int h);
 		void flip();
 		void toggle_fullscreen();
 
