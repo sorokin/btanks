@@ -28,7 +28,9 @@
  * from your version and license this file solely under the GPL without exception. 
 */
 
+#include "sdlx/renderer.h"
 #include "sdlx/surface.h"
+#include "sdlx/window.h"
 #include "sl08/sl08.h"
 #include "export_btanks.h"
 #include "mrt/singleton.h"
@@ -66,17 +68,17 @@ public:
 	sdlx::Surface &get_surface() { return _window; }
 	
 	void flip();
+	void toggle_fullscreen();
 	
 	void init_dummy();
 
 private:
+	sdlx::Window _wnd;
+	sdlx::Renderer _renderer;
 	sdlx::Surface _window;
 	int _fsaa;
 	bool _init_joystick;
 	bool _fullscreen, _vsync, _running;
-#ifndef _WIN32
-	bool _opengl, _force_soft;
-#endif
 	int _w, _h;
 	mrt::Timer _timer;
 	float _fr;

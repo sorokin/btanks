@@ -41,11 +41,6 @@ void Surface::assign(SDL_Surface *x) {
 }
 
 
-void Surface::get_video() {
-    free();
-    surface = SDL_GetVideoSurface();
-}
-
 void Surface::create_rgb(int width, int height, int depth, Uint32 flags) {
 	free();
 	if (flags == Default) flags = default_flags;
@@ -112,15 +107,6 @@ void Surface::convert(Uint32 flags) {
 	assign(x);
 }
 
-
-
-void Surface::set_video_mode(int w, int h, int bpp, int flags) {
-	if (flags == Default) flags = default_flags;
-	if (flags == Default) throw_ex(("setup default flags before using it."));
-    free();
-    if ((surface = SDL_SetVideoMode(w, h, bpp, flags)) == NULL ) 
-		throw_sdl(("SDL_SetVideoMode(%d, %d, %d, %x)", w, h, bpp, flags));
-}
 
 
 void Surface::put_pixel(int x, int y, Uint32 pixel) {
@@ -246,21 +232,6 @@ void Surface::blit(const Surface &from, const Rect &fromRect, const int x, const
 
 void Surface::blit(const Surface &from, const Rect &fromRect) {
     if (SDL_BlitSurface(from.surface, const_cast<Rect*>(&fromRect), surface, NULL) == -1) throw_sdl(("SDL_BlitSurface"));
-}
-
-void Surface::flip() {
-	//SDL_Flip(surface);
-	if ((surface->flags & SDL_OPENGL) == SDL_OPENGL) {
-		SDL_GL_SwapBuffers();
-	} else {
-		if (SDL_Flip(surface) == -1)
-			throw_sdl(("SDL_Flip"));
-	}
-}
-
-void Surface::toggle_fullscreen() {
-	if (SDL_WM_ToggleFullScreen(surface) != 1) 
-		throw_sdl(("SDL_WM_ToggleFullScreen"));
 }
 
 void Surface::fill(Uint32 color) {

@@ -95,14 +95,6 @@ void AllowAccessibilityShortcutKeys( bool bAllowKeys )
         }
     }
 }
-#else 
-
-#include <SDL_opengl.h>
-#	ifndef SDL_OPENGLBLIT
-#		define SDL_OPENGLBLIT 0
-// using 0 as OPENGLBLIT value. SDL 1.3 or later
-#	endif
-
 #endif
 
 
@@ -114,12 +106,9 @@ void IWindow::initSDL() {
 	//putenv(strdup("SDL_VIDEO_WINDOW_POS"));
 	putenv(strdup("SDL_VIDEO_CENTERED=1"));
 
-#ifdef _WIN32
 	LOG_DEBUG(("vsync: %s", _vsync?"yes":"no"));
+#ifdef _WIN32
 	putenv(strdup("SDL_VIDEO_RENDERER=gdi"));
-
-#else 
-	LOG_DEBUG(("gl: %s, vsync: %s", _opengl?"yes":"no", _vsync?"yes":"no"));
 #endif
 
 	LOG_DEBUG(("initializing SDL..."));
@@ -150,21 +139,7 @@ void IWindow::initSDL() {
 	if (SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL) == -1)
 		LOG_ERROR(("SDL_EnableKeyRepeat failed: %s", SDL_GetError()));
 
-	int default_flags = sdlx::Surface::Hardware | sdlx::Surface::Alpha;
-
-#ifndef _WIN32
-	default_flags |= (_opengl? SDL_OPENGL: 0);
-
-	if (_opengl) {
-		LOG_DEBUG(("loading GL library"));
-		int r = SDL_GL_LoadLibrary(NULL);
-		if (r == -1) {
-			LOG_WARN(("SDL_GL_LoadLibrary failed: %s", SDL_GetError()));
-			_opengl = false;
-		}
-	}
-
-#endif
+	int default_flags = SDL_SRCALPHA;
 
 	sdlx::Surface::set_default_flags(default_flags);
 
@@ -217,23 +192,12 @@ void IWindow::init(const int argc, char *argv[]) {
 	_vsync = false;
 	_fsaa = 0;
 
-#ifndef _WIN32
-	_opengl = true;
-	_force_soft = false;
-#endif
-
-	bool force_gl = false;
 	Config->get("engine.window.width", _w, 800);
 	Config->get("engine.window.height", _h, 600);
 	Config->get("engine.window.fullscreen", _fullscreen, false);
 	
 	for(int i = 1; i < argc; ++i) {
 		if (strcmp(argv[i], "--fs") == 0) _fullscreen = true;
-#ifndef _WIN32
-		else if (strcmp(argv[i], "--no-gl") == 0) _opengl = false;
-		else if (strcmp(argv[i], "--force-gl") == 0) { force_gl = true; }
-		else if (strcmp(argv[i], "--force-soft-gl") == 0) { _force_soft = true; }
-#endif
 		else if (strcmp(argv[i], "--vsync") == 0) _vsync = true;
 		//else if (strcmp(argv[i], "--320x200") == 0) { _w = 320; _h = 200; }
 		//else if (strcmp(argv[i], "--320x240") == 0) { _w = 320; _h = 240; }
@@ -271,26 +235,6 @@ void IWindow::init(const int argc, char *argv[]) {
 #endif
 #endif
 
-LOG_DEBUG(("setting caption..."));		
-SDL_WM_SetCaption(("Battle tanks - " + getVersion()).c_str(), "btanks");
-
-#if !defined _WIN32 && !defined __APPLE__
-	TRY {
-		mrt::Chunk data;
-		Finder->load(data, "tiles/icon.png");
-
-		sdlx::Surface icon;
-		icon.load_image(data);
-		SDL_WM_SetIcon(icon.get_sdl_surface(), NULL);
-	} CATCH("setting icon", {});
-
-	//does not mean a thing in macosx (always present) and windows (d3d)
-	if (_opengl && !force_gl && !sdlx::System::accelerated_gl(!_fullscreen)) {
-		LOG_WARN(("could not find accelerated GL, falling back to software mode"));
-		_opengl = false;
-	}
-#endif
-
 	createMainWindow();
 
 #ifdef _WIN32
@@ -316,10 +260,9 @@ void IWindow::createMainWindow() {
 	//Config->get("engine.window.width", _w, 800);
 	//Config->get("engine.window.height", _h, 600);
 
-	int flags = SDL_HWSURFACE | SDL_ANYFORMAT;
-	flags |= SDL_DOUBLEBUF;
+	int flags = 0;
 	
-	if (_fullscreen) flags |= SDL_FULLSCREEN;
+	if (_fullscreen) flags |= SDL_WINDOW_FULLSCREEN;
 
 	TRY {
 		SDL_Rect **modes;
@@ -349,105 +292,30 @@ void IWindow::createMainWindow() {
 			}
 		}
 	} CATCH("screen modes probe", {});
-	
-#ifndef _WIN32
-	if (_opengl) {
-#if SDL_VERSION_ATLEAST(1,2,10)
-		LOG_DEBUG(("setting GL swap control to %d...", _vsync?1:0));
-		int r = SDL_GL_SetAttribute( SDL_GL_SWAP_CONTROL, _vsync?1:0);
-		if (r == -1) 
-			LOG_WARN(("cannot set SDL_GL_SWAP_CONTROL."));
 
-		if (_vsync)
-			SDL_putenv(strdup("__GL_SYNC_TO_VBLANK=1")); //nvidia ext
-			
-#if 0
-		if (!_vsync) {
-			typedef void (APIENTRY * WGLSWAPINTERVALEXT) (int);
-			WGLSWAPINTERVALEXT wglSwapIntervalEXT = (WGLSWAPINTERVALEXT) SDL_GL_GetProcAddress("wglSwapIntervalEXT");
-			if (wglSwapIntervalEXT) {
-				LOG_DEBUG(("disabling vsync with SwapIntervalEXT(0)..."));
-			    wglSwapIntervalEXT(0); // disable vertical synchronisation
-			} else LOG_WARN(("wglSwapIntervalEXT not found. vsync option will not have any effect"));
-		}
-#endif
+	LOG_DEBUG(("creation of main window..."));
+	std::string caption = "Battle tanks - " + getVersion();
+	try {
+		_wnd = sdlx::Window(caption.c_str(), _w, _h, flags);
+		_renderer = sdlx::Renderer(_wnd.get_sdl_window(), -1, SDL_RENDERER_SOFTWARE | (_vsync ? SDL_RENDERER_PRESENTVSYNC : 0));
+	} CATCH("setting video mode", {
+	   	LOG_WARN(("could not set up video mode, falling back to 800x600"));
+	   	//fixme: show UI warning?
+	   	_w = 800; _h = 600;
+	   	flags &= ~SDL_WINDOW_FULLSCREEN; 
+		_wnd = sdlx::Window(caption.c_str(), _w, _h, flags);
+		_renderer = sdlx::Renderer(_wnd.get_sdl_window(), -1, SDL_RENDERER_SOFTWARE | (_vsync ? SDL_RENDERER_PRESENTVSYNC : 0));
+	})
 
-#ifdef _WIN32
-		LOG_DEBUG(("setting GL accelerated visual..."));
+#if !defined _WIN32 && !defined __APPLE__
+	TRY {
+		mrt::Chunk data;
+		Finder->load(data, "tiles/icon.png");
 
-		//SIGSEGV in SDL under linux if no GLX visual present. (debian sid, fc6)
-		r = SDL_GL_SetAttribute( SDL_GL_ACCELERATED_VISUAL, 1);
-		if (r == -1) 
-			LOG_WARN(("cannot set SDL_GL_ACCELERATED_VISUAL."));
-#endif
-
-#endif
-		
-		SDL_GL_SetAttribute( SDL_GL_DOUBLEBUFFER, 1 );
-		//SDL_GL_SetAttribute( SDL_GL_ALPHA_SIZE, 8 );
-		
-		if (_fsaa > 0) {
-			LOG_DEBUG(("fsaa mode: %d", _fsaa));
-			SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-			SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, _fsaa);
-		}
-	
-		try {
-			_window.set_video_mode(_w, _h, 0, flags );
-	   	} CATCH("setting video mode", {
-	   		LOG_WARN(("could not set up video mode, falling back to 800x600"));
-	   		//fixme: show UI warning?
-	   		_w = 800; _h = 600;
-	   		flags &= ~SDL_FULLSCREEN; 
-			_window.set_video_mode(_w, _h, 0, flags );
-	   	})
-
-#if SDL_VERSION_ATLEAST(1,2,10)
-
-		int accel = -1;
-		if ((r = SDL_GL_GetAttribute( SDL_GL_ACCELERATED_VISUAL, &accel)) == 0) {
-			LOG_DEBUG(("SDL_GL_ACCELERATED_VISUAL = %d", accel));
-
-		
-			if (!_force_soft && accel != 1) {
-				throw_ex(("Looks like you don't have a graphics card that is good enough.\n"
-				"Please ensure that your graphics card supports OpenGL and the latest drivers are installed.\n" 
-				"Try --force-soft-gl switch to enable sofware GL renderer."
-				"Or use --no-gl to switch disable GL renderer completely."
-				));
-			}
-		} else LOG_WARN(("SDL_GL_GetAttribute( SDL_GL_ACCELERATED_VISUAL) failed: %s, result: %d, value: %d", SDL_GetError(), r, accel));
-#endif
-
-#ifndef __APPLE__
-		LOG_DEBUG(("vendor: %s", getGLString(GL_VENDOR).c_str()));
-		LOG_DEBUG(("renderer: %s", getGLString(GL_RENDERER).c_str()));
-#endif
-
-	} else {
-		try {
-			_window.set_video_mode(_w, _h, 0, flags);
-	   	} CATCH("setting video mode", {
-	   		LOG_WARN(("could not set up video mode, falling back to 800x600"));
-	   		//fixme: show UI warning?
-	   		_w = 800; _h = 600;
-	   		flags &= ~SDL_FULLSCREEN; 
-			_window.set_video_mode(_w, _h, 0, flags );
-	   	})
-	}
-
-#else //_WIN32
-
-		try {
-			_window.set_video_mode(_w, _h, 0, flags);
-	   	} CATCH("setting video mode", {
-	   		LOG_WARN(("could not set up video mode, falling back to 800x600"));
-	   		//fixme: show UI warning?
-	   		_w = 800; _h = 600;
-	   		flags &= ~SDL_FULLSCREEN; 
-			_window.set_video_mode(_w, _h, 0, flags );
-	   	})
-	
+		sdlx::Surface icon;
+		icon.load_image(data);
+		SDL_WM_SetIcon(icon.get_sdl_surface(), NULL);
+	} CATCH("setting icon", {});
 #endif
 
 	LOG_DEBUG(("created main surface. (%dx%dx%d, %s)", _w, _h, _window.getBPP(), ((_window.getFlags() & SDL_HWSURFACE) == SDL_HWSURFACE)?"hardware":"software"));
@@ -530,7 +398,10 @@ void IWindow::init_dummy() {
 	SDL_putenv(strdup("SDL_VIDEODRIVER=dummy"));
     sdlx::System::init(SDL_INIT_TIMER | SDL_INIT_VIDEO);
 	sdlx::Surface::set_default_flags(SDL_SRCALPHA);
-    _window.set_video_mode(640, 480, 0, SDL_ANYFORMAT);
+
+	std::string caption = "Battle tanks - " + getVersion();
+	_wnd = sdlx::Window(caption.c_str(), 640, 480, 0);
+	_renderer = sdlx::Renderer(_wnd.get_sdl_window(), -1, SDL_RENDERER_SOFTWARE | (_vsync ? SDL_RENDERER_PRESENTVSYNC : 0));
 }
 
 void IWindow::deinit() {
@@ -547,7 +418,13 @@ IWindow::~IWindow() {
 }
 
 void IWindow::flip() {
-	_window.flip();
+	_renderer.present();
+}
+
+void IWindow::toggle_fullscreen()
+{
+	_fullscreen = !_fullscreen;
+	_wnd.set_window_fullscreen(_fullscreen ? SDL_WINDOW_FULLSCREEN : 0);
 }
 
 void IWindow::resetTimer() {

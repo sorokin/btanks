@@ -38,10 +38,6 @@ namespace sdlx {
 		enum {
 			Default = 0x7fffffff,
 			Software = SDL_SWSURFACE,
-			Hardware = SDL_HWSURFACE,
-			Fullscreen = SDL_FULLSCREEN,
-			ColorKey = SDL_SRCCOLORKEY,
-			Alpha    = SDL_SRCALPHA
 		};
 		
 		Surface();
@@ -70,9 +66,6 @@ namespace sdlx {
 		void convert(Surface &dest, PixelFormat *fmt, Uint32 flags = Default) const;
 		void convert(Uint32 flags);
 
-		void get_video();
-		void set_video_mode(int w, int h, int bpp, int flags = Default);
-
 		void load_bmp(const std::string &fname);
 		void save_bmp(const std::string &fname) const;
 #ifndef NO_SDL_IMAGE
@@ -88,9 +81,6 @@ namespace sdlx {
 		void blit(const Surface &s, const Rect &from, const int x, const int y);
 		void blit(const Surface &s, const Rect &from); //to pos 0:0
 		
-		void flip();
-		void toggle_fullscreen();
-
 		inline const Uint32 map_rgb(const Uint8 r, const Uint8 g, const Uint8 b) const {
 		    return SDL_MapRGB(surface->format, r, g, b);
 		}

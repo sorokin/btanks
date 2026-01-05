@@ -654,7 +654,7 @@ bool IGame::onKey(const SDL_keysym key, const bool pressed) {
 #	ifndef _WIN32
 	if (key.sym==SDLK_RETURN && key.mod & KMOD_CTRL) {
 		TRY {
-			Window->get_surface().toggle_fullscreen();
+			Window->toggle_fullscreen();
 		} CATCH("main loop", {});
 		return true;
 	}
