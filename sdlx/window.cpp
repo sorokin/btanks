@@ -41,3 +41,10 @@ void Window::destroy()
 		w = NULL;
 	}
 }
+
+void Window::set_window_fullscreen(uint32_t flags)
+{
+	int result = SDL_SetWindowFullscreen(w, flags);
+	if (result != 0)
+		throw_sdl(("SDL_SetWindowFullscreen()"));
+}

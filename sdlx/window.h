@@ -17,6 +17,7 @@ namespace sdlx {
 		SDL_Window* get_sdl_window();
 
 		void destroy();
+		void set_window_fullscreen(uint32_t flags);
 
 	private:
 		Window(const Window &x) = delete;
