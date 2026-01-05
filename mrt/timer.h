@@ -1,7 +1,7 @@
 #ifndef MRT_TIMER_H_
 #define MRT_TIMER_H_
 
-/* sdlx - c++ wrapper for libSDL
+/* M-runtime for c++
  * Copyright (C) 2005-2007 Vladimir Menshakov
  *
  * This library is free software; you can redistribute it and/or
@@ -19,11 +19,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#include "export_sdlx.h"
+#include "export_mrt.h"
 #include <chrono>
 
-namespace sdlx {
-class SDLXAPI Timer {
+namespace mrt {
+class MRTAPI Timer {
 public: 
 	Timer();
 	~Timer();

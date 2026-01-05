@@ -1,4 +1,4 @@
-/* sdlx - c++ wrapper for libSDL
+/* M-runtime for c++
  * Copyright (C) 2005-2007 Vladimir Menshakov
  *
  * This library is free software; you can redistribute it and/or
@@ -17,11 +17,11 @@
 */
 
 #include "timer.h"
-#include "mrt/ioexception.h"
+#include "ioexception.h"
 
 #include <thread>
 
-using namespace sdlx;
+using namespace mrt;
 
 Timer::Timer() {
 }

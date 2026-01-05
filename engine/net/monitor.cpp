@@ -33,7 +33,7 @@
 #include "mrt/tcp_socket.h"
 #include "mrt/udp_socket.h"
 #include "mrt/gzip.h"
-#include "sdlx/timer.h"
+#include "mrt/timer.h"
 
 #include "connection.h"
 #include "message.h"
@@ -381,7 +381,7 @@ TRY {
 		}
 
 		if (cids.empty() && _dgram_sock == NULL) {
-			sdlx::Timer::microsleep("waiting for connection", 10000);
+			mrt::Timer::microsleep("waiting for connection", 10000);
 			continue;
 		}
 		
@@ -576,7 +576,7 @@ TRY {
 						}
 						_recv_q.erase(ti);
 
-						//sdlx::Timer::microsleep("debug delay", 100000);
+						//mrt::Timer::microsleep("debug delay", 100000);
 
 						std::lock_guard<std::mutex> m2(_result_mutex);
 						_result_q.push_back(t);

@@ -537,7 +537,7 @@ void IWindow::run() {
 		}
 
 		if (t_delta < max_delay) {
-			sdlx::Timer::microsleep("fps limit", max_delay - t_delta);
+			mrt::Timer::microsleep("fps limit", max_delay - t_delta);
 		}
 
 		t_delta = _timer.microdelta();

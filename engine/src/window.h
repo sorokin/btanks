@@ -30,9 +30,9 @@
 
 #include "sdlx/surface.h"
 #include "sl08/sl08.h"
-#include "sdlx/timer.h"
 #include "export_btanks.h"
 #include "mrt/singleton.h"
+#include "mrt/timer.h"
 #include <deque>
 
 class BTANKSAPI IWindow  {
@@ -80,7 +80,7 @@ private:
 	bool _opengl, _force_soft;
 #endif
 	int _w, _h;
-	sdlx::Timer _timer;	
+	mrt::Timer _timer;
 	float _fr;
 };
 

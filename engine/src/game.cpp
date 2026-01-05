@@ -44,12 +44,12 @@
 #include "mrt/random.h"
 #include "mrt/fs_node.h"
 #include "mrt/directory.h"
+#include "mrt/timer.h"
 
 #include "sdlx/system.h"
 #include "sdlx/sdl_ex.h"
 #include "sdlx/joystick.h"
 #include "sdlx/color.h"
-#include "sdlx/timer.h"
 #include "sdlx/font.h"
 
 #include "net/server.h"
@@ -127,7 +127,7 @@ void IGame::run() {
 	} else {
 		server_running = true;
 		LOG_DEBUG(("server is up and running!"));
-		sdlx::Timer _timer;	
+		mrt::Timer _timer;
 		
 		int limit = 1000000 / 100;
 		float dt = limit / 1000000.0f;

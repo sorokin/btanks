@@ -3,7 +3,7 @@
 
 #include <string>
 #include <map>
-#include "sdlx/timer.h"
+#include "mrt/timer.h"
 
 class Profiler {
 public: 
@@ -26,7 +26,7 @@ private:
 	};
 	typedef std::map<std::string, data> Samples;
 	Samples samples;
-	sdlx::Timer timer;
+	mrt::Timer timer;
 };
 
 #endif
