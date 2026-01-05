@@ -70,6 +70,9 @@ The `clunk` module uses the basic SDL 1.2 audio API.
 #### clunk (Audio Library)
 - Update `clunk/backend/sdl/backend.cpp` to initialize SDL 2 audio subsystem. (Partially done, still uses `SDL_OpenAudio`)
 
+#### General
+- **Version Checking**: Replace `SDL_Linked_Version` with `SDL_GetVersion`. In SDL2 `SDL_Linked_Version` is a macro for backward compatibility, but the API changed. Actually, `SDL_GetVersion` should be used to get the linked version. (Completed)
+
 #### engine (Game Logic)
 - `engine/src/window.cpp`: Major rewrite needed. Remove `SDL_EnableUNICODE`, `SDL_EnableKeyRepeat`. Handle `SDL_Window` and `SDL_Renderer`.
 - `engine/src/console.cpp`: Replace `unicode` handling with `SDL_TEXTINPUT`.
@@ -81,6 +84,7 @@ The `clunk` module uses the basic SDL 1.2 audio API.
 | Feature | SDL 1.2 | SDL 2.0 | Status |
 | :--- | :--- | :--- | :--- |
 | Initialization | `SDL_Init(SDL_INIT_VIDEO)` | `SDL_Init(SDL_INIT_VIDEO)` | ✓ |
+| Version Info | `SDL_Linked_Version` | `SDL_GetVersion` | ✓ |
 | Window | `SDL_SetVideoMode` | `SDL_CreateWindow` | Needs work |
 | Rendering | `SDL_Flip`, `SDL_UpdateRect` | `SDL_RenderPresent` or `SDL_UpdateWindowSurface` | Needs work |
 | Surface Conversion | `SDL_DisplayFormat` | `SDL_ConvertSurface` | Needs work |
