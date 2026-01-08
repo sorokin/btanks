@@ -7,7 +7,7 @@
       "platform": "windows"
     },
     "expat",
-    "ijg-libjpeg",
+    "libjpeg-turbo",
     "libogg",
     "libpng",
     "libvorbis",
