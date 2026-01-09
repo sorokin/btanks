@@ -40,7 +40,6 @@ set(PUBLIC_HEADERS
 	clunk/ref_mdct_context.h
 	clunk/sample.h
 	clunk/source.h
-	clunk/sse_fft_context.h
 	clunk/stream.h
 	clunk/v3.h
 	clunk/clunk_c.h
