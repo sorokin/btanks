@@ -24,7 +24,17 @@ target_sources(clunk PRIVATE
 	clunk/backend/sdl/backend.cpp
 )
 
-set(PUBLIC_HEADERS
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/clunk/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h")
+
+generate_export_header(clunk
+	EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
+	EXPORT_MACRO_NAME CLUNKAPI
+)
+
+target_sources(clunk PUBLIC
+	FILE_SET HEADERS
+	BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}"
+	FILES
 	clunk/buffer.h
 	clunk/clunk.h
 	clunk/context.h
@@ -45,24 +55,15 @@ set(PUBLIC_HEADERS
 	clunk/clunk_c.h
 	clunk/window_function.h
 	"${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h"
-)
-
-list(APPEND PUBLIC_HEADERS
 	clunk/backend/sdl/backend.h
-)
-
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/clunk/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h")
-
-generate_export_header(clunk
-	EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
-	EXPORT_MACRO_NAME CLUNKAPI
 )
 
 target_include_directories(clunk PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
 target_include_directories(clunk PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 
-install(TARGETS clunk DESTINATION lib)
-install(FILES ${PUBLIC_HEADERS} DESTINATION include/clunk)
+install(TARGETS clunk DESTINATION lib
+	FILE_SET HEADERS DESTINATION include
+)
 
 target_link_libraries(clunk PRIVATE SDL::SDL Threads::Threads)
 
