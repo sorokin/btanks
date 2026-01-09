@@ -1,5 +1,5 @@
-#ifndef __MRT_GZIP_H__
-#define __MRT_GZIP_H__
+#ifndef MRT_LOCALE_H__
+#define MRT_LOCALE_H__
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
@@ -19,22 +19,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#include <zlib.h>
-#include "export_mrt.h"
+
+#include "mrt/export_mrt.h"
+#include <string>
 
 namespace mrt {
-
-class Chunk;
-
-class MRTAPI ZStream {
-public:
-	static void decompress(mrt::Chunk &dst, const mrt::Chunk &src, const bool gzip_header);
-	static void compress(mrt::Chunk &dst, const mrt::Chunk &src, const bool gzip_header, const int level);
-private:
-};
-
+	const std::string MRTAPI get_lang_code();
 }
 
-
 #endif
-

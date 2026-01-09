@@ -18,7 +18,7 @@
 
 #include "udp_socket.h"
 #include "net_exception.h"
-#include "mrt/chunk.h"
+#include "chunk.h"
 #include <string.h>
 
 #ifdef _WIN32

@@ -1,5 +1,5 @@
-#ifndef __BTANKS_MRT_UDPSOCKET_H__
-#define __BTANKS_MRT_UDPSOCKET_H__
+#ifndef MRT_UTF8_UTILS_H__
+#define MRT_UTF8_UTILS_H__
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
@@ -20,28 +20,20 @@
 */
 
 
+#include "mrt/export_mrt.h"
 #include <string>
-#include "sys_socket.h"
-#include "export_mrt.h"
 
 namespace mrt {
-class Chunk;
+	const std::string::size_type MRTAPI utf8_length(const std::string &str);
+	void MRTAPI utf8_add_wchar(std::string &str, unsigned wchar);
+	const size_t MRTAPI utf8_backspace(std::string &str, size_t pos);
+	const size_t MRTAPI utf8_left(const std::string &str, const size_t pos);
+	const size_t MRTAPI utf8_right(const std::string &str, const size_t pos);
+	void MRTAPI utf8_resize(std::string &str, const size_t max);
 
-class MRTAPI UDPSocket : public Socket {
-public:
-	UDPSocket();
-	void create();
-	void connect(const mrt::Socket::addr &addr);
-	void connect(const std::string &host, const int port);
-	void listen(const std::string &addr, const unsigned port, const bool reuse = false);
-	void set_broadcast_mode(int val = 1);
-
-	const int send(const void *data, const int len) const;
-	const int send(const Socket::addr &addr, const void *data, const int len) const;
-	void broadcast(const mrt::Chunk &data, const int port);
-	const int recv(Socket::addr &addr, void *data, const int len) const;
-};
-
+	unsigned MRTAPI utf8_iterate(const std::string &str, size_t &start); //0 = end
+	unsigned MRTAPI wchar2lower(unsigned ch);
+	unsigned MRTAPI wchar2upper(unsigned ch);
 }
 
 #endif

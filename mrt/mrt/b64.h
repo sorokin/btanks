@@ -1,5 +1,5 @@
-#ifndef __MRT_BASE_DIRECTORY_H__
-#define __MRT_BASE_DIRECTORY_H__
+#ifndef __MRT_B64_H__
+#define __MRT_B64_H__
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
@@ -20,19 +20,19 @@
 */
 
 #include <string>
-#include "export_mrt.h"
+#include "mrt/export_mrt.h"
 
-namespace mrt { 
+namespace mrt {
 
-class MRTAPI BaseDirectory {
-public: 
-	virtual void open(const std::string &path) = 0;
-	virtual bool opened() const = 0;
-	virtual const std::string read() const = 0;
-	virtual void close() = 0;
-	virtual void create(const std::string &path, const bool recurse = false) = 0;
-	virtual ~BaseDirectory() = 0;
+class Chunk;
+
+class MRTAPI Base64 {
+public:
+	static void encode(std::string &dst, const mrt::Chunk &src, int linesize = 0);
+	static void decode(mrt::Chunk &dst, const std::string &src);
+private: 
 };
+
 }
 
 #endif

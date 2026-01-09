@@ -1,3 +1,6 @@
+#ifndef __BTANKS_SERIALIZABLE_H__
+#define __BTANKS_SERIALIZABLE_H__
+
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
  *
@@ -16,10 +19,24 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#include "base_directory.h"
-#include "mrt/exception.h"
 
-using namespace mrt;
+#include "mrt/export_mrt.h"
 
-BaseDirectory::~BaseDirectory() {}
+namespace mrt {
+class Serializator;
+class Chunk;
+
+class MRTAPI Serializable {
+public:
+	virtual void serialize(Serializator &s) const = 0;
+	virtual void deserialize(const Serializator &s) = 0;
+
+	void serialize2(mrt::Chunk &s) const;
+	void deserialize2(const mrt::Chunk &s);
+
+	virtual ~Serializable();
+};
+}
+
+#endif
 

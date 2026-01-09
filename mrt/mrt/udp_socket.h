@@ -1,5 +1,5 @@
-#ifndef __BTANKS_MRT_TCPSOCKET_H__
-#define __BTANKS_MRT_TCPSOCKET_H__
+#ifndef __BTANKS_MRT_UDPSOCKET_H__
+#define __BTANKS_MRT_UDPSOCKET_H__
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
@@ -19,30 +19,27 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
+
 #include <string>
 #include "sys_socket.h"
-#include "export_mrt.h"
+#include "mrt/export_mrt.h"
 
 namespace mrt {
 class Chunk;
 
-class MRTAPI TCPSocket : public Socket {
+class MRTAPI UDPSocket : public Socket {
 public:
-	TCPSocket();
-	
-	void noDelay(const bool value = true);
-	
+	UDPSocket();
+	void create();
+	void connect(const mrt::Socket::addr &addr);
+	void connect(const std::string &host, const int port);
 	void listen(const std::string &addr, const unsigned port, const bool reuse = false);
-	void connect(const addr &addr, const bool no_delay = false);
-	void connect(const std::string &host, const int port, const bool no_delay = false);
+	void set_broadcast_mode(int val = 1);
+
 	const int send(const void *data, const int len) const;
-	//void send(const mrt::Chunk &data) const;
-	const int recv(void *data, const int len) const;
-	
-	void accept(TCPSocket &client);
-	inline const Socket::addr getAddress() const { return _addr; }
-private: 
-	Socket::addr _addr;
+	const int send(const Socket::addr &addr, const void *data, const int len) const;
+	void broadcast(const mrt::Chunk &data, const int port);
+	const int recv(Socket::addr &addr, void *data, const int len) const;
 };
 
 }

@@ -1,8 +1,8 @@
-#ifndef __MRT_B64_H__
-#define __MRT_B64_H__
+#ifndef MRT_TIMER_H_
+#define MRT_TIMER_H_
 
 /* M-runtime for c++
- * Copyright (C) 2005-2008 Vladimir Menshakov
+ * Copyright (C) 2005-2007 Vladimir Menshakov
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,21 +19,21 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#include <string>
-#include "export_mrt.h"
+#include "mrt/export_mrt.h"
+#include <chrono>
 
 namespace mrt {
+class MRTAPI Timer {
+public: 
+	Timer();
+	~Timer();
 
-class Chunk;
-
-class MRTAPI Base64 {
-public:
-	static void encode(std::string &dst, const mrt::Chunk &src, int linesize = 0);
-	static void decode(mrt::Chunk &dst, const std::string &src);
-private: 
+	void reset();
+	const int microdelta() const;
+	static void microsleep(const char *why, const int micros);
+private:
+	std::chrono::steady_clock::time_point reset_time_point;
 };
-
 }
 
 #endif
-

@@ -1,5 +1,5 @@
-#ifndef __STACKVM__FMT_H__
-#define __STACKVM__FMT_H__
+#ifndef __BTANKS_MRT_TCPSOCKET_H__
+#define __BTANKS_MRT_TCPSOCKET_H__
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
@@ -20,24 +20,30 @@
 */
 
 #include <string>
-#include <vector>
-#include "export_mrt.h"
-
-#if !(defined(__GNUC__) || defined(__GNUG__) || defined(__attribute__))
-#	define __attribute__(p) /* nothing */
-#endif
+#include "sys_socket.h"
+#include "mrt/export_mrt.h"
 
 namespace mrt {
+class Chunk;
 
-
-const std::string MRTAPI format_string(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
-void MRTAPI trim(std::string &str, const std::string chars = "\t\n\r ");
-void MRTAPI split(std::vector<std::string> & result, const std::string &str, const std::string &delimiter, const size_t limit = 0);
-void MRTAPI join(std::string &result, const std::vector<std::string>& array, const std::string &delimiter, const size_t limit = 0);
-void MRTAPI replace(std::string &str, const std::string &from, const std::string &to, const size_t limit = 0);
-
-void MRTAPI to_upper(std::string &str);
-void MRTAPI to_lower(std::string &str);
+class MRTAPI TCPSocket : public Socket {
+public:
+	TCPSocket();
+	
+	void noDelay(const bool value = true);
+	
+	void listen(const std::string &addr, const unsigned port, const bool reuse = false);
+	void connect(const addr &addr, const bool no_delay = false);
+	void connect(const std::string &host, const int port, const bool no_delay = false);
+	const int send(const void *data, const int len) const;
+	//void send(const mrt::Chunk &data) const;
+	const int recv(void *data, const int len) const;
+	
+	void accept(TCPSocket &client);
+	inline const Socket::addr getAddress() const { return _addr; }
+private: 
+	Socket::addr _addr;
+};
 
 }
 

@@ -1,5 +1,5 @@
-#ifndef __MRT_SOCKET_SET_H__
-#define __MRT_SOCKET_SET_H__
+#ifndef MRT_MEMORY_H__
+#define MRT_MEMORY_H__
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
@@ -19,42 +19,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#include "export_mrt.h"
-#ifdef __APPLE__
-#  undef check
-#endif
+#include "mrt/export_mrt.h"
 
 namespace mrt {
 
-class Socket;
-
-class MRTAPI SocketSet {
+class MRTAPI MemoryInfo {
 public: 
-	static const int Read;
-	static const int Write;
-	static const int Exception;
-
-	SocketSet();
-	void add(const Socket &sock, const int how = Read | Write | Exception);
-	void add(const Socket *sock, const int how = Read | Write | Exception);
-	void remove(const Socket &sock);
-	
-	const int check(const unsigned int timeout);
-	bool check(const Socket &sock, const int how);
-	bool check(const Socket *sock, const int how);
-	
-	void reset();
-	
-	~SocketSet();
-protected: 
-	void * _r_set, *_w_set, *_e_set;
-	int _n;
-private: 
-	SocketSet(const SocketSet &);
-	const SocketSet & operator=(const SocketSet &);
-
+	static int available(); //mb 
 };
+
 }
 
 #endif
-

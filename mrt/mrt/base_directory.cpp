@@ -1,8 +1,3 @@
-#ifndef __STACKVM_SINGLETON_H__
-#define __STACKVM_SINGLETON_H__
-
-#include "export_mrt.h"
-
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
  *
@@ -21,39 +16,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
+#include "base_directory.h"
+#include "exception.h"
 
-namespace mrt {
-	template <class S> class Accessor {
-	public:
+using namespace mrt;
 
-		inline S* operator->() const {
-			static S * p = S::get_instance();
-			return p;
-		}
+BaseDirectory::~BaseDirectory() {}
 
-		inline const S* get_const() const {
-			static S * p = S::get_instance();
-			return p;
-		}
-	};
-}
-
-#define SINGLETON(name, class) \
-	extern const mrt::Accessor<class> name
-
-#define PUBLIC_SINGLETON(e, name, class) \
-	extern e const mrt::Accessor<class> name
-
-#define DECLARE_SINGLETON(class) \
-	static class * get_instance()
-
-#define IMPLEMENT_SINGLETON(name, class) \
-	class * class::get_instance() { \
-		static class instance; \
-		return &instance; \
-	} \
-	\
-	const mrt::Accessor<class> name = mrt::Accessor<class>()
-
-
-#endif

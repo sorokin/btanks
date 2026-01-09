@@ -1,5 +1,5 @@
-#ifndef __BTANKS_SERIALIZABLE_H__
-#define __BTANKS_SERIALIZABLE_H__
+#ifndef __MRT_GZIP_H__
+#define __MRT_GZIP_H__
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
@@ -19,24 +19,22 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-
-#include "export_mrt.h"
+#include <zlib.h>
+#include "mrt/export_mrt.h"
 
 namespace mrt {
-class Serializator;
+
 class Chunk;
 
-class MRTAPI Serializable {
+class MRTAPI ZStream {
 public:
-	virtual void serialize(Serializator &s) const = 0;
-	virtual void deserialize(const Serializator &s) = 0;
-
-	void serialize2(mrt::Chunk &s) const;
-	void deserialize2(const mrt::Chunk &s);
-
-	virtual ~Serializable();
+	static void decompress(mrt::Chunk &dst, const mrt::Chunk &src, const bool gzip_header);
+	static void compress(mrt::Chunk &dst, const mrt::Chunk &src, const bool gzip_header, const int level);
+private:
 };
+
 }
+
 
 #endif
 

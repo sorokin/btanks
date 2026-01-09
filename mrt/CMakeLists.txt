@@ -2,74 +2,79 @@ cmake_minimum_required(VERSION 3.28)
 
 add_library(mrt)
 target_sources(mrt PRIVATE
-	b64.cpp
-	b64.h
-	base_directory.cpp
-	base_directory.h
-	base_file.cpp
-	base_file.h
-	calendar.cpp
-	calendar.h
-	chunk.cpp
-	chunk.h
-	dict_serializator.cpp
-	dict_serializator.h
-	directory.cpp
-	directory.h
-	exception.cpp
-	exception.h
-	file.cpp
-	file.h
-	fmt.cpp
-	fmt.h
-	fs_node.cpp
-	fs_node.h
-	gzip.cpp
-	gzip.h
-	ioexception.cpp
-	ioexception.h
-	lang.cpp
-	lang.h
-	logger.cpp
-	logger.h
-	memory_info.cpp
-	memory_info.h
-	net_exception.cpp
-	net_exception.h
-	random.cpp
-	random.h
-	scoped_ptr.h
-	serializable.cpp
-	serializable.h
-	serializator.cpp
-	serializator.h
-	singleton.h
-	socket_set.cpp
-	socket_set.h
-	sys_socket.cpp
-	sys_socket.h
-	tcp_socket.cpp
-	tcp_socket.h
-	timer.cpp
-	timer.h
-	udp_socket.cpp
-	udp_socket.h
-	utf8_utils.cpp
-	utf8_utils.h
-	xml.cpp
-	xml.h
-	zip_dir.cpp
-	zip_dir.h
-	zip_file.cpp
-	zip_file.h
+	mrt/b64.cpp
+	mrt/base_directory.cpp
+	mrt/base_file.cpp
+	mrt/calendar.cpp
+	mrt/chunk.cpp
+	mrt/dict_serializator.cpp
+	mrt/directory.cpp
+	mrt/exception.cpp
+	mrt/file.cpp
+	mrt/fmt.cpp
+	mrt/fs_node.cpp
+	mrt/gzip.cpp
+	mrt/ioexception.cpp
+	mrt/lang.cpp
+	mrt/logger.cpp
+	mrt/memory_info.cpp
+	mrt/net_exception.cpp
+	mrt/random.cpp
+	mrt/serializable.cpp
+	mrt/serializator.cpp
+	mrt/socket_set.cpp
+	mrt/sys_socket.cpp
+	mrt/tcp_socket.cpp
+	mrt/timer.cpp
+	mrt/udp_socket.cpp
+	mrt/utf8_utils.cpp
+	mrt/xml.cpp
+	mrt/zip_dir.cpp
+	mrt/zip_file.cpp
+)
+
+target_sources(mrt PUBLIC
+	FILE_SET HEADERS
+	BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}"
+	FILES
+	mrt/b64.h
+	mrt/base_directory.h
+	mrt/base_file.h
+	mrt/calendar.h
+	mrt/chunk.h
+	mrt/dict_serializator.h
+	mrt/directory.h
+	mrt/exception.h
+	mrt/file.h
+	mrt/fmt.h
+	mrt/fs_node.h
+	mrt/gzip.h
+	mrt/ioexception.h
+	mrt/lang.h
+	mrt/logger.h
+	mrt/memory_info.h
+	mrt/net_exception.h
+	mrt/random.h
+	mrt/scoped_ptr.h
+	mrt/serializable.h
+	mrt/serializator.h
+	mrt/singleton.h
+	mrt/socket_set.h
+	mrt/sys_socket.h
+	mrt/tcp_socket.h
+	mrt/timer.h
+	mrt/udp_socket.h
+	mrt/utf8_utils.h
+	mrt/xml.h
+	mrt/zip_dir.h
+	mrt/zip_file.h
+	"${CMAKE_CURRENT_BINARY_DIR}/mrt/export_mrt.h"
 )
 
 generate_export_header(mrt
-	EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/export_mrt.h"
+	EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/mrt/export_mrt.h"
 	EXPORT_MACRO_NAME MRTAPI
 )
-
-target_include_directories(mrt PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/..")
 
 target_link_libraries(mrt PUBLIC expat::expat ZLIB::ZLIB)
 if (WIN32)

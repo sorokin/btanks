@@ -1,7 +1,7 @@
 #ifndef MRT_ZIP_DIR_H__
 #define MRT_ZIP_DIR_H__
 
-#include "export_mrt.h"
+#include "mrt/export_mrt.h"
 #include "base_directory.h"
 #include "file.h"
 #include <map>

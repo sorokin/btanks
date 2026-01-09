@@ -25,7 +25,7 @@
 #include <expat.h>
 
 #include "exception.h"
-#include "export_mrt.h"
+#include "mrt/export_mrt.h"
 
 namespace mrt {
 class BaseFile;

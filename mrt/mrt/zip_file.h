@@ -1,7 +1,7 @@
 #ifndef MRT_ZIP_FILE_H__
 #define MRT_ZIP_FILE_H__
 
-#include "export_mrt.h"
+#include "mrt/export_mrt.h"
 #include <stdio.h>
 #include "base_file.h"
 

@@ -1,5 +1,5 @@
-#ifndef __MRT_FS_NODE_H__
-#define __MRT_FS_NODE_H__
+#ifndef __MRT_FILE_H__
+#define __MRT_FILE_H__
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
@@ -20,20 +20,39 @@
 */
 
 #include <string>
-#include "export_mrt.h"
+#include <stdio.h>
+#include "base_file.h"
+#include "fs_node.h"
+#include "mrt/export_mrt.h"
 
 namespace mrt {
 
-class MRTAPI FSNode {
-public:
-	virtual ~FSNode() {}
-	virtual bool exists(const std::string &fname) const;
-	static const std::string get_dir(const std::string &fname);
-	static const std::string get_parent_dir(const std::string &fname);
-	static const std::string get_filename(const std::string &fname, const bool return_ext = true);
-	static const std::string relative_path(const std::string &from_dir, const std::string &to_dir);
-	static const std::string normalize(const std::string &path);
-	static bool is_dir(const std::string &name);
+class Chunk;
+
+class MRTAPI File : public BaseFile, public FSNode {
+public: 
+	bool readline(std::string &str, const size_t bufsize = 1024) const;
+
+	File();
+	~File();
+
+	virtual void open(const std::string &fname, const std::string &mode);
+	virtual bool opened() const;
+	
+	virtual void seek(long offset, int whence) const;
+	virtual long tell() const;
+	virtual void write(const Chunk &ch) const;
+
+	virtual const off_t get_size() const;
+	virtual const size_t read(void *buf, const size_t size) const;
+	virtual void close();
+	
+	virtual bool eof() const;
+
+	inline operator FILE*() const { return _f; }
+	FILE * unlink(); //unlinks FILE* structure from this object
+private: 
+	FILE *_f;
 };
 
 }

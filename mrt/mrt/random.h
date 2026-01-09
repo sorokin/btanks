@@ -19,7 +19,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-#include "export_mrt.h"
+#include "mrt/export_mrt.h"
 
 namespace mrt {
 	class Serializator;

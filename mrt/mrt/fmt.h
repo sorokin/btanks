@@ -1,5 +1,5 @@
-#ifndef MRT_UTF8_UTILS_H__
-#define MRT_UTF8_UTILS_H__
+#ifndef __STACKVM__FMT_H__
+#define __STACKVM__FMT_H__
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
@@ -19,21 +19,26 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 */
 
-
-#include "export_mrt.h"
 #include <string>
+#include <vector>
+#include "mrt/export_mrt.h"
+
+#if !(defined(__GNUC__) || defined(__GNUG__) || defined(__attribute__))
+#	define __attribute__(p) /* nothing */
+#endif
 
 namespace mrt {
-	const std::string::size_type MRTAPI utf8_length(const std::string &str);
-	void MRTAPI utf8_add_wchar(std::string &str, unsigned wchar);
-	const size_t MRTAPI utf8_backspace(std::string &str, size_t pos);
-	const size_t MRTAPI utf8_left(const std::string &str, const size_t pos);
-	const size_t MRTAPI utf8_right(const std::string &str, const size_t pos);
-	void MRTAPI utf8_resize(std::string &str, const size_t max);
 
-	unsigned MRTAPI utf8_iterate(const std::string &str, size_t &start); //0 = end
-	unsigned MRTAPI wchar2lower(unsigned ch);
-	unsigned MRTAPI wchar2upper(unsigned ch);
+
+const std::string MRTAPI format_string(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
+void MRTAPI trim(std::string &str, const std::string chars = "\t\n\r ");
+void MRTAPI split(std::vector<std::string> & result, const std::string &str, const std::string &delimiter, const size_t limit = 0);
+void MRTAPI join(std::string &result, const std::vector<std::string>& array, const std::string &delimiter, const size_t limit = 0);
+void MRTAPI replace(std::string &str, const std::string &from, const std::string &to, const size_t limit = 0);
+
+void MRTAPI to_upper(std::string &str);
+void MRTAPI to_lower(std::string &str);
+
 }
 
 #endif

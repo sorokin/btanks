@@ -25,7 +25,7 @@
 #	include <unistd.h>
 #endif
 
-#include "mrt/exception.h"
+#include "exception.h"
 #include <deque>
 
 using namespace mrt;

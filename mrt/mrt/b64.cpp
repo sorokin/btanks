@@ -1,7 +1,7 @@
 #include "b64.h"
 #include "chunk.h"
 #include <assert.h>
-#include "mrt/exception.h"
+#include "exception.h"
 
 /* M-runtime for c++
  * Copyright (C) 2005-2008 Vladimir Menshakov
