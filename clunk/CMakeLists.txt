@@ -3,7 +3,17 @@ option(CLUNK_BACKEND_SDL "Enable SDL backend" true)
 option(CLUNK_ENABLE_DEBUG_LOGGING "Enable debug-mode logging" false)
 
 add_library(clunk)
+
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/clunk/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h")
+
+generate_export_header(clunk
+	EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
+	EXPORT_MACRO_NAME CLUNKAPI
+)
+
 target_sources(clunk PRIVATE
+	clunk/backend/sdl/backend.cpp
+	clunk/backend/sdl/sdl_ex.cpp
 	clunk/buffer.cpp
 	clunk/clunk_ex.cpp
 	clunk/context.cpp
@@ -18,18 +28,6 @@ target_sources(clunk PRIVATE
 	clunk/source.cpp
 	clunk/stream.cpp
 	clunk/wav_file.cpp
-)
-
-target_sources(clunk PRIVATE
-	clunk/backend/sdl/backend.cpp
-	clunk/backend/sdl/sdl_ex.cpp
-)
-
-configure_file("${CMAKE_CURRENT_SOURCE_DIR}/clunk/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h")
-
-generate_export_header(clunk
-	EXPORT_FILE_NAME "${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
-	EXPORT_MACRO_NAME CLUNKAPI
 )
 
 target_sources(clunk PUBLIC
