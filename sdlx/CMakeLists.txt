@@ -47,6 +47,8 @@ target_link_libraries(sdlx PUBLIC
 	SDL_image
 )
 
+target_link_libraries(sdlx PRIVATE math)
+
 if (WIN32)
 	target_link_libraries(sdlx PUBLIC DirectXSDK::D3D9 DirectXSDK::D3DX9 Winmm User32 Gdi32 Advapi32)
 	add_library(sdlx_main STATIC SDL_win32_main.c)

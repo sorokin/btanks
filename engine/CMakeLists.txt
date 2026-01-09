@@ -259,7 +259,7 @@ target_sources(btanks_engine PRIVATE
 )
 
 target_include_directories(btanks_engine PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/src" "${LUA_INCLUDE_DIR}")
-target_link_libraries(btanks_engine PUBLIC SDL::SDL mrt sdlx Ogg::ogg Vorbis::vorbisfile clunk ${LUA_LIBRARIES} Threads::Threads)
+target_link_libraries(btanks_engine PUBLIC SDL::SDL mrt sdlx math Ogg::ogg Vorbis::vorbisfile clunk ${LUA_LIBRARIES} Threads::Threads)
 
 if (WIN32)
 	target_link_libraries(btanks_engine PRIVATE Ws2_32 User32)

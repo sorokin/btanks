@@ -30,6 +30,7 @@ endif()
 
 add_subdirectory(SDL_image)
 add_subdirectory(mrt)
+add_subdirectory(math)
 add_subdirectory(sdlx)
 add_subdirectory(clunk)
 add_subdirectory(engine)
