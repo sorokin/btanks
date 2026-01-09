@@ -1,124 +1,246 @@
 add_library(btanks_engine)
 target_sources(btanks_engine PRIVATE
 	ai/base.cpp
+	ai/base.h
 	ai/buratino.cpp
+	ai/buratino.h
+	ai/creator.h
 	ai/herd.cpp
+	ai/herd.h
 	ai/old_school.cpp
+	ai/old_school.h
 	ai/rush.cpp
+	ai/rush.h
+	ai/synchronizable.h
 	ai/targets.cpp
+	ai/targets.h
 	ai/traits.cpp
+	ai/traits.h
 	ai/trooper.cpp
+	ai/trooper.h
 	ai/waypoints.cpp
+	ai/waypoints.h
 
 	controls/control_method.cpp
+	controls/control_method.h
 	controls/joyplayer.cpp
+	controls/joyplayer.h
 	controls/keyplayer.cpp
+	controls/keyplayer.h
 	controls/mouse_control.cpp
+	controls/mouse_control.h
 	controls/simple_joy_bindings.cpp
+	controls/simple_joy_bindings.h
 
 	menu/box.cpp
+	menu/box.h
 	menu/button.cpp
+	menu/button.h
 	menu/campaign_menu.cpp
+	menu/campaign_menu.h
 	menu/chat.cpp
+	menu/chat.h
 	menu/checkbox.cpp
+	menu/checkbox.h
 	menu/chooser.cpp
+	menu/chooser.h
 	menu/container.cpp
+	menu/container.h
 	menu/control.cpp
+	menu/control.h
 	menu/control_picker.cpp
+	menu/control_picker.h
 	menu/grid.cpp
+	menu/grid.h
 	menu/host_item.cpp
+	menu/host_item.h
 	menu/host_list.cpp
+	menu/host_list.h
 	menu/image.cpp
+	menu/image.h
 	menu/image_view.cpp
+	menu/image_view.h
 	menu/join_server_menu.cpp
+	menu/join_server_menu.h
 	menu/join_team.cpp
+	menu/join_team.h
 	menu/label.cpp
+	menu/label.h
 	menu/main_menu.cpp
+	menu/main_menu.h
 	menu/map_desc.cpp
+	menu/map_desc.h
 	menu/map_details.cpp
+	menu/map_details.h
 	menu/map_picker.cpp
+	menu/map_picker.h
 	menu/medals.cpp
+	menu/medals.h
 	menu/menu.cpp
+	menu/menu.h
 	menu/menu_config.cpp
+	menu/menu_config.h
 	menu/menu_item.cpp
+	menu/menu_item.h
 	menu/mode_panel.cpp
+	menu/mode_panel.h
 	menu/network_status.cpp
+	menu/network_status.h
 	menu/new_profile_dialog.cpp
+	menu/new_profile_dialog.h
 	menu/notepad.cpp
+	menu/notepad.h
 	menu/number_control.cpp
+	menu/number_control.h
 	menu/options_menu.cpp
+	menu/options_menu.h
 	menu/player_name_control.cpp
+	menu/player_name_control.h
 	menu/player_picker.cpp
+	menu/player_picker.h
 	menu/popup_menu.cpp
+	menu/popup_menu.h
 	menu/profiles_menu.cpp
+	menu/profiles_menu.h
 	menu/prompt.cpp
+	menu/prompt.h
 	menu/redefine_keys.cpp
+	menu/redefine_keys.h
 	menu/scroll_list.cpp
+	menu/scroll_list.h
 	menu/shop.cpp
+	menu/shop.h
 	menu/shop_item.cpp
+	menu/shop_item.h
 	menu/simple_gamepad_setup.cpp
+	menu/simple_gamepad_setup.h
 	menu/slider.cpp
+	menu/slider.h
 	menu/start_server_menu.cpp
+	menu/start_server_menu.h
 	menu/text_control.cpp
+	menu/text_control.h
+	menu/textual.h
 	menu/tooltip.cpp
+	menu/tooltip.h
 	menu/upper_box.cpp
+	menu/upper_box.h
 	menu/video_control.cpp
+	menu/video_control.h
 	menu/video_control_disabled.cpp
+	menu/video_control_disabled.h
 
 	net/client.cpp
+	net/client.h
 	net/connection.cpp
+	net/connection.h
 	net/message.cpp
+	net/message.h
 	net/monitor.cpp
+	net/monitor.h
 	net/scanner.cpp
+	net/scanner.h
 	net/server.cpp
+	net/server.h
 
 	sound/mixer.cpp
+	sound/mixer.h
 	sound/ogg_ex.cpp
+	sound/ogg_ex.h
 	sound/ogg_stream.cpp
+	sound/ogg_stream.h
 
 	src/alarm.cpp
+	src/alarm.h
 	src/animation_model.cpp
+	src/animation_model.h
 	src/base_object.cpp
+	src/base_object.h
 	src/campaign.cpp
+	src/campaign.h
 	src/cheater.cpp
+	src/cheater.h
 	src/config.cpp
+	src/config.h
 	src/console.cpp
+	src/console.h
 	src/credits.cpp
+	src/credits.h
 	src/finder.cpp
+	src/finder.h
 	src/game.cpp
+	src/game.h
 	src/game_monitor.cpp
+	src/game_monitor.h
+	src/game_type.h
 	src/hud.cpp
+	src/hud.h
 	src/i18n.cpp
+	src/i18n.h
 	src/logo.cpp
+	src/logo.h
 	src/netstats.cpp
+	src/netstats.h
 	src/nickname.cpp
+	src/nickname.h
 	src/notifying_xml_parser.cpp
+	src/notifying_xml_parser.h
 	src/object.cpp
+	src/object.h
+	src/object_common.h
+	src/object_grid.h
 	src/player_manager.cpp
+	src/player_manager.h
 	src/player_slot.cpp
+	src/player_slot.h
 	src/player_state.cpp
+	src/player_state.h
 	src/profiler.cpp
+	src/profiler.h
+	src/random_pool.h
 	src/registrar.cpp
+	src/registrar.h
 	src/resource_manager.cpp
+	src/resource_manager.h
 	src/rotating_object.cpp
+	src/rotating_object.h
 	src/rt_config.cpp
+	src/rt_config.h
+	src/special_owners.h
 	src/special_zone.cpp
+	src/special_zone.h
 	src/team.cpp
+	src/team.h
+	src/utils.h
 	src/var.cpp
+	src/var.h
 	src/variants.cpp
+	src/variants.h
 	src/vehicle_traits.cpp
+	src/vehicle_traits.h
 	src/version.cpp
+	src/version.h
 	src/window.cpp
+	src/window.h
 	src/world.cpp
+	src/world.h
 	src/xml_parser.cpp
+	src/xml_parser.h
 	src/zbox.cpp
+	src/zbox.h
 
 	tmx/generator.cpp
+	tmx/generator.h
 	tmx/generator_object.cpp
+	tmx/generator_object.h
 	tmx/layer.cpp
+	tmx/layer.h
 	tmx/map.cpp
+	tmx/map.h
 	tmx/tileset.cpp
+	tmx/tileset.h
 	tmx/tileset_list.cpp
+	tmx/tileset_list.h
 )
 
 generate_export_header(btanks_engine
@@ -129,7 +251,12 @@ generate_export_header(btanks_engine
 set_source_files_properties(src/version.cpp PROPERTIES COMPILE_DEFINITIONS "VERSION=\"git\"")
 
 target_compile_definitions(btanks_engine PUBLIC ENABLE_LUA)
-target_sources(btanks_engine PRIVATE luaxx/state.cpp luaxx/lua_hooks.cpp)
+target_sources(btanks_engine PRIVATE
+	luaxx/lua_hooks.cpp
+	luaxx/lua_hooks.h
+	luaxx/state.cpp
+	luaxx/state.h
+)
 
 target_include_directories(btanks_engine PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/src" "${LUA_INCLUDE_DIR}")
 target_link_libraries(btanks_engine PUBLIC SDL::SDL mrt sdlx Ogg::ogg Vorbis::vorbisfile clunk ${LUA_LIBRARIES} Threads::Threads)

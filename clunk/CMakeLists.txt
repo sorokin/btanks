@@ -11,7 +11,9 @@ target_sources(clunk PRIVATE
 	clunk/hrtf.cpp
 	clunk/kemar.c
 	clunk/logger.cpp
+	clunk/mixer.h
 	clunk/object.cpp
+	clunk/resample.h
 	clunk/sample.cpp
 	clunk/source.cpp
 	clunk/stream.cpp
@@ -36,9 +38,13 @@ target_sources(clunk PUBLIC
 	FILES
 	"${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h"
 	"${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
+	clunk/audio_spec.h
 	clunk/backend/sdl/backend.h
+	clunk/backend/sdl/locker.h
+	clunk/backend/sdl/sdl_ex.h
 	clunk/buffer.h
 	clunk/clunk.h
+	clunk/clunk_ex.h
 	clunk/context.h
 	clunk/distance_model.h
 	clunk/fft_context.h
@@ -52,7 +58,9 @@ target_sources(clunk PUBLIC
 	clunk/sample.h
 	clunk/source.h
 	clunk/stream.h
+	clunk/types.h
 	clunk/v3.h
+	clunk/wav_file.h
 	clunk/window_function.h
 )
 

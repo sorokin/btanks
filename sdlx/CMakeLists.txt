@@ -1,22 +1,35 @@
 add_library(sdlx)
 target_sources(sdlx PRIVATE
+	SDL_main.h
 	c_map.cpp
+	c_map.h
 	color.cpp
+	color.h
 	cursor.cpp
+	cursor.h
 	file_rw.cpp
+	file_rw.h
 	font.cpp
+	font.h
 	gfx/SDL_rotozoom.c
 	joystick.cpp
+	joystick.h
 	module.cpp
+	module.h
+	rect.h
 	sdl_ex.cpp
+	sdl_ex.h
+	sdlx.h
 	surface.cpp
+	surface.h
 	system.cpp
+	system.h
 )
 
 if (WIN32)
-	target_sources(sdlx PRIVATE wrappers/d3dsdl.cpp)
+	target_sources(sdlx PRIVATE wrappers/d3dsdl.cpp wrappers/d3dsdl.h)
 else()
-	target_sources(sdlx PRIVATE wrappers/glSDL.c)
+	target_sources(sdlx PRIVATE wrappers/glSDL.c wrappers/glSDL.h)
 endif()
 
 generate_export_header(sdlx

@@ -23,21 +23,27 @@ target_sources(bt_objects PRIVATE
 	ctf_flag.cpp
 	damage.cpp
 	destructable_object.cpp
+	destructable_object.h
 	dirt.cpp
 	explosion.cpp
 	explosive.cpp
 	fakemod.cpp
+	fakemod.h
 	gta_car.cpp
 	heli.cpp
+	heli.h
 	helicopter.cpp
 	item.cpp
+	item.h
 	kamikaze.cpp
 	launcher.cpp
+	launcher.h
 	machinegunner_on_launcher.cpp
 	mine.cpp
 	missile.cpp
 	missiles_in_vehicle.cpp
 	mortar.cpp
+	mortar.h
 	mortar_bullet.cpp
 	old_school_destructable.cpp
 	paratrooper.cpp
@@ -46,16 +52,19 @@ target_sources(bt_objects PRIVATE
 	raider_heli.cpp
 	sandworm.cpp
 	shilka.cpp
+	shilka.h
 	shilka_turret.cpp
 	single_pose.cpp
 	slime.cpp
 	submarine.cpp
 	tank.cpp
+	tank.h
 	teleport.cpp
 	tooltip.cpp
 	traffic_lights.cpp
 	train.cpp
 	trooper.cpp
+	trooper.h
 	turrel.cpp
 	watchtower.cpp
 	zombie.cpp
