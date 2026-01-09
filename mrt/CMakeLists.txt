@@ -2,12 +2,35 @@ cmake_minimum_required(VERSION 3.28)
 
 add_library(mrt)
 target_sources(mrt PRIVATE
-	exception.cpp fmt.cpp ioexception.cpp logger.cpp chunk.cpp random.cpp
-	base_file.cpp file.cpp xml.cpp b64.cpp gzip.cpp serializator.cpp
-	serializable.cpp sys_socket.cpp tcp_socket.cpp socket_set.cpp directory.cpp
-	fs_node.cpp lang.cpp utf8_utils.cpp udp_socket.cpp timer.cpp
-	memory_info.cpp calendar.cpp base_directory.cpp zip_dir.cpp zip_file.cpp
-	net_exception.cpp dict_serializator.cpp
+	b64.cpp
+	base_directory.cpp
+	base_file.cpp
+	calendar.cpp
+	chunk.cpp
+	dict_serializator.cpp
+	directory.cpp
+	exception.cpp
+	file.cpp
+	fmt.cpp
+	fs_node.cpp
+	gzip.cpp
+	ioexception.cpp
+	lang.cpp
+	logger.cpp
+	memory_info.cpp
+	net_exception.cpp
+	random.cpp
+	serializable.cpp
+	serializator.cpp
+	socket_set.cpp
+	sys_socket.cpp
+	tcp_socket.cpp
+	timer.cpp
+	udp_socket.cpp
+	utf8_utils.cpp
+	xml.cpp
+	zip_dir.cpp
+	zip_file.cpp
 )
 
 generate_export_header(mrt

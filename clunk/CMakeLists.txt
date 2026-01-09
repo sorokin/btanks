@@ -20,8 +20,8 @@ target_sources(clunk PRIVATE
 )
 
 target_sources(clunk PRIVATE
-	clunk/backend/sdl/sdl_ex.cpp
 	clunk/backend/sdl/backend.cpp
+	clunk/backend/sdl/sdl_ex.cpp
 )
 
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/clunk/config.h.in" "${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h")
@@ -35,8 +35,12 @@ target_sources(clunk PUBLIC
 	FILE_SET HEADERS
 	BASE_DIRS "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_BINARY_DIR}"
 	FILES
+	"${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h"
+	"${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
+	clunk/backend/sdl/backend.h
 	clunk/buffer.h
 	clunk/clunk.h
+	clunk/clunk_c.h
 	clunk/context.h
 	clunk/distance_model.h
 	clunk/fft_context.h
@@ -51,11 +55,7 @@ target_sources(clunk PUBLIC
 	clunk/source.h
 	clunk/stream.h
 	clunk/v3.h
-	clunk/clunk_c.h
 	clunk/window_function.h
-	clunk/backend/sdl/backend.h
-	"${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h"
-	"${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
 )
 
 target_include_directories(clunk PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")

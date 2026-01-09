@@ -59,19 +59,19 @@ add_dependencies(btanks data_copy)
 
 add_executable(bted)
 target_sources(bted PRIVATE
+	editor/add_object_dialog.cpp
+	editor/add_tileset_dialog.cpp
 	editor/base_brush.cpp
+	editor/command.cpp
 	editor/editor.cpp
-	editor/open_map_dialog.cpp
-	editor/tileset_dialog.cpp
 	editor/layer_item.cpp
 	editor/layer_list_dialog.cpp
-	editor/command.cpp
-	editor/add_tileset_dialog.cpp
-	editor/add_object_dialog.cpp
-	editor/object_properties.cpp
-	editor/tilebox_brush.cpp
 	editor/morph_dialog.cpp
+	editor/object_properties.cpp
+	editor/open_map_dialog.cpp
 	editor/resize_dialog.cpp
+	editor/tilebox_brush.cpp
+	editor/tileset_dialog.cpp
 )
 
 target_link_libraries(bted PRIVATE mrt sdlx btanks_engine expat::expat bt_objects SDL::SDL)

@@ -1,21 +1,64 @@
 add_library(bt_objects OBJECT)
 target_sources(bt_objects PRIVATE
-	bullet.cpp explosion.cpp single_pose.cpp
-	tank.cpp shilka.cpp launcher.cpp ai_tank.cpp
-	ai_launcher.cpp ai_shilka.cpp ai_trooper.cpp ai_machinegunner_player.cpp
-	ai_heli.cpp ai_mortar.cpp raider_heli.cpp
-	traffic_lights.cpp missiles_in_vehicle.cpp missile.cpp
-	corpse.cpp item.cpp mine.cpp dirt.cpp
-	damage.cpp helicopter.cpp paratrooper.cpp kamikaze.cpp
-	machinegunner_on_launcher.cpp destructable_object.cpp submarine.cpp train.cpp
-	trooper.cpp fakemod.cpp car.cpp tooltip.cpp
-	barrack.cpp watchtower.cpp slime.cpp
-	cannon.cpp boat.cpp poison.cpp old_school_destructable.cpp
-	zombie.cpp civilian.cpp teleport.cpp cow.cpp
-	heli.cpp bomb.cpp explosive.cpp mortar.cpp
-	sandworm.cpp barrier.cpp pillbox.cpp buggy.cpp turrel.cpp
-	ballistic_missile.cpp mortar_bullet.cpp ctf_base.cpp ctf_flag.cpp
-	shilka_turret.cpp gta_car.cpp
+	ai_heli.cpp
+	ai_launcher.cpp
+	ai_machinegunner_player.cpp
+	ai_mortar.cpp
+	ai_shilka.cpp
+	ai_tank.cpp
+	ai_trooper.cpp
+	ballistic_missile.cpp
+	barrack.cpp
+	barrier.cpp
+	boat.cpp
+	bomb.cpp
+	buggy.cpp
+	bullet.cpp
+	cannon.cpp
+	car.cpp
+	civilian.cpp
+	corpse.cpp
+	cow.cpp
+	ctf_base.cpp
+	ctf_flag.cpp
+	damage.cpp
+	destructable_object.cpp
+	dirt.cpp
+	explosion.cpp
+	explosive.cpp
+	fakemod.cpp
+	gta_car.cpp
+	heli.cpp
+	helicopter.cpp
+	item.cpp
+	kamikaze.cpp
+	launcher.cpp
+	machinegunner_on_launcher.cpp
+	mine.cpp
+	missile.cpp
+	missiles_in_vehicle.cpp
+	mortar.cpp
+	mortar_bullet.cpp
+	old_school_destructable.cpp
+	paratrooper.cpp
+	pillbox.cpp
+	poison.cpp
+	raider_heli.cpp
+	sandworm.cpp
+	shilka.cpp
+	shilka_turret.cpp
+	single_pose.cpp
+	slime.cpp
+	submarine.cpp
+	tank.cpp
+	teleport.cpp
+	tooltip.cpp
+	traffic_lights.cpp
+	train.cpp
+	trooper.cpp
+	turrel.cpp
+	watchtower.cpp
+	zombie.cpp
 )
 
 target_link_libraries(bt_objects PRIVATE btanks_engine sdlx mrt expat::expat SDL::SDL)

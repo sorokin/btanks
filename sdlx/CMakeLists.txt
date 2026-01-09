@@ -1,9 +1,16 @@
 add_library(sdlx)
 target_sources(sdlx PRIVATE
-	cursor.cpp sdl_ex.cpp surface.cpp system.cpp joystick.cpp
+	c_map.cpp
 	color.cpp
-	c_map.cpp font.cpp module.cpp file_rw.cpp
+	cursor.cpp
+	file_rw.cpp
+	font.cpp
 	gfx/SDL_rotozoom.c
+	joystick.cpp
+	module.cpp
+	sdl_ex.cpp
+	surface.cpp
+	system.cpp
 )
 
 if (WIN32)
