@@ -16,7 +16,6 @@ target_sources(clunk PRIVATE
 	clunk/source.cpp
 	clunk/stream.cpp
 	clunk/wav_file.cpp
-#	clunk/clunk_c.cpp
 )
 
 target_sources(clunk PRIVATE
@@ -40,7 +39,6 @@ target_sources(clunk PUBLIC
 	clunk/backend/sdl/backend.h
 	clunk/buffer.h
 	clunk/clunk.h
-	clunk/clunk_c.h
 	clunk/context.h
 	clunk/distance_model.h
 	clunk/fft_context.h
