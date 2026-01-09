@@ -22,7 +22,13 @@ target_sources(SDL_image PRIVATE
 	src/IMG_xv.c
 	src/IMG_xxx.c
 )
-target_include_directories(SDL_image PUBLIC include)
+
+target_sources(SDL_image PUBLIC
+	FILE_SET HEADERS
+	BASE_DIRS include
+	FILES
+	include/SDL_image.h
+)
 
 target_compile_definitions(SDL_image PRIVATE
 	LOAD_BMP
