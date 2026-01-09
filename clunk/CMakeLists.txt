@@ -39,7 +39,6 @@ target_sources(clunk PUBLIC
 	clunk/clunk.h
 	clunk/context.h
 	clunk/distance_model.h
-	"${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
 	clunk/fft_context.h
 	clunk/hrtf.h
 	clunk/kemar.h
@@ -54,8 +53,9 @@ target_sources(clunk PUBLIC
 	clunk/v3.h
 	clunk/clunk_c.h
 	clunk/window_function.h
-	"${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h"
 	clunk/backend/sdl/backend.h
+	"${CMAKE_CURRENT_BINARY_DIR}/clunk/config.h"
+	"${CMAKE_CURRENT_BINARY_DIR}/clunk/export_clunk.h"
 )
 
 target_include_directories(clunk PUBLIC "${CMAKE_CURRENT_BINARY_DIR}")
