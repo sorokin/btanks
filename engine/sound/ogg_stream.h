@@ -28,6 +28,7 @@
  * from your version and license this file solely under the GPL without exception. 
 */
 
+#include <memory>
 #include <string>
 #include <ogg/ogg.h>
 #include <vorbis/codec.h>
@@ -58,7 +59,7 @@ public:
 	vorbis_info const *get_info() const;
 
 private: 
-	mrt::BaseFile * _file;
+	std::unique_ptr<mrt::BaseFile> _file;
 	OggVorbis_File _ogg_stream;
 	vorbis_info const* _vorbis_info;
 };

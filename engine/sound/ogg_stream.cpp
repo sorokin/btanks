@@ -91,7 +91,7 @@ OggStream::OggStream(const std::string &fname) {
 	ov_cb.tell_func = stream_tell_func;
 	ov_cb.close_func = stream_close_func;
 
-	int r = ov_open_callbacks(_file, &_ogg_stream, NULL, 0, ov_cb);
+	int r = ov_open_callbacks(_file.release(), &_ogg_stream, NULL, 0, ov_cb);
 	if (r < 0)
 		throw_ogg(r, ("ov_open('%s')", fname.c_str()));
 	

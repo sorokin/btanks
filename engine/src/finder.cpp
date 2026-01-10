@@ -34,7 +34,6 @@
 #include "mrt/zip_dir.h"
 #include <algorithm>
 #include "utils.h"
-#include "mrt/scoped_ptr.h"
 
 IMPLEMENT_SINGLETON(Finder, IFinder);
 
@@ -43,13 +42,11 @@ struct Package {
 	mrt::ZipDirectory *root;
 };
 
-mrt::BaseFile *IFinder::get_file(const std::string &file, const std::string &mode) const {
+std::unique_ptr<mrt::BaseFile> IFinder::get_file(const std::string &file, const std::string &mode) const {
 	std::string::size_type p = file.find(':');
 	if (p == std::string::npos) {
-		mrt::File *f = new mrt::File();
-		TRY {
-			f->open(file, mode);
-		} CATCH("fs open", { delete f; throw; } )
+		auto f = std::make_unique<mrt::File>();
+		f->open(file, mode);
 		return f;
 	} 
 	
@@ -162,7 +159,7 @@ IFinder::IFinder() {
 			TRY {
 				LOG_DEBUG(("found packed resources, adding %s to the list", dat.c_str()));
 
-				scoped_ptr<Package> package(new Package);
+				auto package = std::make_unique<Package>();
 				package->root = new mrt::ZipDirectory(dat);
 				/*
 				package->root->open(dat);
@@ -277,7 +274,7 @@ void IFinder::findAll(FindResult &result, const std::string &name_) const {
 
 void IFinder::load(mrt::Chunk &data, const std::string &fname, const bool do_find) const {
 	std::string name = do_find? find(fname): fname;
-	scoped_ptr<mrt::BaseFile> file(get_file(name, "rb"));
+	auto file = get_file(name, "rb");
 	file->read_all(data);
 	file->close();
 }

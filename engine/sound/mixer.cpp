@@ -132,14 +132,12 @@ IMixer::~IMixer() {
 	_nosound = _nomusic = true;
 }
 
-#include "mrt/scoped_ptr.h"
-
 void IMixer::loadPlaylist(const std::string &file) {
 	if (_nomusic) 
 		return;
 	
 	TRY {
-		scoped_ptr<mrt::BaseFile> f(Finder->get_file(file, "rt"));
+		auto f = Finder->get_file(file, "rt");
 		std::string line;
 		while(f->readline(line)) {
 			mrt::trim(line);

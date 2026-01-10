@@ -26,7 +26,6 @@
  * from your version and license this file solely under the GPL without exception. 
 */
 #include "notifying_xml_parser.h"
-#include "mrt/scoped_ptr.h"
 #include "finder.h"
 #include "mrt/base_file.h"
 
@@ -34,7 +33,7 @@ NotifyingXMLParser::NotifyingXMLParser() : reset_progress(), notify_progress(), 
 
 
 void NotifyingXMLParser::parse_file(const std::string &file) {
-	scoped_ptr<mrt::BaseFile> f(Finder->get_file(file, "rt"));
+	auto f = Finder->get_file(file, "rt");
 	parse_file(*f);
 	f->close();
 }
@@ -50,7 +49,7 @@ void NotifyingXMLParser::parse_files(const std::vector<std::pair<std::string, st
 	int progress = 0;
 	for(size_t i = 0; i < files.size(); ++i) {
 		int tags;
-		scoped_ptr<mrt::BaseFile> f(Finder->get_file(files[i].second, "rt"));
+		auto f = Finder->get_file(files[i].second, "rt");
 		get_file_stats(tags, *f);
 		progress += tags;
 	}
@@ -58,7 +57,7 @@ void NotifyingXMLParser::parse_files(const std::vector<std::pair<std::string, st
 	reset_progress.emit(progress);
 
 	for(size_t i = 0; i < files.size(); ++i) {
-		scoped_ptr<mrt::BaseFile> f(Finder->get_file(files[i].second, "rt"));
+		auto f = Finder->get_file(files[i].second, "rt");
 		onFile(files[i].first, files[i].second);
 		mrt::XMLParser::parse_file(*f);
 	}

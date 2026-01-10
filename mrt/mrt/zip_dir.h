@@ -5,6 +5,7 @@
 #include "base_directory.h"
 #include "file.h"
 #include <map>
+#include <memory>
 #include <set>
 #include <string>
 #include <vector>
@@ -27,7 +28,7 @@ public:
 	virtual void close();
 	virtual void create(const std::string &path, const bool recurse = false);
 	virtual ~ZipDirectory();
-	ZipFile * open_file(const std::string &name) const;
+	std::unique_ptr<ZipFile> open_file(const std::string &name) const;
 
 	//FSNode: 
 	virtual bool exists(const std::string &fname) const;

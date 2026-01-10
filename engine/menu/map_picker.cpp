@@ -50,7 +50,6 @@
 #include "config.h"
 
 #include "tmx/map.h"
-#include "mrt/scoped_ptr.h"
 #include "mrt/base_file.h"
 #include "game_monitor.h"
 #include "mode_panel.h"
@@ -65,7 +64,7 @@ struct MapScanner : mrt::XMLParser {
 	MapScanner() : slots(0), game_type(GameTypeDeathMatch), supports_ctf(false) {}
 
 	void scan(const std::string &name) {
-		scoped_ptr<mrt::BaseFile> f(Finder->get_file(Finder->find("maps/" + name + ".tmx"), "rt"));
+		auto f = Finder->get_file(Finder->find("maps/" + name + ".tmx"), "rt");
 
 		parse_file(*f);
 		LOG_DEBUG(("parser: slots: %d, object_restriction: '%s'", slots, object_restriction.c_str()));

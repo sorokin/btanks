@@ -30,7 +30,6 @@
 #include <assert.h>
 #include <string.h>
 #include "finder.h"
-#include "mrt/scoped_ptr.h"
 #include "mrt/base_file.h"
 
 IMPLEMENT_SINGLETON(I18n, II18n);
@@ -144,7 +143,7 @@ void II18n::load(const std::string &file, const std::string &language) {
 	_cdata.clear();
 	LOG_DEBUG(("loading file '%s' with language: %s", file.c_str(), language.empty()?"default":language.c_str()));
 
-	scoped_ptr<mrt::BaseFile> f ( Finder->get_file(file, "rt") );
+	auto f = Finder->get_file(file, "rt");
 	parse_file(*f);
 	f->close();
 	

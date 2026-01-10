@@ -55,7 +55,6 @@ target_sources(mrt PUBLIC
 	mrt/memory_info.h
 	mrt/net_exception.h
 	mrt/random.h
-	mrt/scoped_ptr.h
 	mrt/serializable.h
 	mrt/serializator.h
 	mrt/singleton.h

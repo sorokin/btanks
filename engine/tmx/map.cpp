@@ -52,7 +52,6 @@
 #include "zbox.h"
 
 #include "generator.h"
-#include "mrt/scoped_ptr.h"
 
 #include "math/range_list.h"
 
@@ -751,7 +750,7 @@ void IMap::end(const std::string &name) {
 			}
 			source = _image_name;
 			
-			scoped_ptr<mrt::BaseFile> file(Finder->get_file(source, "rb"));
+			auto file = Finder->get_file(source, "rb");
 
 			mrt::Chunk data;
 			file->read_all(data);
@@ -1282,7 +1281,7 @@ void IMap::deserialize(const mrt::Serializator &s) {
 				fname = Finder->find("tilesets/" + mrt::FSNode::get_filename(name));
 			}
 
-			scoped_ptr<mrt::BaseFile> file(Finder->get_file(fname, "rb"));
+			auto file = Finder->get_file(fname, "rb");
 
 			mrt::Chunk data;
 			file->read_all(data);

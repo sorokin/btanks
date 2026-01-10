@@ -26,12 +26,11 @@
  * from your version and license this file solely under the GPL without exception. 
 */
 #include "xml_parser.h"
-#include "mrt/scoped_ptr.h"
 #include "finder.h"
 #include "mrt/base_file.h"
 
 void XMLParser::parse_file(const std::string &file) {
-	scoped_ptr<mrt::BaseFile> f(Finder->get_file(file, "rt"));
+	auto f = Finder->get_file(file, "rt");
 	mrt::XMLParser::parse_file(*f);
 	f->close();
 }

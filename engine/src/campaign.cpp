@@ -214,7 +214,6 @@ Campaign::Campaign() : minimal_score(0), map(NULL), disable_donations(false), di
 
 #include "game_monitor.h"
 #include "finder.h"
-#include "mrt/scoped_ptr.h"
 #include "mrt/base_file.h"
 
 void Campaign::init(const std::string &base, const std::string &filename, bool preparse) {
@@ -222,7 +221,7 @@ void Campaign::init(const std::string &base, const std::string &filename, bool p
 	map = NULL;
 	_wares_section = false;
 	_preparse = preparse;
-	scoped_ptr<mrt::BaseFile> ptr(Finder->get_file(filename, "rt"));
+	auto ptr = Finder->get_file(filename, "rt");
 	parse_file(*ptr);
 	for(size_t i = 0; i < maps.size(); ++i) {
 		GameMonitor->useInCampaign(base, maps[i].id);

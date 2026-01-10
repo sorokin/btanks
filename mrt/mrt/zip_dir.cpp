@@ -193,7 +193,7 @@ ZipDirectory::~ZipDirectory() {
 	archive.close();
 }
 
-ZipFile * ZipDirectory::open_file(const std::string &name_) const {
+std::unique_ptr<ZipFile> ZipDirectory::open_file(const std::string &name_) const {
 	std::string name = mrt::FSNode::normalize(name_);
 	Headers::const_iterator i = headers.find(name);
 	if (i == headers.end())
@@ -204,7 +204,7 @@ ZipFile * ZipDirectory::open_file(const std::string &name_) const {
 	if (f == NULL)
 		throw_io(("fopen(%s)", fname.c_str()));	
 	
-	return new ZipFile(f, file.method, file.flags, file.offset, file.csize, file.usize);
+	return std::make_unique<ZipFile>(f, file.method, file.flags, file.offset, file.csize, file.usize);
 }
 
 bool mrt::ZipDirectory::lessnocase::operator()(const std::string& s1, const std::string& s2) const {

@@ -33,7 +33,6 @@
 #include "resource_manager.h"
 #include <algorithm>
 #include "object_properties.h"
-#include "mrt/scoped_ptr.h"
 
 AddObjectDialog::AddObjectDialog(const int w, const int h) : 
 ScrollList("menu/background_box_dark.png", "small", w, h), selected_z(0) {
@@ -42,7 +41,7 @@ ScrollList("menu/background_box_dark.png", "small", w, h), selected_z(0) {
 	
 	std::string src = Finder->find(_base, _fname, false);
 	if (!src.empty()) {
-		scoped_ptr<mrt::BaseFile> ptr(Finder->get_file(src, "rt"));
+		auto ptr = Finder->get_file(src, "rt");
 		parse_file(*ptr);
 	}
 
