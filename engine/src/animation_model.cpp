@@ -31,22 +31,20 @@
 
 AnimationModel::AnimationModel(const float default_speed) : default_speed(default_speed) {}
 
-void AnimationModel::addPose(const std::string &id, Pose *pose) {
-	delete _poses[id];
-	_poses[id] = pose;
-	LOG_DEBUG(("pose '%s' with %u frames added (speed: %f)", id.c_str(), (unsigned)pose->frames.size(), pose->speed));
+void AnimationModel::addPose(const std::string &id, std::unique_ptr<Pose> pose) {
+	Pose* pose_ptr = pose.get();
+	_poses[id] = std::move(pose);
+	LOG_DEBUG(("pose '%s' with %u frames added (speed: %f)", id.c_str(), (unsigned)pose_ptr->frames.size(), pose_ptr->speed));
 }
 
 const Pose * AnimationModel::getPose(const std::string &id) const {
 	PoseMap::const_iterator i = _poses.find(id);
 	if (i == _poses.end())
 		return NULL;
-	return i->second;
+	return i->second.get();
 }
 
 AnimationModel::~AnimationModel() {
-	std::for_each(_poses.begin(), _poses.end(), delete_ptr2<PoseMap::value_type>());
-	_poses.clear();
 }
 
 Animation::Animation(const std::string & model, const std::string &base_dir, const std::string &surface, const int tw, const int th) : 

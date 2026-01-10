@@ -33,6 +33,7 @@
 #include "mrt/exception.h"
 #include "notifying_xml_parser.h"
 #include <map>
+#include <memory>
 #include <set>
 #include <vector>
 #include <string>
@@ -86,6 +87,9 @@ public:
 
 	typedef std::map<std::pair<std::string, std::string>, std::set<std::string> > PreloadMap;
 
+	IResourceManager(const IResourceManager &) = delete;
+	const IResourceManager& operator=(const IResourceManager &) = delete;
+
 private:
 	void preload(const std::string &animation);
 	Animation *getAnimation(const std::string &id);
@@ -117,7 +121,7 @@ private:
 
 	//parser specific stuff	
 	AnimationModel *_am;
-	Pose *_pose;
+	std::unique_ptr<Pose> _pose;
 	std::string _data, _pose_id, _am_id;
 	
 	long _tw, _th;
@@ -126,9 +130,6 @@ private:
 	ObjectMap _objects;
 	
 	mutable PreloadMap _preload_map, _object_preload_map;
-	
-	IResourceManager(const IResourceManager &);
-	const IResourceManager& operator=(const IResourceManager &);
 };
 
 PUBLIC_SINGLETON(BTANKSAPI, ResourceManager, IResourceManager);

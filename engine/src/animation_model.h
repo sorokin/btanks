@@ -31,6 +31,7 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <memory>
 #include "export_btanks.h"
 
 class BTANKSAPI Pose {
@@ -52,12 +53,15 @@ public:
 	const float default_speed;
 	AnimationModel(const float default_speed);
 	
-	void addPose(const std::string &id, Pose *pose);
+	void addPose(const std::string &id, std::unique_ptr<Pose> pose);
 	const Pose * getPose(const std::string &id) const;
 	~AnimationModel();
 
+	AnimationModel(AnimationModel const& other) = delete;
+	AnimationModel& operator=(AnimationModel const& other) = delete;
+
 private:
-	typedef std::map<std::string, Pose *> PoseMap;
+	typedef std::map<std::string, std::unique_ptr<Pose>> PoseMap;
 	PoseMap _poses;
 };
 

@@ -211,7 +211,7 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 
 		int z = (!attr["z"].empty())?atoi(attr["z"].c_str()) : -100001;
 		const std::string &sound = attr["sound"];
-		_pose = new Pose(speed, z, sound);
+		_pose = std::make_unique<Pose>(speed, z, sound);
 		const std::string &gain = attr["gain"];
 		if (!gain.empty()) {
 			_pose->gain = atof(gain.c_str());
@@ -299,8 +299,7 @@ void IResourceManager::end(const std::string &name) {
 			//LOG_DEBUG(("%d: %d", i, frame));
 			_pose->frames.push_back(frame);
 		}
-		_am->addPose(_pose_id, _pose);
-		_pose = NULL;
+		_am->addPose(_pose_id, std::move(_pose));
 	} else if (name == "animation-model") {
 		delete _animation_models[_am_id];
 		_animation_models[_am_id] = _am;
