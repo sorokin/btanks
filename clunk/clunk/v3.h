@@ -25,7 +25,8 @@ SOFTWARE.
 #ifndef CLUNK_V3_H__
 #define CLUNK_V3_H__
 
-#include <clunk/types.h>
+#include <cmath>
+#include <cstdint>
 #include <limits>
 
 namespace clunk {

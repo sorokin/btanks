@@ -33,7 +33,7 @@ SOFTWARE.
 
 namespace clunk { namespace sdl {
 
-Backend::Backend(int sample_rate, const u8 channels, int period_size) {
+Backend::Backend(int sample_rate, const uint8_t channels, int period_size) {
 	LOG_DEBUG(("initializing backend %d %u %d", sample_rate, channels, period_size));
 	if (!SDL_WasInit(SDL_INIT_AUDIO)) {
 		if (SDL_InitSubSystem(SDL_INIT_AUDIO) == -1)
@@ -85,7 +85,7 @@ Backend::~Backend() {
 	SDL_QuitSubSystem(SDL_INIT_AUDIO);
 }
 
-void Backend::callback(void *userdata, u8 *stream, int len) {
+void Backend::callback(void *userdata, uint8_t *stream, int len) {
 	Backend *self = static_cast<Backend *>(userdata);
 	TRY {
 		self->_context.process(stream, len);
@@ -97,7 +97,7 @@ Sample* Backend::load(const std::string &file) {
 	Uint8 *buf;
 	Uint32 len;
 	SDL_AudioSpec spec;
-	//SDL_AudioSpec * SDLCALL SDL_LoadWAV_RW(SDL_RWops *src, int freesrc, SDL_AudioSpec *spec, u8 **audio_buf, u32 *audio_len);
+	//SDL_AudioSpec * SDLCALL SDL_LoadWAV_RW(SDL_RWops *src, int freesrc, SDL_AudioSpec *spec, uint8_t **audio_buf, u32 *audio_len);
 	if (SDL_LoadWAV(file.c_str(), &spec, &buf, &len) == NULL)
 		throw_sdl(("SDL_LoadWav"));
 	clunk::Buffer wav;

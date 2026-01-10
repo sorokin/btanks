@@ -25,7 +25,7 @@ SOFTWARE.
 #ifndef CLUNK_WINDOW_FUNCTION_H
 #define	CLUNK_WINDOW_FUNCTION_H
 
-#include <clunk/types.h>
+#include <cstdint>
 
 namespace clunk
 {

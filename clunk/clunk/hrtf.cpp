@@ -27,7 +27,7 @@ SOFTWARE.
 #include <clunk/clunk_ex.h>
 #include <algorithm>
 #include <stddef.h>
-#include <math.h>
+#include <cmath>
 
 #include "kemar.h"
 
@@ -106,10 +106,10 @@ unsigned Hrtf::process(
 	const clunk::Buffer &src_buf, unsigned src_ch,
 	const v3f &delta_position, float fx_volume)
 {
-	s16 * const dst = static_cast<s16*>(dst_buf.get_ptr());
+	int16_t* const dst = static_cast<int16_t*>(dst_buf.get_ptr());
 	const unsigned dst_n = (unsigned)dst_buf.get_size() / dst_ch / 2;
 
-	const s16 * const src = static_cast<const s16 *>(src_buf.get_ptr());
+	const int16_t* const src = static_cast<const int16_t*>(src_buf.get_ptr());
 	const unsigned src_n = (unsigned)src_buf.get_size() / src_ch / 2;
 	assert(dst_n <= src_n);
 
@@ -153,7 +153,7 @@ unsigned Hrtf::process(
 		assert(offset + WINDOW_SIZE / 2 <= src_n);
 		for(unsigned c = 0; c < dst_ch; ++c) {
 			sample3d[c].reserve(WINDOW_SIZE);
-			s16 *dst = static_cast<s16 *>(static_cast<void *>((static_cast<u8 *>(sample3d[c].get_ptr()) + sample3d[c].get_size() - WINDOW_SIZE)));
+			int16_t* dst = static_cast<int16_t*>(static_cast<void*>((static_cast<uint8_t*>(sample3d[c].get_ptr()) + sample3d[c].get_size() - WINDOW_SIZE)));
 			hrtf(c, dst, src + offset * src_ch, src_ch, src_n - offset, idt_offset, kemar_data, kemar_idx[c], amp[c]);
 		}
 		++window;
@@ -162,7 +162,7 @@ unsigned Hrtf::process(
 	
 	//LOG_DEBUG(("angle: %g", angle_gr));
 	//LOG_DEBUG(("idt offset %d samples", idt_offset));
-	s16 * src_3d[2] = { static_cast<s16 *>(sample3d[0].get_ptr()), static_cast<s16 *>(sample3d[1].get_ptr()) };
+	int16_t* src_3d[2] = {static_cast<int16_t*>(sample3d[0].get_ptr()), static_cast<int16_t*>(sample3d[1].get_ptr())};
 	
 	//LOG_DEBUG(("size1: %u, %u, needed: %u\n%s", (unsigned)sample3d[0].get_size(), (unsigned)sample3d[1].get_size(), dst_n, sample3d[0].dump().c_str()));
 	
@@ -182,7 +182,7 @@ void Hrtf::skip(unsigned samples) {
 	}
 }
 
-void Hrtf::hrtf(const unsigned channel_idx, s16 *dst, const s16 *src, int src_ch, int src_n, int idt_offset, const kemar_ptr& kemar_data, int kemar_idx, float freq_decay) {
+void Hrtf::hrtf(const unsigned channel_idx, int16_t* dst, const int16_t* src, int src_ch, int src_n, int idt_offset, const kemar_ptr& kemar_data, int kemar_idx, float freq_decay) {
 	assert(channel_idx < 2);
 
 	//LOG_DEBUG(("channel %d: window %d: adding %d, buffer size: %u, decay: %g", channel_idx, window, WINDOW_SIZE, (unsigned)result.get_size(), freq_decay));

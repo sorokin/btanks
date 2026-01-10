@@ -25,8 +25,8 @@ SOFTWARE.
 #ifndef CLUNK_BUFFER_H__
 #define CLUNK_BUFFER_H__
 
-#include <clunk/types.h>
 #include <clunk/export_clunk.h>
+#include <cstdint>
 #include <string>
 
 namespace clunk {

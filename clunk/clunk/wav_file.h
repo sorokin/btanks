@@ -25,9 +25,9 @@ SOFTWARE.
 #ifndef CLUNK_WAV_FILE_H
 #define CLUNK_WAV_FILE_H
 
+#include <cstdint>
 #include <string>
 #include <stdio.h>
-#include <clunk/types.h>
 #include <clunk/buffer.h>
 #include <clunk/audio_spec.h>
 
@@ -44,7 +44,7 @@ namespace clunk {
 		WavFile(FILE *f);
 
 		void read();
-		u32 read_32le();
+		uint32_t read_32le();
 		void read(Buffer &buffer, size_t size);
 		void read_format(const Buffer &data);
 		bool ok() const

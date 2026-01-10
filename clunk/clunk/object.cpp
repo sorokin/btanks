@@ -22,11 +22,12 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-#include <clunk/types.h>
 #include <clunk/object.h>
 #include <clunk/context.h>
 #include <clunk/locker.h>
 #include <clunk/source.h>
+
+#include <cstdint>
 #include <stdexcept>
 
 using namespace clunk;

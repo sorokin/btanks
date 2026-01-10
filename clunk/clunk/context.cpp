@@ -139,7 +139,7 @@ void Context::process(void *stream, size_t size) {
 		Mixer::mix(_spec.format, stream, stream_info.buffer.get_ptr(), buf_size, sdl_v);
 		
 		if (stream_info.buffer.get_size() > size) {
-			memmove(stream_info.buffer.get_ptr(), static_cast<u8 *>(stream_info.buffer.get_ptr()) + size, stream_info.buffer.get_size() - size);
+			memmove(stream_info.buffer.get_ptr(), static_cast<uint8_t *>(stream_info.buffer.get_ptr()) + size, stream_info.buffer.get_size() - size);
 			stream_info.buffer.resize(stream_info.buffer.get_size() - size);
 		} else {
 			stream_info.buffer.free();

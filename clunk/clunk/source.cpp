@@ -58,8 +58,8 @@ bool Source::playing() const {
 }
 	
 float Source::_process(clunk::Buffer &dst_buf, unsigned dst_ch, const v3f &delta_position, float fx_volume, float pitch) {
-	
-	const s16 * src = static_cast<const s16 *>(sample->get_data().get_ptr());
+
+	const int16_t* src = static_cast<const int16_t*>(sample->get_data().get_ptr());
 	if (src == NULL)
 			throw_ex(("uninitialized sample used (%p)", (void *)sample));
 
@@ -79,12 +79,12 @@ float Source::_process(clunk::Buffer &dst_buf, unsigned dst_ch, const v3f &delta
 	Buffer src_buf;
 	unsigned dst_n_plus_overlap = dst_n + Hrtf::WINDOW_SIZE;
 	src_buf.resize(dst_ch * dst_n_plus_overlap * 2);
-	s16 * src_buf_ptr = static_cast<s16 *>(src_buf.get_ptr());
+	int16_t* src_buf_ptr = static_cast<int16_t*>(src_buf.get_ptr());
 	for(unsigned i = 0; i < dst_n_plus_overlap; ++i) {
 		for(unsigned c = 0; c < dst_ch; ++c) {
 			int p = position + (int)(i * pitch);
 
-			s16 v = 0;
+			int16_t v = 0;
 			if (loop || (p >= 0 && p < (int)src_n)) {
 				p %= src_n;
 				if (p < 0)
@@ -104,7 +104,7 @@ float Source::_process(clunk::Buffer &dst_buf, unsigned dst_ch, const v3f &delta
 					} else if (v0 < -32767) {
 						v = -32767;
 					} else {
-						v = (s16)v0;
+						v = (int16_t)v0;
 					}
 				}
 				if (fadeout_total > 0 && fadeout - i <= 0) {

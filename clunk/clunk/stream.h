@@ -25,8 +25,9 @@ SOFTWARE.
 #ifndef CLUNK_STREAM_H__
 #define CLUNK_STREAM_H__
 
+#include <cstdint>
+
 #include <clunk/export_clunk.h>
-#include <clunk/types.h>
 #include <clunk/audio_spec.h>
 
 namespace clunk {

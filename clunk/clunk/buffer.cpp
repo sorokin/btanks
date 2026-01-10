@@ -143,7 +143,7 @@ const std::string Buffer::dump() const {
 			m = 16;
 		
 		for(j = 0; j < m; ++j) {
-			const u8 *p = static_cast<u8 *>(_ptr) + i*16 + j;
+			const uint8_t *p = static_cast<uint8_t *>(_ptr) + i*16 + j;
 			result += clunk::format_string("%02x ", *p);
 			if (j == 7) 
 				result += " ";
@@ -156,7 +156,7 @@ const std::string Buffer::dump() const {
 		result += "\t\t";
 
 		for(j = 0; j < m; ++j) {
-			const u8 *p = static_cast<u8 *>(_ptr) + i*16 + j;
+			const uint8_t *p = static_cast<uint8_t *>(_ptr) + i*16 + j;
 			result += clunk::format_string("%c", (*p>=32 && *p < 127)? *p: '.');
 			if (j == 7) 
 				result += " ";
@@ -179,7 +179,7 @@ void Buffer::pop(size_t n) {
 		return;
 	}
 	
-	memmove(_ptr, static_cast<u8 *>(_ptr) + n, _size - n);
+	memmove(_ptr, static_cast<uint8_t *>(_ptr) + n, _size - n);
 	resize(_size - n);
 }
 

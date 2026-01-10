@@ -25,10 +25,11 @@ SOFTWARE.
 #ifndef CLUNK_HRTF_H
 #define	CLUNK_HRTF_H
 
+#include <cstdint>
+
 #include <clunk/buffer.h>
 #include <clunk/export_clunk.h>
 #include <clunk/mdct_context.h>
-#include <clunk/types.h>
 #include <clunk/v3.h>
 #include <clunk/window_function.h>
 #include <clunk/kemar.h>
@@ -61,7 +62,7 @@ private:
 	void get_kemar_data(kemar_ptr & kemar_data, int & samples, const v3f &delta_position);
 
 	//generate hrtf response for channel idx (0 left), in result.
-	void hrtf(const unsigned channel_idx, s16 *dst, const s16 *src, int src_ch, int src_n, int idt_offset, const kemar_ptr& kemar_data, int kemar_idx, float freq_decay);
+	void hrtf(const unsigned channel_idx, int16_t* dst, const int16_t* src, int src_ch, int src_n, int idt_offset, const kemar_ptr& kemar_data, int kemar_idx, float freq_decay);
 
 private:
 	clunk::Buffer sample3d[2];

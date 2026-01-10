@@ -24,6 +24,8 @@ SOFTWARE.
 
 #include <clunk/distance_model.h>
 
+#include <cmath>
+
 float clunk::DistanceModel::gain(float distance) const {
 	float gain = 0;
 	distance /= distance_divisor;

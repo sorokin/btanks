@@ -31,7 +31,7 @@ SOFTWARE.
 namespace clunk {
 
 	static const int MaxMixVolumeShift = 7;
-	static const u8 MaxMixVolume = (1 << MaxMixVolumeShift);
+	static const uint8_t MaxMixVolume = (1 << MaxMixVolumeShift);
 
 	namespace impl {
 

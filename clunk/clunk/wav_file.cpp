@@ -34,20 +34,20 @@ namespace clunk {
 	WavFile::WavFile(FILE *f) : _f(f) {}
 	WavFile::~WavFile() { if (_f) fclose(_f); }
 
-	u32 WavFile::read_32le()
+	uint32_t WavFile::read_32le()
 	{
-		u8 data[4];
+		uint8_t data[4];
 		if (fread(data, 1, 4, _f) != 4)
 			throw std::runtime_error("fread failed");
 		return (data[0]) | (data[1] << 8) | (data[2] << 16) | (data[3] << 24);
 	}
 
 	void WavFile::read_format(const Buffer &data) {
-		const u8 *src = static_cast<u8 *>(data.get_ptr());
+		const uint8_t* src = static_cast<uint8_t*>(data.get_ptr());
 		if (data.get_size() < 16)
 			throw std::runtime_error("invalid header size");
 
-		u16 format = src[0] | (src[1] << 8);
+		uint16_t format = src[0] | (src[1] << 8);
 		if (format != 1)
 			throw std::runtime_error("only PCM format supported");
 		_spec.channels		= src[2] | (src[3] << 8);
@@ -67,18 +67,18 @@ namespace clunk {
 
 	void WavFile::read() {
 		fseek(_f, 0, SEEK_SET);
-		u32 riff = read_32le();
+		uint32_t riff = read_32le();
 		read_32le();
 		if (riff != 0x46464952)
 			throw std::runtime_error("invalid riff file signature");
-		u32 format = read_32le();
+		uint32_t format = read_32le();
 		if (format != 0x45564157)
 			throw std::runtime_error("only wave format supported");
 
 		while(!ok())
 		{
-			u32 id = read_32le();
-			u32 size = read_32le();
+			uint32_t id = read_32le();
+			uint32_t size = read_32le();
 			LOG_DEBUG(("id: 0x%08x, size: %u", id, size));
 			if (id == 0x20746d66)
 			{
@@ -91,7 +91,7 @@ namespace clunk {
 #if !defined(_WIN32) && __BYTE_ORDER == __BIG_ENDIAN
 				if (_spec.bytes_per_sample() == 2)
 				{
-					u8 *ptr = static_cast<u8 *>(_data.get_ptr());
+					uint8_t *ptr = static_cast<uint8_t *>(_data.get_ptr());
 					for(size_t i = 0; i + 1 < _data.get_size(); i += 2, ptr += 2)
 						std::swap(ptr[0], ptr[1]);
 				}

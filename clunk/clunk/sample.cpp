@@ -49,9 +49,9 @@ void Sample::generateSine(const int freq, const float len) {
 
 	int n = size / 2;
 
-	s16 * stream = static_cast<s16 *>(_data.get_ptr());
+	int16_t* stream = static_cast<int16_t*>(_data.get_ptr());
 	for(int i = 0; i < n; ++i) {
-		*stream++ = (s16)(32767 * sin(a));
+		*stream++ = (int16_t)(32767 * sin(a));
 		//*stream++ = 0;
 		a += da;
 	}

@@ -47,7 +47,7 @@ public:
 		\param[in] channels audio output channels number, supported values 1 or 2 for now. 
 		\param[out] period_size minimal processing unit (bytes). Less period - less latency.
 	*/
-	Backend(int sample_rate, const u8 channels, int period_size);
+	Backend(int sample_rate, const uint8_t channels, int period_size);
 	~Backend();
 
 	/*!
@@ -64,7 +64,7 @@ public:
 	AudioSpec convert(const SDL_AudioSpec &spec);
 
 private:
-	static void callback(void *userdata, u8 *stream, int len);
+	static void callback(void *userdata, uint8_t *stream, int len);
 	SDL_AudioSpec _spec;
 };
 

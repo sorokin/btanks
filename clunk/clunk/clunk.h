@@ -25,7 +25,6 @@ SOFTWARE.
 #ifndef CLUNK_MAIN_H___
 #define CLUNK_MAIN_H___
 
-#include <clunk/types.h>
 #include <clunk/v3.h>
 #include <clunk/context.h>
 #include <clunk/object.h>

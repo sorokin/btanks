@@ -25,8 +25,8 @@ SOFTWARE.
 #ifndef CLUNK_AUDIO_SPEC_H
 #define	CLUNK_AUDIO_SPEC_H
 
-#include <clunk/types.h>
 #include <clunk/export_clunk.h>
+#include <cstdint>
 #include <stdexcept>
 #include <limits>
 
@@ -41,7 +41,7 @@ struct CLUNKAPI AudioSpec {
 	};
 	Format	format;
 	int		sample_rate;
-	u8		channels;
+	uint8_t	channels;
 
 	unsigned bytes_per_sample() const {
 		switch(format)
@@ -56,10 +56,10 @@ struct CLUNKAPI AudioSpec {
 	unsigned max_sample_value() const {
 		switch(format)
 		{
-		case S8:	return std::numeric_limits<s8>::max();
-		case U8:	return std::numeric_limits<u8>::max();
-		case S16:	return std::numeric_limits<s16>::max();
-		case U16:	return std::numeric_limits<u16>::max();
+		case S8:	return std::numeric_limits<int8_t>::max();
+		case U8:	return std::numeric_limits<uint8_t>::max();
+		case S16:	return std::numeric_limits<int16_t>::max();
+		case U16:	return std::numeric_limits<uint16_t>::max();
 		default:
 			throw std::runtime_error("invalid format");
 		}
@@ -69,9 +69,9 @@ struct CLUNKAPI AudioSpec {
 		switch(format)
 		{
 		case S8:	return 0;
-		case U8:	return (1 + (unsigned)std::numeric_limits<u8>::max()) / 2;
+		case U8:	return (1 + (unsigned)std::numeric_limits<uint8_t>::max()) / 2;
 		case S16:	return 0;
-		case U16:	return (1 + (unsigned)std::numeric_limits<u16>::max()) / 2;
+		case U16:	return (1 + (unsigned)std::numeric_limits<uint16_t>::max()) / 2;
 		default:
 			throw std::runtime_error("invalid format");
 		}
@@ -84,7 +84,7 @@ struct CLUNKAPI AudioSpec {
 	{ return !is_signed(); }
 
 	AudioSpec(): format(S16), sample_rate(), channels() {}
-	AudioSpec(Format format, int freq, u8 channels): format(format), sample_rate(freq), channels(channels) {}
+	AudioSpec(Format format, int freq, uint8_t channels): format(format), sample_rate(freq), channels(channels) {}
 };
 
 template<int Format>
@@ -92,8 +92,8 @@ struct AudioFormat {};
 
 template<>
 struct AudioFormat<AudioSpec::S8> {
-	typedef s8			Type;
-	typedef s16			DoubleType;
+	typedef int8_t Type;
+	typedef int16_t DoubleType;
 
 	static const Type	Min = -128;
 	static const Type	Max = 127;
@@ -101,14 +101,14 @@ struct AudioFormat<AudioSpec::S8> {
 	static const Type	Range = Max - Zero;
 
 	template<typename T>
-	static s8 clip(const T & value)
+	static int8_t clip(const T& value)
 	{ return value >= Min? value <= Max? value: Max: Min; }
 };
 
 template<>
 struct AudioFormat<AudioSpec::S16> {
-	typedef s16	Type;
-	typedef s32	DoubleType;
+	typedef int16_t Type;
+	typedef int32_t DoubleType;
 
 	static const Type	Min = -32768;
 	static const Type	Max = 32767;
@@ -116,14 +116,14 @@ struct AudioFormat<AudioSpec::S16> {
 	static const Type	Range = Max - Zero;
 
 	template<typename T>
-	static s16 clip(const T & value)
+	static int16_t clip(const T& value)
 	{ return value >= Min? value <= Max? value: Max: Min; }
 };
 
 template<>
 struct AudioFormat<AudioSpec::U8> {
-	typedef u8	Type;
-	typedef u16	DoubleType;
+	typedef uint8_t Type;
+	typedef uint16_t DoubleType;
 
 	static const Type	Min = 0;
 	static const Type	Max = 255;
@@ -131,14 +131,14 @@ struct AudioFormat<AudioSpec::U8> {
 	static const Type	Range = Max - Zero;
 
 	template<typename T>
-	static u8 clip(const T & value)
+	static uint8_t clip(const T& value)
 	{ return value >= Min? value <= Max? value: Max: Min; }
 };
 
 template<>
 struct AudioFormat<AudioSpec::U16> {
-	typedef u16	Type;
-	typedef u32	DoubleType;
+	typedef uint16_t Type;
+	typedef uint32_t DoubleType;
 
 	static const Type	Min = 0;
 	static const Type	Max = 65535;
@@ -146,7 +146,7 @@ struct AudioFormat<AudioSpec::U16> {
 	static const Type	Range = Max - Zero;
 
 	template<typename T>
-	static u16 clip(const T & value)
+	static uint16_t clip(const T& value)
 	{ return value >= Min? value <= Max? value: Max: Min; }
 };
 

@@ -56,11 +56,12 @@ target_sources(clunk PUBLIC
 	clunk/sample.h
 	clunk/source.h
 	clunk/stream.h
-	clunk/types.h
 	clunk/v3.h
 	clunk/wav_file.h
 	clunk/window_function.h
 )
+
+target_compile_definitions(clunk PRIVATE _USE_MATH_DEFINES)
 
 install(TARGETS clunk DESTINATION lib
 	FILE_SET HEADERS DESTINATION include
