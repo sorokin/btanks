@@ -1,5 +1,4 @@
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 #include "rotating_object.h"
 #include "sdlx/surface.h"
 

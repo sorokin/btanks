@@ -25,6 +25,7 @@
  * from your version and license this file solely under the GPL without exception. 
 */
 
+#include <cmath>
 #include <stdlib.h>
 #include <time.h>
 #include "object.h"
@@ -79,8 +80,6 @@
 #include "nickname.h"
 
 #include "i18n.h"
-#define _USE_MATH_DEFINES
-#include <math.h>
 #include "special_owners.h"
 #include "mrt/calendar.h"
 #include "sdlx/cursor.h"

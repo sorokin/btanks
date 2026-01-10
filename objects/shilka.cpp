@@ -26,8 +26,7 @@
  * from your version and license this file solely under the GPL without exception. 
 */
 
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 #include <assert.h>
 #include "registrar.h"
 #include "object.h"

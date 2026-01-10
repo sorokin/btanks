@@ -13,19 +13,9 @@
 #include "export_sdlx.h"
 #define DLLINTERFACE SDLXAPI
 
-#ifndef _USE_MATH_DEFINES
-#	define _USE_MATH_DEFINES
-#endif
-
-#include <math.h>
-
 /* Set up for C function definitions, even when using C++ */
 #ifdef __cplusplus
 extern "C" {
-#endif
-
-#ifndef M_PI
-#define M_PI	3.141592654
 #endif
 
 #include "sdlx.h"

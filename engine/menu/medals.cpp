@@ -9,8 +9,7 @@
 #include <assert.h>
 #include "config.h"
 
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <cmath>
 
 #define EFFECT_LEN (0.5f)
 

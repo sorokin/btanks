@@ -6,6 +6,8 @@
 
 */
 
+#include "SDL_rotozoom.h"
+
 #ifdef _WIN32
 #include <windows.h>
 #endif
@@ -13,8 +15,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-
-#include "SDL_rotozoom.h"
+#include <math.h>
 
 #define MAX(a,b)    (((a) > (b)) ? (a) : (b))
 

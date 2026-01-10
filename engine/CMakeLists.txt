@@ -258,6 +258,8 @@ target_sources(btanks_engine PRIVATE
 	luaxx/state.h
 )
 
+target_compile_definitions(btanks_engine PRIVATE _USE_MATH_DEFINES)
+
 target_include_directories(btanks_engine PUBLIC "${CMAKE_CURRENT_BINARY_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}" "${CMAKE_CURRENT_SOURCE_DIR}/src" "${LUA_INCLUDE_DIR}")
 target_link_libraries(btanks_engine PUBLIC SDL::SDL mrt sdlx math Ogg::ogg Vorbis::vorbisfile clunk ${LUA_LIBRARIES} Threads::Threads)
 

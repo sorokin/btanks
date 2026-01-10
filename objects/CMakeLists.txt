@@ -70,4 +70,6 @@ target_sources(bt_objects PRIVATE
 	zombie.cpp
 )
 
+target_compile_definitions(bt_objects PRIVATE _USE_MATH_DEFINES)
+
 target_link_libraries(bt_objects PRIVATE btanks_engine sdlx mrt expat::expat SDL::SDL)
