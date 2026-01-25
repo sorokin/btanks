@@ -1,6 +1,6 @@
 {
-  "name": "example",
-  "version-string": "0.0.1",
+  "name": "btanks",
+  "version-semver": "0.10.0-git",
   "dependencies": [
     {
       "name": "directxsdk",
