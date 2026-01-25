@@ -39,7 +39,7 @@ IMPLEMENT_SINGLETON(Finder, IFinder);
 
 struct Package {
 	//std::set<std::string> files;
-	mrt::ZipDirectory *root;
+	std::unique_ptr<mrt::ZipDirectory> root;
 };
 
 std::unique_ptr<mrt::BaseFile> IFinder::get_file(const std::string &file, const std::string &mode) const {
@@ -55,7 +55,7 @@ std::unique_ptr<mrt::BaseFile> IFinder::get_file(const std::string &file, const 
 	if (i == packages.end())
 		throw_ex(("invalid package id '%s'", pack.c_str()));
 
-	const Package * package = i->second;
+	const Package * package = i->second.get();
 	std::string name = mrt::FSNode::normalize(file.substr(p + 1));
 	return package->root->open_file(name);
 }
@@ -71,7 +71,7 @@ const bool IFinder::exists(const std::string &base, const std::string &name) con
 
 const bool IFinder::exists(const std::string &name) const {
 	for(Packages::const_iterator i = packages.begin(); i != packages.end(); ++i) {
-		const Package * package = i->second;
+		const Package * package = i->second.get();
 		if (package->root->exists(name))
 			return true;	
 	}
@@ -160,7 +160,7 @@ IFinder::IFinder() {
 				LOG_DEBUG(("found packed resources, adding %s to the list", dat.c_str()));
 
 				auto package = std::make_unique<Package>();
-				package->root = new mrt::ZipDirectory(dat);
+				package->root = std::make_unique<mrt::ZipDirectory>(dat);
 				/*
 				package->root->open(dat);
 				std::string file;
@@ -170,8 +170,7 @@ IFinder::IFinder() {
 				}
 				LOG_DEBUG(("%u files were read from the archive", (unsigned)package->files.size()));
 				*/
-				delete packages[p];
-				packages[p] = package.release();
+				packages[p] = std::move(package);
 				if (!found)
 					_path.push_back(p);
 				found = true;
@@ -186,7 +185,6 @@ IFinder::IFinder() {
 }
 
 IFinder::~IFinder() {
-	std::for_each(packages.begin(), packages.end(), delete_ptr2<Packages::value_type>());
 }
 
 void IFinder::applyPatches(std::vector<std::string>& files, const std::string &file) const {

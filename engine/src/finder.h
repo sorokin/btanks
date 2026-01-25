@@ -70,6 +70,9 @@ public:
 	
 	const std::string get_base_path() const { return _base_path; }
 
+	IFinder(IFinder const& other) = delete;
+	IFinder& operator=(IFinder const& other) = delete;
+
 private: 
 	void scan(std::vector<std::string> &path);
 	void applyPatches(std::vector<std::string>& files, const std::string &fname) const;
@@ -77,7 +80,7 @@ private:
 	std::vector<std::string> _path;
 	std::vector<std::string> patches;
 	
-	typedef std::map<std::string, Package*> Packages;
+	typedef std::map<std::string, std::unique_ptr<Package>> Packages;
 	Packages packages;
 	
 	std::string _base_path;
