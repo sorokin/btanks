@@ -195,9 +195,9 @@ Object *Context::create_object() {
 	return o;
 }
 
-Sample *Context::create_sample() {
+std::unique_ptr<Sample> Context::create_sample() {
 	AudioLocker l;
-	return new Sample(this);
+	return std::unique_ptr<Sample>(new Sample(this));
 }
 
 void Context::save(const std::string &file) {

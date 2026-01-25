@@ -73,7 +73,7 @@ public:
 	Object *create_object();
 
 	///creates clunk::Sample 
-	Sample *create_sample();
+	std::unique_ptr<Sample> create_sample();
 	
 	/// dtor, deinits context automatically if you forget :)
 	~Context();

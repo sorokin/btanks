@@ -30,6 +30,7 @@ SOFTWARE.
 #include <stdio.h>
 #include <clunk/buffer.h>
 #include <clunk/audio_spec.h>
+#include <memory>
 
 namespace clunk {
 	class Context;
@@ -57,7 +58,7 @@ namespace clunk {
 		const AudioSpec & spec() const  { return _spec; }
 
 		static WavFile * load(const std::string &fname);
-		static Sample * load(Context &context, const std::string &fname);
+		static std::unique_ptr<Sample> load(Context &context, const std::string &fname);
 
 		void save(const std::string &fname);
 	};

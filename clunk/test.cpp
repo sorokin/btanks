@@ -155,8 +155,8 @@ int main(int argc, char *argv[]) {
 	clunk::Context &context = backend.get_context();
 	
 	clunk::Object * o = context.create_object();
-	clunk::Sample * s = clunk::WavFile::load(context, "scissors.wav");
-	clunk::Sample * h = clunk::WavFile::load(context, "helicopter.wav");
+	std::unique_ptr<clunk::Sample> s = clunk::WavFile::load(context, "scissors.wav");
+	std::unique_ptr<clunk::Sample> h = clunk::WavFile::load(context, "helicopter.wav");
 
 	static const int d = 3, n = 72;
 	clunk::DistanceModel dm(clunk::DistanceModel::Exponent, false);
@@ -178,7 +178,7 @@ int main(int argc, char *argv[]) {
 	o->play("b", new clunk::Source(s, false, clunk::v3f(0, 0, d)));
 	sleep(1);
 */
-	o->play("h", new clunk::Source(h, true));
+	o->play("h", new clunk::Source(h.get(), true));
 
 	for(int i = 0; i <= n; ++i) {
 		float a = float(2 * M_PI * i / n);

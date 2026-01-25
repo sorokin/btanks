@@ -53,7 +53,7 @@ public:
 	/*!
 		\brief loads sample from file
 	*/
-	Sample *load(const std::string &fname);
+	std::unique_ptr<Sample> load(const std::string &fname);
 	void start();
 	void stop();
 

@@ -213,7 +213,7 @@ void IMixer::loadSample(const std::string &filename, const std::string &classnam
 
 	std::unique_ptr<clunk::Sample> sample;
 	TRY {
-		sample = std::unique_ptr<clunk::Sample>(_context->create_sample());
+		sample = _context->create_sample();
 		mrt::Chunk data;
 		OggStream::decode(*sample, Finder->find("sounds/" + filename));
 		LOG_DEBUG(("sample %s decoded. ", filename.c_str()));

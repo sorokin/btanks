@@ -93,7 +93,7 @@ void Backend::callback(void *userdata, uint8_t *stream, int len) {
 }
 
 
-Sample* Backend::load(const std::string &file) {
+std::unique_ptr<Sample> Backend::load(const std::string &file) {
 	Uint8 *buf;
 	Uint32 len;
 	SDL_AudioSpec spec;
@@ -102,7 +102,7 @@ Sample* Backend::load(const std::string &file) {
 		throw_sdl(("SDL_LoadWav"));
 	clunk::Buffer wav;
 	wav.set_data(buf, len, true);
-	Sample *sample = _context.create_sample();
+	std::unique_ptr<Sample> sample = _context.create_sample();
 	sample->init(wav, convert(spec));
 	sample->name = file;
 	return sample;

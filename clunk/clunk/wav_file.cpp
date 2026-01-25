@@ -112,12 +112,12 @@ namespace clunk {
 		return wav.release();
 	}
 
-	Sample * WavFile::load(Context &context, const std::string &fname) {
+	std::unique_ptr<Sample> WavFile::load(Context &context, const std::string &fname) {
 		std::unique_ptr<WavFile> wav(load(fname));
-		std::unique_ptr<Sample> sample(context.create_sample());
+		std::unique_ptr<Sample> sample = context.create_sample();
 		sample->init(wav->_data, wav->_spec);
 		sample->name = fname;
-		return sample.release();
+		return sample;
 	}
 
 	namespace {

@@ -59,7 +59,7 @@ CLUNKCAPI clunk_object *clunk_context_create_object(clunk_context *ctx)
 
 CLUNKCAPI clunk_sample *clunk_context_create_sample(clunk_context *ctx)
 {
-	return ctx->create_sample();
+	return ctx->create_sample().release();
 }
 
 CLUNKCAPI void clunk_context_play(clunk_context *ctx, int id, clunk_stream *stream, int loop)
