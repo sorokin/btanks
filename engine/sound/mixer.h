@@ -35,6 +35,7 @@
 #include <math/v3.h>
 #include "alarm.h"
 #include "sl08/sl08.h"
+#include <memory>
 
 namespace mrt{
 class Chunk;
@@ -85,6 +86,9 @@ public:
 	void startAmbient(const std::string &fname);
 	void stopAmbient();
 
+	IMixer(IMixer const& other) = delete;
+	IMixer& operator=(IMixer const& other) = delete;
+
 private:
 	sl08::slot1<void, const Object *, IMixer> update_object_slot;
 	sl08::slot1<void, const Object *, IMixer> delete_object_slot;
@@ -92,7 +96,7 @@ private:
 
 	bool _nosound, _nomusic;
 
-	typedef std::map<std::string, clunk::Sample *> Sounds;
+	typedef std::map<std::string, std::unique_ptr<clunk::Sample>> Sounds;
 	Sounds _sounds;
 	
 	typedef std::map<std::string, std::set<std::string> > Classes;
@@ -110,9 +114,6 @@ private:
 	clunk::Context *_context;
 	
 	v3<float> listener_pos, listener_vel;
-	
-	IMixer(const IMixer &);
-	const IMixer& operator=(const IMixer &);
 };
 
 PUBLIC_SINGLETON(BTANKSAPI, Mixer, IMixer);

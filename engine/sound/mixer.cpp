@@ -115,7 +115,6 @@ void IMixer::deinit() {
 	if (_backend != NULL) {
 		_context->stop_all();
 		
-		std::for_each(_sounds.begin(), _sounds.end(), delete_ptr2<Sounds::value_type>());
 		_sounds.clear();
 
 		_backend->stop();
@@ -212,18 +211,18 @@ void IMixer::loadSample(const std::string &filename, const std::string &classnam
 	LOG_DEBUG(("loading sample %s", filename.c_str()));
 	
 
-	clunk::Sample * sample = NULL;
+	std::unique_ptr<clunk::Sample> sample;
 	TRY {
-		sample = _context->create_sample();
+		sample = std::unique_ptr<clunk::Sample>(_context->create_sample());
 		mrt::Chunk data;
 		OggStream::decode(*sample, Finder->find("sounds/" + filename));
 		LOG_DEBUG(("sample %s decoded. ", filename.c_str()));
 		sample->name = filename;
-		_sounds[filename] = sample;
+		_sounds[filename] = std::move(sample);
 		
 		if (!classname.empty())
 			_classes[classname].insert(filename);
-	} CATCH("loadSample", { delete sample; sample = NULL; });
+	} CATCH("loadSample", { });
 
 }
 
@@ -261,7 +260,7 @@ TRY {
 		LOG_WARN(("sound %s was not loaded. skipped.", name.c_str()));
 		return;
 	}
-	clunk::Sample *sample = i->second;
+	clunk::Sample *sample = i->second.get();
 
 	if (o) {
 		clunk::Object *clunk_object = o->get_clunk_object();
