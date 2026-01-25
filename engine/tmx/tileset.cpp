@@ -40,10 +40,13 @@ void Tileset::end(const std::string &name) {
 		throw_ex(("duplicate id %s", name.c_str()));
 
 	std::string id =  _attr["id"];
-	GeneratorObject *o = GeneratorObject::create(name, _attr, _cdata);
-	LOG_DEBUG(("adding '%s' object with id '%s' (%p)", name.c_str(), id.c_str(), (void *)o));
-	_objects.insert(Objects::value_type(id, o));
+	auto o = GeneratorObject::create(name, _attr, _cdata);
+	LOG_DEBUG(("adding '%s' object with id '%s' (%p)", name.c_str(), id.c_str(), (void *)o.get()));
+	_objects.insert(std::make_pair(id, std::move(o)));
 }
+
+Tileset::Tileset()
+{}
 
 const GeneratorObject *Tileset::getObject(const std::string &name) const {
 	if (name == "?") {
@@ -55,7 +58,7 @@ const GeneratorObject *Tileset::getObject(const std::string &name) const {
 		while(n--) {
 			++i;
 		}
-		return i->second;
+		return i->second.get();
 	}
 	
 	Objects::const_iterator i = _objects.find(name);
@@ -64,9 +67,8 @@ const GeneratorObject *Tileset::getObject(const std::string &name) const {
 
 	assert(i->second != NULL);
 	
-	return i->second;
+	return i->second.get();
 }
 
 Tileset::~Tileset() {
-	std::for_each(_objects.begin(), _objects.end(), delete_ptr2<Objects::value_type>());
 }

@@ -102,19 +102,19 @@ void GeneratorObject::init(const std::map<std::string, std::string>& attrs, cons
 		throw_ex(("you must specify size or width+height of every object"));
 }
 
-GeneratorObject *GeneratorObject::create(const std::string &name, const std::map<std::string, std::string>& attrs, const std::string &data) {
-	GeneratorObject *o = create(name);
+std::unique_ptr<GeneratorObject> GeneratorObject::create(const std::string &name, const std::map<std::string, std::string>& attrs, const std::string &data) {
+	std::unique_ptr<GeneratorObject> o = create(name);
 	o->init(attrs, data);
 	return o;
 }
 
 
-GeneratorObject *GeneratorObject::create(const std::string &name) {
+std::unique_ptr<GeneratorObject> GeneratorObject::create(const std::string &name) {
 	if (name == "background") {
 		//create background
-		return new Background;
+		return std::make_unique<Background>();
 	} else if (name == "box") {
-		return new TileBox;
+		return std::make_unique<TileBox>();
 	} else throw_ex(("cannot handle '%s' object", name.c_str()));
 }
 

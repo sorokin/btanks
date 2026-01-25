@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 #include "export_btanks.h"
 #include "math/matrix.h"
 
@@ -17,11 +18,11 @@ public:
 	virtual void render(MapGenerator *layer, const int first_gid, const int x, const int y, const bool full) const = 0;
 	virtual ~GeneratorObject() {}
 	
-	static GeneratorObject *create(const std::string &name, const std::map<std::string, std::string>& attrs, const std::string &data);
+	static std::unique_ptr<GeneratorObject> create(const std::string &name, const std::map<std::string, std::string>& attrs, const std::string &data);
 protected: 
 	static std::string get(const std::map<std::string, std::string>& attrs, const std::string &name);
 private: 
-	static GeneratorObject *create(const std::string &name);
+	static std::unique_ptr<GeneratorObject> create(const std::string &name);
 };
 
 namespace generator {
