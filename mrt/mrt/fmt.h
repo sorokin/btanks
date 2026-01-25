@@ -23,14 +23,10 @@
 #include <vector>
 #include "mrt/export_mrt.h"
 
-#if !(defined(__GNUC__) || defined(__GNUG__) || defined(__attribute__))
-#	define __attribute__(p) /* nothing */
-#endif
-
 namespace mrt {
 
 
-const std::string MRTAPI format_string(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
+[[gnu::format(printf, 1, 2)]] const std::string MRTAPI format_string(const char *fmt, ...);
 void MRTAPI trim(std::string &str, const std::string chars = "\t\n\r ");
 void MRTAPI split(std::vector<std::string> & result, const std::string &str, const std::string &delimiter, const size_t limit = 0);
 void MRTAPI join(std::string &result, const std::vector<std::string>& array, const std::string &delimiter, const size_t limit = 0);

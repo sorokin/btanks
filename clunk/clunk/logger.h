@@ -30,13 +30,9 @@ SOFTWARE.
 #include <string>
 #include <exception>
 
-#if !(defined(__GNUC__) || defined(__GNUG__) || defined(__attribute__))
-#	define __attribute__(p) /* nothing */
-#endif
-
 namespace clunk {
-	void CLUNKAPI log_debug(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
-	const std::string CLUNKAPI format_string(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
+	[[gnu::format(printf, 1, 2)]] void CLUNKAPI log_debug(const char *fmt, ...);
+	[[gnu::format(printf, 1, 2)]] const std::string CLUNKAPI format_string(const char *fmt, ...);
 }
 
 #ifdef CLUNK_ENABLE_DEBUG_LOGGING
