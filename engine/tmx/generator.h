@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <memory>
 #include "sdlx/sdlx.h"
 #include <stack>
 #include "math/matrix.h"
@@ -29,6 +30,9 @@ public:
 	const GeneratorObject *getObject(const std::string &tileset, const std::string &name) const;
 	void getPrimaryBoxes(std::deque<std::pair<std::string, std::string> > &boxes) const;
 
+	MapGenerator(MapGenerator const& other) = delete;
+	MapGenerator& operator=(MapGenerator const& other) = delete;
+
 private: 
 
 	void fill(Layer *layer, const std::vector<std::string> &args);
@@ -42,7 +46,7 @@ private:
 	//static const std::string getDescName(const std::string &fname);
 	
 	std::map<std::string, int> first_gid;
-	typedef std::map<std::string, Tileset *> Tilesets;
+	typedef std::map<std::string, std::unique_ptr<Tileset>> Tilesets;
 	Tilesets _tilesets;
 	
 	Layer *_layer;

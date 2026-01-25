@@ -201,13 +201,11 @@ void MapGenerator::tileset(const std::string &fname, const int gid) {
 	if (f.empty())
 		return;
 	
-	Tileset *t = NULL;
 	TRY {
-		t = new Tileset;
+		auto t = std::make_unique<Tileset>();
 		t->parse_file(f);
-		_tilesets.insert(Tilesets::value_type(name, t));
-		t = NULL;
-	} CATCH("parsing tileset descriptor", {delete t; throw;} );
+		_tilesets.insert(std::make_pair(name, std::move(t)));
+	} CATCH("parsing tileset descriptor", { throw; } );
 }
 
 
@@ -237,7 +235,6 @@ void MapGenerator::clear() {
 }
 
 MapGenerator::~MapGenerator() {
-	std::for_each(_tilesets.begin(), _tilesets.end(), delete_ptr2<Tilesets::value_type>());
 }
 
 /*
