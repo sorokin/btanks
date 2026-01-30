@@ -55,35 +55,35 @@ void DestructableObject::onBreak() {
 void DestructableObject::destroy() {
 	if (_broken)
 		return;
-	
-		_broken = true;
-		hp = -1;
-		if (_variants.has("make-pierceable"))
-			pierceable = true;
-		cancel_all();
-		play("fade-out", false); 
-		play("broken", true);
-		classname = "debris";
-		
-		if (_variants.has("with-fire")) {
-			const AnimationModel *model = get_animation_model();
-			int my_z = get_z();
-			if (model != NULL) {
-				const Pose * pose = model->getPose("broken");
-				if (pose != NULL && pose->z > -10000)
-					my_z = pose->z + ZBox::getBoxBase(my_z);
-			}
-			Object *fire = spawn("fire", "fire");
-			if (my_z > fire->get_z())
-				fire->set_z(my_z + 1, true);
-		}
 
-		if (_variants.has("respawning")) {
-			GET_CONFIG_VALUE("objects." + registered_name + ".respawn-interval", float, ri, 20.0f);
-			_respawn.set(ri);
-		}
+	_broken = true;
+	hp = -1;
+	if (_variants.has("make-pierceable"))
+		pierceable = true;
+	cancel_all();
+	play("fade-out", false);
+	play("broken", true);
+	classname = "debris";
 
-		onBreak();
+	if (_variants.has("with-fire")) {
+		const AnimationModel *model = get_animation_model();
+		int my_z = get_z();
+		if (model != NULL) {
+			const Pose * pose = model->getPose("broken");
+			if (pose != NULL && pose->z > -10000)
+				my_z = pose->z + ZBox::getBoxBase(my_z);
+		}
+		Object *fire = spawn("fire", "fire");
+		if (my_z > fire->get_z())
+			fire->set_z(my_z + 1, true);
+	}
+
+	if (_variants.has("respawning")) {
+		GET_CONFIG_VALUE("objects." + registered_name + ".respawn-interval", float, ri, 20.0f);
+		_respawn.set(ri);
+	}
+
+	onBreak();
 }
 
 

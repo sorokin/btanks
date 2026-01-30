@@ -394,35 +394,35 @@ const sdlx::Font *IResourceManager::loadFont(const std::string &name, const bool
 	FontMap::iterator i = _fonts.find(id);
 	if (i != _fonts.end() && i->second != NULL)
 		return i->second;
-	
+
 	sdlx::Font *f = NULL;
-		TRY {
-			mrt::Chunk data;
-			Finder->load(data, "font/" + name + ".png");
-			f = new sdlx::Font;
-			f->load(data, sdlx::Font::Ascii, alpha);
-			LOG_DEBUG(("loaded font '%s'", name.c_str()));
-			_fonts[id] = f;
-		} CATCH("loading font", { delete f; throw; });
-		
+	TRY {
 		mrt::Chunk data;
-		const std::string page0400 = Finder->find("font/" + name + "_0400.png", false);
-		if (!page0400.empty()) {
-			Finder->load(data, "font/" + name + "_0400.png");
-			f->add_page(0x0400, data, alpha);
-		}
+		Finder->load(data, "font/" + name + ".png");
+		f = new sdlx::Font;
+		f->load(data, sdlx::Font::Ascii, alpha);
+		LOG_DEBUG(("loaded font '%s'", name.c_str()));
+		_fonts[id] = f;
+	} CATCH("loading font", { delete f; throw; });
 
-		const std::string page0080 = Finder->find("font/" + name + "_0080.png", false);
-		if (!page0080.empty()) {
-			Finder->load(data, "font/" + name + "_0080.png");
-			f->add_page(0x00a0, data, alpha);
-		}
+	mrt::Chunk data;
+	const std::string page0400 = Finder->find("font/" + name + "_0400.png", false);
+	if (!page0400.empty()) {
+		Finder->load(data, "font/" + name + "_0400.png");
+		f->add_page(0x0400, data, alpha);
+	}
 
-		const std::string page2460 = Finder->find("font/" + name + "_2460.png", false);
-		if (!page2460.empty()) {
-			Finder->load(data, "font/" + name + "_2460.png");
-			f->add_page(0x2460, data, alpha);
-		}
+	const std::string page0080 = Finder->find("font/" + name + "_0080.png", false);
+	if (!page0080.empty()) {
+		Finder->load(data, "font/" + name + "_0080.png");
+		f->add_page(0x00a0, data, alpha);
+	}
+
+	const std::string page2460 = Finder->find("font/" + name + "_2460.png", false);
+	if (!page2460.empty()) {
+		Finder->load(data, "font/" + name + "_2460.png");
+		f->add_page(0x2460, data, alpha);
+	}
 	return f;
 }
 
