@@ -113,7 +113,7 @@ private:
 	typedef std::map<std::string, sdlx::Surface *> SurfaceMap;
 	SurfaceMap _surfaces;
 
-	typedef std::map<std::pair<std::string, bool>, sdlx::Font *> FontMap;
+	typedef std::map<std::pair<std::string, bool>, std::unique_ptr<sdlx::Font>> FontMap;
 	FontMap _fonts;
 
 	typedef std::map<std::string, sdlx::CollisionMap *> CollisionMap;

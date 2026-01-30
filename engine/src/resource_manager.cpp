@@ -392,18 +392,22 @@ const sdlx::Surface *IResourceManager::load_surface(const std::string &id, int s
 const sdlx::Font *IResourceManager::loadFont(const std::string &name, const bool alpha) {
 	std::pair<std::string, bool> id(name, alpha);
 	FontMap::iterator i = _fonts.find(id);
-	if (i != _fonts.end() && i->second != NULL)
-		return i->second;
+	if (i != _fonts.end())
+	{
+		assert(i->second != NULL);
+		return i->second.get();
+	}
 
-	sdlx::Font *f = NULL;
+	sdlx::Font *f;
 	TRY {
 		mrt::Chunk data;
 		Finder->load(data, "font/" + name + ".png");
-		f = new sdlx::Font;
-		f->load(data, sdlx::Font::Ascii, alpha);
+		auto font = std::make_unique<sdlx::Font>();
+		font->load(data, sdlx::Font::Ascii, alpha);
 		LOG_DEBUG(("loaded font '%s'", name.c_str()));
-		_fonts[id] = f;
-	} CATCH("loading font", { delete f; throw; });
+		f = font.get();
+		_fonts[id] = std::move(font);
+	} CATCH("loading font", { throw; });
 
 	mrt::Chunk data;
 	const std::string page0400 = Finder->find("font/" + name + "_0400.png", false);
@@ -454,7 +458,6 @@ void IResourceManager::clear() {
 	_surfaces.clear();
 	std::for_each(_cmaps.begin(), _cmaps.end(), delete_ptr2<CollisionMap::value_type>());
 	_cmaps.clear();
-	std::for_each(_fonts.begin(), _fonts.end(), delete_ptr2<FontMap::value_type>());
 	_fonts.clear();
 	std::for_each(_objects.begin(), _objects.end(), delete_ptr2<ObjectMap::value_type>());
 	_objects.clear();
