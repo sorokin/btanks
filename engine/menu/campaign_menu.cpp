@@ -186,7 +186,7 @@ void CampaignMenu::init(bool first_time) {
 	for(size_t i = 0; i < campaign.maps.size(); ++i) {
 
 		const Campaign::Map &map = campaign.maps[i];
-		Control *c = NULL;
+		Control *c = nullptr;
 		std::pair<bool, bool> vstatus = campaign.visible(map);
 		bool visible = vstatus.first, just_opened = vstatus.second;
 		TRY {
@@ -340,7 +340,7 @@ void CampaignMenu::update_map() {
 	
 	for(size_t i = 0; i < campaign.medals.size(); ++i) {
 		const Campaign::Medal & medal = campaign.medals[i];
-		if (medal.icon == NULL || !map.got_medal(campaign, medal))
+		if (medal.icon == nullptr || !map.got_medal(campaign, medal))
 			continue;
 		Image *image = new Image(medal.icon);
 		medalx -= medal.icon->get_width();

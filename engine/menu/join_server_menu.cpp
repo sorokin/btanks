@@ -44,7 +44,7 @@
 #include "net/scanner.h"
 #include "host_item.h"
 
-JoinServerMenu::JoinServerMenu(const int w, const int h) : ping_timer(true), _scanner(NULL) {
+JoinServerMenu::JoinServerMenu(const int w, const int h) : ping_timer(true), _scanner(nullptr) {
 	ping_timer.set(60, false);
 	
 	_back = new Button("big", I18n->get("menu", "back"));
@@ -139,7 +139,7 @@ void JoinServerMenu::join() {
 	}
 	
 	HostItem *item = dynamic_cast<HostItem *>(_hosts->getItem(_hosts->get()));
-	if (item == NULL)
+	if (item == nullptr)
 		return;
 		
 	mrt::Socket::addr addr = item->addr;
@@ -165,7 +165,7 @@ void JoinServerMenu::join() {
 
 void JoinServerMenu::activate(const bool active) {
 	Container::activate(active);
-	if (active && _scanner == NULL) {
+	if (active && _scanner == nullptr) {
 		_scanner = new Scanner;				
 		_scanner->scan();
 		ping();
@@ -247,7 +247,7 @@ void JoinServerMenu::tick(const float dt) {
 	if (_scan->changed()) {
 		_scan->reset();
 		ping_timer.reset();
-		if (_scanner == NULL)
+		if (_scanner == nullptr)
 			_scanner = new Scanner;
 
 		_scanner->scan();
@@ -264,20 +264,20 @@ void JoinServerMenu::tick(const float dt) {
 		join();
 	}
 
-	if (_scanner == NULL) {
+	if (_scanner == nullptr) {
 		_scanner = new Scanner;
 		_scanner->scan();
 		ping(); 
 	}
 
-	if (_scanner != NULL && _scanner->changed()) {
+	if (_scanner != nullptr && _scanner->changed()) {
 		_scanner->reset();
 		Scanner::HostMap hosts;
 		_scanner->get(hosts);
 		
 		for(int i = 0; i < _hosts->size(); ++i) {
 			HostItem * host = dynamic_cast<HostItem*>(_hosts->getItem(i));
-			if (host == NULL) 
+			if (host == nullptr) 
 				continue;
 			
 			Scanner::HostMap::iterator h = hosts.find(host->addr);
@@ -308,7 +308,7 @@ void JoinServerMenu::tick(const float dt) {
 		std::set<mrt::Socket::addr> dup_ips;
 		for(int i = 0; i < _hosts->size(); ) {
 			HostItem * host = dynamic_cast<HostItem*>(_hosts->getItem(i));
-			if (host == NULL) 
+			if (host == nullptr) 
 				continue;
 
 			if (dup_ips.find(host->addr) != dup_ips.end()) {
@@ -333,7 +333,7 @@ void JoinServerMenu::update() {
 		return;
 	
 	//const HostItem * host = dynamic_cast<const HostItem*>(_hosts->getItem(_hosts->get()));
-	//if (host == NULL) 
+	//if (host == nullptr) 
 	//	return;
 	//const std::string & map = host->map;
 	//LOG_DEBUG(("showing map: %s", map.c_str()));
@@ -342,12 +342,12 @@ void JoinServerMenu::update() {
 
 void JoinServerMenu::ping() {
 	LOG_DEBUG(("ping()"));
-	if (_scanner == NULL)
+	if (_scanner == nullptr)
 		_scanner = new Scanner;
 
 	for(int i = 0; i < _hosts->size(); ++i) {
 		HostItem * host = dynamic_cast<HostItem*>(_hosts->getItem(i));
-		if (host == NULL) 
+		if (host == nullptr) 
 			continue;
 		_scanner->add(host->addr, host->name);
 		GET_CONFIG_VALUE("engine.rolling-slash-timeout", float, rst, 5.0f);
@@ -381,8 +381,8 @@ bool JoinServerMenu::onKey(const SDL_keysym sym) {
 }
 
 JoinServerMenu::~JoinServerMenu() {
-	if (_scanner != NULL) {
+	if (_scanner != nullptr) {
 		delete _scanner;
-		_scanner = NULL;
+		_scanner = nullptr;
 	}
 }

@@ -61,7 +61,7 @@
 
 static inline void call_calculate(Object *object, float dt) {
 	RotatingObject *ro = dynamic_cast<RotatingObject *>(object);
-	if (ro == NULL) {
+	if (ro == nullptr) {
 		object->Object::calculate(dt);
 	} else {
 		ro->RotatingObject::calculate(dt);
@@ -81,7 +81,7 @@ void IWorld::setTimeSlice(const float ts) {
 }
 
 void IWorld::initMap() {
-	if (_hp_bar == NULL)
+	if (_hp_bar == nullptr)
 		_hp_bar = ResourceManager->load_surface("hud/hp.png");
 
 	GET_CONFIG_VALUE("engine.grid-fragment-size", int, gfs, 128);
@@ -114,7 +114,7 @@ void IWorld::setMode(const std::string &mode, const bool value) {
 }
 
 IWorld::IWorld() : _objects(), _last_id(0), _max_id(0), _atatat(false), 
-	_max_dt(1), _out_of_sync(-1), _out_of_sync_sent(-1), _current_update_id(-1), _hp_bar(NULL) {
+	_max_dt(1), _out_of_sync(-1), _out_of_sync_sent(-1), _current_update_id(-1), _hp_bar(nullptr) {
 	
 	LOG_DEBUG(("world ctor"));
 	init_map_slot.assign(this, &IWorld::initMap, Map->load_map_signal);
@@ -153,8 +153,8 @@ void IWorld::updateObject(Object *o) {
 }
 
 void IWorld::addObject(Object *o, const v2<float> &pos, const int id) {
-	if (o == NULL) 
-		throw_ex(("adding NULL as world object is not allowed"));
+	if (o == nullptr) 
+		throw_ex(("adding nullptr as world object is not allowed"));
 	o->_id = (id > 0)?id:++_last_id;
 	
 	ObjectMap::iterator existing_object = _objects.find(o->_id);
@@ -227,7 +227,7 @@ struct ObjectZCompare {
 void IWorld::render(sdlx::Surface &surface, const sdlx::Rect& src, const sdlx::Rect &dst, const int _z1, const int _z2, const Object * player) {
 	bool fog = false;
 	
-	if (player != NULL)
+	if (player != nullptr)
 		Config->get("engine.fog-of-war.enabled", fog, false);
 	
 	v2<int> player_pos;
@@ -276,7 +276,7 @@ void IWorld::render(sdlx::Surface &surface, const sdlx::Rect& src, const sdlx::R
 	//LOG_DEBUG(("render: collide returns %u objects", (unsigned)objects.size()));
 	for(std::set<Object *>::iterator i = objects.begin(); i != objects.end(); ++i) {
 		Object *o = *i;
-		assert(o != NULL);
+		assert(o != nullptr);
 		if (o->is_dead() || o->skip_rendering()) {
 			//LOG_DEBUG(("render: skipped dead object: %s", o->registered_name.c_str()));
 			continue;
@@ -287,7 +287,7 @@ void IWorld::render(sdlx::Surface &surface, const sdlx::Rect& src, const sdlx::R
 		o->get_subobjects(objects);
 		for(std::set<Object *>::iterator j = objects.begin(); j != objects.end(); ++j) {
 			Object *o = *j;
-			assert(o != NULL);
+			assert(o != nullptr);
 		
 			if (o->_z < _z1 || o->_z >= _z2) 	
 				continue;
@@ -310,7 +310,7 @@ void IWorld::render(sdlx::Surface &surface, const sdlx::Rect& src, const sdlx::R
 		Object *o = layers.top();
 		layers.pop();
 		
-		assert(o != NULL);
+		assert(o != nullptr);
 		if (o->is_dead())
 			continue;
 		
@@ -345,7 +345,7 @@ void IWorld::render(sdlx::Surface &surface, const sdlx::Rect& src, const sdlx::R
 		const Way & way = o->get_way();
 		if (show_waypoints && !way.empty()) {
 			const Animation *a = ResourceManager.get_const()->getAnimation("waypoint-16");
-			assert(a != NULL);
+			assert(a != nullptr);
 		
 			const sdlx::Surface * wp_surface = ResourceManager->load_surface(a->surface);
 
@@ -355,7 +355,7 @@ void IWorld::render(sdlx::Surface &surface, const sdlx::Rect& src, const sdlx::R
 					wp.x - src.x + dst.x - 8, wp.y - src.y + dst.y - 8);
 			}
 		}
-		if (o->hp >= 20 && o->_parent == NULL && (special_ids.find(o->get_id()) != special_ids.end() || (rhb && (o->impassability == 1.0f && !o->piercing)))) {
+		if (o->hp >= 20 && o->_parent == nullptr && (special_ids.find(o->get_id()) != special_ids.end() || (rhb && (o->impassability == 1.0f && !o->piercing)))) {
 			int h = _hp_bar->get_height() / 16;
 			int y = (o->hp >= 0)?15 * (o->max_hp - o->hp) / o->max_hp: 0;
 			sdlx::Rect hp_src(0, y * h, _hp_bar->get_width(), h);
@@ -423,7 +423,7 @@ const bool IWorld::collides(Object *obj1, const v2<int> &position, Object *obj2,
 	TRY {
 		const int id1 = obj1->_id;
 		const int id2 = obj2->_id;
-		assert(obj1 != NULL && obj2 != NULL);
+		assert(obj1 != nullptr && obj2 != nullptr);
 
 		if (id1 == id2 || 
 			(obj1->impassability < 1.0 && obj1->impassability >= 0) || 
@@ -501,11 +501,11 @@ const bool IWorld::collides(Object *obj1, const v2<int> &position, Object *obj2,
 
 const float IWorld::getImpassability(Object *obj, const v2<int> &position, const Object **collided_with, const bool probe, const bool skip_moving) const {
 TRY {
-	assert(obj != NULL);
+	assert(obj != nullptr);
 	
 	if (obj->impassability == 0) {
-		if (collided_with != NULL)
-			*collided_with = NULL;
+		if (collided_with != nullptr)
+			*collided_with = nullptr;
 		return 0;
 	}
 
@@ -516,7 +516,7 @@ TRY {
 */
 
 	float im = 0;
-	const Object *result = NULL;
+	const Object *result = nullptr;
 	
 	sdlx::Rect my((int)position.x, (int)position.y,(int)obj->size.x, (int)obj->size.y);
 
@@ -550,7 +550,7 @@ TRY {
 		}
 
 	}
-	if (collided_with != NULL)
+	if (collided_with != nullptr)
 		*collided_with = result;
 	
 	return obj->get_effective_impassability(im);
@@ -575,7 +575,7 @@ void IWorld::get_impassability_matrix(Matrix<int> &matrix, const Object *src, co
 		Object *o = i->second;
 		if (o == src || o == dst || o->impassability <= 0 || o->piercing)
 			continue;
-		if (src != NULL && !ZBox::sameBox(src->_z, o->_z))
+		if (src != nullptr && !ZBox::sameBox(src->_z, o->_z))
 			continue;
 		
 		int im = (int)(o->impassability * 100);
@@ -721,7 +721,7 @@ TRY {
 					o.calculate(dt);
 				}
 			}
-			if (old_state != o.get_player_state() && dynamic_cast<ai::Synchronizable *>(&o) != NULL) {
+			if (old_state != o.get_player_state() && dynamic_cast<ai::Synchronizable *>(&o) != nullptr) {
 				//LOG_DEBUG(("buratino %s changed state", o.animation.c_str()));
 				PlayerManager->send_object_state(o.get_id(), o.get_player_state());
 			}
@@ -787,7 +787,7 @@ TRY {
 			v2<int> pos = o._position.convert<int>();
 			if (o.impassability < 0 || o.impassability >= 1.0f) {
 				if (has_outline) {
-					map.getImpassability(&o, pos, NULL, has_outline? &hidden: NULL);
+					map.getImpassability(&o, pos, nullptr, has_outline? &hidden: nullptr);
 					//LOG_DEBUG(("o: %s, hidden: %s", o.animation.c_str(), hidden?"yes":"no"));
 					o.update_outline(hidden);
 				}
@@ -821,7 +821,7 @@ TRY {
 
 	v2<int> old_pos = o._position.convert<int>();
 
-	const Object *stuck_in = NULL;
+	const Object *stuck_in = nullptr;
 	IMap::TilePosition stuck_map_pos;
 
 	float map_im_now = o.piercing?0:(map.getImpassability(&o, old_pos, &stuck_map_pos) / 100.0f);
@@ -860,7 +860,7 @@ TRY {
 	}
 */
 	
-	const Object *other_obj = NULL;
+	const Object *other_obj = nullptr;
 
 	int attempt = -1;
 
@@ -912,7 +912,7 @@ TRY {
 		}
 		Map->validate(pos);
 		
-		map_im = map.getImpassability(&o, pos, NULL, has_outline?(hidden_attempt + attempt):NULL) / 100.0f;
+		map_im = map.getImpassability(&o, pos, nullptr, has_outline?(hidden_attempt + attempt):nullptr) / 100.0f;
 		obj_im = getImpassability(&o, pos, &other_obj, attempt > 0);  //make sure no cached collision event reported here
 		GET_CONFIG_VALUE("engine.no-clip", bool, no_clip, false);
 		if (no_clip) {
@@ -939,7 +939,7 @@ TRY {
 		if (o.piercing || dirs == 1)
 			break;
 	
-		if (ds || (other_obj != NULL && o.disable_ai && other_obj->disable_ai))
+		if (ds || (other_obj != nullptr && o.disable_ai && other_obj->disable_ai))
 			break;
 
 		if (dorc)
@@ -984,7 +984,7 @@ TRY {
 			}
 
 			Map->damage(o._position + o.size / 2 + dpos, o.max_hp);
-			o.emit("collision", NULL); //fixme: emit collisions with map from map::getImpassability
+			o.emit("collision", nullptr); //fixme: emit collisions with map from map::getImpassability
 		} 
 		map_im = 0;
 		obj_im = 0; //collision handler was already called.
@@ -1025,8 +1025,8 @@ TRY {
 						continue;
 					Map->validate(c_pos);
 
-					float map_im = map.getImpassability(&o, pos, NULL, NULL) / 100.0f;
-					float obj_im = getImpassability(&o, pos, NULL, true);
+					float map_im = map.getImpassability(&o, pos, nullptr, nullptr) / 100.0f;
+					float obj_im = getImpassability(&o, pos, nullptr, true);
 					if (obj_im < 1.0f && map_im < 1.0f) 
 						goto found;
 				}
@@ -1035,7 +1035,7 @@ TRY {
 			if (a >= steps) {
 				LOG_DEBUG(("%d: %s couldnt escape from this cruel world. committing suicide. good luck in your next life...", 
 					o._id, o.animation.c_str()));
-				o.emit("death", NULL);
+				o.emit("death", nullptr);
 				goto skip_collision;
 			}
 
@@ -1144,7 +1144,7 @@ void IWorld::tick(ObjectMap &objects, const float dt, const bool do_calculate) {
 void IWorld::_tick(ObjectMap &objects, const float dt, const bool do_calculate) {
 	for(ObjectMap::iterator i = objects.begin(); i != objects.end(); ++i) {
 		Object *o = i->second;
-		assert(o != NULL);
+		assert(o != nullptr);
 		TRY {
 			_tick(*o, dt, do_calculate);
 		} CATCH(mrt::format_string("tick for object[%p] id:%d %s:%s:%s", (void *)o, o->get_id(), o->registered_name.c_str(), o->classname.c_str(), o->animation.c_str()).c_str(), throw;);
@@ -1160,7 +1160,7 @@ void IWorld::purge(ObjectMap &objects, const float dt) {
 		Command &cmd = *i;
 		switch(cmd.type) {
 			case Command::Push: {
-					assert(cmd.object != NULL);
+					assert(cmd.object != nullptr);
 					if (cmd.id < 0) {
 						cmd.id = 1 + math::max((_objects.empty()? 0: _max_id), _last_id);
 						if (cmd.id > _last_id)
@@ -1204,13 +1204,13 @@ void IWorld::purge(ObjectMap &objects, const float dt) {
 
 	for(ObjectMap::iterator i = objects.begin(); i != objects.end(); ) {
 		Object *o = i->second;
-		assert(o != NULL);
+		assert(o != nullptr);
 
 		if (!PlayerManager->is_client() && o->_dead) { //not dead/dead and server mode
 			//LOG_DEBUG(("object %d:%s is dead. cleaning up. (global map: %s)", o->get_id(), o->classname.c_str(), &objects == &_objects?"true":"false"));
 			int id = i->first;
 			deleteObject(o);
-			o = NULL;
+			o = nullptr;
 			objects.erase(i++);
 			_objects.erase(id);
 		} else {
@@ -1228,14 +1228,14 @@ const Object *IWorld::getObjectByID(const int id) const {
 	ObjectMap::const_iterator i = _objects.find(id);
 	if (i != _objects.end() && !i->second->is_dead())
 		return i->second;
-	return NULL;
+	return nullptr;
 }
 
 Object *IWorld::getObjectByID(const int id) {
 	ObjectMap::iterator i = _objects.find(id);
 	if (i != _objects.end())
 		return i->second;
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1291,7 +1291,7 @@ void IWorld::serializeObjectPV(mrt::Serializator &s, const Object *o) const {
 
 void IWorld::deserializeObjectPV(const mrt::Serializator &s, Object *o) {
 	int z;
-	if (o == NULL) {
+	if (o == nullptr) {
 		v2<float> x;
 		s.get(x);
 		s.get(x);
@@ -1300,7 +1300,7 @@ void IWorld::deserializeObjectPV(const mrt::Serializator &s, Object *o) {
 		s.get(x); //direction
 		s.get(z);
 
-		LOG_WARN(("skipped deserializeObjectPV for NULL object"));
+		LOG_WARN(("skipped deserializeObjectPV for nullptr object"));
 		return;
 	}
 	o->uninterpolate();
@@ -1351,11 +1351,11 @@ void IWorld::sync(const int id) {
 Object * IWorld::deserializeObject(const mrt::Serializator &s) {
 	int id;
 	std::string rn;
-	Object *ao = NULL, *result = NULL;
+	Object *ao = nullptr, *result = nullptr;
 	TRY {
 		s.get(id);
 		if (id <= 0)
-			return NULL; //end of stream - to avoid needless estimate calculations
+			return nullptr; //end of stream - to avoid needless estimate calculations
 		if (id > _last_id) 
 			_last_id = id;
 		
@@ -1365,12 +1365,12 @@ Object * IWorld::deserializeObject(const mrt::Serializator &s) {
 			if (i != _objects.end()) {
 				//object with given ID exists in map.
 				Object *o = i->second;
-				assert(o != NULL);
+				assert(o != nullptr);
 				assert(o->_id == id);
 				
 				if (rn == o->registered_name) {
 					PlayerSlot * slot = PlayerManager->get_slot_by_id(id);
-					if (slot == NULL) {
+					if (slot == nullptr) {
 						o->deserialize(s);
 						if (o->_dead) {
 							LOG_DEBUG(("incomplete data for object %d:%s", o->_id, o->animation.c_str()));
@@ -1404,10 +1404,10 @@ Object * IWorld::deserializeObject(const mrt::Serializator &s) {
 					
 					_grid.remove(o);
 					delete o;
-					o = NULL;
+					o = nullptr;
 					i->second = ao;
 					result = ao;
-					ao = NULL;
+					ao = nullptr;
 					_grid.update(result, result->_position.convert<int>(), result->size.convert<int>());
 
 					
@@ -1427,7 +1427,7 @@ Object * IWorld::deserializeObject(const mrt::Serializator &s) {
 				
 				_objects[id] = ao;
 				result = ao;
-				ao = NULL;
+				ao = nullptr;
 				
 				if (!result->_need_sync || result->_dead) {
 					LOG_DEBUG(("incomplete data for object %d:%s", result->_id, rn.c_str()));
@@ -1441,7 +1441,7 @@ Object * IWorld::deserializeObject(const mrt::Serializator &s) {
 	} CATCH(mrt::format_string("deserializeObject('%d:%s')", id, rn.c_str()).c_str(), { 
 			delete ao; throw; 
 		})
-	assert(result != NULL);
+	assert(result != nullptr);
 	assert(!result->animation.empty() || result->_dead);
 	updateObject(result);
 	//LOG_DEBUG(("deserialized object: %d:%s:%s", id, result->registered_name.c_str(), result->animation.c_str()));
@@ -1480,7 +1480,7 @@ TRY {
 	std::set<int> recv_ids;
 
 	Object *obj;
-	while((obj = deserializeObject(s)) != NULL) {
+	while((obj = deserializeObject(s)) != nullptr) {
 		recv_ids.insert(obj->_id);
 	}
 	cropObjects(recv_ids);
@@ -1514,7 +1514,7 @@ void IWorld::generateUpdate(mrt::Serializator &s, const bool clean_sync_flag, co
 		int pc = 0, sum_w = 0, win_n = 0;
 		for(i = _objects.begin(); i != _objects.end(); ++i) {
 			Object *o = i->second;
-			assert(o != NULL);
+			assert(o != nullptr);
 			if (o->_dead || o->registered_name == "damage-digits") 
 				continue;
 			
@@ -1548,7 +1548,7 @@ void IWorld::generateUpdate(mrt::Serializator &s, const bool clean_sync_flag, co
 	
 	for(i = local_objects.begin(); i != local_objects.end() && (sync_update || n < max_n); ++i) {
 		Object *o = i->second;
-		assert(o != NULL);
+		assert(o != nullptr);
 		assert(o->_id >= id0);
 		if (o->_dead) {
 			LOG_WARN(("%d:%s is dead, skipping object", o->_id, o->animation.c_str()));
@@ -1628,7 +1628,7 @@ void IWorld::interpolateObjects(ObjectMap &objects) {
 	
 	for(ObjectMap::iterator i = objects.begin(); i != objects.end(); ++i) {
 		Object *o = i->second;
-		assert(o != NULL);
+		assert(o != nullptr);
 		interpolateObject(o);
 	}
 }
@@ -1646,7 +1646,7 @@ TRY {
 
 	ObjectMap objects;
 	Object *o;
-	while((o = deserializeObject(s)) != NULL) {
+	while((o = deserializeObject(s)) != nullptr) {
 		objects.insert(ObjectMap::value_type(o->_id, o));
 		/*ObjectMap::iterator i = push_objects.find(o->_id);
 		if (i != push_objects.end()) {
@@ -1705,9 +1705,9 @@ void IWorld::setSpeed(const float speed) {
 
 const Object* IWorld::get_nearest_object(const Object *obj, const std::set<std::string> &classnames, const float range, const bool check_shooting_range) const {
 	if (classnames.empty())
-		return NULL;
+		return nullptr;
 
-	const Object *result = NULL;
+	const Object *result = nullptr;
 	float distance = std::numeric_limits<float>::infinity();
 	float range2 = range * range;
 
@@ -1740,7 +1740,7 @@ const Object* IWorld::get_nearest_object(const Object *obj, const std::set<std::
 const bool IWorld::get_nearest(const Object *obj, const std::set<std::string> &classnames, const float range, v2<float> &position, v2<float> &velocity, const bool check_shooting_range) const {
 	const Object *target = get_nearest_object(obj, classnames, range, check_shooting_range);
 	
-	if (target == NULL) 
+	if (target == nullptr) 
 		return false;
 
 	v2<float> pos = obj->get_center_position();
@@ -1768,7 +1768,7 @@ const int IWorld::get_children(const int id, const std::string &classname) const
 void IWorld::enumerate_objects(std::set<const Object *> &id_set, const Object *src, const float range, const std::set<std::string> *classfilter) {
 	id_set.clear();
 
-	if (classfilter != NULL && classfilter->empty())
+	if (classfilter != nullptr && classfilter->empty())
 		return;
 
 	float r2 = range * range;
@@ -1785,7 +1785,7 @@ void IWorld::enumerate_objects(std::set<const Object *> &id_set, const Object *s
 		if (o->_id == src->_id || !ZBox::sameBox(src->get_z(), o->get_z()) || dpos.quick_length() > r2)
 			continue;
 
-		if (classfilter != NULL && classfilter->find(o->classname) == classfilter->end())
+		if (classfilter != nullptr && classfilter->find(o->classname) == classfilter->end())
 			continue;
 		
 		id_set.insert(o);
@@ -1799,12 +1799,12 @@ const Object *IWorld::getObjectByXY(const int x, const int y) const {
 		if (r.in(x, y))
 			return o;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void IWorld::move(const Object *object, const int x, const int y) {
 	Object *o = const_cast<Object *>(object);
-	if (o != NULL) {
+	if (o != nullptr) {
 		o->_position.x = x; 
 		o->_position.y = y; 
 		updateObject(o);
@@ -1816,7 +1816,7 @@ void IWorld::onMapResize(int left, int right, int up, int down) {
 	v2<int> map_size = Map->get_size();
 	for(ObjectMap::iterator i = _objects.begin(); i != _objects.end(); ++i) {
 		Object *o = i->second;
-		assert(o != NULL);
+		assert(o != nullptr);
 		
 		o->_position.x += left;
 		o->_position.y += up;
@@ -1850,7 +1850,7 @@ void IWorld::push(Object *parent, Object *object, const v2<float> &dpos) {
 	cmd.id = object->get_id();
 
 	object->_position = parent->_position + dpos;
-	object->_parent = NULL;
+	object->_parent = nullptr;
 	
 	Map->validate(object->_position);
 	
@@ -1864,7 +1864,7 @@ void IWorld::push(const int id, Object *object, const v2<float> &pos) {
 	cmd.id = id;
 
 	object->_position = pos;
-	object->_parent = NULL;
+	object->_parent = nullptr;
 	
 	Map->validate(object->_position);
 	
@@ -1877,26 +1877,26 @@ Object * IWorld::pop(Object *object) {
 	Command cmd(Command::Pop);
 	cmd.id = object->get_id();
 
-	Object *r = NULL;
+	Object *r = nullptr;
 	
 	for(Commands::reverse_iterator i = _commands.rbegin(); i != _commands.rend(); ++i) {
 		if (i->id == cmd.id) {
 			r = i->object;
-			assert(r != NULL);
+			assert(r != nullptr);
 			break;
 		}
 	}
 	
-	if (r == NULL) {
+	if (r == nullptr) {
 		ObjectMap::iterator j = _objects.find(cmd.id);
 		if (j == _objects.end())
 			throw_ex(("popping non-existent object %d %s", cmd.id, object->animation.c_str()));
 		r = j->second;
 	}
-	assert(r != NULL);
+	assert(r != nullptr);
 
 	Object *o = r->deep_clone();
-	assert(o != NULL);
+	assert(o != nullptr);
 
 	r->_dead = true;
 	o->_position.clear();

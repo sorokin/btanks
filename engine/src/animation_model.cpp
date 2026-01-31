@@ -40,7 +40,7 @@ void AnimationModel::addPose(const std::string &id, std::unique_ptr<Pose> pose) 
 const Pose * AnimationModel::getPose(const std::string &id) const {
 	PoseMap::const_iterator i = _poses.find(id);
 	if (i == _poses.end())
-		return NULL;
+		return nullptr;
 	return i->second.get();
 }
 

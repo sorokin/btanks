@@ -39,10 +39,10 @@ void Waypoints::calculate(Object *object, const float dt) {
 	}
 	
 	if (_avoid_obstacles && _reaction_time.tick(dt)) {
-		const Object * obstacle = NULL;
+		const Object * obstacle = nullptr;
 		
 		std::set<const Object *> objs;
-		object->enumerate_objects(objs, (object->size.x + object->size.y) * 2 / 3, NULL /* &obstacle_filter */);
+		object->enumerate_objects(objs, (object->size.x + object->size.y) * 2 / 3, nullptr /* &obstacle_filter */);
 		std::set<const Object *>::const_iterator i;
 		for(i = objs.begin(); i != objs.end(); ++i) {
 			if ((*i)->speed == 0 || (*i)->impassability == 0)
@@ -103,7 +103,7 @@ void Waypoints::calculate(Object *object, const float dt) {
 			_waypoint_name.clear();
 			LOG_DEBUG(("%s:%s[%d] no path[%u]. ", 
 				object->registered_name.c_str(), object->animation.c_str(), object->get_id(), (unsigned)way.size()));
-			//emit("death", NULL);
+			//emit("death", nullptr);
 		}
 		object->set_way(way);
 	} else object->_velocity.clear();

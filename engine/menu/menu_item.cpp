@@ -40,7 +40,7 @@ MenuItem::MenuItem(const std::string &font, const std::string &area, const std::
 }
 
 void MenuItem::get_size(int& x, int& y) const {
-	x = font->render(NULL, x, y, text);
+	x = font->render(nullptr, x, y, text);
 	y = font->get_height();
 }
 
@@ -50,7 +50,7 @@ bool MenuItem::onKey(const SDL_keysym sym) {
 	case SDLK_SPACE:
 	case SDLK_KP_ENTER:
 		invalidate();
-		Mixer->playSample(NULL, "menu/select.ogg", false);
+		Mixer->playSample(nullptr, "menu/select.ogg", false);
 		return true;
 	default: 
 		return false;
@@ -60,9 +60,9 @@ bool MenuItem::onKey(const SDL_keysym sym) {
 bool MenuItem::onMouse(const int button, const bool pressed, const int x, const int y) {
 	if (!pressed) {
 		invalidate();
-		Mixer->playSample(NULL, "menu/select.ogg", false);
+		Mixer->playSample(nullptr, "menu/select.ogg", false);
 	} else {
-		Mixer->playSample(NULL, "menu/change.ogg", false);
+		Mixer->playSample(nullptr, "menu/change.ogg", false);
 	}
 	return true;
 }

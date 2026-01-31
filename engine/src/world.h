@@ -76,7 +76,7 @@ public:
 	const Object *getObjectByID(const int id) const;
 	Object *getObjectByID(const int id);
 	
-	void render(sdlx::Surface &surface, const sdlx::Rect &src, const sdlx::Rect &viewport, const int z1 = -10000, const int z2 = 10001, const Object * player = NULL);
+	void render(sdlx::Surface &surface, const sdlx::Rect &src, const sdlx::Rect &viewport, const int z1 = -10000, const int z2 = 10001, const Object * player = nullptr);
 	void tick(const float dt);
 	
 	Object * spawn(const Object *src, const std::string &classname, const std::string &animation, const v2<float> &dpos, const v2<float> &vel, const int z = 0);
@@ -105,7 +105,7 @@ public:
 	void tick(ObjectMap &objects, const float dt, const bool do_calculate = true);
 	void purge(const float dt);
 	
-	const float getImpassability(Object *obj, const v2<int> &position, const Object **collided_with = NULL, const bool probe = false, const bool skip_moving = false) const;
+	const float getImpassability(Object *obj, const v2<int> &position, const Object **collided_with = nullptr, const bool probe = false, const bool skip_moving = false) const;
 	
 	const int get_children(const int id, const std::string &classname) const;
 	void setMode(const std::string &mode, const bool value);
@@ -169,7 +169,7 @@ private:
 		int id;
 		Object *object;
 
-		Command(Type type): type(type), id(0), object(NULL) {}
+		Command(Type type): type(type), id(0), object(nullptr) {}
 	};
 	typedef std::list<Command> Commands;
 	Commands _commands;

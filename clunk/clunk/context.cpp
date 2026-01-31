@@ -41,7 +41,7 @@ SOFTWARE.
 
 using namespace clunk;
 
-Context::Context() : _listener(NULL), max_sources(8), fx_volume(1), distance_model(DistanceModel::Exponent, false), _fdump(NULL) {
+Context::Context() : _listener(nullptr), max_sources(8), fx_volume(1), distance_model(DistanceModel::Exponent, false), _fdump(nullptr) {
 }
 
 template<class Sources>
@@ -179,10 +179,10 @@ void Context::process(void *stream, size_t size) {
 		Mixer::mix(_spec.format, stream, buf.get_ptr(), size, sdl_v);
 	}
 	
-	if (_fdump != NULL) {
+	if (_fdump != nullptr) {
 		if (fwrite(stream, size, 1, _fdump) != 1) {
 			fclose(_fdump);
-			_fdump = NULL;
+			_fdump = nullptr;
 		}
 	}
 }
@@ -202,9 +202,9 @@ std::unique_ptr<Sample> Context::create_sample() {
 
 void Context::save(const std::string &file) {
 	AudioLocker l;
-	if (_fdump != NULL) {
+	if (_fdump != nullptr) {
 		fclose(_fdump);
-		_fdump = NULL;
+		_fdump = nullptr;
 	}
 	if (file.empty())
 		return;
@@ -235,11 +235,11 @@ Context::stream_info::~stream_info()
 void Context::deinit() {
 	AudioLocker l;
 	delete _listener;
-	_listener = NULL;
+	_listener = nullptr;
 	
-	if (_fdump != NULL) {
+	if (_fdump != nullptr) {
 		fclose(_fdump);
-		_fdump = NULL;
+		_fdump = nullptr;
 	}
 
 	for (Object* obj : objects)
@@ -371,9 +371,9 @@ void Context::set_max_sources(int sources) {
 	clunk::Object *clunk_object; 
 	
 	GameObject::~GameObject() {
-		if (clunk_object != NULL) {
+		if (clunk_object != nullptr) {
 			clunk_object->autodelete(); //destroy me! 
-			clunk_object = NULL; //leave destruction to the clunk::Context
+			clunk_object = nullptr; //leave destruction to the clunk::Context
 		}
 	}
 	\endcode

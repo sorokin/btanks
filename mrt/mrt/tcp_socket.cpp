@@ -104,7 +104,7 @@ void TCPSocket::connect(const std::string &host, const int port, const bool no_d
 	if (addr.sin_addr.s_addr == (in_addr_t)-1) {
 		//try to resolve host
 		hostent *he = gethostbyname(host.c_str());
-		if (he == NULL)
+		if (he == nullptr)
 			throw_ex(("host '%s' was not found", host.c_str()));
 		addr.sin_addr = *(struct in_addr*)(he->h_addr_list[0]);
 	}

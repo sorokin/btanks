@@ -46,7 +46,7 @@ public:
 
 	virtual void tick(const float dt);
 	virtual void on_spawn();
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	virtual void serialize(mrt::Serializator &s) const {
 		Object::serialize(s);
 		s.add(_damaged_objects);
@@ -111,7 +111,7 @@ void Explosion::on_spawn() {
 
 void Explosion::emit(const std::string &event, Object * emitter) {
 	if (event == "collision") {
-		if (emitter == NULL || registered_name == "explosion" || 
+		if (emitter == nullptr || registered_name == "explosion" || 
 			(emitter->registered_name.size() >= 9 && 
 			emitter->registered_name.substr(emitter->registered_name.size() - 9, 9) == "explosion")
 			|| emitter->classname == "poison"
@@ -119,7 +119,7 @@ void Explosion::emit(const std::string &event, Object * emitter) {
 			return;
 			
 		const int id = emitter->get_id();
-		assert(emitter != NULL);
+		assert(emitter != nullptr);
 		
 		if (_damaged_objects.find(id) != _damaged_objects.end())
 			return; //damage was already added for this object.
@@ -171,7 +171,7 @@ void Explosion::emit(const std::string &event, Object * emitter) {
 		if (emitter->is_dead() && emitter->classname == "player") {
 			++_players_killed;
 			if (_players_killed == 2) {
-				Mixer->playRandomSample(NULL, "laugh", false);
+				Mixer->playRandomSample(nullptr, "laugh", false);
 			}
 		}
 		invalidate();

@@ -40,7 +40,7 @@ static void XMLCALL startElement(void *userData, const char *name, const char **
 	const char ** c =attrs;
 	while (*c) {
 		const std::string key = *c++; 
-		if (*c == NULL)
+		if (*c == nullptr)
 			throw_ex(("unpaired attribute (%s)", key.c_str()));
 		const std::string value = *c++;
 		attrs_map[key] = value;
@@ -73,12 +73,12 @@ void XMLParser::get_file_stats(int &tags, const std::string &fname) {
 }
 
 void XMLParser::get_file_stats(int &tags, const mrt::BaseFile &f) {
-	XML_Parser parser = NULL;
+	XML_Parser parser = nullptr;
 
 	TRY {
 		f.seek(0, SEEK_SET);
 		parser = XML_ParserCreate("UTF-8");
-		if (parser == NULL)
+		if (parser == nullptr)
 			throw_ex(("cannot create parser"));
 
 		tags = 0;
@@ -97,7 +97,7 @@ void XMLParser::get_file_stats(int &tags, const mrt::BaseFile &f) {
 			}
 		} while(!done);
 		XML_ParserFree(parser);
-		parser = NULL;
+		parser = nullptr;
 	} CATCH("get_file_stats", {
 		if (parser) {
 			XML_ParserFree(parser);
@@ -116,7 +116,7 @@ void XMLParser::parse_file(const mrt::BaseFile &f) {
 	f.seek(0, SEEK_SET);
 	clear();
 	_parser = XML_ParserCreate("UTF-8");
-	if (_parser == NULL)
+	if (_parser == nullptr)
 		throw_ex(("cannot create parser"));
 	XML_SetUserData(_parser, this);
 	XML_SetElementHandler(_parser, startElement, endElement);
@@ -142,7 +142,7 @@ const std::string XMLParser::getErrorMessage() const {
 	
 void XMLParser::cdata(const std::string &data) {}
 	
-XMLParser::XMLParser() : _parser(NULL) {}
+XMLParser::XMLParser() : _parser(nullptr) {}
 	
 
 XMLParser::~XMLParser() {
@@ -152,11 +152,11 @@ XMLParser::~XMLParser() {
 void XMLParser::clear() {
 	if (_parser) {
 		XML_ParserFree(_parser);
-		_parser = NULL;
+		_parser = nullptr;
 	}
 }
 
-XMLParser::XMLParser(const XMLParser &) : _parser(NULL) {}
+XMLParser::XMLParser(const XMLParser &) : _parser(nullptr) {}
 const XMLParser& XMLParser::operator=(const XMLParser &) {
 	clear();
 	return *this;

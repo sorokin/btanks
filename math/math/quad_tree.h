@@ -89,15 +89,15 @@ struct quad_node {
 	size_t children_count;
 	
 	quad_node(const rect_type &area) : area(area), rects(), children_count(0) {
-		child[0] = NULL;
-		child[1] = NULL;
-		child[2] = NULL;
-		child[3] = NULL;
+		child[0] = nullptr;
+		child[1] = nullptr;
+		child[2] = nullptr;
+		child[3] = nullptr;
 	}
 	~quad_node() {
 		for(int i = 0; i < 4; ++i) {
 			delete child[i];
-			child[i] = NULL;
+			child[i] = nullptr;
 		}
 	}
 	
@@ -112,13 +112,13 @@ struct quad_node {
 		rects.clear();
 		for(int i = 0; i < 4; ++i) {
 			delete child[i];
-			child[i] = NULL;
+			child[i] = nullptr;
 		}
 		children_count = 0;
 	}
 	
 	void merge(std::set<V> &result) const {
-		if (child[0] != NULL)
+		if (child[0] != nullptr)
 			for(int j = 0; j < 4; ++j) {
 				child[j]->merge(result);
 			}
@@ -133,7 +133,7 @@ struct quad_node {
 		if (!area.intersects(s_area))
 			return;
 
-		if (child[0] != NULL)
+		if (child[0] != nullptr)
 		for(int j = 0; j < 4; ++j) {
 			if (s_area.contains(child[j]->area)) {
 				//move all area to result :)
@@ -151,7 +151,7 @@ struct quad_node {
 	}
 	
 	void split() {
-		assert(child[0] == NULL);
+		assert(child[0] == nullptr);
 		
 		int w = area.x1 - area.x0, h = area.y1 - area.y0;
 		if (w < 2 || h < 2)
@@ -161,20 +161,20 @@ struct quad_node {
 		
 		int hx = (w - 1) / 2 + 1;
 		int hy = (h - 1) / 2 + 1;
-		child[0] = new quad_node(rect_type(area.x0, 		area.y0, 		area.x0 + hx, 	area.y0 + hy, NULL));
-		child[1] = new quad_node(rect_type(area.x0 + hx, 	area.y0, 		area.x1, 		area.y0 + hy, NULL));
-		child[2] = new quad_node(rect_type(area.x0, 		area.y0 + hy, 	area.x0 + hx, 	area.y1, NULL));
-		child[3] = new quad_node(rect_type(area.x0 + hx, 	area.y0 + hy, 	area.x1, 		area.y1, NULL));
+		child[0] = new quad_node(rect_type(area.x0, 		area.y0, 		area.x0 + hx, 	area.y0 + hy, nullptr));
+		child[1] = new quad_node(rect_type(area.x0 + hx, 	area.y0, 		area.x1, 		area.y0 + hy, nullptr));
+		child[2] = new quad_node(rect_type(area.x0, 		area.y0 + hy, 	area.x0 + hx, 	area.y1, nullptr));
+		child[3] = new quad_node(rect_type(area.x0 + hx, 	area.y0 + hy, 	area.x1, 		area.y1, nullptr));
 	}
 	
 	bool insert(const rect_type & object) {
 		if (!area.contains(object))
 			return false;
 		
-		if (child[0] == NULL) 
+		if (child[0] == nullptr) 
 			split();
 
-		if (child[0] != NULL)
+		if (child[0] != nullptr)
 		for(int i = 0; i < 4; ++i) {
 			if (child[i]->insert(object)) {
 				++children_count;
@@ -192,7 +192,7 @@ struct quad_node {
 		if (!area.contains(object))
 			return false;
 
-		if (child[0] != NULL)
+		if (child[0] != nullptr)
 		for(int i = 0; i < 4; ++i) 
 			if (child[i]->erase(object)) {
 				--children_count;

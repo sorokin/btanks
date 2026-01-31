@@ -93,7 +93,7 @@ public:
 	const v2<int> getTileSize() const;
 	const v2<int> getPathTileSize() const;
 	
-	virtual const int getImpassability(const Object *obj, const v2<int>& pos, TilePosition *tile_pos = NULL, bool *hidden = NULL) const;
+	virtual const int getImpassability(const Object *obj, const v2<int>& pos, TilePosition *tile_pos = nullptr, bool *hidden = nullptr) const;
 
 	const Matrix<int>& get_impassability_matrix(const int z, const bool only_pierceable = false);
 	const Matrix<int>& getAreaMatrix(const std::string &name);
@@ -104,7 +104,7 @@ public:
 	void _destroy(const int z, const v2<int> &cell);
 	
 	struct TileDescriptor {
-		inline TileDescriptor() : surface(NULL), cmap(NULL), vmap(NULL) {}
+		inline TileDescriptor() : surface(nullptr), cmap(nullptr), vmap(nullptr) {}
 		inline TileDescriptor(sdlx::Surface * surface, sdlx::CollisionMap *cmap, sdlx::CollisionMap *vmap) : 
 			surface(surface), cmap(cmap), vmap(vmap) {}
 		

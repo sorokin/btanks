@@ -85,7 +85,7 @@ public:
 	}
 
 	void collide(std::set<T> &objects, const v2<int>& area_pos, const v2<int>& area_size) const {
-		tree.search(objects, rect_type(area_pos.x, area_pos.y, area_pos.x + area_size.x, area_pos.y + area_size.y, NULL));
+		tree.search(objects, rect_type(area_pos.x, area_pos.y, area_pos.x + area_size.x, area_pos.y + area_size.y, nullptr));
 	}
 	
 private:

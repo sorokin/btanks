@@ -19,7 +19,7 @@ void ZipFile::open(const std::string &fname, const std::string &mode) {
 }
 
 bool ZipFile::opened() const {
-	return file != NULL;
+	return file != nullptr;
 }
 
 void ZipFile::seek(long off, int whence) const {
@@ -84,10 +84,10 @@ const size_t ZipFile::read(void *buf, const size_t size) const {
 }
 
 void ZipFile::close() {
-	if (file == NULL)
+	if (file == nullptr)
 		return;
 	fclose(file);
-	file = NULL;
+	file = nullptr;
 }
 	
 bool ZipFile::eof() const {

@@ -40,7 +40,7 @@ class ShilkaTurret : public Object {
 public:
 	void tick(const float dt) {
 		Object::tick(dt);
-		if (_parent == NULL)
+		if (_parent == nullptr)
 			throw_ex(("turret is only operable attached to shilka "));
 
 		bool play_fire = false;
@@ -107,10 +107,10 @@ public:
 		if (!_reaction.tick(dt)) 
 			return;
 		
-		if (_parent == NULL)
+		if (_parent == nullptr)
 			throw_ex(("turret is only operable attached to shilka "));
 
-		if (_parent->disable_ai && PlayerManager->get_slot_by_id(_parent->get_id()) == NULL) {
+		if (_parent->disable_ai && PlayerManager->get_slot_by_id(_parent->get_id()) == nullptr) {
 			Object::calculate(dt);
 			return;
 		}
@@ -123,7 +123,7 @@ public:
 		//int parent_dir = _parent->get_direction();
 		//(_parent->get_direction() - _parent->get_directions_number() / 2) * get_directions_number() / _parent->get_directions_number();
 
-		const Object *target = NULL;
+		const Object *target = nullptr;
 		v2<float> target_pos;
 		for(std::set<const Object *>::iterator i = objects.begin(); i != objects.end(); ++i) {
 			const Object *o = *i;
@@ -134,7 +134,7 @@ public:
 				continue;
 			
 			pos = get_relative_position(o);
-			if (target == NULL || pos.quick_length() < target_pos.quick_length()) {
+			if (target == nullptr || pos.quick_length() < target_pos.quick_length()) {
 				target = o;
 				target_pos = pos;
 			}
@@ -144,7 +144,7 @@ public:
 		target_pos.normalize();
 		int dir = target_pos.get_direction(dirs) - 1;
 
-		if (target == NULL || dir < 0) {
+		if (target == nullptr || dir < 0) {
 			Object::calculate(dt);
 			return;
 		}

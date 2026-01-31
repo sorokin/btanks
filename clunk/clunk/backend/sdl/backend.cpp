@@ -98,7 +98,7 @@ std::unique_ptr<Sample> Backend::load(const std::string &file) {
 	Uint32 len;
 	SDL_AudioSpec spec;
 	//SDL_AudioSpec * SDLCALL SDL_LoadWAV_RW(SDL_RWops *src, int freesrc, SDL_AudioSpec *spec, uint8_t **audio_buf, u32 *audio_len);
-	if (SDL_LoadWAV(file.c_str(), &spec, &buf, &len) == NULL)
+	if (SDL_LoadWAV(file.c_str(), &spec, &buf, &len) == nullptr)
 		throw_sdl(("SDL_LoadWav"));
 	clunk::Buffer wav;
 	wav.set_data(buf, len, true);

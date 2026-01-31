@@ -32,7 +32,7 @@ void PopupMenu::get(std::set<std::string> &labels) const {
 	labels.clear();
 	for(ControlList::const_iterator i = _controls.begin(); i != _controls.end(); ++i) {
 		const ToggleLabel * l = dynamic_cast<const ToggleLabel *>(*i);
-		if (l == NULL) 
+		if (l == nullptr) 
 			continue;
 		if (l->get_state())
 			labels.insert(l->get());
@@ -56,7 +56,7 @@ bool PopupMenu::onMouse(const int button, const bool pressed, const int x, const
 	
 	for(ControlList::iterator i = _controls.begin(); i != _controls.end(); ++i) {
 		ToggleLabel * l = dynamic_cast<ToggleLabel *>(*i);
-		if (l == NULL) 
+		if (l == nullptr) 
 			continue;
 
 		int bw, bh;
@@ -81,7 +81,7 @@ bool PopupMenu::onMouseMotion(const int state, const int x, const int y, const i
 	hl_pos = v2<int>(-1, -1);
 	for(ControlList::const_iterator i = _controls.begin(); i != _controls.end(); ++i) {
 		const ToggleLabel * l = dynamic_cast<const ToggleLabel *>(*i);
-		if (l == NULL) 
+		if (l == nullptr) 
 			continue;
 
 		int bw, bh;

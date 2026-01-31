@@ -57,12 +57,12 @@ class Pose;
 class BTANKSAPI Object : public BaseObject {
 public:
 	const v2<float> get_relative_position(const Object *obj) const;
-	inline const v2<float> get_position() const { return _parent == NULL? _position: _position + _parent->get_position(); }
+	inline const v2<float> get_position() const { return _parent == nullptr? _position: _position + _parent->get_position(); }
 
 	template<typename T>
 	inline void get_position(v2<T> &position) const { 
 		position = _position.convert<T>(); 
-		if (_parent != NULL) {
+		if (_parent != nullptr) {
 			v2<T> ppos;
 			_parent->get_position(ppos);
 			position += ppos;
@@ -125,7 +125,7 @@ public:
 	virtual void add_damage(Object *from, const int hp, const bool emitDeath = true);
 	void add_damage(Object *from, const bool emitDeath = true);
 
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	virtual void serialize(mrt::Serializator &s) const;
 	virtual void deserialize(const mrt::Serializator &s);
 
@@ -186,7 +186,7 @@ public:
 
 	const bool get_render_rect(sdlx::Rect &src) const;
 	
-	bool is_subobject() const { return _parent != NULL; }
+	bool is_subobject() const { return _parent != nullptr; }
 	
 	inline const int get_slot() const { return _slot_id; }
 	void set_slot(const int id);
@@ -264,7 +264,7 @@ private:
 		mutable const Pose * cached_pose;
 		
 		Event();
-		Event(const std::string name, const bool repeat, const std::string &sound, const float gain, const Pose * cached_pose = NULL);
+		Event(const std::string name, const bool repeat, const std::string &sound, const float gain, const Pose * cached_pose = nullptr);
 		virtual void serialize(mrt::Serializator &s) const;
 		virtual void deserialize(const mrt::Serializator &s);
 	};

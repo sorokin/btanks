@@ -11,7 +11,7 @@ namespace sdlx {
 
 class Image : public Control {
 public: 
-	Image(const sdlx::Surface *image = NULL);
+	Image(const sdlx::Surface *image = nullptr);
 	void set(const sdlx::Surface *image);
 
 	virtual void render(sdlx::Surface &surface, const int x, const int y) const;

@@ -5,7 +5,7 @@
 #include <assert.h>
 
 static int mrt_seek(struct SDL_RWops *context, int offset, int whence) {
-	assert(context->hidden.unknown.data1 != NULL);
+	assert(context->hidden.unknown.data1 != nullptr);
 	const mrt::BaseFile *file = (const mrt::BaseFile *)context->hidden.unknown.data1;
 	TRY {
 		file->seek(offset, whence);
@@ -14,7 +14,7 @@ static int mrt_seek(struct SDL_RWops *context, int offset, int whence) {
 }
 
 static int mrt_read(struct SDL_RWops *context, void *ptr, int size, int maxnum) {
-	assert(context->hidden.unknown.data1 != NULL);
+	assert(context->hidden.unknown.data1 != nullptr);
 	const mrt::BaseFile *file = (const mrt::BaseFile *)context->hidden.unknown.data1;
 	TRY {
 		int r = file->read(ptr, size * maxnum);
@@ -23,7 +23,7 @@ static int mrt_read(struct SDL_RWops *context, void *ptr, int size, int maxnum) 
 }
 
 static int mrt_close(struct SDL_RWops *context) {
-	assert(context->hidden.unknown.data1 != NULL);
+	assert(context->hidden.unknown.data1 != nullptr);
 	mrt::BaseFile *file = (mrt::BaseFile *)context->hidden.unknown.data1;
 	TRY {
 		file->close();
@@ -33,14 +33,14 @@ static int mrt_close(struct SDL_RWops *context) {
 
 SDL_RWops * sdlx::RWFromMRTFile(mrt::BaseFile *file) {
 	SDL_RWops * op = SDL_AllocRW();
-	if (op == NULL)
+	if (op == nullptr)
 		throw_sdl(("SDL_AllocRW()"));
 
 	op->hidden.unknown.data1 = (void *)file; //sic! 
 	
 	op->seek = &mrt_seek;
 	op->read = &mrt_read;
-	op->write = NULL;
+	op->write = nullptr;
 	op->close = &mrt_close;
 	return op;
 }

@@ -146,7 +146,7 @@ const std::string mrt::get_lang_code() {
 #else
 	//non win-32
 	const char * lang_env = getenv("LANG");
-	if (lang_env == NULL || strlen(lang_env) == 0)
+	if (lang_env == nullptr || strlen(lang_env) == 0)
 		return std::string();
 	std::string lang = lang_env;
 

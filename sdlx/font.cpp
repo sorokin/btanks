@@ -287,7 +287,7 @@ const int Font::render(sdlx::Surface *window, int x, int y, const std::string &s
 			*/
 		}
 		
-		if (window != NULL) {
+		if (window != nullptr) {
 			if (page.alpha) {
 				sdlx::Rect src(c * fw, 0, fw, fh);
 				window->blit(*page.surface, src, x + w - x1, y);
@@ -306,17 +306,17 @@ const int Font::render(sdlx::Surface *window, int x, int y, const std::string &s
 void Font::render_multiline(int &max_w, int &max_h, sdlx::Surface *window, int x, int y, const std::string &str, Align align) const {
 	std::vector<std::string> lines;
 	mrt::split(lines, str, "\\n");
-	if (window == NULL) {
+	if (window == nullptr) {
 		max_w = 0, max_h = 0;
 		for(size_t i = 0; i < lines.size(); ++i) {
-			int w = render(NULL, x, y, lines[i]);
+			int w = render(nullptr, x, y, lines[i]);
 			if (w > max_w)
 				max_w = w;
 			max_h += get_height();
 		}
 	} else {
 		for(size_t i = 0; i < lines.size(); ++i) {
-			int w = align != Left? render(NULL, x, y, lines[i]): 0;
+			int w = align != Left? render(nullptr, x, y, lines[i]): 0;
 
 			int xp;
 			switch(align) {
@@ -336,7 +336,7 @@ const int Font::render(sdlx::Surface &window, const std::string &str) const {
 		throw_ex(("in method render(new-surface, text), text must be non-empty"));
 
 	int h = get_height();
-	int w = render(NULL, 0, 0, str);
+	int w = render(nullptr, 0, 0, str);
 	
 	window.create_rgb(w, h, 32, SDL_SRCALPHA);
 	window.display_format_alpha();

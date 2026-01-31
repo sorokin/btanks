@@ -46,7 +46,7 @@ void Chat::layout() {
 	for(Text::const_iterator i = text.begin(); i != text.end(); ++i) {
 		const Line &line = *i;
 		if (!line.nick.empty()) { 
-			int w = line.font->render(NULL, 0, 0, line.nick);
+			int w = line.font->render(nullptr, 0, 0, line.nick);
 			if (w > nick_w)
 				nick_w = w;
 		}

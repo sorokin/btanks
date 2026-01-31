@@ -197,11 +197,11 @@ std::unique_ptr<ZipFile> ZipDirectory::open_file(const std::string &name_) const
 	std::string name = mrt::FSNode::normalize(name_);
 	Headers::const_iterator i = headers.find(name);
 	if (i == headers.end())
-		return NULL;
+		return nullptr;
 	const FileDesc &file = i->second;
 
 	FILE * f = fopen(fname.c_str(), "rb");
-	if (f == NULL)
+	if (f == nullptr)
 		throw_io(("fopen(%s)", fname.c_str()));	
 	
 	return std::make_unique<ZipFile>(f, file.method, file.flags, file.offset, file.csize, file.usize);

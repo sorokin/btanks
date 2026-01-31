@@ -39,13 +39,13 @@ class Surface;
 
 class BTANKSAPI Box : public Control{
 public: 
-	Box() : w(0), h(0), _surface(NULL) {}
+	Box() : w(0), h(0), _surface(nullptr) {}
 	Box(const std::string &tile, int w, int h);
 	Box(const std::string &tile, int w, int h, int hl_h);
 	virtual void get_size(int &rw, int &rh) const;
 	int w, h;
 
-	const bool inited() const { return _surface != NULL; }
+	const bool inited() const { return _surface != nullptr; }
 	void init(const std::string &tile, int w, int h, int hl_h = 0);
 	void set_background(const std::string &tile);
 	inline const std::string get_background() const { return bg_tile; }

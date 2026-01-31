@@ -46,7 +46,7 @@ Serializator::Serializator(const mrt::Chunk *chunk) : _data((mrt::Chunk *)chunk)
 Serializator::~Serializator() {
 	if (_owns_data) {
 		delete _data;
-		_data = NULL;
+		_data = nullptr;
 	}
 }
 

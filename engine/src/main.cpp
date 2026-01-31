@@ -64,11 +64,11 @@ int main(int argc, char *argv[]) {
 		sa.sa_flags = SA_RESTART;
 		sa.sa_handler = &clean_exit;
 
-		if (sigaction(SIGTERM, &sa, NULL) == -1) 
+		if (sigaction(SIGTERM, &sa, nullptr) == -1) 
 			perror("sigaction");
-		if (sigaction(SIGINT, &sa, NULL) == -1) 
+		if (sigaction(SIGINT, &sa, nullptr) == -1) 
 			perror("sigaction");
-		if (sigaction(SIGQUIT, &sa, NULL) == -1) 
+		if (sigaction(SIGQUIT, &sa, nullptr) == -1) 
 			perror("sigaction");
 #endif
 		mrt::init_seed();
@@ -84,7 +84,7 @@ int main(int argc, char *argv[]) {
 		LOG_ERROR(("main:%s", e.what()));
 		TRY { LOG_DEBUG(("calling Game->deinit()")); Game->deinit(); } CATCH("deinit", {});
 		
-		MessageBox(NULL, e.what(), "Error", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		MessageBox(nullptr, e.what(), "Error", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		sdlx::System::deinit();
 		return 1;
 	}

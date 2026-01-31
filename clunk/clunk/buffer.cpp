@@ -31,7 +31,7 @@ SOFTWARE.
 using namespace clunk;
 
 void Buffer::fill(const int b) {
-	if (_ptr == NULL) 
+	if (_ptr == nullptr) 
 		return;
 	memset(_ptr, b, _size);
 }
@@ -40,7 +40,7 @@ const Buffer& Buffer::operator=(const Buffer& c) {
 	if (this == &c) 
 		return *this; // same object
 
-	if (c._ptr == NULL) {
+	if (c._ptr == nullptr) {
 		free();
 		return *this;
 	}
@@ -61,19 +61,19 @@ void Buffer::resize(size_t s) {
 	}
 
 	void * x = realloc(_ptr, s);
-	if (x == NULL) 
+	if (x == nullptr) 
 		throw_io(("realloc (%p, %u)", _ptr, (unsigned)s));
 	_ptr = x;
 	_size = s;
 }
 
 void Buffer::set_data(const void *p, const size_t s) {
-	if (p == NULL || s == 0)
+	if (p == nullptr || s == 0)
 		throw_ex(("calling set_data(%p, %u) is invalid", p, (unsigned)s));
 
 	void *x = realloc(_ptr, s);
 
-	if (x == NULL) 
+	if (x == nullptr) 
 		throw_io(("realloc (%p, %d)", _ptr, (unsigned)s));
 	_ptr = x;
 	memcpy(_ptr, p, s);
@@ -81,7 +81,7 @@ void Buffer::set_data(const void *p, const size_t s) {
 }
 
 void Buffer::set_data(void *p, const size_t s, const bool own) {
-	if (p == NULL || s == 0) 
+	if (p == nullptr || s == 0) 
 		throw_ex(("calling set_data(%p, %u, %s) is invalid", p, (unsigned)s, own?"true":"false"));
 	
 	if (own) {
@@ -90,7 +90,7 @@ void Buffer::set_data(void *p, const size_t s, const bool own) {
 		_size = s;
 	} else {
 		void *x = realloc(_ptr, s);
-		if (x == NULL) 
+		if (x == nullptr) 
 			throw_io(("realloc(%p, %d)", _ptr, (unsigned)s));
 		_ptr = x;
 		_size = s;
@@ -122,17 +122,17 @@ void* Buffer::reserve(const int more) {
 }
 
 void Buffer::free() {
-	if (_ptr != NULL) {
+	if (_ptr != nullptr) {
 		::free(_ptr);
-		_ptr = NULL;
+		_ptr = nullptr;
 		_size = 0;
 	}
 }
 
 const std::string Buffer::dump() const {
-	if (_ptr == NULL)
+	if (_ptr == nullptr)
 		return "empty memory buffer";
-	assert(_ptr != NULL);
+	assert(_ptr != nullptr);
 	
 	std::string result = clunk::format_string("-[memory dump]-[size: %u]---", (unsigned)_size);
 	size_t n = (_size - 1)/ 16 + 1;
@@ -171,7 +171,7 @@ const std::string Buffer::dump() const {
 }
 
 void Buffer::pop(size_t n) {
-	if (_ptr == NULL || n == 0)
+	if (_ptr == nullptr || n == 0)
 		return;
 	
 	if (n >= _size) {

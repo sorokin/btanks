@@ -41,14 +41,14 @@ Socket::Socket() : _sock(-1) {}
 
 const std::string Socket::addr::getName() const {
 	struct hostent *he = gethostbyaddr((char *)&ip, sizeof(ip), AF_INET);
-	if (he == NULL)
+	if (he == nullptr)
 		return std::string();
 	return he->h_name;
 }
 
 void Socket::addr::getAddrByName(const std::string &name) {
 	struct hostent *he = gethostbyname(name.c_str());
-	if (he == NULL || he->h_addrtype != AF_INET) //sorry, no ipv6 now
+	if (he == nullptr || he->h_addrtype != AF_INET) //sorry, no ipv6 now
 		return;
 	ip = *((uint32_t*)he->h_addr_list[0]);
 }

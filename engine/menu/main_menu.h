@@ -43,7 +43,7 @@ public:
 	static bool generate_key_events_for_gamepad;
 	virtual void tick(const float dt);
 
-	void add(MenuItem *item, Control *slave = NULL);
+	void add(MenuItem *item, Control *slave = nullptr);
 
 	virtual bool onKey(const SDL_keysym sym);
 	virtual bool onMouse(const int button, const bool pressed, const int x, const int y);

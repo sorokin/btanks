@@ -220,7 +220,7 @@ MapPicker::MapPicker(const int w, const int h) : _index(0) {
 
 	sdlx::Rect map_pos(list_pos.w + 16, ybase, (w - 64) / 3, h - 256);
 
-	_picker = NULL;
+	_picker = nullptr;
 	TRY {
 		_picker = new PlayerPicker(w - map_pos.x - map_pos.w - 16, h - 256);
 		_picker->set(getCurrentMap());
@@ -241,12 +241,12 @@ MapPicker::MapPicker(const int w, const int h) : _index(0) {
 	ybase += ydummy + 4;
 	add(0, ybase, _mode_panel = new ModePanel(w));
 
-	_details = NULL;	
+	_details = nullptr;	
 	TRY {
 		_details = new MapDetails(map_pos.w, map_pos.h);
 		_details->set(getCurrentMap());
 		add(map_pos.x, map_pos.y, _details);
-	} CATCH("MapPicker::ctor", {delete _details; _details = NULL; throw; });
+	} CATCH("MapPicker::ctor", {delete _details; _details = nullptr; throw; });
 }
 
 void MapPicker::fillSlots() const {

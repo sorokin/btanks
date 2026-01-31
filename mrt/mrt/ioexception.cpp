@@ -31,7 +31,7 @@ const std::string IOException::get_custom_message() {
 	memset(buf, 0, sizeof(buf));
 
 #ifdef _WIN32
-	strncpy(buf, _strerror(NULL), sizeof(buf));
+	strncpy(buf, _strerror(nullptr), sizeof(buf));
 #else 
 	strncpy(buf, strerror(errno), sizeof(buf));
 //	if (strerror_r(errno, buf, sizeof(buf)-1) != 0) perror("strerror");

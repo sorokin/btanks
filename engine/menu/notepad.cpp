@@ -41,7 +41,7 @@ void Notepad::recalculate_sizes() {
 		
 		page.tab_rect.x = width;
 		page.tab_rect.y = 0;
-		page.tab_rect.w = ((font->render(NULL, 0, 0, page.label) - 1) / tab_w + 1) * tab_w;
+		page.tab_rect.w = ((font->render(nullptr, 0, 0, page.label) - 1) / tab_w + 1) * tab_w;
 		page.tab_rect.h = tabbg->get_height();
 		
 		width += page.tab_rect.w;

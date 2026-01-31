@@ -35,7 +35,7 @@
 TileBoxBrush::TileBoxBrush(const std::string &tileset, const std::string &name) {
 	size.x = size.y = 1;
 	tilebox = dynamic_cast<const generator::TileBox*>(Map->getGenerator()->getObject(tileset, name + "|"));
-	if (tilebox == NULL)
+	if (tilebox == nullptr)
 		throw_ex(("generator object %s:%s is not a box", tileset.c_str(), name.c_str()));
 	if (tilebox->split_w[1] == 0 || tilebox->split_h[1] == 0)
 		throw_ex(("cannot handle primary boxes w/o central tiles. "));
@@ -47,9 +47,9 @@ TileBoxBrush::TileBoxBrush(const std::string &tileset, const std::string &name) 
 	
 	TRY {
 		tilebox_out = dynamic_cast<const generator::TileBox*>(Map->getGenerator()->getObject(tileset, "|" + name));
-		if (tilebox_out == NULL)
+		if (tilebox_out == nullptr)
 			throw_ex(("generator object %s:%s is not a box", tileset.c_str(), name.c_str()));
-	} CATCH("ctor", tilebox_out = NULL);
+	} CATCH("ctor", tilebox_out = nullptr);
 }
 
 const bool TileBoxBrush::check(const generator::TileBox *tilebox, const int tid, const bool base) {
@@ -78,7 +78,7 @@ const bool TileBoxBrush::check(const generator::TileBox *tilebox, const int tid,
 const bool TileBoxBrush::check(const int tid, const bool base) const {
 	if (tid == 0) 
 		return !base;
-	return check(tilebox, tid, base) || (tilebox_out != NULL? check(tilebox_out, tid, base): false);
+	return check(tilebox, tid, base) || (tilebox_out != nullptr? check(tilebox_out, tid, base): false);
 }
 
 
@@ -142,19 +142,19 @@ void TileBoxBrush::morph(Matrix<int> &ground, const int y, const int x, const in
 	if (BITS(tile_bits, 0x82) || BITS(tile_bits, 0x28)) {
 		tid = tilebox->tiles.get(tilebox->split_h[0] + (map_y % tilebox->split_h[1]), tilebox->split_w[0] + (map_x % tilebox->split_h[1]));
 	//outer box:
-	} else if (tilebox_out != NULL && BITS(tile_bits, 0x0a)) {
+	} else if (tilebox_out != nullptr && BITS(tile_bits, 0x0a)) {
 		tid = tilebox_out->tiles.get(
 			map_y % tilebox_out->split_h[0], 
 			map_x % tilebox_out->split_w[0]);
-	} else if (tilebox_out != NULL && BITS(tile_bits, 0x22)) {
+	} else if (tilebox_out != nullptr && BITS(tile_bits, 0x22)) {
 		tid = tilebox_out->tiles.get(
 			map_y % tilebox_out->split_h[0], 
 			tilebox_out->split_w[0] + tilebox_out->split_w[1] + (map_x % tilebox_out->split_w[2]));
-	} else if (tilebox_out != NULL && BITS(tile_bits, 0xa0)) {
+	} else if (tilebox_out != nullptr && BITS(tile_bits, 0xa0)) {
 		tid = tilebox_out->tiles.get(
 			tilebox_out->split_h[0] + tilebox_out->split_h[1] + (map_y % tilebox_out->split_h[0]), 
 			tilebox_out->split_w[0] + tilebox_out->split_w[1] + (map_x % tilebox_out->split_w[2]));
-	} else if (tilebox_out != NULL && BITS(tile_bits, 0x88)) {
+	} else if (tilebox_out != nullptr && BITS(tile_bits, 0x88)) {
 		tid = tilebox_out->tiles.get(
 			tilebox_out->split_h[0] + tilebox_out->split_h[1] + (map_y % tilebox_out->split_h[0]), 
 			map_x % tilebox_out->split_w[0]);
@@ -202,7 +202,7 @@ void TileBoxBrush::render(sdlx::Surface &surface, const v2<int>& window_pos, con
 	int tid = gid + tilebox->tiles.get(ty, tx);
 
 	const IMap::TileDescriptor &td = Map->getTile(tid);
-	assert(td.surface != NULL);
+	assert(td.surface != nullptr);
 	
 	surface.blit(*td.surface, window_pos_aligned.x, window_pos_aligned.y);
 }

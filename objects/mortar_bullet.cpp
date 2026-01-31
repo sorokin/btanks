@@ -65,7 +65,7 @@ public:
 	}
 	
 	void emit(const std::string &event, Object * emitter) {
-		if (emitter != NULL && (emitter->classname == "smoke-cloud" || emitter->classname == "bullet") )
+		if (emitter != nullptr && (emitter->classname == "smoke-cloud" || emitter->classname == "bullet") )
 			return;
 			
 		bool collision = event == "collision";
@@ -74,8 +74,8 @@ public:
 		if (collision) {
 			float progress = ttl / (ttl + age);
 			bool fly = (progress >= 0.3f && progress < 0.7f);
-			//LOG_DEBUG(("fly: %c, emitter: %s", fly?'+':'-', emitter != NULL?emitter->animation.c_str(): "-"));
-			if (fly && (emitter == NULL || (emitter->speed == 0 && emitter->registered_name != "sandworm-head")))
+			//LOG_DEBUG(("fly: %c, emitter: %s", fly?'+':'-', emitter != nullptr?emitter->animation.c_str(): "-"));
+			if (fly && (emitter == nullptr || (emitter->speed == 0 && emitter->registered_name != "sandworm-head")))
 				return;
 		}
 		

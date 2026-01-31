@@ -57,7 +57,7 @@ void Control::on_mouse_enter(bool enter) {
 
 void Control::invalidate(const bool play_sound) {
 	if (play_sound && !_changed)
-		Mixer->playSample(NULL, "menu/change.ogg", false);
+		Mixer->playSample(nullptr, "menu/change.ogg", false);
 	_changed = true;
 }
 

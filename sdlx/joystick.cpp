@@ -32,7 +32,7 @@ const int Joystick::getCount() {
 
 const std::string Joystick::getName(const int idx) {
 	const char * name_str = SDL_JoystickName(idx);
-	if (name_str == NULL)
+	if (name_str == nullptr)
 		throw_sdl(("SDL_JoystickName(%d)", idx));
 	std::string name = name_str;
 	mrt::trim(name);
@@ -44,44 +44,44 @@ void Joystick::sendEvents(const bool enable) {
 }
 
 
-Joystick::Joystick() : _joy(NULL) {}
+Joystick::Joystick() : _joy(nullptr) {}
 
 void Joystick::open(const int idx) {
 	close();
 	_joy = SDL_JoystickOpen(idx);
-	if (_joy == NULL)
+	if (_joy == nullptr)
 		throw_sdl(("SDL_JoystickOpen(%d)", idx));
 }
 
 Joystick::Joystick(const int idx) : _joy (SDL_JoystickOpen(idx)) {
-	if (_joy == NULL)
+	if (_joy == nullptr)
 		throw_sdl(("SDL_JoystickOpen(%d)", idx));
 }
 
 const bool Joystick::opened() const {
-	return _joy != NULL;
+	return _joy != nullptr;
 }
 
 Sint16 Joystick::get_axis(const int idx) const {
-	if (_joy == NULL)
+	if (_joy == nullptr)
 		throw_ex(("get_axis(%d) on uninitialized joystick", idx));
 	return SDL_JoystickGetAxis(_joy, idx);
 }
 
 const bool Joystick::get_button(const int idx) const {
-	if (_joy == NULL)
+	if (_joy == nullptr)
 		throw_ex(("get_button(%d) on uninitialized joystick", idx));
 	return SDL_JoystickGetButton(_joy, idx) != 0;
 }
 
 const int Joystick::get_hat(const int idx) const {
-	if (_joy == NULL)
+	if (_joy == nullptr)
 		throw_ex(("get_hat(%d) on uninitialized joystick", idx));
 	return SDL_JoystickGetHat(_joy, idx);
 }
 
 void Joystick::get_ball(const int idx, int &dx, int &dy) const {
-	if (_joy == NULL)
+	if (_joy == nullptr)
 		throw_ex(("get_ball(%d) on uninitialized joystick", idx));
 	if (SDL_JoystickGetBall(_joy, idx, &dx, &dy) == -1)	
 		throw_sdl(("SDL_JoystickGetBall(%d)", idx));
@@ -89,35 +89,35 @@ void Joystick::get_ball(const int idx, int &dx, int &dy) const {
 
 
 const int Joystick::get_axis_num() const {
-	if (_joy == NULL)
+	if (_joy == nullptr)
 		throw_ex(("get_axis_num() on uninitialized joystick"));
 	return SDL_JoystickNumAxes(_joy);
 }
 
 const int Joystick::get_buttons_num() const {
-	if (_joy == NULL)
+	if (_joy == nullptr)
 		throw_ex(("get_buttons_num() on uninitialized joystick"));
 	return SDL_JoystickNumButtons(_joy);
 }
 
 const int Joystick::get_balls_num() const {
-	if (_joy == NULL)
+	if (_joy == nullptr)
 		throw_ex(("get_balls_num() on uninitialized joystick"));
 	return SDL_JoystickNumBalls(_joy);
 }
 
 const int Joystick::get_hats_num() const {
-	if (_joy == NULL)
+	if (_joy == nullptr)
 		throw_ex(("get_balls_num() on uninitialized joystick"));
 	return SDL_JoystickNumHats(_joy);
 }
 
 void Joystick::close() {
-	if (_joy == NULL) 
+	if (_joy == nullptr) 
 		return;
 	
 	SDL_JoystickClose(_joy);
-	_joy = NULL;
+	_joy = nullptr;
 }
 
 Joystick::~Joystick() {

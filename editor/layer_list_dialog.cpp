@@ -58,7 +58,7 @@ const LayerItem * LayerListDialog::getItem(const int idx) const {
 	if (idx < 0 || idx >= (int)_list.size())
 		throw_ex(("invalid index %d", idx));
 	const LayerItem *li = dynamic_cast<const LayerItem *>(_list[idx]);
-	if (li == NULL)
+	if (li == nullptr)
 		throw_ex(("cast to LayerListItem failed"));
 	return li;
 }

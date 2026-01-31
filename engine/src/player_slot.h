@@ -106,7 +106,7 @@ public:
 	void validatePosition(v2<float>& position);
 	void addScore(const int s);
 	
-	const Tooltip *currentTooltip() const { return tooltips.empty()? NULL: tooltips.front().second; }
+	const Tooltip *currentTooltip() const { return tooltips.empty()? nullptr: tooltips.front().second; }
 	void setViewport(const sdlx::Rect &rect);
 
 	void getDefaultVehicle(std::string &vehicle, std::string &animation);

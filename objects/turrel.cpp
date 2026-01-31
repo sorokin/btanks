@@ -41,7 +41,7 @@ public:
 	virtual void on_spawn();
 	virtual void tick(const float dt);
 	virtual void calculate(const float dt);
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	virtual const bool take(const BaseObject *obj, const std::string &type);
 	virtual const std::string getType() const { return "machinegunner"; }
 	virtual const int getCount() const { return -1; }
@@ -71,15 +71,15 @@ void Turrel::on_spawn() {
 
 void Turrel::tick(const float dt) {
 	Object::tick(dt);
-	bool ai = (_parent != NULL)? !_parent->disable_ai:true;
+	bool ai = (_parent != nullptr)? !_parent->disable_ai:true;
 	//LOG_DEBUG(("ai: %s, _parent: %s, parent->disable_ai : %s", ai?"true":"false", _parent?_parent->animation.c_str():"-", _parent?(_parent->disable_ai?"true":"false"):"-"));
 	if (_fire.tick(dt) && _state.fire && (!ai || canFire())) {
-		bool air_mode = (_parent != NULL)?_parent->get_player_state().alt_fire:true;
+		bool air_mode = (_parent != nullptr)?_parent->get_player_state().alt_fire:true;
 		cancel_all();
 		play(_left? "fire-left": "fire-right", false);
 		play("hold", true);
 		std::string animation = mrt::format_string("buggy-%s-%s", air_mode?"air-bullet":"bullet", _left?"left":"right");
-		Object *bullet = (_parent == NULL? this: _parent)->spawn("buggy-bullet", animation, v2<float>(), _direction);
+		Object *bullet = (_parent == nullptr? this: _parent)->spawn("buggy-bullet", animation, v2<float>(), _direction);
 		
 		bullet->set_z(air_mode? bullet->get_z() + 2000:get_z() - 1, true);
 		_left = !_left;
@@ -104,7 +104,7 @@ void Turrel::calculate(const float dt) {
 		targets.insert("paratrooper");
 	}
 	
-	bool air_mode = (_parent != NULL)?_parent->get_player_state().alt_fire:true;
+	bool air_mode = (_parent != nullptr)?_parent->get_player_state().alt_fire:true;
 	if (air_mode || _variants.has("ground-aim")) {
 		v2<float> pos, vel;
 		int z0 = get_z();
@@ -126,7 +126,7 @@ void Turrel::calculate(const float dt) {
 			set_z(z0, true);
 		}
 	} else {
-		if (_parent != NULL) {
+		if (_parent != nullptr) {
 			_state.fire = _parent->get_player_state().fire;
 
 			int idx = _parent->get_direction();

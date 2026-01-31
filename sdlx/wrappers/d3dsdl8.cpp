@@ -36,9 +36,9 @@
 #include <SDL_syswm.h>
 #include "mrt/logger.h"
 
-static LPDIRECT3D8          g_pD3D       = NULL;
-static LPDIRECT3DDEVICE8    g_pd3dDevice = NULL;
-static SDL_Surface * g_screen 			 = NULL;
+static LPDIRECT3D8          g_pD3D       = nullptr;
+static LPDIRECT3DDEVICE8    g_pd3dDevice = nullptr;
+static SDL_Surface * g_screen 			 = nullptr;
 static LPD3DXSPRITE g_sprite;
 static bool g_begin_scene = true;
 static bool g_sprite_end = false;
@@ -51,9 +51,9 @@ static D3DPRESENT_PARAMETERS d3dpp;
 #include <vector>
 
 #define RELEASE_OBJECT(p)  \
-if ((p) != NULL) {  \
+if ((p) != nullptr) {  \
 	(p)->Release(); \
-	(p) = NULL;     \
+	(p) = nullptr;     \
 }
 
 struct texinfo {
@@ -75,26 +75,26 @@ std::vector<texinfo> g_textures;
 std::deque<int> g_freetexinfo;
 
 static texinfo * getTexture(const SDL_Surface *surface) {
-	if (surface == NULL)
-		return NULL;
+	if (surface == nullptr)
+		return nullptr;
 	int idx = surface->unused1 - 1;
 	if (idx < 0 || idx >= (int)g_textures.size())
-		return NULL;
+		return nullptr;
 
 	texinfo * r = &g_textures[idx];
 	//LOG_DEBUG(("getTexture(%d) returns %p", surface->unused1, (void *)r));
-	if (r->tex == NULL) {
+	if (r->tex == nullptr) {
 		LOG_WARN(("texture %d do not contain d3d texture!", idx));
-		return NULL;
+		return nullptr;
 	}
 	return r;
 }
 
 static void freeTexture(texinfo *tex) {
-	if (tex == NULL || tex->tex == NULL)
+	if (tex == nullptr || tex->tex == nullptr)
 		return;
 
-	const bool unlock = tex->lrect != NULL;
+	const bool unlock = tex->lrect != nullptr;
 
 	//LOG_DEBUG(("freeing d3d texture"));
 	for(int t = 0; t < tex->n; ++t) {
@@ -105,16 +105,16 @@ static void freeTexture(texinfo *tex) {
 	}
 	
 	delete[] tex->lrect;
-	tex->lrect = NULL;
+	tex->lrect = nullptr;
 	delete[] tex->tex;
-	tex->tex = NULL;
+	tex->tex = nullptr;
 	tex->n = 0;
 }
 
 SDL_Surface *d3dSDL_SetVideoMode(int width, int height, int bpp, Uint32 flags) {
 	flags &= ~(SDL_OPENGL | SDL_OPENGLBLIT);
 	g_screen = SDL_SetVideoMode(width, height, bpp, flags);
-	if (g_screen == NULL || (flags & SDL_GLSDL) == 0)
+	if (g_screen == nullptr || (flags & SDL_GLSDL) == 0)
 		return g_screen;
 	//if ((flags & SDL_GLSDL) == 0)
 	//	return screen;
@@ -124,7 +124,7 @@ SDL_Surface *d3dSDL_SetVideoMode(int width, int height, int bpp, Uint32 flags) {
 
     SDL_VERSION(&info.version);
     if (SDL_GetWMInfo(&info) == -1)
-        return NULL;
+        return nullptr;
 
 	//LOG_DEBUG(("hwnd: %x", (unsigned)info.window));
 
@@ -193,7 +193,7 @@ SDL_Surface *d3dSDL_SetVideoMode(int width, int height, int bpp, Uint32 flags) {
 	g_pd3dDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
 	g_pd3dDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
 	
-	//g_pd3dDevice->SetDepthStencilSurface(NULL); //dx9
+	//g_pd3dDevice->SetDepthStencilSurface(nullptr); //dx9
 
 	g_pd3dDevice->SetRenderState(D3DRS_STENCILENABLE, FALSE);
 	g_pd3dDevice->SetRenderState(D3DRS_ZENABLE, FALSE);
@@ -311,17 +311,17 @@ static LPDIRECT3DTEXTURE8 d3d_CreateTexture(SDL_Surface * surface, int tex_size_
 				//D3DPOOL_DEFAULT, 
 				&tex))) {
 		SDL_SetError("CreateTexture(%d, %d) failed: %08x", tex_size_w, tex_size_h, err);
-		return NULL;
+		return nullptr;
 	}
 
 	//LOG_DEBUG(("locking texture.."));
 
 	D3DLOCKED_RECT rect;
-	if (FAILED(tex->LockRect(0, &rect, NULL, D3DLOCK_DISCARD))) {
+	if (FAILED(tex->LockRect(0, &rect, nullptr, D3DLOCK_DISCARD))) {
 		SDL_SetError("LockRect failed");
-		return NULL;
+		return nullptr;
 	}
-	assert(rect.pBits != NULL);
+	assert(rect.pBits != nullptr);
 
 	if (x2 > surface->w) 
 		x2 = surface->w;
@@ -342,10 +342,10 @@ static LPDIRECT3DTEXTURE8 d3d_CreateTexture(SDL_Surface * surface, int tex_size_
 	}
 	//LOG_DEBUG(("blitting from %d,%d, size: %d,%d.", src_rect.x, src_rect.y, src_rect.w, src_rect.h));
 	SDL_Surface *fake = SDL_CreateRGBSurfaceFrom(rect.pBits, tex_size_w, tex_size_h, 32, rect.Pitch, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-	if (SDL_BlitSurface(surface, &src_rect, fake, NULL) == -1)
-		return NULL;
+	if (SDL_BlitSurface(surface, &src_rect, fake, nullptr) == -1)
+		return nullptr;
 
-	fake->pixels = NULL;
+	fake->pixels = nullptr;
 	SDL_FreeSurface(fake);
 
 	if (has_alpha) {
@@ -359,18 +359,18 @@ static LPDIRECT3DTEXTURE8 d3d_CreateTexture(SDL_Surface * surface, int tex_size_
 static SDL_Surface * convert_to_display(SDL_Surface *surface, bool alpha_channel) {
 	{
 		texinfo * texinfo = getTexture(surface);
-		if (texinfo != NULL) {
+		if (texinfo != nullptr) {
 			return surface; //hack requiring proper handling in sdlx :)
 			//LOG_DEBUG(("problem texture: id: %d, %dx%d, surface: %dx%d", surface->unused1, texinfo->w, texinfo->h, surface->w, surface->h));
 		}
-		//assert(texinfo == NULL);
+		//assert(texinfo == nullptr);
 	}
 
 	//LOG_DEBUG(("DisplayFormatAlpha(%p->%d, %d)", (void *) surface, surface->w, surface->h));
 
-	if (surface->pixels == NULL) {
-		SDL_SetError("surface with pixels == NULL found");
-		return NULL;
+	if (surface->pixels == nullptr) {
+		SDL_SetError("surface with pixels == nullptr found");
+		return nullptr;
 	}
 
 	int tex_size_w = g_non_pow2? surface->w: pow2(surface->w);
@@ -378,7 +378,7 @@ static SDL_Surface * convert_to_display(SDL_Surface *surface, bool alpha_channel
 
 	if (tex_size_w == -1 || tex_size_h == -1) {
 		SDL_SetError("cannot handle this large texture w:%d, h: %d", surface->w, surface->h);
-		return NULL;
+		return nullptr;
 	}
 	
 	int tex_split_w = tex_size_w;
@@ -417,8 +417,8 @@ static SDL_Surface * convert_to_display(SDL_Surface *surface, bool alpha_channel
 	for(int y = 0; y < surface->h; y += tex_split_h) {
 		for(int x = 0; x < surface->w; x += tex_split_w) {
 			LPDIRECT3DTEXTURE8 tex = d3d_CreateTexture(surface, tex_split_w, tex_split_h, x, y, x + tex_split_w, y + tex_split_h, alpha_channel);
-			if (tex == NULL) 
-				return NULL;
+			if (tex == nullptr) 
+				return nullptr;
 	
 	        assert(idx < info.n);
 			info.tex[idx++] = tex;
@@ -427,11 +427,11 @@ static SDL_Surface * convert_to_display(SDL_Surface *surface, bool alpha_channel
 	assert(idx == info.n);	
 	
 	SDL_Surface *r = SDL_CreateRGBSurface(surface->flags | SDL_SRCALPHA, surface->w, surface->h, 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-	if (r == NULL)
-		return NULL;
+	if (r == nullptr)
+		return nullptr;
 
 	SDL_free(r->pixels); //no need for that. use it later from Lock
-	r->pixels = NULL;
+	r->pixels = nullptr;
 	r->flags |= SDL_GLSDL | SDL_HWSURFACE;
 
 	g_textures.push_back(info);
@@ -447,63 +447,63 @@ static SDL_Surface * convert_to_display(SDL_Surface *surface, bool alpha_channel
 }
 
 SDL_Surface *d3dSDL_DisplayFormatAlpha(SDL_Surface *surface) {
-	//assert(g_pD3D != NULL);
-	if (g_pD3D == NULL)
+	//assert(g_pD3D != nullptr);
+	if (g_pD3D == nullptr)
 		return SDL_DisplayFormatAlpha(surface);
 	return convert_to_display(surface, true);
 }
 
 SDL_Surface *d3dSDL_DisplayFormat(SDL_Surface *surface) {
-	if (g_pD3D == NULL)
+	if (g_pD3D == nullptr)
 		return SDL_DisplayFormat(surface);
 	return convert_to_display(surface, false);
 }
 
 SDL_Surface *d3dSDL_ConvertSurface
 			(SDL_Surface *src, SDL_PixelFormat *fmt, Uint32 flags) {
-	if (g_pD3D == NULL)
+	if (g_pD3D == nullptr)
 		return SDL_ConvertSurface(src, fmt, flags);
-	return NULL;
+	return nullptr;
 }
 
 SDL_Surface *d3dSDL_CreateRGBSurface
 			(Uint32 flags, int width, int height, int depth, 
 			Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask) {
-//	if (g_pD3D == NULL) 
+//	if (g_pD3D == nullptr) 
 		SDL_Surface *r = SDL_CreateRGBSurface(flags & (~SDL_HWSURFACE), width, height, depth, Rmask, Gmask, Bmask, Amask);
 		//LOG_DEBUG(("SDL_CreateRGBSurface(%08x, %d, %d, %d) -> %p", flags, width, height, depth, (const void*) r));
-		if (r == NULL)
-			return NULL;
+		if (r == nullptr)
+			return nullptr;
 		if (r->format->BitsPerPixel == 0) {
 			//LOG_DEBUG(("problem surface: %dx%dx%d %d:%d", r->w, r->h, depth, r->format->BytesPerPixel, r->format->BytesPerPixel));
 			assert(0);
 		}
 		return r;
-//	return NULL;
+//	return nullptr;
 }
 
 SDL_Surface *d3dSDL_CreateRGBSurfaceFrom(void *pixels,
 			int width, int height, int depth, int pitch,
 			Uint32 Rmask, Uint32 Gmask, Uint32 Bmask, Uint32 Amask) {
-//	if (g_pD3D == NULL) {
+//	if (g_pD3D == nullptr) {
 		SDL_Surface *r = SDL_CreateRGBSurfaceFrom(pixels, width, height, depth, pitch, Rmask, Gmask, Bmask, Amask);		
-		if (r == NULL)
-			return NULL;
+		if (r == nullptr)
+			return nullptr;
 		assert(r->format->BitsPerPixel != 0);
 		return r;
 //	}
-//	return NULL;
+//	return nullptr;
 }
 
 SDL_Surface *d3dSDL_LoadBMP(const char *file) {
-	if (g_pD3D == NULL) {
+	if (g_pD3D == nullptr) {
 		return SDL_LoadBMP(file);
 	}
-	return NULL;
+	return nullptr;
 }
 
 int d3dSDL_SaveBMP(SDL_Surface *surface, const char *file) {
-	if (g_pD3D == NULL) {
+	if (g_pD3D == nullptr) {
 		return SDL_SaveBMP(surface, file);
 	}
 	if (surface == g_screen) {
@@ -519,7 +519,7 @@ int d3dSDL_SaveBMP(SDL_Surface *surface, const char *file) {
 			return -1;
 		}
 
-		if (FAILED(D3DXSaveSurfaceToFile(file, D3DXIFF_BMP, dst, NULL, NULL))) {
+		if (FAILED(D3DXSaveSurfaceToFile(file, D3DXIFF_BMP, dst, nullptr, nullptr))) {
 			SDL_SetError("D3DXSaveSurfaceToFile failed");
 			return -1;
 		}
@@ -529,14 +529,14 @@ int d3dSDL_SaveBMP(SDL_Surface *surface, const char *file) {
 	}
 	
 	texinfo *tex = getTexture(surface);
-	if (tex == NULL) {
+	if (tex == nullptr) {
 		return SDL_SaveBMP(surface, file); //generic save
 	}
 	if (tex->n != 1) {
 		SDL_SetError("cannot save big texture! sorry");
 		return -1;
 	}
-	return FAILED(D3DXSaveTextureToFile(file, D3DXIFF_BMP, tex->tex[0], NULL))? -1: 0;
+	return FAILED(D3DXSaveTextureToFile(file, D3DXIFF_BMP, tex->tex[0], nullptr))? -1: 0;
 }
 
 static int d3d_waitForDevice() {
@@ -570,7 +570,7 @@ static int d3d_waitForDevice() {
 }
 
 int d3dSDL_Flip(SDL_Surface *screen) {
-	if (g_pD3D == NULL) {
+	if (g_pD3D == nullptr) {
 		return SDL_Flip(screen);
 	}
 
@@ -598,7 +598,7 @@ int d3dSDL_Flip(SDL_Surface *screen) {
 		}
 	}
 
-	r = g_pd3dDevice->Present (NULL, NULL, NULL, NULL);
+	r = g_pd3dDevice->Present (nullptr, nullptr, nullptr, nullptr);
 	if (r == D3DERR_DEVICELOST) {
 		if (d3d_waitForDevice() == -1)
 			return -1;
@@ -616,20 +616,20 @@ int d3dSDL_Flip(SDL_Surface *screen) {
 static void d3dSDL_UnlockSurface2(SDL_Surface *surface);
 
 void d3dSDL_FreeSurface(SDL_Surface *surface) {
-	if (surface == NULL) {
-		LOG_WARN(("SDL_FreeSurface(NULL) called"));
+	if (surface == nullptr) {
+		LOG_WARN(("SDL_FreeSurface(nullptr) called"));
 		return;
 	}
-	if (g_pD3D == NULL) {
+	if (g_pD3D == nullptr) {
 		SDL_FreeSurface(surface);
 		return;
 	}
 
 	//LOG_DEBUG(("FreeSurface"));
 	texinfo * tex = getTexture(surface);
-	if (tex != NULL) {
+	if (tex != nullptr) {
 		freeTexture(tex); 
-		surface->pixels = NULL;
+		surface->pixels = nullptr;
 	}
 
 	surface->unused1 = 0;
@@ -640,18 +640,18 @@ void d3dSDL_FreeSurface(SDL_Surface *surface) {
 
 static int d3dSDL_LockSurface2(SDL_Surface *surface) {
 	texinfo* tex = getTexture(surface);
-	if (tex == NULL) {
+	if (tex == nullptr) {
 		return 0;
 	}
 
-	if (surface->pixels != NULL || tex->lrect != NULL) {
-		SDL_SetError("pixels != NULL || tex->locked_rects != NULL: recursive locks are not allowed");
+	if (surface->pixels != nullptr || tex->lrect != nullptr) {
+		SDL_SetError("pixels != nullptr || tex->locked_rects != nullptr: recursive locks are not allowed");
 		return -1;
 	}
 
 	if (tex->n == 1) { //single tile: almost no overhead
 		D3DLOCKED_RECT rect;
-		if (FAILED(tex->tex[0]->LockRect(0, &rect, NULL, D3DLOCK_DISCARD))) {
+		if (FAILED(tex->tex[0]->LockRect(0, &rect, nullptr, D3DLOCK_DISCARD))) {
 			SDL_SetError("LockRect failed");
 			return -1;
 		}
@@ -664,7 +664,7 @@ static int d3dSDL_LockSurface2(SDL_Surface *surface) {
 	assert(tex->n == nx * ny);
 
 	surface->pixels = SDL_malloc(surface->w * surface->h * 4);
-	if (surface->pixels == NULL) {
+	if (surface->pixels == nullptr) {
 		return -1;
 	}
 	surface->pitch = surface->w * 4;
@@ -673,12 +673,12 @@ static int d3dSDL_LockSurface2(SDL_Surface *surface) {
 	tex->lrect = new D3DLOCKED_RECT[tex->n];
 	
 	for(int t = 0; t < tex->n; ++t) {
-		if (FAILED(tex->tex[t]->LockRect(0, tex->lrect + t, NULL, D3DLOCK_DISCARD))) {
+		if (FAILED(tex->tex[t]->LockRect(0, tex->lrect + t, nullptr, D3DLOCK_DISCARD))) {
 			for(--t; t >= 0; --t) {
 				tex->tex[t]->UnlockRect(0);
 			}
 			delete[] tex->lrect;
-			tex->lrect = NULL;
+			tex->lrect = nullptr;
 			SDL_SetError("LockRect failed");
 			return -1;
 		}
@@ -696,9 +696,9 @@ static int d3dSDL_LockSurface2(SDL_Surface *surface) {
 			dst_rect.x = x * tex->split_w;
 			dst_rect.y = y * tex->split_h;
 
-			if (SDL_BlitSurface(sub_fake, NULL, surface, &dst_rect) == -1) 
+			if (SDL_BlitSurface(sub_fake, nullptr, surface, &dst_rect) == -1) 
 				LOG_ERROR(("LockSurface2: blit failed: %s", SDL_GetError()));
-			sub_fake->pixels = NULL;
+			sub_fake->pixels = nullptr;
 			SDL_FreeSurface(sub_fake);
 		}
 	}
@@ -708,20 +708,20 @@ static int d3dSDL_LockSurface2(SDL_Surface *surface) {
 
 static void d3dSDL_UnlockSurface2(SDL_Surface *surface) {
 	texinfo *tex = getTexture(surface);
-	if (tex == NULL)
+	if (tex == nullptr)
 		return;
 
 	if (tex->n == 1) { //single tile case
 		tex->tex[0]->UnlockRect(0);
-		surface->pixels = NULL;
+		surface->pixels = nullptr;
 		return;
 	}
 
 	int ny = align_div(surface->h, tex->split_h), nx = align_div(surface->w, tex->split_w);
 	assert(tex->n == nx * ny);
 
-	assert(tex->lrect != NULL);
-	assert(surface->pixels != NULL);
+	assert(tex->lrect != nullptr);
+	assert(surface->pixels != nullptr);
 
 	const bool has_alpha = (surface->flags & SDL_SRCALPHA) == SDL_SRCALPHA;
 	int alpha = SDL_ALPHA_OPAQUE;
@@ -735,9 +735,9 @@ static void d3dSDL_UnlockSurface2(SDL_Surface *surface) {
 		for(int x = 0; x < nx; ++x) {
 			const int idx = nx * y + x;
 			assert(idx < tex->n);
-			assert(tex->lrect[idx].pBits != NULL);
+			assert(tex->lrect[idx].pBits != nullptr);
 			SDL_Surface *sub_fake = SDL_CreateRGBSurfaceFrom(tex->lrect[idx].pBits, tex->split_w, tex->split_h, 32, tex->lrect[idx].Pitch, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-			if (sub_fake == NULL) {
+			if (sub_fake == nullptr) {
 				LOG_ERROR(("UnlockSurface2: creating surface failed."));
 				tex->tex[idx]->UnlockRect(0);
 				continue;
@@ -750,14 +750,14 @@ static void d3dSDL_UnlockSurface2(SDL_Surface *surface) {
 			src_rect.w = tex->split_w;
 			src_rect.h = tex->split_h;
 
-			if (SDL_BlitSurface(surface, &src_rect, sub_fake, NULL) == -1)
+			if (SDL_BlitSurface(surface, &src_rect, sub_fake, nullptr) == -1)
 				LOG_ERROR(("UnlockSurface2: SDL_BlitSurface failed: %s", SDL_GetError()));
-			sub_fake->pixels = NULL;
+			sub_fake->pixels = nullptr;
 			SDL_FreeSurface(sub_fake);
 
 			//unlock texture
 			tex->tex[idx]->UnlockRect(0);
-			tex->lrect[idx].pBits = NULL;
+			tex->lrect[idx].pBits = nullptr;
 		}
 	}
 	if (has_alpha) {
@@ -765,15 +765,15 @@ static void d3dSDL_UnlockSurface2(SDL_Surface *surface) {
 	}
 	
 	delete[] tex->lrect;
-	tex->lrect = NULL;
+	tex->lrect = nullptr;
 
 	SDL_free(surface->pixels);
-	surface->pixels = NULL;
+	surface->pixels = nullptr;
 }
 
 
 int d3dSDL_LockSurface(SDL_Surface *surface) {
-	if (g_pD3D != NULL) {
+	if (g_pD3D != nullptr) {
 		if (d3dSDL_LockSurface2(surface) == -1) {
 			return -1;
 		}
@@ -789,15 +789,15 @@ int d3dSDL_LockSurface(SDL_Surface *surface) {
 void d3dSDL_UnlockSurface(SDL_Surface *surface) {
 	//LOG_DEBUG(("UnlockSurface"));
 	SDL_UnlockSurface(surface);
-	if (g_pD3D != NULL)  {
+	if (g_pD3D != nullptr)  {
 		d3dSDL_UnlockSurface2(surface);
 	}
 }
 
 SDL_bool d3dSDL_SetClipRect(SDL_Surface *surface, SDL_Rect *rect) {
-	if (g_pD3D == NULL) 
+	if (g_pD3D == nullptr) 
 		return SDL_SetClipRect(surface, rect);
-	if (rect == NULL) {
+	if (rect == nullptr) {
 		//reset to default ? 
 		g_clip_rect.top = 0; 
 		g_clip_rect.left = 0;
@@ -815,17 +815,17 @@ SDL_bool d3dSDL_SetClipRect(SDL_Surface *surface, SDL_Rect *rect) {
 int d3dSDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 			 SDL_Surface *dst, SDL_Rect *dstrect) {
 
-	if (g_pD3D == NULL) 
+	if (g_pD3D == nullptr) 
 		return SDL_BlitSurface(src, srcrect, dst, dstrect);
 
 	texinfo * tex = getTexture(src);
 	//LOG_DEBUG(("src->getTexture(%d) returns %p", src->unused1, (void *)tex));
 
 	if (dst == g_screen) {
-		if (tex != NULL) {
+		if (tex != nullptr) {
 			if (g_begin_scene) {
 				//LOG_DEBUG(("BeginScene"));
-				g_pd3dDevice->Clear(0, NULL, D3DCLEAR_TARGET | D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER, 0, 0, 0);
+				g_pd3dDevice->Clear(0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_STENCIL | D3DCLEAR_ZBUFFER, 0, 0, 0);
 				if (FAILED(g_pd3dDevice->BeginScene())) {
 					SDL_SetError("BeginScene failed");
 					return -1;
@@ -861,9 +861,9 @@ int d3dSDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 			//clip rectangle: 
 			{
 				RECT dst_rect;
-				dst_rect.left = (dstrect != NULL)? dstrect->x: 0;
+				dst_rect.left = (dstrect != nullptr)? dstrect->x: 0;
 				dst_rect.right = dst_rect.left + dxr.right - dxr.left;
-				dst_rect.top  = (dstrect != NULL)? dstrect->y: 0;
+				dst_rect.top  = (dstrect != nullptr)? dstrect->y: 0;
 				dst_rect.bottom = dst_rect.top + dxr.bottom - dxr.top;
 
 				if (dst_rect.left < g_clip_rect.left) {
@@ -936,7 +936,7 @@ int d3dSDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 							idx, tex->n, pos.x, pos.y));
 					*/
 					Uint8 alpha = ((src->flags & SDL_SRCALPHA) == SDL_SRCALPHA)? 255: src->format->alpha; //do not handle both SDL_SRCALPHA & alpha channel
-					if (FAILED(g_sprite->Draw(tex->tex[idx], &src_rect, NULL, NULL, 0, &pos, D3DCOLOR_RGBA(0xff, 0xff, 0xff, alpha)))) {
+					if (FAILED(g_sprite->Draw(tex->tex[idx], &src_rect, nullptr, nullptr, 0, &pos, D3DCOLOR_RGBA(0xff, 0xff, 0xff, alpha)))) {
 						SDL_SetError("Sprite::Draw failed");
 						return -1;
 					}
@@ -951,8 +951,8 @@ int d3dSDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 		return -1;
 	} else {
 		texinfo * dst_tex = getTexture(dst);
-		bool default_blit = tex == NULL || dst_tex == NULL;
-		if (tex != NULL) {
+		bool default_blit = tex == nullptr || dst_tex == nullptr;
+		if (tex != nullptr) {
 			int nx = align_div(src->w, tex->split_w), ny = align_div(src->h, tex->split_h);
 			if (nx * ny == 1)
 				default_blit = true;
@@ -960,8 +960,8 @@ int d3dSDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 
 		if (true || default_blit) {
 			//LOG_DEBUG(("default blit. (slow for fragmented surfaces)"));
-			if (tex != NULL) {
-				if (src->pixels != NULL) {
+			if (tex != nullptr) {
+				if (src->pixels != nullptr) {
 					SDL_SetError("Surface must not be locked during blit");
 					return -1;
 				}
@@ -970,8 +970,8 @@ int d3dSDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 					return -1;
 				}
 			}
-			if (dst_tex != NULL) {
-				if (dst->pixels != NULL) {
+			if (dst_tex != nullptr) {
+				if (dst->pixels != nullptr) {
 					SDL_SetError("Surface must not be locked during blit.");
 					return -1;
 				}
@@ -981,12 +981,12 @@ int d3dSDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 					return -1;
 				}
 			}
-			//if (srcrect != NULL && dstrect != NULL)
+			//if (srcrect != nullptr && dstrect != nullptr)
 			//	LOG_DEBUG(("%d, %d;%d, %d -> %d, %d", srcrect->x, srcrect->y, srcrect->w, srcrect->h, dstrect->x, dstrect->y));
 			int r = SDL_BlitSurface(src, srcrect, dst, dstrect);
-			if (dst_tex != NULL)
+			if (dst_tex != nullptr)
 				d3dSDL_UnlockSurface2(dst); 
-			if (tex != NULL)
+			if (tex != nullptr)
 				d3dSDL_UnlockSurface2(src); 
 			return r;
 		} else {
@@ -999,7 +999,7 @@ int d3dSDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 }
 
 int d3dSDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color_) {
-	if (g_pD3D == NULL)
+	if (g_pD3D == nullptr)
 		return SDL_FillRect(dst, dstrect, color_);
 
 	Uint8 r, g, b, a;
@@ -1007,7 +1007,7 @@ int d3dSDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color_) {
 	DWORD color = D3DCOLOR_ARGB(a, r, g, b);
 	//LOG_DEBUG(("FillRect: color: %08x", color));
 	if (dst == g_screen) {
-		if (dstrect != NULL) {
+		if (dstrect != nullptr) {
 			D3DRECT rect;
 			rect.x1 = dstrect->x;
 			rect.x2 = dstrect->x + dstrect->w;
@@ -1018,7 +1018,7 @@ int d3dSDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color_) {
 				return -1;
 			}
 		} else {
-			if (FAILED(g_pd3dDevice->Clear (0, NULL, D3DCLEAR_TARGET, color, 0.0f, 0))) {
+			if (FAILED(g_pd3dDevice->Clear (0, nullptr, D3DCLEAR_TARGET, color, 0.0f, 0))) {
 				SDL_SetError("Clear() failed.");
 				return -1;
 			}
@@ -1026,14 +1026,14 @@ int d3dSDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color_) {
 	    return 0;
 	} else {
 		texinfo *tex = getTexture(dst);
-		if (tex == NULL) 
+		if (tex == nullptr) 
 			return SDL_FillRect(dst, dstrect, color_);
 
 		int ny = align_div(dst->h, tex->split_h), nx = align_div(dst->w, tex->split_w);
 		assert(tex->n == nx * ny);
 
 		SDL_Rect rect;
-		if (dstrect != NULL) {
+		if (dstrect != nullptr) {
 			rect = *dstrect;
 		} else {
 			rect.x = rect.y = 0;
@@ -1041,8 +1041,8 @@ int d3dSDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color_) {
 			rect.h = dst->h;
 		}
 
-		assert(tex->lrect == NULL);
-		assert(dst->pixels == NULL);
+		assert(tex->lrect == nullptr);
+		assert(dst->pixels == nullptr);
 
 		int x1 = rect.x / tex->split_w, y1 = rect.y / tex->split_h;
 		int x2 = align_div(rect.x + rect.w, tex->split_w), y2 = align_div(rect.y + rect.h, tex->split_h);
@@ -1056,13 +1056,13 @@ int d3dSDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color_) {
 				assert(idx < tex->n);
 
 				D3DLOCKED_RECT lrect;
-				if (FAILED(tex->tex[idx]->LockRect(0, &lrect, NULL, D3DLOCK_DISCARD))) {
+				if (FAILED(tex->tex[idx]->LockRect(0, &lrect, nullptr, D3DLOCK_DISCARD))) {
 					SDL_SetError("LockRect failed");
 					return -1;
 				}
 
 				SDL_Surface *fake = SDL_CreateRGBSurfaceFrom(lrect.pBits, tex->split_w, tex->split_h, 32, lrect.Pitch, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000);
-				if (fake == NULL) {
+				if (fake == nullptr) {
 					tex->tex[idx]->UnlockRect(0);
 					return -1;				
 				}
@@ -1076,7 +1076,7 @@ int d3dSDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color_) {
 					return -1;
 				}
 
-				fake->pixels = NULL;
+				fake->pixels = nullptr;
 				SDL_FreeSurface(fake);				
 				tex->tex[idx]->UnlockRect(0);
 			}
@@ -1086,13 +1086,13 @@ int d3dSDL_FillRect(SDL_Surface *dst, SDL_Rect *dstrect, Uint32 color_) {
 }
 
 void d3dSDL_UpdateRects(SDL_Surface *screen, int numrects, SDL_Rect *rects) {
-	if (g_pD3D == NULL) {
+	if (g_pD3D == nullptr) {
 		SDL_UpdateRects(screen, numrects, rects); 
 		return;
     }
 }
 void d3dSDL_UpdateRect(SDL_Surface *screen, Sint32 x, Sint32 y, Uint32 w, Uint32 h) {
-	if (g_pD3D == NULL) {
+	if (g_pD3D == nullptr) {
 		SDL_UpdateRect(screen, x, y, w, h); 
 		return;
     }

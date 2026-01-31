@@ -58,7 +58,7 @@ const Control * Menu::get_current_item() const {
 		if (idx++ == current_item)
 			return *i;
 	}
-	return NULL;
+	return nullptr;
 }
 
 Control * Menu::get_current_item() {
@@ -67,7 +67,7 @@ Control * Menu::get_current_item() {
 		if (idx++ == current_item)
 			return *i;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -78,12 +78,12 @@ void Menu::render(sdlx::Surface &surface, const int x, const int y) const {
 	background.render(surface, x + dx, y + dy);
 	
 	const Control *c = get_current_item();
-	if (c != NULL) {
+	if (c != nullptr) {
 		int cx, cy;
 		c->get_base(cx, cy);
 		int cw, ch;
 		const MenuItem * mi = dynamic_cast<const MenuItem *>(c);
-		if (mi != NULL) {
+		if (mi != nullptr) {
 			//optimization :)
 			ch = mi->get_font()->get_height();
 		} else {
@@ -98,7 +98,7 @@ void Menu::render(sdlx::Surface &surface, const int x, const int y) const {
 
 bool Menu::onKey(const SDL_keysym sym) {
 	Control *item = get_current_item();
-	if (item != NULL && item->onKey(sym)) {
+	if (item != nullptr && item->onKey(sym)) {
 		if (item->changed()) {
 			item->reset();
 			invalidate();
@@ -125,7 +125,7 @@ void Menu::up() {
 	if (current_item < 0)
 		current_item += n;
 
-	Mixer->playSample(NULL, "menu/move.ogg", false);
+	Mixer->playSample(nullptr, "menu/move.ogg", false);
 }
 
 void Menu::down() {
@@ -134,7 +134,7 @@ void Menu::down() {
 	if (current_item >= n) 
 		current_item %= n;
 
-	Mixer->playSample(NULL, "menu/move.ogg", false);
+	Mixer->playSample(nullptr, "menu/move.ogg", false);
 }
 
 

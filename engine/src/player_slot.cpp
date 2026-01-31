@@ -49,9 +49,9 @@
 #include "controls/mouse_control.h"
 
 PlayerSlot::PlayerSlot() : 
-id(-1), control_method(NULL), need_sync(false), dont_interpolate(false), remote(-1), visible(false), 
+id(-1), control_method(nullptr), need_sync(false), dont_interpolate(false), remote(-1), visible(false), 
 classname(), animation(), frags(0), spawn_limit(0), dead_time(0), score(0), spectator(false), team(Team::None), 
-last_tooltip(NULL), last_tooltip_used(false), join_team(NULL) , moving(0)
+last_tooltip(nullptr), last_tooltip_used(false), join_team(nullptr) , moving(0)
 {}
 
 void PlayerSlot::serialize(mrt::Serializator &s) const {
@@ -85,15 +85,15 @@ void PlayerSlot::deserialize(const mrt::Serializator &s) {
 
 Object * PlayerSlot::getObject() const {
 	if (id < 0) 
-		return NULL;
+		return nullptr;
 	return World->getObjectByID(id);
 }
 
 void PlayerSlot::clear() {
 	id = -1;
-	if (control_method != NULL) {
+	if (control_method != nullptr) {
 		delete control_method; 
-		control_method = NULL;
+		control_method = nullptr;
 	}
 	old_state.clear();
 	animation.clear();
@@ -117,19 +117,19 @@ void PlayerSlot::clear() {
 		tooltips.pop();
 	}
 	delete last_tooltip;
-	last_tooltip = NULL;
+	last_tooltip = nullptr;
 	last_tooltip_used = false;
 	delete join_team;
-	join_team = NULL;
+	join_team = nullptr;
 	moving = 0;
 }
 
 void PlayerSlot::displayLast() {
 	if (remote != -1)
 		return;
-	if (tooltips.empty() && last_tooltip != NULL) {
+	if (tooltips.empty() && last_tooltip != nullptr) {
 		tooltips.push(Tooltips::value_type(last_tooltip->getReadingTime(), last_tooltip));
-		last_tooltip = NULL;
+		last_tooltip = nullptr;
 		last_tooltip_used = true;
 	} else if (!tooltips.empty()) {
 		delete last_tooltip;
@@ -169,7 +169,7 @@ void PlayerSlot::removeTooltips() {
 void PlayerSlot::displayTooltip(const std::string &area, const std::string &message) {
 	ControlMethod *cm = control_method;
 	bool delete_cm = false;
-	if (cm == NULL) {
+	if (cm == nullptr) {
 		cm = new KeyPlayer("keys");
 		delete_cm = true;
 	}
@@ -216,17 +216,17 @@ void PlayerSlot::tick(const float dt) {
 
 	if (RTConfig->game_type == GameTypeCTF || RTConfig->game_type == GameTypeTeamDeathMatch) {
 		if (team == Team::None) {
-			if (join_team == NULL)
+			if (join_team == nullptr)
 				join_team = new JoinTeamControl;
 			join_team->tick(dt);			
 		} else {
 			delete join_team;
-			join_team = NULL;		
+			join_team = nullptr;		
 		}
 	}
 		
 	const Object * p = getObject();
-	if (p == NULL) {
+	if (p == nullptr) {
 		moving = 0;
 		return;
 	}
@@ -288,7 +288,7 @@ void PlayerSlot::join(const Team::ID t) {
 	team = t;
 	spectator = false;
 	delete join_team;
-	join_team = NULL;
+	join_team = nullptr;
 	
 	std::string v, a;
 	getDefaultVehicle(v, a); //hack to recreate animation 
@@ -297,10 +297,10 @@ void PlayerSlot::join(const Team::ID t) {
 }
 
 void PlayerSlot::updateState(PlayerState &state, const float dt) {
-	if (control_method == NULL)
+	if (control_method == nullptr)
 		throw_ex(("updateState called on slot without control_method"));
 	//handle custom stuff here. 
-	if (join_team != NULL && team == Team::None) {
+	if (join_team != nullptr && team == Team::None) {
 		PlayerState s;
 		s = old_state;		
 		control_method->updateState(*this, state, dt);
@@ -330,7 +330,7 @@ void PlayerSlot::updateState(PlayerState &state, const float dt) {
 
 void PlayerSlot::createControlMethod(const std::string &control_method_name) {
 	delete control_method;
-	control_method = NULL;
+	control_method = nullptr;
 
 	if (control_method_name == "keys" || control_method_name == "keys-1" || control_method_name == "keys-2") {
 		control_method = new KeyPlayer(control_method_name);
@@ -367,7 +367,7 @@ void PlayerSlot::spawn_player(const int slot_id, const std::string &classname_, 
 	animation = animation_;
 	
 	if ((RTConfig->game_type == GameTypeTeamDeathMatch || RTConfig->game_type == GameTypeCTF) && team == Team::None) {
-		if (control_method != NULL || remote >= 0) {
+		if (control_method != nullptr || remote >= 0) {
 			LOG_DEBUG(("team mode on, do not respawn player %d before (s)he joins any team", slot_id));
 			id = 0; //hack hack hack! :)
 			spectator = true;
@@ -406,17 +406,17 @@ void PlayerSlot::spawn_player(const int slot_id, const std::string &classname_, 
 		if (profile.empty())
 			throw_ex(("empty profile"));
 		
-		if (campaign != NULL && Config->has("campaign." + profile + "." +  campaign->name + ".wares.additional-life.amount")) {
+		if (campaign != nullptr && Config->has("campaign." + profile + "." +  campaign->name + ".wares.additional-life.amount")) {
 			int al;
 			Config->get("campaign." + profile + "." + campaign->name + ".wares.additional-life.amount", al, 0);
 			spawn_limit += al;
 		}
 	}
 	Object *obj = ResourceManager->createObject(classname + "(player)", animation);
-	assert(obj != NULL);
+	assert(obj != nullptr);
 	obj->set_slot(slot_id);
 	
-	if (control_method != NULL || remote != -1)
+	if (control_method != nullptr || remote != -1)
 		obj->disable_ai = true;
 
 	obj->set_zbox(position.z);
@@ -430,7 +430,7 @@ void PlayerSlot::spawn_player(const int slot_id, const std::string &classname_, 
 	if (game_type == GameTypeCTF || random_respawn) {
 		//const Matrix<int>& matrix = Map->get_impassability_matrix(ZBox::getBox(position.z));
 		Matrix<int> matrix;
-		World->get_impassability_matrix(matrix, obj, NULL);
+		World->get_impassability_matrix(matrix, obj, nullptr);
 		
 		const v2<int> tile_size = Map->getPathTileSize();
 		if (obj->size.is0())
@@ -548,7 +548,7 @@ void PlayerSlot::setViewport(const sdlx::Rect &rect) {
 	visible = true;
 	viewport = rect;
 	const Object *o = getObject();
-	if (o == NULL)
+	if (o == nullptr)
 		return;
 	
 	v2<float> pos = o->get_center_position();
@@ -600,7 +600,7 @@ void PlayerSlot::render(sdlx::Surface &window, const int vx, const int vy) {
 		viewport, -10000, 10001, getObject());
 
 	const Tooltip *t = currentTooltip();
-	if (t != NULL) {
+	if (t != nullptr) {
 		int w, h;
 		t->get_size(w, h);
 		t->render(window, viewport.x, viewport.h - h);
@@ -609,7 +609,7 @@ void PlayerSlot::render(sdlx::Surface &window, const int vx, const int vy) {
 	viewport.x -= vx;
 	viewport.y -= vy;
 
-	if (join_team != NULL && team == Team::None) {
+	if (join_team != nullptr && team == Team::None) {
 		int w, h;
 		join_team->get_size(w, h);
 		join_team->render(window, viewport.x + (viewport.w - w) / 2, viewport.y + (viewport.h - h) / 2);

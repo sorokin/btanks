@@ -40,8 +40,8 @@ Source::Source(const Sample * sample, const bool loop, const v3f &delta, float g
 	sample(sample), loop(loop), delta_position(delta), gain(gain), pitch(pitch), panning(panning), 
 	position(0), fadeout(0), fadeout_total(0)
 {	
-	if (sample == NULL)
-		throw_ex(("sample for source cannot be NULL"));
+	if (sample == nullptr)
+		throw_ex(("sample for source cannot be nullptr"));
 }
 	
 bool Source::playing() const {
@@ -60,7 +60,7 @@ bool Source::playing() const {
 float Source::_process(clunk::Buffer &dst_buf, unsigned dst_ch, const v3f &delta_position, float fx_volume, float pitch) {
 
 	const int16_t* src = static_cast<const int16_t*>(sample->get_data().get_ptr());
-	if (src == NULL)
+	if (src == nullptr)
 			throw_ex(("uninitialized sample used (%p)", (void *)sample));
 
 	pitch *= this->pitch * sample->pitch;

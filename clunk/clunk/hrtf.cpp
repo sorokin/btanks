@@ -74,7 +74,7 @@ void Hrtf::idt_iit(const v3f &position, float &idt_offset, float &angle_gr, floa
 
 void Hrtf::get_kemar_data(kemar_ptr & kemar_data, int & elev_n, const v3f &pos) {
 	
-	kemar_data = NULL;
+	kemar_data = nullptr;
 	elev_n = 0;
 	if (pos.is0())
 		return;
@@ -117,7 +117,7 @@ unsigned Hrtf::process(
 	int angles;
 	get_kemar_data(kemar_data, angles, delta_position);
 
-	if (delta_position.is0() || kemar_data == NULL) {
+	if (delta_position.is0() || kemar_data == nullptr) {
 		//2d stereo sound!
 		if (src_ch == dst_ch) {
 			memcpy(dst_buf.get_ptr(), src_buf.get_ptr(), dst_buf.get_size());

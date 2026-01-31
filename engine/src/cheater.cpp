@@ -104,10 +104,10 @@ void Cheater::onEvent(const SDL_Event &event) {
 	} else if (cheat == "gh0st" || cheat == "phant0m") {
 	TRY {
 		PlayerSlot *my_slot = PlayerManager->get_my_slot();
-		if (my_slot == NULL)
+		if (my_slot == nullptr)
 			throw_ex(("no world to wander in"));
 		Object *o = my_slot->getObject();
-		if (o == NULL)
+		if (o == nullptr)
 			throw_ex(("you are already dead"));
 		o->impassability = (o->impassability > 0)?0:1;		
 	} CATCH("activating cheat", {})

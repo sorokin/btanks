@@ -55,15 +55,15 @@ void ShopItem::revalidate(const Campaign &campaign, const Campaign::ShopItem &it
 		_animation_model = ResourceManager->get_animation_model(_animation->model);
 		_pose = _animation_model->getPose(item.pose);
 	} else {
-		_animation = NULL; 
-		_animation_model = NULL;
-		_pose = NULL;
+		_animation = nullptr; 
+		_animation_model = nullptr;
+		_pose = nullptr;
 	}
 }
 
 void ShopItem::render(sdlx::Surface &surface, const int x, const int y) const {
 	Container::render(surface, x, y);
-	if (_pose == NULL || _animation == NULL || _animation_model == NULL) 
+	if (_pose == nullptr || _animation == nullptr || _animation_model == nullptr) 
 		return;
 	int frame = ((int)(t * _pose->speed)) % _pose->frames.size();
 
@@ -88,7 +88,7 @@ void ShopItem::tick(const float dt) {
 		invalidate(true);
 	}
 	
-	if (_pose == NULL || _animation == NULL || _surface == NULL || !_active)
+	if (_pose == nullptr || _animation == nullptr || _surface == nullptr || !_active)
 		return;
 	t += dt;
 	dir_t += dt;

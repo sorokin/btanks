@@ -83,7 +83,7 @@ public:
 			if (cpos.distance(_last_snatch) > msd) {
 				std::set<const Object *> objects;
 				GET_CONFIG_VALUE("objects.sandworm.snatch-range", float, sr, 32.0f);
-				enumerate_objects(objects, sr, NULL);
+				enumerate_objects(objects, sr, nullptr);
 				//LOG_DEBUG(("%u objects around", (unsigned) objects.size()));
 				bool snatch = false;
 				for(std::set<const Object *>::const_iterator i = objects.begin(); i != objects.end(); ++i) {
@@ -109,7 +109,7 @@ public:
 			_velocity.clear();
 			if (!active)
 				return;
-			if (World->getObjectByID(_head_id) == NULL) {
+			if (World->getObjectByID(_head_id) == nullptr) {
 				_head_id = 0;
 				invalidate();
 			}
@@ -134,8 +134,8 @@ public:
 		if (sid > 0) {
 			//tail following its predecessor.
 			Object *summoner = World->getObjectByID(sid);
-			if (summoner == NULL) {
-				emit("death", NULL);
+			if (summoner == nullptr) {
+				emit("death", nullptr);
 				return;
 			}
 			_velocity = get_relative_position(summoner);
@@ -170,7 +170,7 @@ public:
 		
 		if (coords.empty()) {
 			LOG_ERROR(("no hint area defined... committing suicide"));
-			emit("death", NULL);
+			emit("death", nullptr);
 			return;
 		}
 		
@@ -221,7 +221,7 @@ public:
 
 	virtual void on_spawn();
 	virtual void tick(const float dt);
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 };
 
 void SandWormHead::on_spawn() {
@@ -232,7 +232,7 @@ void SandWormHead::tick(const float dt) {
 	Object::tick(dt);
 
 	if (get_state().empty()) {
-		Object::emit("death", NULL);
+		Object::emit("death", nullptr);
 		return;
 	};
 }
@@ -240,7 +240,7 @@ void SandWormHead::tick(const float dt) {
 
 void SandWormHead::emit(const std::string &event, Object * emitter) {
 	if (event == "collision") {
-		if (emitter == NULL || emitter->classname == "ctf-flag" || emitter->classname == "ctf-base")
+		if (emitter == nullptr || emitter->classname == "ctf-flag" || emitter->classname == "ctf-base")
 			return;
 		if (emitter->piercing) {
 			if (emitter->registered_name == "mortar-bullet")
@@ -252,7 +252,7 @@ void SandWormHead::emit(const std::string &event, Object * emitter) {
 		if (get_state_progress() < da)
 			return;
 		
-		if (emitter == NULL || registered_name == "explosion" || 
+		if (emitter == nullptr || registered_name == "explosion" || 
 			(emitter->registered_name.size() >= 9 && 
 			emitter->registered_name.substr(emitter->registered_name.size() - 9, 9) == "explosion")
 			|| emitter->speed == 0

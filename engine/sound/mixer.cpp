@@ -58,7 +58,7 @@ void IMixer::reset() {
 
 IMixer::IMixer() : _nosound(true), _nomusic(true), 
 	_volume_fx(1.0f), _volume_ambience(0.5f), _volume_music(1.0f), _debug(false), _loop(false), 
-	_backend(NULL), _context(NULL) {
+	_backend(nullptr), _context(nullptr) {
 	}
 
 void IMixer::init(const bool nosound, const bool nomusic) {
@@ -85,9 +85,9 @@ void IMixer::init(const bool nosound, const bool nomusic) {
 		dm.rolloff_factor = 0.5f;
 		
 		_context->set_distance_model(dm);
-	} CATCH("clunk initialization", { delete _backend; _backend = NULL; _context = NULL; _nomusic = _nosound = true; });
+	} CATCH("clunk initialization", { delete _backend; _backend = nullptr; _context = nullptr; _nomusic = _nosound = true; });
 	
-	if (_context == NULL) {
+	if (_context == nullptr) {
 		LOG_DEBUG(("no sound"));
 		return;
 	}
@@ -112,15 +112,15 @@ void IMixer::init(const bool nosound, const bool nomusic) {
 }
 
 void IMixer::deinit() {
-	if (_backend != NULL) {
+	if (_backend != nullptr) {
 		_context->stop_all();
 		
 		_sounds.clear();
 
 		_backend->stop();
 		delete _backend;
-		_backend = NULL;
-		_context = NULL;
+		_backend = nullptr;
+		_context = nullptr;
 	}
 
 	_nosound = true;
@@ -148,7 +148,7 @@ void IMixer::loadPlaylist(const std::string &file) {
 }
 
 const bool IMixer::play(const std::string &fname, const bool continuous) {
-	if (_nomusic || _context == NULL) 
+	if (_nomusic || _context == nullptr) 
 		return false;
 
 	_loop = continuous;	
@@ -197,7 +197,7 @@ void IMixer::play() {
 }
 
 void IMixer::loadSample(const std::string &filename, const std::string &classname) {
-	if (_nosound || _context == NULL) 
+	if (_nosound || _context == nullptr) 
 		return;
 	
 	if (_sounds.find(filename) != _sounds.end()) {
@@ -250,7 +250,7 @@ void IMixer::playRandomSample(Object *o, const std::string &classname, const boo
 }
 
 void IMixer::playSample(Object *o, const std::string &name, const bool loop, const float gain) {
-	if (_nosound || _context == NULL || name.empty())
+	if (_nosound || _context == nullptr || name.empty())
 		return;
 
 TRY {
@@ -264,7 +264,7 @@ TRY {
 
 	if (o) {
 		clunk::Object *clunk_object = o->get_clunk_object();
-		if (clunk_object == NULL) {
+		if (clunk_object == nullptr) {
 			clunk_object = _context->create_object();
 			o->set_clunk_object(clunk_object);
 		}
@@ -295,7 +295,7 @@ TRY {
 		if (_debug)
 			LOG_DEBUG(("playSample(@listener)('%s', %s, %g)", name.c_str(), loop?"loop":"once", _volume_fx * gain));
 		clunk::Object * listener = _context->get_listener();
-		if (listener != NULL)
+		if (listener != nullptr)
 			listener->play(name, new clunk::Source(sample, loop, clunk::v3<float>(), gain));
 	}
 
@@ -306,7 +306,7 @@ void IMixer::setFXVolume(const float volume) {
 	if (volume < 0 || volume > 1) 
 		throw_ex(("volume value %g is out of range [0-1]", volume));	
 
-	if (_context != NULL)
+	if (_context != nullptr)
 		_context->set_fx_volume(volume);
 	_volume_fx = volume;
 }
@@ -315,7 +315,7 @@ void IMixer::setMusicVolume(const float volume) {
 	if (volume < 0 || volume > 1) 
 		throw_ex(("volume value %g is out of range [0-1]", volume));	
 
-	if (_context != NULL)
+	if (_context != nullptr)
 		_context->set_volume(0, volume);
 	_volume_music = volume;	
 }
@@ -324,13 +324,13 @@ void IMixer::setAmbienceVolume(const float volume) {
 	if (volume < 0 || volume > 1) 
 		throw_ex(("volume value %g is out of range [0-1]", volume));	
 
-	if (_context != NULL)
+	if (_context != nullptr)
 		_context->set_volume(1, volume);
 	_volume_ambience = volume;	
 }
 
 void IMixer::tick(const float dt) {
-	if (_context != NULL && !_context->playing(0)) {
+	if (_context != nullptr && !_context->playing(0)) {
 		//LOG_DEBUG(("sound thread idle"));
 		play();
 	}
@@ -353,7 +353,7 @@ void IMixer::cancel_all() {
 }
 
 void IMixer::startAmbient(const std::string &fname) {
-	if (_context == NULL) 
+	if (_context == nullptr) 
 		return;
 	TRY {
 		_context->play(1, new OggStream(Finder->find("sounds/ambient/" + fname)), true);
@@ -362,7 +362,7 @@ void IMixer::startAmbient(const std::string &fname) {
 }
 
 void IMixer::stopAmbient() {
-	if (_context == NULL) 
+	if (_context == nullptr) 
 		return;
 	_context->stop(1);
 }

@@ -45,7 +45,7 @@ public:
 	virtual void add_damage(BaseObject *from, const int hp, const bool emitDeath = true) {}
 	virtual void calculate(const float dt);
 	virtual Object * clone() const;
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	void on_spawn();
 
 	virtual void serialize(mrt::Serializator &s) const {
@@ -108,7 +108,7 @@ void Missile::calculate(const float dt) {
 		set_direction(dir);
 
 		const Object *leader = World->getObjectByID(get_summoner());
-		if (leader == NULL) {
+		if (leader == nullptr) {
 			return;
 		}
 		if (!ZBox::sameBox(leader->get_z(), get_z())) {
@@ -141,17 +141,17 @@ void Missile::calculate(const float dt) {
 void Missile::emit(const std::string &event, Object * emitter) {
 	if (event == "collision") {
 		if (type == "boomerang") {
-			if (emitter == NULL || emitter->hp == -1) {
+			if (emitter == nullptr || emitter->hp == -1) {
 				if (!playing_sound("boomerang-hit"))
 					play_sound("boomerang-hit", false);
 				_velocity = -_velocity;
 				return;
 			}
 		}
-		if (emitter != NULL) { 
+		if (emitter != nullptr) { 
 			if (type == "stun") {
 				GET_CONFIG_VALUE("objects.stun-missile.stun-duration", float, sd, 5);
-				if (emitter != NULL)
+				if (emitter != nullptr)
 					emitter->add_effect("stunned", sd);
 			}
 			if (emitter->classname == "smoke-cloud" && type != "smoke")
@@ -168,10 +168,10 @@ void Missile::emit(const std::string &event, Object * emitter) {
 		} else if (type == "nuke" || type == "mutagen") {
 			Object *o = World->getObjectByID(get_summoner()); //player
 			v2<float> dpos;
-			if (o != NULL) {
+			if (o != nullptr) {
 				dpos = o->get_relative_position(this);
 			}
-			Object * e = (o != NULL? o: this)->spawn(type + "-explosion", type + "-explosion", dpos, v2<float>());
+			Object * e = (o != nullptr? o: this)->spawn(type + "-explosion", type + "-explosion", dpos, v2<float>());
 		
 			e->disown();
 		} else {

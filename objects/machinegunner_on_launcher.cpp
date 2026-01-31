@@ -41,7 +41,7 @@ public:
 	virtual void on_spawn();
 	virtual void tick(const float dt);
 	virtual void calculate(const float dt);
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	virtual const bool take(const BaseObject *obj, const std::string &type);
 	virtual const std::string getType() const { return "machinegunner"; }
 	virtual const int getCount() const { return -1; }
@@ -70,7 +70,7 @@ void Machinegunner::tick(const float dt) {
 }
 
 void Machinegunner::calculate(const float dt) {
-	if (_parent != NULL) {
+	if (_parent != nullptr) {
 		if (_parent->classname != "fighting-vehicle") {
 			_state.fire = _state.alt_fire = false;
 			return;

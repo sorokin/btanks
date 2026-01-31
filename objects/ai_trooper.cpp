@@ -77,7 +77,7 @@ private:
 
 const int AITrooper::getComfortDistance(const Object *other) const {
 	GET_CONFIG_VALUE("objects.ai-trooper.comfort-distance", int, cd, 80);
-	return (other == NULL || other->classname == "trooper" || other->classname == "kamikaze")?cd:-1;
+	return (other == nullptr || other->classname == "trooper" || other->classname == "kamikaze")?cd:-1;
 }
 
 #include "world.h"
@@ -88,7 +88,7 @@ void AITrooper::onIdle(const float dt) {
 		ai::OldSchool::calculateV(_velocity, this);
 	} else if ((summoner != 0 && summoner != OWNER_MAP) || _variants.has("herd")) {
 		Object *parent = World->getObjectByID(summoner);
-		if (parent != NULL) {
+		if (parent != nullptr) {
 			v2<float> dpos = get_relative_position(parent);
 			float dist = dpos.length();
 			//LOG_DEBUG(("%d: %s: summoner distance: %g", get_id(), animation.c_str(), dist));
@@ -262,7 +262,7 @@ public:
 
 		_state.fire = false;
 
-		const Object * result = NULL;
+		const Object * result = nullptr;
 		float dist = -1;
 		
 		std::set<const Object *> objects;
@@ -276,14 +276,14 @@ public:
 			
 			v2<float> dpos = get_relative_position(target);
 			if (check_distance(get_center_position(), target->get_center_position(), get_z(), true)) {
-				if (result == NULL || dpos.quick_length() < dist) {
+				if (result == nullptr || dpos.quick_length() < dist) {
 					result = target;
 					dist = dpos.quick_length();
 				}
 			}
 		}
 		
-		if (result != NULL) {
+		if (result != nullptr) {
 			_state.fire = true;
 			_direction = get_relative_position(result);
 			_direction.normalize();

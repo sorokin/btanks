@@ -73,14 +73,14 @@ void Monitor::_connect() {
 	}
 	LOG_DEBUG(("[monitor thread] connecting to %s", host.getAddr().c_str()));
 	
-	Connection *conn = NULL;
+	Connection *conn = nullptr;
 	TRY { 
 		conn = new Connection(new mrt::TCPSocket);
 		conn->sock->connect(host, true);
 		conn->sock->noDelay();
 		add(0, conn);
-		conn = NULL;
-	} CATCH("init", {delete conn; conn = NULL; throw; });
+		conn = nullptr;
+	} CATCH("init", {delete conn; conn = nullptr; throw; });
 }
 
 //public accept
@@ -112,7 +112,7 @@ void Monitor::accept() {
 
 //private accept
 void Monitor::_accept() {
-	mrt::TCPSocket *s = NULL;
+	mrt::TCPSocket *s = nullptr;
 	TRY {
 		s = new mrt::TCPSocket;
 		_server_sock->accept(*s);
@@ -120,7 +120,7 @@ void Monitor::_accept() {
 		LOG_DEBUG(("game client connected from %s", s->getAddress().getAddr().c_str()));
 		std::lock_guard<std::mutex> m(_connections_mutex);
 		_new_connections.push_back(s);
-	} CATCH("_accept", { delete s; s = NULL; throw; })
+	} CATCH("_accept", { delete s; s = nullptr; throw; })
 }
 
 Monitor::Task::Task(const int id) : 
@@ -139,7 +139,7 @@ Monitor::Monitor(const int cl) :
 	_send_q(), _recv_q(), _result_q(), _result_q_dgram(), 
 	_disconnections(), _connections(), 
 	_connections_mutex(), _result_mutex(), _send_q_mutex(), 
-	_comp_level(0), _dgram_sock(NULL), _server_sock(NULL) {
+	_comp_level(0), _dgram_sock(nullptr), _server_sock(nullptr) {
 	_comp_level = cl;
 	LOG_DEBUG(("compression level = %d", _comp_level));
 }
@@ -380,17 +380,17 @@ TRY {
 			}
 		}
 
-		if (cids.empty() && _dgram_sock == NULL) {
+		if (cids.empty() && _dgram_sock == nullptr) {
 			mrt::Timer::microsleep("waiting for connection", 10000);
 			continue;
 		}
 		
-		if (_dgram_sock != NULL) {
+		if (_dgram_sock != nullptr) {
 			std::lock_guard<std::mutex> m(_send_dgram_mutex);
 			set.add(_dgram_sock, _send_dgram.empty()? mrt::SocketSet::Read: mrt::SocketSet::Read | mrt::SocketSet::Write);
 		}
 
-		if (_server_sock != NULL) {
+		if (_server_sock != nullptr) {
 			set.add(_server_sock, mrt::SocketSet::Read);
 		}
 
@@ -399,12 +399,12 @@ TRY {
 			continue;
 		}
 
-		if (_server_sock != NULL && set.check(_server_sock, mrt::SocketSet::Read)) {
+		if (_server_sock != nullptr && set.check(_server_sock, mrt::SocketSet::Read)) {
 			LOG_DEBUG(("accepting connection..."));
 			_accept();
 		}
 			
-		if (_dgram_sock != NULL && set.check(_dgram_sock, mrt::SocketSet::Read)) {
+		if (_dgram_sock != nullptr && set.check(_dgram_sock, mrt::SocketSet::Read)) {
 			unsigned char buf[1500]; //fixme
 			mrt::Socket::addr addr;
 			int r = _dgram_sock->recv(addr, buf, sizeof(buf));
@@ -424,14 +424,14 @@ TRY {
 				
 					m.unlock();
 	
-					Task * t = NULL;
+					Task * t = nullptr;
 					TRY {
 						t = new Task(i->first);
 					
 						parse(t->data, buf, r);
 					} CATCH("processing datagram", {
 						delete t;
-						t = NULL;
+						t = nullptr;
 						throw;
 					});
 					t->len = t->data.get_size();
@@ -484,8 +484,8 @@ TRY {
 			}*/
 		}
 		
-		if (_dgram_sock != NULL && set.check(_dgram_sock, mrt::SocketSet::Write)) {
-			Task *task = NULL;
+		if (_dgram_sock != nullptr && set.check(_dgram_sock, mrt::SocketSet::Write)) {
+			Task *task = nullptr;
 			{
 				std::lock_guard<std::mutex> m(_send_dgram_mutex);
 				if (!_send_dgram.empty()) {
@@ -493,7 +493,7 @@ TRY {
 					_send_dgram.pop_front();
 				} else LOG_WARN(("no event in datagram write queue!"));
 			}
-			if (task != NULL) {
+			if (task != nullptr) {
 				std::lock_guard<std::mutex> m(_connections_mutex);
 				ConnectionMap::const_iterator i = _connections.find(task->id);
 				if (i != _connections.end()) {
@@ -513,7 +513,7 @@ TRY {
 		
 		for(std::set<int>::iterator i = cids.begin(); i != cids.end(); ++i) {
 			const int cid = *i;
-			const mrt::TCPSocket *sock = NULL;
+			const mrt::TCPSocket *sock = nullptr;
 			{
 				std::lock_guard<std::mutex> m(_connections_mutex);
 				ConnectionMap::const_iterator i = _connections.find(cid);
@@ -650,7 +650,7 @@ Connection *Monitor::pop() {
 		std::lock_guard<std::mutex> m(_connections_mutex);
 		ConnectionMap::iterator i = _connections.begin();
 		if (i == _connections.end())
-			return NULL;
+			return nullptr;
 		cid = i->first;
 		r = i->second;
 		_connections.erase(i);

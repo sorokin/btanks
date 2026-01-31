@@ -22,7 +22,7 @@ Shop::Shop(const int w, const int h)  {
 
 void Shop::init(Campaign *campaign) {
 	_campaign = campaign;
-	if (_campaign == NULL)
+	if (_campaign == nullptr)
 		return;
 	
 	std::string profile;
@@ -43,7 +43,7 @@ void Shop::init(Campaign *campaign) {
 }
 
 void Shop::revalidate() {
-	if (_campaign == NULL)
+	if (_campaign == nullptr)
 		return;
 	
 	size_t n = _campaign->wares.size();
@@ -52,7 +52,7 @@ void Shop::revalidate() {
 	for(size_t i = 0; i < n; ++i) {
 		Control *ctrl = _wares->getItem(i);
 		ShopItem *s = dynamic_cast<ShopItem *>(ctrl);
-		if (s != NULL) {
+		if (s != nullptr) {
 			s->revalidate(*_campaign, _campaign->wares[i], i == c);
 		}
 	}
@@ -64,7 +64,7 @@ void Shop::tick(const float dt) {
 
 	int i = _wares->get();
 	
-	if (_campaign != NULL && i < (int)_campaign->wares.size()) {
+	if (_campaign != nullptr && i < (int)_campaign->wares.size()) {
 		Campaign::ShopItem &item = _campaign->wares[i];
 				
 		size_t n = _campaign->wares.size();
@@ -72,7 +72,7 @@ void Shop::tick(const float dt) {
 		for(size_t i = 0; i < n; ++i) {
 			Control *ctrl = _wares->getItem(i);
 			ShopItem *s = dynamic_cast<ShopItem *>(ctrl);
-			if (s == NULL || !s->changed())
+			if (s == nullptr || !s->changed())
 				continue;
 
 			s->reset();
@@ -111,7 +111,7 @@ bool Shop::onKey(const SDL_keysym sym) {
 	case SDLK_PLUS:
 	case SDLK_EQUALS:
 		{
-			if (_campaign == NULL)
+			if (_campaign == nullptr)
 				return true;
 		
 			int i = _wares->get();

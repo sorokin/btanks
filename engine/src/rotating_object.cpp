@@ -3,16 +3,16 @@
 #include "sdlx/surface.h"
 
 RotatingObject::RotatingObject(const std::string &classname) : Object(classname), angle_speed(0), angle(0), cached_angle(0), 
-	cached_surface(NULL), src_surface(NULL) {}
+	cached_surface(nullptr), src_surface(nullptr) {}
 	
 RotatingObject::RotatingObject(const RotatingObject &ro) : 
 Object(ro), 
 angle_speed(ro.angle_speed), angle(ro.angle), cached_angle(ro.cached_angle), 
 last_state(ro.last_state), last_pos(ro.last_pos), 
-cached_surface(NULL), src_surface(NULL) {}
+cached_surface(nullptr), src_surface(nullptr) {}
 
 void RotatingObject::calculate(const float dt) {
-	if (_parent != NULL) {
+	if (_parent != nullptr) {
 		Object::tick(dt);
 		return;
 	}
@@ -53,7 +53,7 @@ void RotatingObject::render(sdlx::Surface &surface, const int x, const int y) {
 		return;
 	}
 */
-	if (angle == cached_angle && cached_surface != NULL && last_pos == _pos && last_state == get_state()) {
+	if (angle == cached_angle && cached_surface != nullptr && last_pos == _pos && last_state == get_state()) {
 		//render cached copy
 		surface.blit(*cached_surface, x + (int)size.x - cached_surface->get_width(), y + (int)size.y - cached_surface->get_height());
 		return;
@@ -63,11 +63,11 @@ void RotatingObject::render(sdlx::Surface &surface, const int x, const int y) {
 	int dir = (int)(angle * dirs / M_PI / 2 + 0.5);
 	float dd = angle - dir * (M_PI * 2 / dirs);
 
-	if (cached_surface == NULL) {
+	if (cached_surface == nullptr) {
 		cached_surface = new sdlx::Surface;
 	}
 
-	if (src_surface == NULL) {
+	if (src_surface == nullptr) {
 		src_surface = new sdlx::Surface;
 		src_surface->create_rgb((int)size.x, (int)size.y, 32);
 		src_surface->display_format_alpha();

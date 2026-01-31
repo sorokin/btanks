@@ -35,7 +35,7 @@
 
 class BTANKSAPI Container : public Control {
 public: 
-	Container() : _focus(NULL) {}
+	Container() : _focus(nullptr) {}
 	virtual void tick(const float dt);
 	virtual void render(sdlx::Surface &surface, const int x, const int y) const;
 	virtual void get_size(int &w, int &h) const;
@@ -44,7 +44,7 @@ public:
 	virtual bool onMouseMotion(const int state, const int x, const int y, const int xrel, const int yrel);
 	virtual void activate(const bool active);
 
-	void add(const int x, const int y, Control *ctrl, Control *after = NULL);
+	void add(const int x, const int y, Control *ctrl, Control *after = nullptr);
 	void remove(Control *ctrl);
 
 	virtual void clear();

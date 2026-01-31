@@ -13,7 +13,7 @@ void Image::set(const sdlx::Surface *image) {
 }
 
 void Image::render(sdlx::Surface &surface, const int x, const int y) const {
-	if (image == NULL)
+	if (image == nullptr)
 		return;
 
 	if (src.w != 0) 
@@ -23,7 +23,7 @@ void Image::render(sdlx::Surface &surface, const int x, const int y) const {
 }
 
 void Image::get_size(int &w, int &h) const {
-	if (image == NULL) {
+	if (image == nullptr) {
 		w = h = 0;
 	} else {
 		w = image->get_width();

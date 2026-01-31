@@ -48,7 +48,7 @@ void Brush::render(sdlx::Surface &surface, const v2<int>& window_pos, const v2<i
 	for(int y = 0; y < size.y; ++y) {
 		for(int x = 0; x < size.x; ++x) {
 			const IMap::TileDescriptor &td = Map->getTile(_tiles[size.x * y + x]);
-			if (td.surface != NULL) {
+			if (td.surface != nullptr) {
 				surface.blit(*td.surface, window_pos_aligned.x + _tile_size.x * x, window_pos_aligned.y + _tile_size.y * y);
 			}
 		}
@@ -141,6 +141,6 @@ void ObjectBrush::render(sdlx::Surface &surface, const v2<int>& window_pos, cons
 }
 
 ObjectBrush::~ObjectBrush() {
-	object->Object::emit("death", NULL);
+	object->Object::emit("death", nullptr);
 	World->purge(0);
 }

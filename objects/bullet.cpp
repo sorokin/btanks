@@ -47,7 +47,7 @@ public:
 	virtual Object * clone() const;
 	virtual void on_spawn();
 	virtual void tick(const float dt);
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 
 	virtual void serialize(mrt::Serializator &s) const {
 		Object::serialize(s);
@@ -111,7 +111,7 @@ void Bullet::calculate(const float dt) {
 		
 		enumerate_objects(objects, aar, &ai::Targets->troops);
 		GET_CONFIG_VALUE("engine.auto-aim.minimum-cosine", float, min_cos, 0.9848f); //~cos(10')
-		const Object *target = NULL;
+		const Object *target = nullptr;
 		
 		for(std::set<const Object *>::const_iterator i = objects.begin(); i != objects.end(); ++i) {
 			const Object *o = *i;
@@ -161,7 +161,7 @@ void Bullet::on_spawn() {
 }
 
 void Bullet::emit(const std::string &event, Object * emitter) {
-	if (emitter != NULL && (emitter->classname == "smoke-cloud" || emitter->classname == "bullet") )
+	if (emitter != nullptr && (emitter->classname == "smoke-cloud" || emitter->classname == "bullet") )
 		return;
 
 	v2<float> dpos;
@@ -175,14 +175,14 @@ void Bullet::emit(const std::string &event, Object * emitter) {
 			dpos = get_relative_position(emitter) / 2;
 		} 
 */
-		if (emitter != NULL && _variants.has("skip-map") && emitter->has_owner(OWNER_MAP))
+		if (emitter != nullptr && _variants.has("skip-map") && emitter->has_owner(OWNER_MAP))
 			return;
 		
 		if (_type == "regular") {
 			GET_CONFIG_VALUE("objects.explosion-downwards-z-override", int, edzo, 180);
 			int z = (_velocity.y >= 0) ? edzo : 0;
 			spawn("explosion", "explosion", dpos, v2<float>(), z);
-		} else if (emitter != NULL && _type == "stun") {
+		} else if (emitter != nullptr && _type == "stun") {
 			if (emitter->classname == "monster")
 				return;
 			
@@ -193,7 +193,7 @@ void Bullet::emit(const std::string &event, Object * emitter) {
 			spawn("dirt", "dirt", dpos);
 		} else if (_type == "cannon") {
 			spawn("cannon-explosion", "cannon-explosion", dpos);
-		} else if (event == "collision" && _type == "ricochet" && (emitter == NULL || emitter->hp == -1)) {
+		} else if (event == "collision" && _type == "ricochet" && (emitter == nullptr || emitter->hp == -1)) {
 			if (!_guard_state)
 				return;	
 
@@ -221,7 +221,7 @@ void Bullet::emit(const std::string &event, Object * emitter) {
 			play_sound("boomerang-hit", false);
 			return;
 		} else if (event == "collision" && ( 
-			(_type == "ricochet" && emitter != NULL ) ||
+			(_type == "ricochet" && emitter != nullptr ) ||
 			(_type == "dispersion")
 			)
 		) {

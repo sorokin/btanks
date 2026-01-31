@@ -65,10 +65,10 @@ TRY {
 			throw_net(("gethostname"));
 		
 		struct hostent *he = gethostbyname(ac);
-		if (he == NULL) 
+		if (he == nullptr) 
 			throw_net(("gethostbyname"));
 		
-		for (int i = 0; he->h_addr_list[i] != NULL; ++i) {
+		for (int i = 0; he->h_addr_list[i] != nullptr; ++i) {
 			struct in_addr addr;
 	        memcpy(&addr, he->h_addr_list[i], sizeof(struct in_addr));
 

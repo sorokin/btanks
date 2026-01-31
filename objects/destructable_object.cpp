@@ -68,9 +68,9 @@ void DestructableObject::destroy() {
 	if (_variants.has("with-fire")) {
 		const AnimationModel *model = get_animation_model();
 		int my_z = get_z();
-		if (model != NULL) {
+		if (model != nullptr) {
 			const Pose * pose = model->getPose("broken");
-			if (pose != NULL && pose->z > -10000)
+			if (pose != nullptr && pose->z > -10000)
 				my_z = pose->z + ZBox::getBoxBase(my_z);
 		}
 		Object *fire = spawn("fire", "fire");

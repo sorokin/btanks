@@ -37,7 +37,7 @@ public:
 	virtual Object * clone() const;
 	virtual void on_spawn();
 	virtual void tick(const float dt);
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	virtual void add_damage(Object *from, const int hp, const bool emitDeath = true);
 
 	virtual void serialize(mrt::Serializator &s) const {

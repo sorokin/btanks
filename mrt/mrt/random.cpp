@@ -71,7 +71,7 @@ const int mrt::random(const unsigned max) {
 }
 
 void mrt::init_seed() {
-	mrt_rand_seed = time(NULL); //fixme!
+	mrt_rand_seed = time(nullptr); //fixme!
 }
 
 void mrt::random_serialize(Serializator &s) {

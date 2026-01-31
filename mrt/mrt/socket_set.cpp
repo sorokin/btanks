@@ -73,8 +73,8 @@ void SocketSet::add(const Socket &sock, const int how) {
 }
 
 void SocketSet::add(const Socket *sock, const int how) {
-	if (sock == NULL)
-		throw_ex(("attempt to add NULL socket to set"));
+	if (sock == nullptr)
+		throw_ex(("attempt to add nullptr socket to set"));
 	add(*sock, how);
 }
 

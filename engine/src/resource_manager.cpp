@@ -143,8 +143,8 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 		if (th == 0) th = _th;
 		if (sz != 0) tw = th = sz;
 
-		sdlx::Surface *s = NULL;
-		sdlx::CollisionMap *cmap = NULL;
+		sdlx::Surface *s = nullptr;
+		sdlx::CollisionMap *cmap = nullptr;
 		bool real_load = !attr["persistent"].empty();
 
 		GET_CONFIG_VALUE("engine.preload", bool , preload_all, false);
@@ -171,12 +171,12 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 				}
 			
 				_surfaces[tile] = s;
-				s = NULL;
+				s = nullptr;
 			
 				_cmaps[tile] = cmap;
-				cmap = NULL;
+				cmap = nullptr;
 			
-			} CATCH(mrt::format_string("loading animation \"%s\"", tile.c_str()).c_str(), { delete s; s = NULL; delete cmap; cmap = NULL; throw; });
+			} CATCH(mrt::format_string("loading animation \"%s\"", tile.c_str()).c_str(), { delete s; s = nullptr; delete cmap; cmap = nullptr; throw; });
 		//	
 		} else { 
 			LOG_DEBUG(("tile '%s' was already loaded, skipped.", tile.c_str()));
@@ -200,7 +200,7 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 		_am = new AnimationModel(speed);
 		_am_id = id;		
 	} else if (name == "pose") {
-		if (_am == NULL)
+		if (_am == nullptr)
 			throw_ex(("pose tag must have parent animation-model"));
 		_pose_id = attr["id"];
 		if (_pose_id.empty()) 
@@ -303,7 +303,7 @@ void IResourceManager::end(const std::string &name) {
 	} else if (name == "animation-model") {
 		delete _animation_models[_am_id];
 		_animation_models[_am_id] = _am;
-		_am = NULL;
+		_am = nullptr;
 		LOG_DEBUG(("added animation model '%s'", _am_id.c_str()));
 	} else if (name == "resources") {
 		_base_dir.clear();
@@ -315,7 +315,7 @@ void IResourceManager::cdata(const std::string &data) {
 	_data += data;
 }
 
-IResourceManager::IResourceManager() : _am(NULL) {
+IResourceManager::IResourceManager() : _am(nullptr) {
 }
 
 const bool IResourceManager::hasAnimation(const std::string &id) const {
@@ -362,10 +362,10 @@ void IResourceManager::unload_surface(const std::string &id) {
 
 const sdlx::Surface *IResourceManager::load_surface(const std::string &id, int scale_to_w, int scale_to_h) {
 	SurfaceMap::iterator i = _surfaces.find(id);
-	if (i != _surfaces.end() && i->second != NULL)
+	if (i != _surfaces.end() && i->second != nullptr)
 		return i->second;
 	
-	sdlx::Surface *s = NULL;
+	sdlx::Surface *s = nullptr;
 		TRY {
 			GET_CONFIG_VALUE("engine.generate-alpha-tiles", bool, gat, false);
 			mrt::Chunk data;
@@ -394,7 +394,7 @@ const sdlx::Font *IResourceManager::loadFont(const std::string &name, const bool
 	FontMap::iterator i = _fonts.find(id);
 	if (i != _fonts.end())
 	{
-		assert(i->second != NULL);
+		assert(i->second != nullptr);
 		return i->second.get();
 	}
 
@@ -462,7 +462,7 @@ void IResourceManager::clear() {
 	std::for_each(_objects.begin(), _objects.end(), delete_ptr2<ObjectMap::value_type>());
 	_objects.clear();
 
-	_am = NULL;
+	_am = nullptr;
 	
 	if (RTConfig->editor_mode)
 		return;
@@ -523,7 +523,7 @@ void IResourceManager::registerObject(const std::string &classname, Object *o) {
 	assert(!o->registered_name.empty());
 	
 	Object *old = _objects[classname];
-	if (old != NULL) 
+	if (old != nullptr) 
 		LOG_DEBUG(("overriding object %s", classname.c_str()));
 	delete old;
 	_objects[classname] = o;
@@ -548,8 +548,8 @@ void IResourceManager::createAlias(const std::string &name, const std::string &_
 		throw_ex(("attempt to create alias with duplicate name ('%s')", name.c_str()));
 
 	Object * r = i->second->clone();
-	if (r == NULL)
-		throw_ex(("%s->clone(\"\") returns NULL", classname.c_str()));
+	if (r == nullptr)
+		throw_ex(("%s->clone(\"\") returns nullptr", classname.c_str()));
 
 	*const_cast<std::string *>(&r->registered_name) = name;
 
@@ -567,8 +567,8 @@ Object *IResourceManager::createObject(const std::string &_classname) const {
 		throw_ex(("classname '%s' was not registered", classname.c_str()));
 	Object * r = i->second->clone();
 
-	if (r == NULL)
-		throw_ex(("%s->clone() returns NULL", classname.c_str()));
+	if (r == nullptr)
+		throw_ex(("%s->clone() returns nullptr", classname.c_str()));
 
 	if (r->registered_name.empty())
 		throw_ex(("%s::clone() did not use copy ctor. (you must write \" return new Class(*this)\" or smth.)", classname.c_str()));
@@ -611,7 +611,7 @@ const bool IResourceManager::hasClass(const std::string &classname) const {
 #include "mrt/fs_node.h"
 
 void IResourceManager::check_surface(const std::string &animation, const sdlx::Surface *& surface_ptr, const sdlx::CollisionMap *& cmap_ptr) {
-	if (surface_ptr != NULL && cmap_ptr != NULL) 
+	if (surface_ptr != nullptr && cmap_ptr != nullptr) 
 		return;
 
 	const Animation * a = getAnimation(animation);
@@ -621,7 +621,7 @@ void IResourceManager::check_surface(const std::string &animation, const sdlx::S
 	sdlx::CollisionMap *cmap = _cmaps[a->surface];
 
 	
-	if (s == NULL) {
+	if (s == nullptr) {
 		TRY {
 			mrt::Chunk data;
 			Finder->load(data, tname);
@@ -647,7 +647,7 @@ void IResourceManager::check_surface(const std::string &animation, const sdlx::S
 	}
 	surface_ptr = s;
 	
-	if (cmap == NULL) {
+	if (cmap == nullptr) {
 		cmap = create_cmap(s, tname);
 		_cmaps[a->surface] = cmap;
 	}

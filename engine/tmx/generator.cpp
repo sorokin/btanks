@@ -25,7 +25,7 @@ static const int layer_get(const Layer *layer, const int x, const int y) {
 }
 
 void MapGenerator::exec(Layer *layer, const std::string &command, const std::string &value) {
-	assert(layer != NULL);
+	assert(layer != nullptr);
 	_layer = layer;
 	LOG_DEBUG(("executing command '%s'...", command.c_str()));
 	std::vector<std::string> args;
@@ -44,12 +44,12 @@ void MapGenerator::exec(Layer *layer, const std::string &command, const std::str
 	else if (command == "project-layer")
 		projectLayer(layer, args);
 	else throw_ex(("unknown command '%s'", command.c_str()));
-	_layer = NULL;
+	_layer = nullptr;
 }
 
 
 
-MapGenerator::MapGenerator() : _layer(NULL) {}
+MapGenerator::MapGenerator() : _layer(nullptr) {}
 
 void MapGenerator::fill(Layer *layer, const std::vector<std::string> &args) {
 	if (args.size() < 2) 
@@ -161,9 +161,9 @@ const GeneratorObject* MapGenerator::getObject(const std::string &tileset, const
 	Tilesets::const_iterator i = _tilesets.find(tileset);
 	if (i == _tilesets.end())
 		throw_ex(("no tileset %s found", tileset.c_str()));
-	assert(i->second != NULL);
+	assert(i->second != nullptr);
 	const GeneratorObject *o = i->second->getObject(name);
-	if (o == NULL)
+	if (o == nullptr)
 		throw_ex(("no object '%s' found in tileset '%s'", name.c_str(), tileset.c_str()));
 	return o;
 }
@@ -210,7 +210,7 @@ void MapGenerator::tileset(const std::string &fname, const int gid) {
 
 
 const Uint32 MapGenerator::get(const int x, const int y) const {
-	if (_layer == NULL)
+	if (_layer == nullptr)
 		throw_ex(("no layer to operate. (malicious external code?)"));
 	Uint32 t = layer_get(_layer, x, y);
 	if (t != 0)
@@ -222,7 +222,7 @@ const Uint32 MapGenerator::get(const int x, const int y) const {
 }
 
 void MapGenerator::set(const int x, const int y, const Uint32 tid) {
-	if (_layer == NULL)
+	if (_layer == nullptr)
 		throw_ex(("no layer to operate. (malicious external code?)"));
 	_layer->set(x, y, tid);
 	if (tid != 0 && !_matrix_stack.empty()) 

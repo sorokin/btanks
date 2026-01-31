@@ -49,7 +49,7 @@ public:
 	}
 	
 	void emit(const std::string &event, Object * emitter) {
-		if (emitter != NULL && _variants.has("do-damage") && event == "collision" && emitter->classname != "corpse") {
+		if (emitter != nullptr && _variants.has("do-damage") && event == "collision" && emitter->classname != "corpse") {
 			if (get_state() == "burn" || get_state() == "fade-out") {
 				if (hp > 0)
 					emitter->add_damage(this, emitter->hp);

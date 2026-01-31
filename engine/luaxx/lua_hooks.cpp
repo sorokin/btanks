@@ -59,14 +59,14 @@ LUA_TRY {
 		return 0;		
 	}
 	const char *object = lua_tostring(L, 1), *animation = lua_tostring(L, 2);
-	if (object == NULL)
+	if (object == nullptr)
 		throw_ex(("object argument could not be converted to string"));
-	if (animation == NULL)
+	if (animation == nullptr)
 		throw_ex(("animation argument could not be converted to string"));
 	Object *obj = ResourceManager->createObject(object, animation);
 
 	//Matrix<int> matrix;
-	//World->get_impassability_matrix(matrix, obj, NULL);
+	//World->get_impassability_matrix(matrix, obj, nullptr);
 	const Matrix<int> &matrix = Map->get_impassability_matrix(0);
 		
 	const v2<int> tile_size = Map->getPathTileSize();
@@ -126,7 +126,7 @@ LUA_TRY {
 		return 0;
 	}
 	const char * name = lua_tostring(L, 1);
-	if (name == NULL) 
+	if (name == nullptr) 
 		throw_ex(("load_map's 1st argument is not a string"));
 	next_map = name;
 	return 0;
@@ -166,12 +166,12 @@ LUA_TRY {
 	}
 	int id = lua_tointeger(L, 1);
 	const Object *o = World->getObjectByID(id);
-	if (o == NULL) {
+	if (o == nullptr) {
 		lua_pushnil(L);
 		return 1;
 	}
 	const char *cprop = lua_tostring(L, 2);
-	if (cprop == NULL)
+	if (cprop == nullptr)
 		throw_ex(("property argument could not be converted to string"));
 
 	std::string prop = cprop;
@@ -206,17 +206,17 @@ LUA_TRY {
 	}
 	int id = lua_tointeger(L, 1);
 	Object *o = World->getObjectByID(id);
-	if (o == NULL) {
+	if (o == nullptr) {
 		return 0;
 	}
 	const char *cprop = lua_tostring(L, 2);
-	if (cprop == NULL)
+	if (cprop == nullptr)
 		throw_ex(("property argument could not be converted to string"));
 
 	std::string prop = cprop;
 	if (prop == "animation") {
 		const char *value = lua_tostring(L, 3);
-		if (value == NULL)
+		if (value == nullptr)
 			throw_ex(("property value for '%s' could not be converted to string", cprop));
 		
 		o->init(value);
@@ -244,21 +244,21 @@ LUA_TRY {
 	PlayerSlot &slot =  PlayerManager->get_slot(id - 1);
 		
 	const char *cprop = lua_tostring(L, 2);
-	if (cprop == NULL)
+	if (cprop == nullptr)
 		throw_ex(("property argument could not be converted to string"));
 
 	std::string prop = cprop;
 
 	if (prop == "classname") {
 		const char *value = lua_tostring(L, 3);
-		if (value == NULL)
+		if (value == nullptr)
 			throw_ex(("`value' argument could not be converted to string"));
 
 		slot.classname = value;
 		return 0;
 	} else if (prop == "animation") {
 		const char *value = lua_tostring(L, 3);
-		if (value == NULL)
+		if (value == nullptr)
 			throw_ex(("`value' argument could not be converted to string"));
 
 		slot.animation = value;
@@ -289,11 +289,11 @@ LUA_TRY {
 	PlayerSlot &slot =  PlayerManager->get_slot(id - 1);
 
 	const char *area = lua_tostring(L, 2);
-	if (area == NULL)
+	if (area == nullptr)
 		throw_ex(("area argument could not be converted to string"));
 		
 	const char *message = lua_tostring(L, 3);
-	if (message == NULL)
+	if (message == nullptr)
 		throw_ex(("message-id argument could not be converted to string"));
 
 	slot.displayTooltip(area, message);
@@ -334,7 +334,7 @@ LUA_TRY {
 	PlayerSlot &slot =  PlayerManager->get_slot(id - 1);
 		
 	const char *cprop = lua_tostring(L, 2);
-	if (cprop == NULL)
+	if (cprop == nullptr)
 		throw_ex(("name could not be converted to string"));
 	
 	const std::string prop = cprop;
@@ -371,13 +371,13 @@ static int lua_hooks_kill_object(lua_State *L) {
 		bool system = (n >= 2)? lua_toboolean(L, 2) != 0: false;
 		
 		Object *o = World->getObjectByID(id);
-		if (o == NULL)
+		if (o == nullptr)
 			return 0;
 		
 		if (system) {
-			o->Object::emit("death", NULL);
+			o->Object::emit("death", nullptr);
 		} else {
-			o->emit("death", NULL);
+			o->emit("death", nullptr);
 		}
 		return 0;
 	} LUA_CATCH("kill_object")
@@ -393,13 +393,13 @@ static int lua_hooks_show_item(lua_State *L) {
 			return 0;
 		}
 		const char *prop = lua_tostring(L, 1);
-		if (prop == NULL) {
+		if (prop == nullptr) {
 			lua_pushstring(L, "show_item's first argument must be string");
 			lua_error(L);
 			return 0;
 		}
 		GameItem &item = GameMonitor->find(prop);
-		if (item.hidden || World->getObjectByID(item.id) == NULL)
+		if (item.hidden || World->getObjectByID(item.id) == nullptr)
 			item.respawn();
 		
 		lua_pushinteger(L, item.id);
@@ -416,15 +416,15 @@ static int lua_hooks_kill_item(lua_State *L) {
 			return 0;
 		}
 		const char *prop = lua_tostring(L, 1);
-		if (prop == NULL) {
+		if (prop == nullptr) {
 			lua_pushstring(L, "kill_item's first argument must be string");
 			lua_error(L);
 			return 0;
 		}
 		GameItem &item = GameMonitor->find(prop);
 		Object *o = World->getObjectByID(item.id);
-		if (o != NULL && !o->is_dead())
-			o->emit("death", NULL); 
+		if (o != nullptr && !o->is_dead())
+			o->emit("death", nullptr); 
 		return 0;
 	} LUA_CATCH("kill_item")
 }
@@ -438,7 +438,7 @@ static int lua_hooks_play_tune(lua_State *L) {
 			return 0;
 		}
 		const char *name = lua_tostring(L, 1);
-		if (name == NULL) {
+		if (name == nullptr) {
 			lua_pushstring(L, "tune name must be string");
 			lua_error(L);
 			return 0;
@@ -469,7 +469,7 @@ static int lua_hooks_hide_item(lua_State *L) {
 			return 0;
 		}
 		const char *prop = lua_tostring(L, 1);
-		if (prop == NULL) {
+		if (prop == nullptr) {
 			lua_pushstring(L, "hide_item's first argument must be string");
 			lua_error(L);
 			return 0;
@@ -491,7 +491,7 @@ static int lua_hooks_item_exists(lua_State *L) {
 			return 0;
 		}
 		const char *prop = lua_tostring(L, 1);
-		if (prop == NULL) {
+		if (prop == nullptr) {
 			lua_pushstring(L, "item_exists' first argument must be string");
 			lua_error(L);
 			return 0;
@@ -520,13 +520,13 @@ static int lua_hooks_spawn(lua_State *L) {
 			return 0;
 		}
 		const char *classname = lua_tostring(L, 1);
-		if (classname == NULL) {
+		if (classname == nullptr) {
 			lua_pushstring(L, "spawn: first argument must be string");
 			lua_error(L);
 			return 0;		
 		}
 		const char *animation = lua_tostring(L, 2);
-		if (animation == NULL) {
+		if (animation == nullptr) {
 			lua_pushstring(L, "spawn: first argument must be string");
 			lua_error(L);
 			return 0;		
@@ -559,14 +559,14 @@ static int lua_hooks_game_over(lua_State *L) {
 		}
 
 		const char *area = lua_tostring(L, 1);
-		if (area == NULL) {
+		if (area == nullptr) {
 			lua_pushstring(L, "game_over: first argument must be string");
 			lua_error(L);
 			return 0;		
 		}
 
 		const char *message = lua_tostring(L, 2);
-		if (message == NULL) {
+		if (message == nullptr) {
 			lua_pushstring(L, "game_over: second argument must be string");
 			lua_error(L);
 			return 0;		
@@ -588,14 +588,14 @@ static int lua_hooks_set_timer(lua_State *L) {
 		}
 
 		const char *area = lua_tostring(L, 1);
-		if (area == NULL) {
+		if (area == nullptr) {
 			lua_pushstring(L, "set_timer: first argument must be string");
 			lua_error(L);
 			return 0;		
 		}
 
 		const char *message = lua_tostring(L, 2);
-		if (message == NULL) {
+		if (message == nullptr) {
 			lua_pushstring(L, "set_timer: second argument must be string");
 			lua_error(L);
 			return 0;		
@@ -626,14 +626,14 @@ static int lua_hooks_display_message(lua_State *L) {
 		}
 
 		const char *area = lua_tostring(L, 1);
-		if (area == NULL) {
+		if (area == nullptr) {
 			lua_pushstring(L, "display_message: first argument must be string");
 			lua_error(L);
 			return 0;		
 		}
 
 		const char *message = lua_tostring(L, 2);
-		if (message == NULL) {
+		if (message == nullptr) {
 			lua_pushstring(L, "display_message: second argument must be string");
 			lua_error(L);
 			return 0;		
@@ -684,7 +684,7 @@ static int lua_hooks_enable_ai(lua_State *L) {
 			return 0;
 		}
 		const char *classname = lua_tostring(L, 1);
-		if (classname == NULL) {
+		if (classname == nullptr) {
 			lua_pushstring(L, "enable_ai: first argument must be string");
 			lua_error(L);
 			return 0;		
@@ -703,7 +703,7 @@ static int lua_hooks_disable_ai(lua_State *L) {
 			return 0;
 		}
 		const char *classname = lua_tostring(L, 1);
-		if (classname == NULL) {
+		if (classname == nullptr) {
 			lua_pushstring(L, "disable_ai: first argument must be string");
 			lua_error(L);
 			return 0;		
@@ -722,7 +722,7 @@ static int lua_hooks_visual_effect(lua_State *L) {
 			return 0;
 		}
 		const char *name = lua_tostring(L, 1);
-		if (name == NULL) {
+		if (name == nullptr) {
 			lua_pushstring(L, "visual_effect: first argument must be a string");
 			lua_error(L);
 			return 0;
@@ -751,12 +751,12 @@ LUA_TRY {
 	int id = lua_tointeger(L, 1);
 	Object *o = World->getObjectByID(id);
 
-	if (o == NULL) {
+	if (o == nullptr) {
 		return 0;
 	}
 
 	const char * effect = lua_tostring(L, 2);
-	if (effect == NULL)
+	if (effect == nullptr)
 		throw_ex(("effect name could not be converted to string"));
 	float duration = lua_tonumber(L, 3);
 	LOG_DEBUG(("adding effect %s for %g seconds", effect, duration));
@@ -778,12 +778,12 @@ LUA_TRY {
 	int id = lua_tointeger(L, 1);
 	Object *o = World->getObjectByID(id);
 
-	if (o == NULL) {
+	if (o == nullptr) {
 		return 0;
 	}
 
 	const char * effect = lua_tostring(L, 2);
-	if (effect == NULL)
+	if (effect == nullptr)
 		throw_ex(("effect name could not be converted to string"));
 	
 	o->remove_effect(effect);
@@ -804,10 +804,10 @@ LUA_TRY {
 	int dst_id = lua_tointeger(L, 2);
 	Object *src = World->getObjectByID(src_id);
 	const Object *dst = World->getObjectByID(dst_id);
-	if (src == NULL || dst == NULL) {
-		if (src == NULL)
+	if (src == nullptr || dst == nullptr) {
+		if (src == nullptr)
 			LOG_ERROR(("object %d does not exists", src_id));
-		if (dst == NULL)
+		if (dst == nullptr)
 			LOG_ERROR(("object %d does not exists", dst_id));
 		return 0;
 	}
@@ -833,7 +833,7 @@ LUA_TRY {
 	}
 	int id = lua_tointeger(L, 1);
 	Object *o = World->getObjectByID(id);
-	if (o == NULL)
+	if (o == nullptr)
 		return 0;
 
 	Way way;
@@ -874,7 +874,7 @@ LUA_TRY {
 	}
 	int id = lua_tointeger(L, 1);
 	Object *o = World->getObjectByID(id);
-	lua_pushboolean(L, o != NULL && o->is_driven()? 1:0);
+	lua_pushboolean(L, o != nullptr && o->is_driven()? 1:0);
 	return 1;
 } LUA_CATCH("has_waypoints")
 }
@@ -890,9 +890,9 @@ LUA_TRY {
 	const char * name = lua_tostring(L, 1);
 	const char *type = lua_tostring(L, 2);
 	const char *value = lua_tostring(L, 3);
-	if (name == NULL || type == NULL || value == NULL) {
-		const char *arg = (name == NULL)?"first":
-		                  (type == NULL)?"second":"third";
+	if (name == nullptr || type == nullptr || value == nullptr) {
+		const char *arg = (name == nullptr)?"first":
+		                  (type == nullptr)?"second":"third";
 		lua_pushstring(L, mrt::format_string("set_config_override: %s argument must be a string", arg).c_str());
 		lua_error(L);
 		return 0;
@@ -914,15 +914,15 @@ LUA_TRY {
 		return 0;
 	}
 	int object_id = lua_tointeger(L, 1);
-	Object *o = NULL;
+	Object *o = nullptr;
 	if (object_id > 0) {
 		o = World->getObjectByID(object_id);
-		if (o == NULL)
+		if (o == nullptr)
 			throw_ex(("object with id %d not found", object_id));
 	} 
 	
 	const char * name = lua_tostring(L, 2);
-	if (name == NULL) {
+	if (name == nullptr) {
 		lua_pushstring(L, "play_sound: second argument(sound name) must be a string");
 		lua_error(L);
 		return 0;
@@ -949,17 +949,17 @@ LUA_TRY {
 		return 0;
 	}
 	int object_id = lua_tointeger(L, 1);
-	const Object *o = NULL;
+	const Object *o = nullptr;
 	if (object_id > 0) {
 		o = World->getObjectByID(object_id);
-		if (o == NULL)
+		if (o == nullptr)
 			throw_ex(("object with id %d not found", object_id));
 	} 
 	
-	const char * name = NULL;
+	const char * name = nullptr;
 	if (n >= 2) {
 		name = lua_tostring(L, 2);
-		if (name == NULL) {
+		if (name == nullptr) {
 			lua_pushstring(L, "stop_sound: second argument(sound name) must be a string");
 			lua_error(L);
 			return 0;
@@ -967,10 +967,10 @@ LUA_TRY {
 	}
 
 	clunk::Object *co = o->get_clunk_object();
-	if (co == NULL)
+	if (co == nullptr)
 		return 0;
 	
-	if (name == NULL)
+	if (name == nullptr)
 		co->cancel_all();
 	else 
 		co->cancel(name);
@@ -1043,11 +1043,11 @@ LUA_TRY {
 	}
 	int id = lua_tointeger(L, 1);
 	Object *o = World->getObjectByID(id);
-	if (o == NULL)
+	if (o == nullptr)
 		return 0;
 	
 	const char *pose = lua_tostring(L, 2);
-	if (pose == NULL)
+	if (pose == nullptr)
 		throw_ex(("pose name could not be converted to string"));
 	
 	if (n > 2) {
@@ -1070,7 +1070,7 @@ LUA_TRY {
 	}
 	int id = lua_tointeger(L, 1);
 	Object *o = World->getObjectByID(id);
-	if (o == NULL)
+	if (o == nullptr)
 		return 0;
 
 	int mode = n > 1 ? lua_tointeger(L, 2): 0;
@@ -1103,7 +1103,7 @@ LUA_TRY {
 	int id = lua_tointeger(L, 1);
 
 	Object *o = World->getObjectByID(id);
-	lua_pushstring(L, o != NULL? o->get_state().c_str(): "");
+	lua_pushstring(L, o != nullptr? o->get_state().c_str(): "");
 	return 1;
 } LUA_CATCH("get_state")
 }
@@ -1117,7 +1117,7 @@ LUA_TRY {
 		return 0;
 	}
 	const char *name = lua_tostring(L, 1);
-	if (name == NULL) {
+	if (name == nullptr) {
 		lua_pushstring(L, "start_timer: could not convert first argument to string.");
 		lua_error(L);
 		return 0;
@@ -1138,7 +1138,7 @@ LUA_TRY {
 		return 0;
 	}
 	const char *name = lua_tostring(L, 1);
-	if (name == NULL) {
+	if (name == nullptr) {
 		lua_pushstring(L, "stop_timer: could not convert first argument to string.");
 		lua_error(L);
 		return 0;
@@ -1158,13 +1158,13 @@ LUA_TRY {
 	}
 	int id = lua_tointeger(L, 1);
 	Object *o = World->getObjectByID(id);
-	if (o == NULL)
+	if (o == nullptr)
 		return 0;
 
 	const char *name = lua_tostring(L, 2);
 	const char *cname = lua_tostring(L, 3);
 	const char *aname = lua_tostring(L, 4);
-	if (name == NULL || cname == NULL || aname == NULL)
+	if (name == nullptr || cname == nullptr || aname == nullptr)
 		throw_ex(("name: %s, cname: %s, aname: %s: some argument(s) cannot be converted", name, cname, aname));
 
 	Object *child = o->add(name, cname, aname, v2<float>(), Centered);
@@ -1184,13 +1184,13 @@ LUA_TRY {
 
 	int id = lua_tointeger(L, 1);
 	Object *o = World->getObjectByID(id);
-	if (o == NULL) {
+	if (o == nullptr) {
 		lua_pushinteger(L, 0);
 		return 1;
 	}
 
 	const char *name = lua_tostring(L, 2);
-	if (name == NULL)
+	if (name == nullptr)
 		throw_ex(("name cannot be converted to the string"));
 
 	lua_pushinteger(L, o->has(name)? o->get(name)->get_id(): 0);
@@ -1208,12 +1208,12 @@ LUA_TRY {
 	}
 	int id = lua_tointeger(L, 1);
 	Object *o = World->getObjectByID(id);
-	if (o == NULL) {
+	if (o == nullptr) {
 		return 0;
 	}
 
 	const char *name = lua_tostring(L, 2);
-	if (name == NULL)
+	if (name == nullptr)
 		throw_ex(("name cannot be converted to the string"));
 
 	o->remove(name);
@@ -1226,7 +1226,7 @@ LUA_TRY {
 static int lua_hooks_get_difficulty(lua_State *L) {
 	LUA_TRY {
 		const Campaign *campaign = GameMonitor->getCampaign();
-		if (campaign == NULL)
+		if (campaign == nullptr)
 			throw_ex(("get_difficulty could be used only from campaign script"));
 			
 		std::string profile;

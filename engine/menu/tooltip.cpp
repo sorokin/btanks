@@ -111,7 +111,7 @@ void Tooltip::init(const std::string &_text, const bool use_background, int widt
 			continue;
 		}
 			
-		lens[i] = font->render(NULL, 0, 0, word + " ");
+		lens[i] = font->render(nullptr, 0, 0, word + " ");
 		total += lens[i] * line_h;
 	}
 	bool hard;

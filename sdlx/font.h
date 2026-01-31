@@ -52,8 +52,8 @@ public:
 	}
 	
 	//extend it with maximum_width argument and spacing
-	//window == NULL, output in w/h
-	//window != NULL: you must provide w/h (align == Center / Right)
+	//window == nullptr, output in w/h
+	//window != nullptr: you must provide w/h (align == Center / Right)
 	void render_multiline(int &w, int &h, sdlx::Surface *window, int x, int y, const std::string &str, Align align = Center) const;
 
 	//frees window!
@@ -69,7 +69,7 @@ private:
 	const Font& operator=(const Font &);
 	
 	struct Page {
-		Page(bool alpha) : width_map(), surface(NULL), alpha(alpha) {}
+		Page(bool alpha) : width_map(), surface(nullptr), alpha(alpha) {}
 		std::vector<std::pair<int, int> > width_map;
 		sdlx::Surface *surface;
 		bool alpha;

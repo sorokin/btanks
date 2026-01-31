@@ -7,12 +7,12 @@
 #include "config.h"
 #include <assert.h>
 
-#define SMPEG_CHECK(f) do { const char * err; if ((err = SMPEG_error(mpeg)) != NULL) throw_ex(("%s: %s", f, err)); } while(0)
+#define SMPEG_CHECK(f) do { const char * err; if ((err = SMPEG_error(mpeg)) != nullptr) throw_ex(("%s: %s", f, err)); } while(0)
 
 VideoControl::VideoControl(const std::string &base, const std::string &name) : 
 base(base), name(name), screenshot(), mpeg(), lock(SDL_CreateMutex()), active(false), started(false) //, updated(false)  
 {
-	if (lock == NULL)
+	if (lock == nullptr)
 		throw_sdl(("SDL_CreateMutex"));
 	
 	std::string fname = "maps/" + name + ".jpg";
@@ -34,7 +34,7 @@ base(base), name(name), screenshot(), mpeg(), lock(SDL_CreateMutex()), active(fa
 			LOG_DEBUG(("video file loaded (%u bytes)", (unsigned)video_data.get_size()));
 
 			mpeg = SMPEG_new_data(video_data.get_ptr(), video_data.get_size(), &mpeg_info, 0);
-			if (mpeg == NULL)
+			if (mpeg == nullptr)
 				throw_sdl(("SMPEG_new_data: %s", SDL_GetError()));
 		}
 
@@ -53,7 +53,7 @@ base(base), name(name), screenshot(), mpeg(), lock(SDL_CreateMutex()), active(fa
 		SMPEG_enablevideo(mpeg, 1);
 		SMPEG_CHECK("SMPEG_enablevideo");
 		
-		SMPEG_setdisplay(mpeg, shadow.get_sdl_surface(), lock, NULL); //update);
+		SMPEG_setdisplay(mpeg, shadow.get_sdl_surface(), lock, nullptr); //update);
 		SMPEG_CHECK("SMPEG_setdisplay");
 		
 		SMPEG_scaleXY(mpeg, screenshot->get_width(), screenshot->get_height());
@@ -74,7 +74,7 @@ void VideoControl::activate(const bool a) {
 
 void VideoControl::checkStatus() {
 #ifdef ENABLE_SMPEG
-	if (mpeg == NULL)
+	if (mpeg == nullptr)
 		return;
 	
 	switch(SMPEG_status(mpeg)) {
@@ -101,7 +101,7 @@ void VideoControl::checkStatus() {
 	case SMPEG_ERROR: 
 		LOG_DEBUG(("SMPEG error: %s", SMPEG_error(mpeg)));
 		SMPEG_delete(mpeg);
-		mpeg = NULL;
+		mpeg = nullptr;
 		break;
 	}
 #endif
@@ -109,7 +109,7 @@ void VideoControl::checkStatus() {
 
 void VideoControl::tick(const float dt) {
 	Control::tick(dt);
-	if (mpeg == NULL || !active) 
+	if (mpeg == nullptr || !active) 
 		return;
 		
 	checkStatus();
@@ -141,7 +141,7 @@ void VideoControl::tick(const float dt) {
 }
 
 void VideoControl::render(sdlx::Surface &surface, const int x, const int y) const {
-	if (mpeg == NULL || !active) {
+	if (mpeg == nullptr || !active) {
 		surface.blit(*screenshot, x, y);
 		return;
 	}
@@ -159,7 +159,7 @@ void VideoControl::get_size(int &w, int &h) const {
 }
 
 VideoControl::~VideoControl() {
-	if (mpeg != NULL) {
+	if (mpeg != nullptr) {
 #ifdef ENABLE_SMPEG
 		SMPEG_stop(mpeg);
 		SMPEG_delete(mpeg);

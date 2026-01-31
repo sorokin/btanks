@@ -44,10 +44,10 @@
 #endif              
 
 
-Server::Server()  : _monitor(NULL), _sock() {}
+Server::Server()  : _monitor(nullptr), _sock() {}
 Server::~Server() {
 	delete _monitor;
-	_monitor = NULL;
+	_monitor = nullptr;
 }
 
 void Server::init() {
@@ -92,7 +92,7 @@ void Server::restart() {
 	LOG_DEBUG(("Server::restart() called..."));
 	std::queue<Connection *> conns;
 	Connection *c;
-	while((c = _monitor->pop()) != NULL)
+	while((c = _monitor->pop()) != nullptr)
 		conns.push(c);
 	
 	while(!conns.empty()) {
@@ -106,14 +106,14 @@ void Server::restart() {
 			LOG_DEBUG(("reassigning connection: %d", id));
 			_monitor->add(id, c);
 			PlayerManager->on_message(id, msg);
-			c = NULL;
+			c = nullptr;
 		} CATCH("restart", { delete c;})
 	}
 }
 
 void Server::disconnect_all() {
 	Connection *c;
-	while((c = _monitor->pop()) != NULL)
+	while((c = _monitor->pop()) != nullptr)
 		delete c;
 }
 

@@ -39,7 +39,7 @@ void ai::Herd::calculateV(v2<float> &velocity, Object *sheep, const int leader, 
 	velocity.clear();
 	
 	std::set<const Object *> o_set;
-	World->enumerate_objects(o_set, sheep, distance, NULL);
+	World->enumerate_objects(o_set, sheep, distance, nullptr);
 	int n = 0;
 	for(std::set<const Object *>::iterator i = o_set.begin(); i != o_set.end(); ++i) {
 		const Object *o = *i;
@@ -76,14 +76,14 @@ void ai::Herd::calculateV(v2<float> &velocity, Object *sheep, const int leader, 
 			}
 		}
 		
-	const Object * o = leader?World->getObjectByID(leader): NULL;
-	if (o != NULL && !ZBox::sameBox(o->get_z(), sheep->get_z())) 
-		o = NULL;
+	const Object * o = leader?World->getObjectByID(leader): nullptr;
+	if (o != nullptr && !ZBox::sameBox(o->get_z(), sheep->get_z())) 
+		o = nullptr;
 	
-	if (o != NULL) {
+	if (o != nullptr) {
 		//LOG_DEBUG(("leader: %p", o));
 		v2<float> pos = sheep->get_relative_position(o);
-		int cd = getComfortDistance(NULL);
+		int cd = getComfortDistance(nullptr);
 		if (pos.quick_length() < cd * cd)
 			velocity -= pos;
 		else 

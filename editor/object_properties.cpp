@@ -74,7 +74,7 @@ bool ObjectPropertiesDialog::onKey(const SDL_keysym sym) {
 
 
 void ObjectPropertiesDialog::show(const Object *o, const std::set<std::string> &variants) {
-	assert(o != NULL);
+	assert(o != nullptr);
 	object = o;
 	
 	_menu->clear();

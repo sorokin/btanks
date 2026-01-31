@@ -88,9 +88,9 @@
 
 IMPLEMENT_SINGLETON(Game, IGame);
 
-IGame::IGame() : _main_menu(NULL),
+IGame::IGame() : _main_menu(nullptr),
  _autojoin(false), _shake(0), _shake_max(0), _show_stats(false), 
- _cutscene(NULL), _cheater(NULL), _tip(NULL), _net_talk(NULL), 
+ _cutscene(nullptr), _cheater(nullptr), _tip(nullptr), _net_talk(nullptr), 
  spawn_ai(0) {
 
 	std::string path;
@@ -150,7 +150,7 @@ void IGame::run() {
 }
 
 void IGame::pause() {
-	if (_main_menu == NULL || !_main_menu->hidden())
+	if (_main_menu == nullptr || !_main_menu->hidden())
 		return;
 	
 	if (_paused) {
@@ -478,7 +478,7 @@ void IGame::init(const int argc, char *argv[]) {
 		sdlx::Rect window_size = Window->get_size();
 		_hud = new Hud(window_size.w, window_size.h);
 	} else {  
-		_hud = NULL;
+		_hud = nullptr;
 	}
 
 	LOG_DEBUG(("installing callbacks..."));
@@ -515,7 +515,7 @@ void IGame::resource_init() {
 	
 	ResourceManager->init(files);
 	
-	if (_main_menu == NULL && !RTConfig->server_mode) {
+	if (_main_menu == nullptr && !RTConfig->server_mode) {
 		LOG_DEBUG(("initializing main menu..."));
 		sdlx::Rect size = Window->get_size();
 		delete _main_menu;
@@ -539,7 +539,7 @@ void IGame::resource_init() {
 				_main_menu->hide();
 		}
 	} else {
-		_net_talk = NULL;
+		_net_talk = nullptr;
 	}
 
 	start_random_map();
@@ -551,7 +551,7 @@ bool IGame::logo_tick(const float dt) {
 		return true;
 	}
 
-	if (_cutscene == NULL) {
+	if (_cutscene == nullptr) {
 		if (_logos.empty())
 			return false;
 
@@ -593,7 +593,7 @@ void IGame::start_random_map() {
 	std::string map = preload_map[preload_map_pool.get()];
 	mrt::trim(map);
 	
-	GameMonitor->startGame(NULL, map);
+	GameMonitor->startGame(nullptr, map);
 	for(int i = 0; i < spawn_ai; ++i) {
 		const char *c_vehicle[] = {"tank", "shilka", "launcher", };
 		std::string vehicle = c_vehicle[mrt::random(3)], animation;
@@ -709,7 +709,7 @@ bool IGame::onKey(const SDL_keysym key, const bool pressed) {
 	if (!PlayerManager->is_client() && key.sym==SDLK_F12 && PlayerManager->get_slots_count() > 0) {
 		TRY {
 			PlayerSlot *slot = PlayerManager->get_my_slot();
-			if (slot == NULL)
+			if (slot == nullptr)
 				return true;
 		
 			Object *o = slot->getObject();
@@ -789,7 +789,7 @@ void IGame::onMenu(const std::string &name) {
 
 void IGame::stop_cutscene() {
 	delete _cutscene;
-	_cutscene = NULL;
+	_cutscene = nullptr;
 	
 	Window->resetTimer();
 }
@@ -809,7 +809,7 @@ void IGame::quit() {
 	if (duration < 0.1f)
 		return;
 
-	sdlx::Surface *s = NULL;
+	sdlx::Surface *s = nullptr;
 	try {
 		mrt::Chunk data;
 		std::string tname = "tiles/donate.jpg";
@@ -915,7 +915,7 @@ bool IGame::onTick(const float dt) {
 			_hud->renderStats(window);
 		}
 
-		if (_net_talk != NULL) {
+		if (_net_talk != nullptr) {
 			_net_talk->tick(dt);
 		}
 		_net_talk->render(window, 8, 32);
@@ -931,16 +931,16 @@ bool IGame::onTick(const float dt) {
 	if (_show_fps && small_font) {
 		float fr = Window->getFrameRate();
 		std::string fps = mrt::format_string("%d", (int)fr);
-		int w = small_font->render(NULL, 0, 0, fps);
+		int w = small_font->render(nullptr, 0, 0, fps);
 		small_font->render(window, window.get_width() - w, window.get_height() - small_font->get_height(), fps);
 	}
 
 	if (_paused) {
 		static const sdlx::Font * font;
-		if (font == NULL) 
+		if (font == nullptr) 
 			font = ResourceManager->loadFont("medium_dark", true);
 		std::string pstr = I18n->get("messages", "game-paused");
-		int w = font->render(NULL, 0, 0, pstr);
+		int w = font->render(nullptr, 0, 0, pstr);
 		font->render(window, (window.get_width() - w) / 2, (window.get_height() - font->get_height()) / 2, pstr);
 	}
 
@@ -952,16 +952,16 @@ void IGame::deinit() {
 	Mixer->deinit();
 	
 	delete _hud;
-	_hud = NULL;
+	_hud = nullptr;
 
 	delete _cutscene;
-	_cutscene = NULL;
+	_cutscene = nullptr;
 	
 	delete _tip;
-	_tip = NULL;
+	_tip = nullptr;
 	
 	delete _main_menu;
-	_main_menu = NULL;
+	_main_menu = nullptr;
 
 	ResourceManager->clear();
 
@@ -990,10 +990,10 @@ void IGame::clear() {
 	Map->clear();
 	
 	delete _cutscene;
-	_cutscene = NULL;
+	_cutscene = nullptr;
 	
 	delete _cheater;
-	_cheater = NULL;
+	_cheater = nullptr;
 
 	if (_main_menu)
 		_main_menu->hide(false);
@@ -1064,7 +1064,7 @@ void IGame::notifyLoadingBar(const int progress, const char *what) {
 	sdlx::Surface &window = Window->get_surface();
 	const sdlx::Rect window_size = Window->get_size();
 	if (_hud->renderLoadingBar(window, old_progress, 1.0f * _loading_bar_now / _loading_bar_total, what)) {
-		if (_tip != NULL) {
+		if (_tip != nullptr) {
 			int w, h;
 			_tip->get_size(w, h);
 			_tip->render(window, (window_size.w - w) / 2, window_size.h - h * 5 / 4);
@@ -1104,7 +1104,7 @@ try {
 			if (par[2].compare(0, 6, "player") == 0) {
 				int idx = par[2][6] - '0';
 				Object *o = PlayerManager->get_slot(idx).getObject();
-				if (o == NULL)
+				if (o == nullptr)
 					throw_ex(("no object in slot %d", idx));
 				o->get_position(pos);
 			} else pos.fromString(par[2]);
@@ -1121,9 +1121,9 @@ try {
 			return "usage: kill 0-n (slot number)";
 		int idx = atoi(param.c_str());
 		Object *o = PlayerManager->get_slot(idx).getObject();
-		if (o == NULL)
+		if (o == nullptr)
 			throw_ex(("no object in slot %d", idx));
-		o->emit("death", NULL);
+		o->emit("death", nullptr);
 		return "ok";
 	} else if (cmd == "setz") {		
 		std::vector<std::string> p;
@@ -1133,7 +1133,7 @@ try {
 
 		int idx = atoi(p[0].c_str());
 		Object *o = PlayerManager->get_slot(idx).getObject();
-		if (o == NULL)
+		if (o == nullptr)
 			throw_ex(("no object in slot %d", idx));
 		int z = atoi(p[1].c_str());
 		o->set_z(z, true);
@@ -1143,7 +1143,7 @@ try {
 			return "usage: position <slot>";
 		int idx = atoi(param.c_str());
 		Object *o = PlayerManager->get_slot(idx).getObject();
-		if (o == NULL)
+		if (o == nullptr)
 			throw_ex(("no object in slot %d", idx));
 
 		v2<float> position;
@@ -1164,13 +1164,13 @@ try {
 
 
 void IGame::onMap() {
-	if (_main_menu != NULL) {
+	if (_main_menu != nullptr) {
 		LOG_DEBUG(("hiding main menu"));
 		_main_menu->hide();
 	}
 
 	delete _cheater;
-	_cheater = NULL;
+	_cheater = nullptr;
 	if (!PlayerManager->is_client())
 		_cheater = new Cheater;	
 }

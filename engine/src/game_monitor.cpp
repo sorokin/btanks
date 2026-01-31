@@ -61,7 +61,7 @@
 IMPLEMENT_SINGLETON(GameMonitor, IGameMonitor);
 
 IGameMonitor::IGameMonitor() : _game_over(false), _win(false), _check_items(0.5, true), _state_timer(false), _timer(0), 
-	_objects_limit_reached(false), _campaign(NULL)
+	_objects_limit_reached(false), _campaign(nullptr)
 #ifdef ENABLE_LUA
 , lua_hooks(new LuaHooks) 
 #endif
@@ -97,8 +97,8 @@ void GameItem::respawn() {
 
 void GameItem::kill() {
 	Object *o = World->getObjectByID(id);
-	if (o != NULL)
-		o->Object::emit("death", NULL);
+	if (o != nullptr)
+		o->Object::emit("death", nullptr);
 }
 
 void GameItem::setup(const std::string &name, const std::string &subname) {
@@ -150,7 +150,7 @@ void GameItem::updateMapProperty() {
 		prop = mrt::format_string("%d,%d", position.x, position.y);
 
 	const Object *o = World->getObjectByID(id);
-	if (o != NULL) {
+	if (o != nullptr) {
 		int dir = o->get_direction();
 		if (dir)
 			prop += mrt::format_string("/%d", dir);
@@ -254,7 +254,7 @@ void IGameMonitor::checkItems(const float dt) {
 		for(int i = 0; po != _present_objects.end() && (_objects_limit_reached || i < dlt); ++i) {
 			const int id = *po++;
 			Object *o = World->getObjectByID(id);
-			if (o == NULL)
+			if (o == nullptr)
 				continue;
 			
 			v2<int> pos;
@@ -267,7 +267,7 @@ void IGameMonitor::checkItems(const float dt) {
 	for(size_t i = 0; i < _flag_id.size(); ++i) {
 		const int id = _flag_id[i];
 		Object *o = World->getObjectByID(id);
-		if (o == NULL)
+		if (o == nullptr)
 			continue;
 		v2<int> pos;
 		o->get_position(pos);
@@ -277,7 +277,7 @@ void IGameMonitor::checkItems(const float dt) {
 	for(size_t i = 0; i < _external_specials.size(); ++i) {
 		const int id = _external_specials[i];
 		Object *o = World->getObjectByID(id);
-		if (o == NULL || o->get_state() == "broken")
+		if (o == nullptr || o->get_state() == "broken")
 			continue;
 
 		v2<int> pos;
@@ -292,7 +292,7 @@ void IGameMonitor::checkItems(const float dt) {
 		Object *o = World->getObjectByID(item.id);
 
 		bool dead = true;
-		if (o != NULL) {
+		if (o != nullptr) {
 			dead = o->get_state() == "broken";
 		}
 		
@@ -350,7 +350,7 @@ void IGameMonitor::add(const GameItem &item_, const bool dont_respawn) {
 	const bool client = PlayerManager->is_client();
 
 #ifdef ENABLE_LUA
-	if (!client && lua_hooks != NULL)
+	if (!client && lua_hooks != nullptr)
 		item.hidden = !lua_hooks->on_spawn(item.classname, item.animation, item.property);
 #endif
 
@@ -385,7 +385,7 @@ void IGameMonitor::game_over(const std::string &area, const std::string &message
 		for(size_t i = 0; i < n; ++i) {
 			PlayerSlot &slot = PlayerManager->get_slot(i);
 			Object *o = slot.getObject();
-			if (o != NULL) {
+			if (o != nullptr) {
 				o->add_effect("invulnerability", -1);
 			}
 		}
@@ -456,7 +456,7 @@ void IGameMonitor::tick(const float dt) {
 	const bool client = PlayerManager->is_client();
 
 #ifdef ENABLE_LUA
-	if (!client && lua_hooks != NULL) {
+	if (!client && lua_hooks != nullptr) {
 	TRY {
 		if (Map->loaded())
 			lua_hooks->on_tick(dt);
@@ -484,7 +484,7 @@ void IGameMonitor::tick(const float dt) {
 	std::string game_state = popState(dt);
 	if (_game_over && !game_state.empty()) {
 #ifdef ENABLE_LUA
-	if (!client && lua_hooks != NULL) {
+	if (!client && lua_hooks != nullptr) {
 	TRY {
 		std::string next_map = lua_hooks->getNextMap();
 		if (!next_map.empty()) {
@@ -506,11 +506,11 @@ void IGameMonitor::tick(const float dt) {
 
 void IGameMonitor::render(sdlx::Surface &window) {
 	static const sdlx::Font * _big_font;
-	if (_big_font == NULL)
+	if (_big_font == nullptr)
 		_big_font = ResourceManager->loadFont("big", true);
 
 	if (!_state.empty()) {
-		int w = _big_font->render(NULL, 0, 0, _state), h = _big_font->get_height();
+		int w = _big_font->render(nullptr, 0, 0, _state), h = _big_font->get_height();
 		_state_bg.init("menu/background_box.png", window.get_width() + 32, h); //fixme
 		
 		int x = (window.get_width() - w) / 2;
@@ -1060,10 +1060,10 @@ const std::string IGameMonitor::generatePropertyName(const std::string &prefix) 
 }
 
 void IGameMonitor::addBonuses(const PlayerSlot &slot) {
-	if (_campaign == NULL)
+	if (_campaign == nullptr)
 		return;
 	Object *o = slot.getObject();
-	if (o == NULL)
+	if (o == nullptr)
 		return;
 	const std::vector<Campaign::ShopItem> & wares = _campaign->wares;
 	
@@ -1083,7 +1083,7 @@ void IGameMonitor::addBonuses(const PlayerSlot &slot) {
 			//LOG_DEBUG(("%g %g", d.x, d.y));
 			if (first_time) 
 				bonuses.push_back(GameBonus(i->object + "(ally)", i->animation, 0));
-			if (World->getObjectByID(bonuses[idx].id) == NULL) {
+			if (World->getObjectByID(bonuses[idx].id) == nullptr) {
 				Object *bonus = o->spawn(bonuses[idx].classname, bonuses[idx].animation, dir, v2<float>());
 				bonuses[idx].id = bonus->get_id();
 			}
@@ -1148,7 +1148,7 @@ void IGameMonitor::onScriptZone(const int slot_id, const SpecialZone &zone, cons
 	throw_ex(("no script support compiled in."));
 #else 
 	TRY {
-		if (lua_hooks == NULL)
+		if (lua_hooks == nullptr)
 			throw_ex(("lua hooks was not initialized"));
 		if (global)
 			lua_hooks->call(zone.name);
@@ -1167,7 +1167,7 @@ const std::string IGameMonitor::onConsole(const std::string &cmd, const std::str
 #ifdef ENABLE_LUA
 	if (cmd == "call") {
 		try {
-			if (lua_hooks == NULL)
+			if (lua_hooks == nullptr)
 				throw_ex(("lua hooks was not initialized"));
 			lua_hooks->call(param);
 		} catch(const std::exception &e) {
@@ -1188,7 +1188,7 @@ const void IGameMonitor::useInCampaign(const std::string &base, const std::strin
 }
 
 void IGameMonitor::saveCampaign() {
-	if (_campaign == NULL) 
+	if (_campaign == nullptr) 
 		return;
 
 	LOG_DEBUG(("saving compaign state..."));
@@ -1232,7 +1232,7 @@ void IGameMonitor::saveCampaign() {
 			Config->set(mname + ".best-time", total_time);
 		Config->set(mname + ".last-time", total_time);
 	}			
-	_campaign = NULL;	
+	_campaign = nullptr;	
 }
 
 void IGameMonitor::startGameTimer(const std::string &name, const float period, const bool repeat) {
@@ -1246,7 +1246,7 @@ void IGameMonitor::stopGameTimer(const std::string &name) {
 
 void IGameMonitor::processGameTimers(const float dt) {
 #ifdef ENABLE_LUA
-	if (lua_hooks == NULL)
+	if (lua_hooks == nullptr)
 		return;
 
 	std::list<std::string> fired_timers;

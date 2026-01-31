@@ -27,7 +27,7 @@
 using namespace mrt;
 
 void Chunk::fill(const int b) {
-	if (ptr == NULL) 
+	if (ptr == nullptr) 
 		return;
 	memset(ptr, b, size);
 }
@@ -36,14 +36,14 @@ const Chunk& Chunk::operator=(const Chunk& c) {
 	if (this == &c) 
 		return *this; // same object
 
-	if (c.ptr == NULL) {
+	if (c.ptr == nullptr) {
 		free();
 		return *this;
 	}
 	assert(c.size > 0);
 
 	void *p = realloc(ptr, c.size);
-	if (p == NULL) 
+	if (p == nullptr) 
 		throw_io(("realloc (%p, %u)", ptr, (unsigned)c.size));
 	ptr = p;
 	size = c.size;
@@ -57,7 +57,7 @@ void Chunk::move(Chunk &other) {
 	free();
 	ptr = other.ptr;
 	size = other.size;
-	other.ptr = NULL;
+	other.ptr = nullptr;
 	other.size = 0;
 }
 
@@ -72,19 +72,19 @@ void Chunk::set_size(size_t s) {
 	}
 
 	void * x = realloc(ptr, s);
-	if (x == NULL) 
+	if (x == nullptr) 
 		throw_io(("realloc (%p, %u)", ptr, (unsigned)s));
 	ptr = x;
 	size = s;
 }
 
 void Chunk::set_data(const void *p, const size_t s) {
-	if (p == NULL || s == 0)
+	if (p == nullptr || s == 0)
 		throw_ex(("calling set_data(%p, %u) is invalid", p, (unsigned)s));
 
 	void *x = realloc(ptr, s);
 
-	if (x == NULL) 
+	if (x == nullptr) 
 		throw_io(("realloc (%p, %d)", ptr, (unsigned)s));
 	ptr = x;
 	memcpy(ptr, p, s);
@@ -92,7 +92,7 @@ void Chunk::set_data(const void *p, const size_t s) {
 }
 
 void Chunk::set_data(void *p, const size_t s, const bool own) {
-	if (p == NULL || s == 0) 
+	if (p == nullptr || s == 0) 
 		throw_ex(("calling set_data(%p, %u, %s) is invalid", p, (unsigned)s, own?"true":"false"));
 	
 	if (own) {
@@ -101,7 +101,7 @@ void Chunk::set_data(void *p, const size_t s, const bool own) {
 		size = s;
 	} else {
 		void *x = realloc(ptr, s);
-		if (x == NULL) 
+		if (x == nullptr) 
 			throw_io(("realloc(%p, %d)", ptr, (unsigned)s));
 		ptr = x;
 		size = s;
@@ -133,15 +133,15 @@ void* Chunk::reserve(const int more) {
 }
 
 void Chunk::free() {
-	if (ptr != NULL) {
+	if (ptr != nullptr) {
 		::free(ptr);
-		ptr = NULL;
+		ptr = nullptr;
 		size = 0;
 	}
 }
 
 void Chunk::pop(size_t n) {
-	if (ptr == NULL)
+	if (ptr == nullptr)
 		return;
 	
 	if (n >= size) {
@@ -154,9 +154,9 @@ void Chunk::pop(size_t n) {
 }
 
 const std::string Chunk::dump() const {
-	if (ptr == NULL)
+	if (ptr == nullptr)
 		return "empty memory chunk";
-	assert(ptr != NULL);
+	assert(ptr != nullptr);
 	
 	std::string result = format_string("-[memory dump]-[size: %u]---", (unsigned)size);
 	size_t n = (size - 1)/ 16 + 1;

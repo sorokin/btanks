@@ -37,7 +37,7 @@
 #endif
 
 Chooser::Chooser(const std::string &font, const std::vector<std::string> &options, const std::string &surface, bool with_background) :
-_options(options), _i(0), _n(options.size()), _surface(NULL), _w(0), _background(NULL) {
+_options(options), _i(0), _n(options.size()), _surface(nullptr), _w(0), _background(nullptr) {
 	_disabled.resize(_n);
 	if (!surface.empty())
 		_surface = ResourceManager->load_surface(surface);
@@ -45,7 +45,7 @@ _options(options), _i(0), _n(options.size()), _surface(NULL), _w(0), _background
 	_left_right = ResourceManager->load_surface("menu/left_right.png");
 	_font = ResourceManager->loadFont(font, true);
 	for(int i = 0; i < _n; ++i) {
-		int w = _font->render(NULL, 0, 0, options[i]);
+		int w = _font->render(nullptr, 0, 0, options[i]);
 		if (w > _w)
 			_w = w;
 	}
@@ -69,7 +69,7 @@ void Chooser::get_size(int &w, int &h) const {
 		h = _left_right->get_height();
 		return;
 	}
-	if (_surface != NULL) {
+	if (_surface != nullptr) {
 		w = _left_right->get_width() + _surface->get_width() / _n;
 		h = math::max(_left_right->get_height(), _surface->get_height());
 	} else {
@@ -79,7 +79,7 @@ void Chooser::get_size(int &w, int &h) const {
 }
 
 void Chooser::render(sdlx::Surface &surface, const int x, const int y) const {
-	if (_background != NULL) 
+	if (_background != nullptr) 
 		_background->render(surface, x - 4, y - 4);
 	
 	int lrw = _left_right->get_width() / 2;
@@ -99,7 +99,7 @@ void Chooser::render(sdlx::Surface &surface, const int x, const int y) const {
 			x + _left_area.x + lrw, y + (_left_area.h - _surface->get_height())/ 2);
 	} else { 
 		if (_i < (int)_options.size()) {
-			int tw = _font->render(NULL, 0, 0, _options[_i]);
+			int tw = _font->render(nullptr, 0, 0, _options[_i]);
 			_font->render(surface, x + _left_area.x + (w - tw) / 2, y + (_left_area.h - _font->get_height())/ 2, _options[_i]);
 		}
 	} 

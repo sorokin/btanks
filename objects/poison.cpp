@@ -35,7 +35,7 @@ public:
 	virtual Object * clone() const { return new PoisonCloud(*this); }
 	virtual void on_spawn();
 	virtual void tick(const float dt);
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 
 	virtual void serialize(mrt::Serializator &s) const {
 		Object::serialize(s);
@@ -75,7 +75,7 @@ void PoisonCloud::on_spawn() {
 
 void PoisonCloud::emit(const std::string &event, Object * emitter) {
 	if (event == "collision") {
-		if (emitter == NULL)
+		if (emitter == nullptr)
 			return;
 		
 		const std::string &ec = emitter->classname;

@@ -53,7 +53,7 @@ public:
 
 	virtual Object * clone() const;
 	virtual void on_spawn();
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	void on_idle(const int range, const float dt);
 
 	virtual void serialize(mrt::Serializator &s) const {
@@ -72,7 +72,7 @@ private:
 
 const int Kamikaze::getComfortDistance(const Object *other) const {
 	GET_CONFIG_VALUE("objects.kamikaze.comfort-distance", int, cd, 80);
-	return (other == NULL || other->classname == "trooper" || other->classname == "kamikaze")?cd:-1;
+	return (other == nullptr || other->classname == "trooper" || other->classname == "kamikaze")?cd:-1;
 }
 
 void Kamikaze::on_idle(const int range, const float dt) {
@@ -126,7 +126,7 @@ void Kamikaze::emit(const std::string &event, Object * emitter) {
 		spawn("kamikaze-explosion", "kamikaze-explosion");
 		Object::emit(event, emitter);
 	} else if (event == "collision") {
-		if (emitter != NULL && (
+		if (emitter != nullptr && (
 			emitter->classname == "fighting-vehicle" || 
 			emitter->classname == "train" || 
 			emitter->classname == "trooper" || 

@@ -28,16 +28,16 @@
 
 using namespace mrt;
 
-File::File():_f(NULL) {}
+File::File():_f(nullptr) {}
 
 void File::open(const std::string &fname, const std::string &mode) {
 	_f = fopen(fname.c_str(), mode.c_str());
-	if (_f == NULL) 
+	if (_f == nullptr) 
 		throw_io(("fopen(\"%s\", \"%s\")", fname.c_str(), mode.c_str()))
 }
 
 bool File::opened() const {
-	return _f != NULL;
+	return _f != nullptr;
 }
 
 const off_t File::get_size() const {
@@ -54,12 +54,12 @@ void File::write(const Chunk &ch) const {
 }
 
 bool File::readline(std::string &str, const size_t bufsize) const {
-	if (_f == NULL)
+	if (_f == nullptr)
 		throw_ex(("readline on closed file"));
 	mrt::Chunk buf;
 	buf.set_size(bufsize);
 	
-	if (fgets((char *)buf.get_ptr(), buf.get_size(), _f) == NULL)
+	if (fgets((char *)buf.get_ptr(), buf.get_size(), _f) == nullptr)
 		return false;
 	str.assign((const char *)buf.get_ptr());
 	return true;
@@ -82,20 +82,20 @@ bool File::eof() const {
 
 
 void File::close() {
-	if (_f != NULL) {
+	if (_f != nullptr) {
 		fclose(_f);
-		_f = NULL;
+		_f = nullptr;
 	}
 }
 
 FILE * File::unlink() {
 	FILE * r = _f;
-	_f = NULL;
+	_f = nullptr;
 	return r;
 }
 
 void File::seek(long offset, int whence) const {
-	if (_f == NULL)
+	if (_f == nullptr)
 		throw_ex(("seek(%ld, %d) on uninitialized file", offset, whence));
 		
 	if (fseek(_f, offset, whence) == -1)
@@ -103,7 +103,7 @@ void File::seek(long offset, int whence) const {
 }
 
 long File::tell() const {
-	if (_f == NULL)
+	if (_f == nullptr)
 		throw_ex(("tell() on uninitialized file"));
 	return ftell(_f);
 }

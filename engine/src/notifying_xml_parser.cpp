@@ -29,7 +29,7 @@
 #include "finder.h"
 #include "mrt/base_file.h"
 
-NotifyingXMLParser::NotifyingXMLParser() : reset_progress(), notify_progress(), status(NULL) {}
+NotifyingXMLParser::NotifyingXMLParser() : reset_progress(), notify_progress(), status(nullptr) {}
 
 
 void NotifyingXMLParser::parse_file(const std::string &file) {

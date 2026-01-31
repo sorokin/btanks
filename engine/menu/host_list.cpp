@@ -87,9 +87,9 @@ struct ping_less_cmp {
 	bool operator()(Control * a, Control * b) const {
 		HostItem * ta = dynamic_cast<HostItem *>(a);
 		HostItem * tb = dynamic_cast<HostItem *>(b);
-		if (ta == NULL) 
+		if (ta == nullptr) 
 			return true;
-		if (tb == NULL)
+		if (tb == nullptr)
 			return false;
 		
 		if (ta->ping >= 1 && tb->ping >= 1) {
@@ -135,7 +135,7 @@ HostList::~HostList() {
 	std::string str;
 	for(List::reverse_iterator i = _list.rbegin(); i != _list.rend(); ++i) {
 		const HostItem *l = dynamic_cast<const HostItem *>(*i);
-		if (l == NULL) 
+		if (l == nullptr) 
 			continue;
 		//LOG_DEBUG(("host: %s", l->get().c_str()));
 		str += l->addr.getAddr() + "/" + l->name + " ";

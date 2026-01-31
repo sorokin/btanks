@@ -49,7 +49,7 @@ void UpperBox::update(const GameType game_type) {
 	}
 }
 
-UpperBox::UpperBox(int _w, int _h, const bool server) : value("deathmatch"), _server(server), _checkbox(NULL) {
+UpperBox::UpperBox(int _w, int _h, const bool server) : value("deathmatch"), _server(server), _checkbox(nullptr) {
 	add(0, 0, _box = new Box("menu/background_box.png", _w, _h));
 	
 	int mx, my;

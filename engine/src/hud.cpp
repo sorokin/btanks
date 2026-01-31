@@ -82,7 +82,7 @@ void Hud::initMap() {
 	
 	_map_mode = MapSmall;
 	
-	_pointer = NULL;
+	_pointer = nullptr;
 	_pointer_dir = -1;
 	if (RTConfig->game_type == GameTypeRacing) {
 		_pointer = ResourceManager->load_surface("pointer.png");
@@ -165,7 +165,7 @@ void Hud::renderTeamStats(sdlx::Surface &surface) {
 	}
 	
 	for(int team = 0; team < RTConfig->teams; ++team) {
-		int w = _font->render(NULL, 0, 0, Team::get_color((Team::ID)team));
+		int w = _font->render(nullptr, 0, 0, Team::get_color((Team::ID)team));
 		if (w > max_w)
 			max_w = w;
 	}
@@ -192,7 +192,7 @@ void Hud::renderTeamStats(sdlx::Surface &surface) {
 		surface.fill_rect(sdlx::Rect(xp, yp, box_w1, box_h), team2color(surface, (unsigned)team, 255));
 		_font->render(surface, xp + box_w2, yp, Team::get_color((Team::ID)team));
 		std::string score = mrt::format_string("%d", team_frags[(Team::ID)team]);
-		int sw = _font->render(NULL, 0, 0, score);
+		int sw = _font->render(nullptr, 0, 0, score);
 		_font->render(surface, xp + background.w - 2 * mx - sw, yp, score);
 		yp += item_h;
 	}
@@ -209,7 +209,7 @@ void Hud::renderPlayerStats(sdlx::Surface &surface) {
 			continue;
 		++active_slots;
 		Object *o = slot.getObject();
-		int w = _font->render(NULL, 0, 0, mrt::format_string("%s (%s)", slot.name.c_str(), o? o->animation.c_str():"dead"));
+		int w = _font->render(nullptr, 0, 0, mrt::format_string("%s (%s)", slot.name.c_str(), o? o->animation.c_str():"dead"));
 		if (w > nick_w)
 			nick_w = w;
 	}
@@ -245,7 +245,7 @@ void Hud::renderPlayerStats(sdlx::Surface &surface) {
 		const Object * o = slot.getObject();
 		_font->render(surface, xp + box_w2, yp, mrt::format_string("%s (%s)", slot.name.c_str(), o? o->animation.c_str():"dead"));
 		std::string score = mrt::format_string("%d", slot.frags);
-		int sw = _font->render(NULL, 0, 0, score);
+		int sw = _font->render(nullptr, 0, 0, score);
 		_font->render(surface, xp + background.w - 2 * mx - sw, yp, score);
 		yp += item_h;
 	}
@@ -344,7 +344,7 @@ void Hud::renderRadar(const float dt, sdlx::Surface &window, const std::vector<v
 	for(size_t i = 0; i < n; ++i) {
 		PlayerSlot &slot = PlayerManager->get_slot(i);
 		const Object *obj = slot.getObject();
-		if (obj == NULL) 
+		if (obj == nullptr) 
 			continue;
 		
 		v2<int> pos;
@@ -487,7 +487,7 @@ void Hud::render(sdlx::Surface &window) const {
 
 		{
 			std::string score = mrt::format_string("$%d", slot.score);
-			int tw = _font->render(NULL, 0, 0, score);
+			int tw = _font->render(nullptr, 0, 0, score);
 			_font->render(window, xp + slot.viewport.w - xm * 2- tw, yp + font_dy, score);
 		}
 
@@ -517,7 +517,7 @@ void Hud::render(sdlx::Surface &window) const {
 			
 		} while(0);
 
-		if (obj == NULL)
+		if (obj == nullptr)
 			continue;
 
 
@@ -584,7 +584,7 @@ void Hud::render(sdlx::Surface &window) const {
 		xp = slot.viewport.x + xm;
 		yp = slot.viewport.y + _background->get_height();
 
-		if (_pointer != NULL) {
+		if (_pointer != nullptr) {
 			const SpecialZone &zone = PlayerManager->get_next_checkpoint(slot);
 			v2<float> pos;
 			obj->get_position(pos);
@@ -608,7 +608,7 @@ void Hud::render(sdlx::Surface &window) const {
 }
 
 void Hud::renderSplash(sdlx::Surface &window) const {
-	if (_splash == NULL) {
+	if (_splash == nullptr) {
 		window.fill(window.map_rgb(239, 239, 239));
 		return;
 	}
@@ -652,7 +652,7 @@ const bool Hud::renderLoadingBar(sdlx::Surface &window, const float old_progress
 		window.blit(*_loading_item, border + x + i * _loading_item->get_width(), y + border);
 	}
 
-	if (what != NULL) {
+	if (what != nullptr) {
 		std::string status = what;
 		if (I18n->has("loading", status)) {
 			int dy = (_loading_border->get_height() - _small_font->get_height()) / 2;
@@ -682,7 +682,7 @@ static void find_splashes(std::vector<std::string> &splashes, const std::string 
 	}
 }
 
-Hud::Hud(const int w, const int h) :  _pointer(NULL), _pointer_dir(-1), _update_radar(true), _map_mode(MapSmall) {
+Hud::Hud(const int w, const int h) :  _pointer(nullptr), _pointer_dir(-1), _update_radar(true), _map_mode(MapSmall) {
 	init_map_slot.assign(this, &Hud::initMap, Map->load_map_final_signal);
 	on_destroy_map_slot.assign(this, &Hud::on_destroy_map, Map->destroyed_cells_signal);
 
@@ -716,7 +716,7 @@ Hud::Hud(const int w, const int h) :  _pointer(NULL), _pointer_dir(-1), _update_
 	if (!files.empty()) {
 		_splash = ResourceManager->load_surface(files[mrt::random(files.size())], w, 0);
 	} else {
-		_splash = NULL;
+		_splash = nullptr;
 	}
 
 	GET_CONFIG_VALUE("hud.radar-update-interval", float, ru, 0.2f);

@@ -38,7 +38,7 @@ void NumberControl::render(sdlx::Surface &surface, const int x, const int y) con
 }
 
 void NumberControl::get_size(int &w, int &h) const {
-	w =	_font->render(NULL, 0, 0, mrt::format_string(min < 0?"%+d":"%d", value)) + _number->get_width();
+	w =	_font->render(nullptr, 0, 0, mrt::format_string(min < 0?"%+d":"%d", value)) + _number->get_width();
 	h = math::max(_number->get_height(), _font->get_height());
 }
 

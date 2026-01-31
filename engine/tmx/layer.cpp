@@ -64,10 +64,10 @@ void DestructableLayer::onDeath(const int idx) {
 	const int x = idx % _w, y = idx / _w;
 	Map->invalidateTile(x, y);
 	
-	const sdlx::Surface *s = NULL;
-	const sdlx::CollisionMap *cm = NULL;
+	const sdlx::Surface *s = nullptr;
+	const sdlx::CollisionMap *cm = nullptr;
 	ResourceManager->check_surface("building-explosion", s, cm);
-	assert(s != NULL);
+	assert(s != nullptr);
 	
 	Object * o = ResourceManager->createObject("explosion(building)", "building-explosion");
 	v2<int> tsize = Map->getTileSize();
@@ -83,7 +83,7 @@ void DestructableLayer::onDeath(const int idx) {
 	World->addObject(o, pos);
 }
 
-DestructableLayer::DestructableLayer(const bool visible) : _hp_data(NULL), _visible(visible) {}
+DestructableLayer::DestructableLayer(const bool visible) : _hp_data(nullptr), _visible(visible) {}
 
 
 void DestructableLayer::init(const int w, const int h, const mrt::Chunk & data) {

@@ -77,7 +77,7 @@ void Container::get_size(int &w, int &h) const {
 
 
 bool Container::onKey(const SDL_keysym sym) {
-	if (_focus != NULL && !_focus->hidden() && _focus->onKey(sym)) //first, pass key event to control with focus
+	if (_focus != nullptr && !_focus->hidden() && _focus->onKey(sym)) //first, pass key event to control with focus
 		return true;
 	
 	for(ControlList::reverse_iterator i = _controls.rbegin(); i != _controls.rend(); ++i) {
@@ -149,7 +149,7 @@ bool Container::onMouseMotion(const int state, const int x, const int y, const i
 
 
 void Container::add(const int x, const int y, Control *ctrl, Control *after) {
-	assert(ctrl != NULL);
+	assert(ctrl != nullptr);
 	ctrl->set_base(x, y);
 #ifndef NDEBUG
 	for(ControlList::iterator i = _controls.begin(); i != _controls.end(); ++i) {
@@ -157,7 +157,7 @@ void Container::add(const int x, const int y, Control *ctrl, Control *after) {
 	}
 #endif
 
-	if (after != NULL) {
+	if (after != nullptr) {
 		for(ControlList::iterator i = _controls.begin(); i != _controls.end(); ++i) {
 			if (*i == after) {
 				++i;
@@ -190,11 +190,11 @@ void Container::clear() {
 		delete (*i);
 	}
 	_controls.clear();
-	_focus = NULL;
+	_focus = nullptr;
 }
 
 const bool Container::in(const Control *c, const int x, const int y) const {
-	assert(c != NULL);
+	assert(c != nullptr);
 	ControlList::const_reverse_iterator i;
 	for(i = _controls.rbegin(); i != _controls.rend(); ++i) {
 		if ((*i) == c)

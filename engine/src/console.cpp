@@ -62,7 +62,7 @@ bool IConsole::onKey(const SDL_keysym sym, const bool pressed) {
 	}
 
 	delete _buffer.back().second;
-	_buffer.back().second = NULL;
+	_buffer.back().second = nullptr;
 	
 	switch(sym.sym) {
 
@@ -115,8 +115,8 @@ bool IConsole::onKey(const SDL_keysym sym, const bool pressed) {
 }
 
 void IConsole::print(const std::string &msg) {
-	_buffer.push_back(Buffer::value_type(msg, NULL));
-	_buffer.push_back(Buffer::value_type(">", NULL));	
+	_buffer.push_back(Buffer::value_type(msg, nullptr));
+	_buffer.push_back(Buffer::value_type(">", nullptr));	
 }
 
 IConsole::IConsole() : _active(false), _pos(0) {}
@@ -141,8 +141,8 @@ void IConsole::init() {
 	LOG_DEBUG(("loading background..."));
 	_background.init("menu/background_box.png", 600, 240);
 	
-	_buffer.push_back(Buffer::value_type(mrt::format_string("Battle Tanks engine. version: %s", getVersion().c_str()), NULL));
-	_buffer.push_back(Buffer::value_type(std::string(">"), NULL));
+	_buffer.push_back(Buffer::value_type(mrt::format_string("Battle Tanks engine. version: %s", getVersion().c_str()), nullptr));
+	_buffer.push_back(Buffer::value_type(std::string(">"), nullptr));
 	LOG_DEBUG(("connecting signal..."));
 	on_key_slot.assign(this, &IConsole::onKey, Window->key_signal);
 }
@@ -160,7 +160,7 @@ void IConsole::render(sdlx::Surface &window) {
 	window.set_clip_rect(sdlx::Rect(x, y + y_margin, w, h - 2 * y_margin));
 	int ch = 0;
 	for(Buffer::iterator i = _buffer.begin(); i != _buffer.end(); ++i) {
-		if (i->second == NULL) {
+		if (i->second == nullptr) {
 			i->second = new sdlx::Surface;
 			_font->render(*i->second, i->first);
 			i->second->display_format_alpha();

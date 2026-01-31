@@ -33,7 +33,7 @@ using namespace sdlx;
 static void WIN_FlushMessageQueue()
 {
 	MSG  msg;
-	while ( PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) ) {
+	while ( PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) ) {
 		if ( msg.message == WM_QUIT ) break;
 		TranslateMessage( &msg );
 		DispatchMessage( &msg );
@@ -64,8 +64,8 @@ TRY {
 //#ifdef _WIN32
 	HWND hwnd = CreateWindow("SDL_app", "SDL_app", WS_POPUP | WS_DISABLED,
 	                    0, 0, 10, 10,
-	                    NULL, NULL, GetModuleHandle(NULL), NULL);
-	if (hwnd == NULL)
+	                    nullptr, nullptr, GetModuleHandle(nullptr), nullptr);
+	if (hwnd == nullptr)
 		throw_ex(("CreateWindow failed"));
    	
 	WIN_FlushMessageQueue();
@@ -137,29 +137,29 @@ TRY {
 #if !defined(_WIN32) && !defined(__APPLE__)
 	int errorBase, eventBase; 
 	
-	if (SDL_GL_LoadLibrary(NULL) != 0) {
+	if (SDL_GL_LoadLibrary(nullptr) != 0) {
 		LOG_WARN(("SDL_GL_LoadLibrary failed: %s", SDL_GetError()));
 		return false;
 	}
 	
 	union_ptr<Bool (APIENTRY *)( Display *dpy, int *, int *)> glx_query_ext;
-	if ((glx_query_ext.ptr = SDL_GL_GetProcAddress("glXQueryExtension")) == NULL)
+	if ((glx_query_ext.ptr = SDL_GL_GetProcAddress("glXQueryExtension")) == nullptr)
 		throw_ex(("no glXQueryExtension in GL library"));
 	union_ptr<XVisualInfo* (APIENTRY *)(Display *, int, int *)> glx_choose_visual;
-	if ((glx_choose_visual.ptr = SDL_GL_GetProcAddress("glXChooseVisual")) == NULL)
+	if ((glx_choose_visual.ptr = SDL_GL_GetProcAddress("glXChooseVisual")) == nullptr)
 		throw_ex(("no glXChooseVisual in GL library"));
 	union_ptr<GLXContext (APIENTRY *)(Display *, XVisualInfo *, GLXContext, Bool)> glx_create_context;
-	if ((glx_create_context.ptr = SDL_GL_GetProcAddress("glXCreateContext")) == NULL)
+	if ((glx_create_context.ptr = SDL_GL_GetProcAddress("glXCreateContext")) == nullptr)
 		throw_ex(("no glXCreateContext in GL library"));
 	union_ptr<Bool (APIENTRY *)(Display *, GLXContext)> glx_is_direct;
-	if ((glx_is_direct.ptr = SDL_GL_GetProcAddress("glXIsDirect")) == NULL)
+	if ((glx_is_direct.ptr = SDL_GL_GetProcAddress("glXIsDirect")) == nullptr)
 		throw_ex(("no glXIsDirect in GL library"));
 	union_ptr<void (APIENTRY *)(Display *, GLXContext)> glx_destroy_context;
-	if ((glx_destroy_context.ptr = SDL_GL_GetProcAddress("glXDestroyContext")) == NULL)
+	if ((glx_destroy_context.ptr = SDL_GL_GetProcAddress("glXDestroyContext")) == nullptr)
 		throw_ex(("no glXDestroyContext in GL library"));
 
 	accel = false;
-	Display *display = XOpenDisplay(NULL);
+	Display *display = XOpenDisplay(nullptr);
 
     static int doubleBufferVisual[]  =
     {
@@ -169,7 +169,7 @@ TRY {
         None                // end of list
     };
 
-	if (display == NULL)
+	if (display == nullptr)
 		goto end;
 	
 	if (!glx_query_ext.func(display, &errorBase, &eventBase))
@@ -177,11 +177,11 @@ TRY {
 
 {
     XVisualInfo *visual_info = glx_choose_visual.func(display, DefaultScreen(display), doubleBufferVisual);
-	if (visual_info == NULL)
+	if (visual_info == nullptr)
 		goto end;
 	
-	GLXContext gl_context = glx_create_context.func(display, visual_info, NULL, GL_TRUE);
-	if (gl_context == NULL) 
+	GLXContext gl_context = glx_create_context.func(display, visual_info, nullptr, GL_TRUE);
+	if (gl_context == nullptr) 
 		goto end;
 	
 	accel = glx_is_direct.func(display, gl_context);
@@ -207,12 +207,12 @@ void System::init(int system) {
 void System::probe_video_mode() {
 	LOG_DEBUG(("probing video info..."));
 	char drv_name[256];
-	if (SDL_VideoDriverName(drv_name, sizeof(drv_name)) == NULL)
+	if (SDL_VideoDriverName(drv_name, sizeof(drv_name)) == nullptr)
 		throw_sdl(("SDL_VideoDriverName"));
 	LOG_DEBUG(("driver name: %s", drv_name));
 
 	const SDL_VideoInfo * vinfo = SDL_GetVideoInfo();
-	if (vinfo == NULL)
+	if (vinfo == nullptr)
 		throw_sdl(("SDL_GetVideoInfo()"));
 	LOG_DEBUG(("hw_available: %u; wm_available: %u; blit_hw: %u; blit_hw_CC:%u; blit_hw_A:%u; blit_sw:%u; blit_sw_CC:%u; blit_sw_A: %u; blit_fill: %u; video_mem: %u", 
 		vinfo->hw_available, vinfo->wm_available, vinfo->blit_hw, vinfo->blit_hw_CC, vinfo->blit_hw_A, vinfo->blit_sw, vinfo->blit_sw_CC, vinfo->blit_sw_A, vinfo->blit_fill, vinfo->video_mem ));

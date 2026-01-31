@@ -129,7 +129,7 @@ protected:
 class ChainedDestructableLayer : public DestructableLayer {
 public: 
 	int slave_z;
-	ChainedDestructableLayer() : DestructableLayer(true), slave_z(-999999), _slave(NULL) {}
+	ChainedDestructableLayer() : DestructableLayer(true), slave_z(-999999), _slave(nullptr) {}
 	void setSlave(const int slave_z, Layer *layer) { this->slave_z = slave_z; _slave = layer; }
 
 	virtual void serialize(mrt::Serializator &s) const;

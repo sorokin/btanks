@@ -105,7 +105,7 @@ public:
 
 		_state.fire = false;
 
-		const Object * result = NULL;
+		const Object * result = nullptr;
 		float dist = -1;
 		
 		std::set<const Object *> objects;
@@ -117,14 +117,14 @@ public:
 			
 			v2<float> dpos = get_relative_position(target);
 			if (check_distance(get_center_position(), target->get_center_position(), get_z(), true)) {
-				if (result == NULL || dpos.quick_length() < dist) {
+				if (result == nullptr || dpos.quick_length() < dist) {
 					result = target;
 					dist = dpos.quick_length();
 				}
 			}
 		}
 		
-		if (result != NULL) {
+		if (result != nullptr) {
 			_state.fire = true;
 			_direction = get_relative_position(result);
 			_direction.normalize();

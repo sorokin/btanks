@@ -40,7 +40,7 @@ public:
 	void emit(const std::string &event, Object * emitter) {
 		if (event == "collision") {
 			//add flag handling here.
-			if (emitter == NULL || !emitter->get_variants().has("player")) {
+			if (emitter == nullptr || !emitter->get_variants().has("player")) {
 				return;
 			}
 			
@@ -48,14 +48,14 @@ public:
 			assert(team != Team::None);
 				
 			PlayerSlot *slot = PlayerManager->get_slot_by_id(emitter->get_id());
-			if (slot == NULL) {
+			if (slot == nullptr) {
 				return;
 			}
 
 			int base_id = get_summoner(); 
 			Object *base = World->getObjectByID(base_id);
 			if (slot->team == team) {
-				if (base != NULL) {
+				if (base != nullptr) {
 					v2<float> dpos = get_relative_position(base);
 					if (dpos.quick_length() > size.x * size.y / 4) {
 						set_zbox(base->get_z());
@@ -68,7 +68,7 @@ public:
 							++slot->frags;
 							PlayerManager->action(*slot, "ctf");
 							Object *base = World->getObjectByID(flag->get_summoner());
-							if (base != NULL) {
+							if (base != nullptr) {
 								set_zbox(base->get_z());
 								World->teleport(flag, base->get_center_position());
 								base->remove_effect("abandoned");
@@ -81,7 +81,7 @@ public:
 					LOG_WARN(("could not find base %d", base_id));
 				}
 			} else {
-				if (base != NULL)
+				if (base != nullptr)
 					base->add_effect("abandoned", -1);
 				if (!emitter->has("#ctf-flag"))  //just for the future expansion
 					emitter->pick("#ctf-flag", this);

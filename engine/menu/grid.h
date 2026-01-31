@@ -26,7 +26,7 @@ public:
 
 private: 
 	struct ControlDescriptor {
-		ControlDescriptor() : c(NULL), align(0), colspan(1), rowspan(1) {}
+		ControlDescriptor() : c(nullptr), align(0), colspan(1), rowspan(1) {}
 		Control *c;
 		int align;
 		int colspan, rowspan;

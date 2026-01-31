@@ -41,8 +41,8 @@ public:
 		disown(); 
 	
 		Object *o = World->getObjectByID(get_summoner());
-		if (o == NULL) {
-			emit("death", NULL);
+		if (o == nullptr) {
+			emit("death", nullptr);
 			return;
 		}
 		add_owner(o->get_id());	
@@ -50,8 +50,8 @@ public:
 	virtual Object * clone() const { return new Wagon(*this); }
 	virtual void calculate(const float dt) {
 		Object *o = World->getObjectByID(get_summoner());
-		if (o == NULL) {
-			emit("death", NULL);
+		if (o == nullptr) {
+			emit("death", nullptr);
 			return;
 		}
 		_velocity = get_relative_position(o);
@@ -60,7 +60,7 @@ public:
 		if (l < 1.0f * size.y || l > 1.2f * size.y)
 			_velocity.clear(); //too close or far
 	}
-	virtual void emit(const std::string &event, Object * emitter = NULL) {
+	virtual void emit(const std::string &event, Object * emitter = nullptr) {
 		if (event == "death") {
 			spawn("impassable-corpse", "dead-choo-choo-wagon");
 		}
@@ -80,7 +80,7 @@ public:
 	virtual void on_spawn();
 	virtual void calculate(const float dt);
 	virtual void tick(const float dt);
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 
 	void get_impassability_penalty(const float impassability, float &base, float &base_value, float &penalty) const {
 		base = base_value = penalty = 0;
@@ -140,7 +140,7 @@ void Train::tick(const float dt) {
 			LOG_DEBUG(("escaped!"));
 			if (_variants.has("win-on-exit")) 
 				GameMonitor->game_over("messages", "train-saved", 3, true);
-			//Object::emit("death", NULL);
+			//Object::emit("death", nullptr);
 		}
 	}
 	//LOG_DEBUG(("pos: %d dst: %d", pos.y, dst_y));

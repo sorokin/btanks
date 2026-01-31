@@ -27,16 +27,16 @@ namespace mrt {
 
 class MRTAPI Chunk {
 public:
-	inline Chunk(): ptr(NULL), size(0) {}
-	inline Chunk(const Chunk& c) : ptr(NULL), size(0) { *this = c; }
-	inline Chunk(const int size): ptr(NULL), size(0) { set_size(size); }
+	inline Chunk(): ptr(nullptr), size(0) {}
+	inline Chunk(const Chunk& c) : ptr(nullptr), size(0) { *this = c; }
+	inline Chunk(const int size): ptr(nullptr), size(0) { set_size(size); }
 	inline ~Chunk() { free(); }
 	inline void *get_ptr() const { return ptr; }
 	inline const size_t get_size() const { return size; } 
-	inline bool empty() const { return ptr == NULL; }
+	inline bool empty() const { return ptr == nullptr; }
 
 	//use unlink only if you know what you're doing ;)
-	inline void unlink() { ptr = NULL; size = 0; }
+	inline void unlink() { ptr = nullptr; size = 0; }
 
 	const Chunk& operator=(const Chunk& c);
 

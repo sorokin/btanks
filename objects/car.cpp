@@ -82,22 +82,22 @@ void Car::emit(const std::string &event, Object * emitter) {
 		detachVehicle();
 		Object::emit(event, emitter);
 		return;
-	} else if (emitter != NULL && !_velocity.is0() && event == "collision" && animation == "harvester") {
+	} else if (emitter != nullptr && !_velocity.is0() && event == "collision" && animation == "harvester") {
 		const std::string &classname = emitter->classname;
 		if (!emitter->get_variants().has("player") && (classname == "trooper" || classname == "civilian" || classname == "kamikaze" || classname == "monster")) {
 			//LOG_DEBUG(("bloody harvest"));
-			emitter->emit("death", NULL);
+			emitter->emit("death", nullptr);
 			if (classname != "monster")
 				heal(5);
 		}
 	} else if (event == "collision" && !_variants.has("safe")) {
-		if (emitter != NULL && emitter->speed > 0) {
+		if (emitter != nullptr && emitter->speed > 0) {
 			if (emitter->registered_name == "machinegunner" && registered_name.compare(0, 7, "static-") == 0) {
 				return;
 			}
 			Item * item = dynamic_cast<Item *>(emitter);
 			//no items.
-			if (item == NULL) {
+			if (item == nullptr) {
 				GET_CONFIG_VALUE("objects.car.damage", int, d, 5);
 				emitter->add_damage(this, d);
 				emitter->add_effect("stunned", 0.1f);

@@ -55,7 +55,7 @@ void Box::init(const std::string &tile, int _w, int _h, int hl_h) {
 	bg_tile = tile;
 	_highlight.free();
 	if (tile.empty()) {
-		_surface = NULL;
+		_surface = nullptr;
 		w = _w; 
 		h = _h;
 		x1 = x2 = 16; 
@@ -111,7 +111,7 @@ void Box::init(const std::string &tile, int _w, int _h, int hl_h) {
 	_filler_d.display_format_alpha();
 
 	sdlx::Surface * foo = const_cast<sdlx::Surface *>(_surface);
-	assert(foo != NULL);
+	assert(foo != nullptr);
 	foo->set_alpha(0,0);
 
 	sdlx::Rect u (x1,	0,	x2 - x1,	 					y1);
@@ -148,7 +148,7 @@ void Box::init(const std::string &tile, int _w, int _h, int hl_h) {
 }
 
 void Box::render(sdlx::Surface &surface, const int x0, const int y0) const {
-	if (_surface == NULL)
+	if (_surface == nullptr)
 		return;
 	
 	sdlx::Rect ul(0,	0,	x1,								y1);

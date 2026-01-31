@@ -70,8 +70,8 @@ public:
 	void start_client(const mrt::Socket::addr &address, const size_t n);
 	void clear(bool disconnect = false);
 	
-	inline const bool is_client() const { return _client != NULL; }
-	inline const bool is_server() const { return _server != NULL; }	
+	inline const bool is_client() const { return _client != nullptr; }
+	inline const bool is_server() const { return _server != nullptr; }	
 	const bool is_server_active() const;
 	void disconnect_all();
 
@@ -113,7 +113,7 @@ public:
 	//for special zones
 	void send(const PlayerSlot &slot, const Message & msg);
 	void say(const std::string &message);
-	void action(const PlayerSlot &slot, const std::string &type, const std::string &subtype = std::string(), const PlayerSlot * killer_slot = NULL);
+	void action(const PlayerSlot &slot, const std::string &type, const std::string &subtype = std::string(), const PlayerSlot * killer_slot = nullptr);
 	
 	void broadcast_message(const std::string &area, const std::string &message, const float duration);
 	void send_hint(const int slot_id, const std::string &area, const std::string &message);

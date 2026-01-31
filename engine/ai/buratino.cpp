@@ -181,8 +181,8 @@ const bool Buratino::checkTarget(const Object *object, const Object * target, co
 }
 
 void Buratino::calculateCloseCombat(Object *object, const Object *target, const float range, const bool dumb) {
-	assert(object != NULL);
-	assert(target != NULL);
+	assert(object != nullptr);
+	assert(target != nullptr);
 	
 	//LOG_DEBUG(("close combat with %s, range: %g, dumb: %c", target->animation.c_str(), range, dumb?'+':'-'));
 
@@ -246,16 +246,16 @@ void Buratino::calculate(Object *object, const float dt) {
 	const bool racing = object->get_variants().has("racing");
 	const bool refresh_path = !racing && _refresh_path.tick(dt) && object->is_driven();
 	const bool dumb = !_reaction_time.tick(dt);
-	const Object *target = NULL;
+	const Object *target = nullptr;
 	
 	std::string weapon1, weapon2;
 	int amount1, amount2;
 
 	if (dumb) {
 		if (_target_dir >= 0) {
-			if (target == NULL)
+			if (target == nullptr)
 				target = World->getObjectByID(_target_id);
-			if (target == NULL)
+			if (target == nullptr)
 				goto gogogo;
 				
 			//processPF(object);
@@ -269,7 +269,7 @@ void Buratino::calculate(Object *object, const float dt) {
 	weapon1 = getWeapon(0), weapon2 = getWeapon(1);
 	amount1 = getWeaponAmount(0), amount2 = getWeaponAmount(1);
 	
-	if (target == NULL)
+	if (target == nullptr)
 		target = World->getObjectByID(_target_id);
 
 	if (amount1 < 0) 
@@ -277,7 +277,7 @@ void Buratino::calculate(Object *object, const float dt) {
 	if (amount2 < 0) 
 		amount2 = 50; //infinite amount
 	
-	if (target != NULL) {
+	if (target != nullptr) {
 		if (!weapon1.empty())
 			object->_state.fire = checkTarget(object, target, weapon1);
 		if (!weapon2.empty())
@@ -322,7 +322,7 @@ void Buratino::calculate(Object *object, const float dt) {
 		object->get_variants().has("no-bonuses")?std::set<std::string>():_bonuses, 
 		_traits, _skip_objects);
 	
-	if (target != NULL) {
+	if (target != nullptr) {
 		if ( ((refresh_path && isEnemy(target)) || target->get_id() != _target_id)) {
 			_target_id = target->get_id();
 			_enemy = isEnemy(target);
@@ -367,7 +367,7 @@ void Buratino::calculate(Object *object, const float dt) {
 	object->calculate_way_velocity();
 
 skip_calculations: 	
-	if (target != NULL) {
+	if (target != nullptr) {
 		if (!weapon1.empty() && !object->_state.fire)
 			object->_state.fire = checkTarget(object, target, weapon1);
 		if (!weapon2.empty() && !object->_state.alt_fire)
@@ -378,7 +378,7 @@ skip_calculations:
 
 const Object * Buratino::findTarget(const Object *src, const std::set<std::string> &enemies, const std::set<std::string> &bonuses, ai::Traits &traits, const std::set<int> &skip_objects) const {
 	if (src->get_variants().has("racing"))
-		return NULL;
+		return nullptr;
 
 	if (src->has("#ctf-flag")) {
 		Team::ID team = Team::get_team(src->get("#ctf-flag"));
@@ -386,7 +386,7 @@ const Object * Buratino::findTarget(const Object *src, const std::set<std::strin
 			throw_ex(("flag team must be red or green"));
 		int base_id = GameMonitor->getBase(team == Team::Red? Team::Green: Team::Red);
 		Object *base = World->getObjectByID(base_id);
-		if (base != NULL && !base->has_effect("abandoned")) {
+		if (base != nullptr && !base->has_effect("abandoned")) {
 			return base;
 		}
 	}
@@ -394,13 +394,13 @@ const Object * Buratino::findTarget(const Object *src, const std::set<std::strin
 	if (src->getType().empty())
 		throw_ex(("findTarget source must always provide its type"));
 	
-	const Object *result = NULL;
+	const Object *result = nullptr;
 	float result_value = 0;
 	std::set<const Object *> objects;
 	{
 		float range;
 		Config->get("objects." + src->registered_name + ".range", range, 640.0f);
-		World->enumerate_objects(objects, src, range, NULL);
+		World->enumerate_objects(objects, src, range, nullptr);
 	}
 	
 	for(std::set<const Object *>::const_iterator i = objects.begin(); i != objects.end(); ++i) {
@@ -465,12 +465,12 @@ const Object * Buratino::findTarget(const Object *src, const std::set<std::strin
 			max = 1;
 		} else if (o->classname == "ctf-flag") {
 			PlayerSlot *slot = PlayerManager->get_slot_by_id(src->get_id());
-			if (slot == NULL)
+			if (slot == nullptr)
 				continue;
 			Team::ID flag_team = Team::get_team(o);
 			if (flag_team == slot->team) {
 				const Object *base = World->getObjectByID(o->get_summoner());
-				if (base == NULL) {
+				if (base == nullptr) {
 					LOG_WARN(("could not find base #%d for %s", o->get_summoner(), o->animation.c_str()));
 					continue;
 				}

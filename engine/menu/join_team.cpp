@@ -78,7 +78,7 @@ void JoinTeamControl::render(sdlx::Surface& surface, const int x, const int y) c
 		surface.blit(team_logo[i], x0, y0);
 		
 		std::string players = mrt::format_string("%d", team_stats[i]);
-		int w = _font->render(NULL, 0, 0, players);
+		int w = _font->render(nullptr, 0, 0, players);
 		_font->render(surface, x0 + (SQUARE_SIZE - w) / 2, y0 + (SQUARE_SIZE - _font->get_height()) / 2, players);
 		
 		if (i == current_team)

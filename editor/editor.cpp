@@ -108,8 +108,8 @@ void Editor::redo() {
 
 
 Editor::Editor() : 
-	_map_picker(NULL), _hud(NULL), _brush(NULL), _layer_name_invisible(1.0f, false), _layer_invisible(1.0f, false), 
-	_render_objects(true), _highlight_object(NULL), _dragging(false), _selecting(false) {
+	_map_picker(nullptr), _hud(nullptr), _brush(nullptr), _layer_name_invisible(1.0f, false), _layer_invisible(1.0f, false), 
+	_render_objects(true), _highlight_object(nullptr), _dragging(false), _selecting(false) {
 }
 
 void Editor::loadMap(const std::string &map) {
@@ -122,7 +122,7 @@ TRY {
 	GameMonitor->clear();
 	World->clear();
 	
-	GameMonitor->loadMap(NULL, map);
+	GameMonitor->loadMap(nullptr, map);
 
 	v2<int> map_size = Map->get_size();
 	_tile_size = Map->getTileSize();
@@ -131,7 +131,7 @@ TRY {
 	map_pos.x = map_pos.y = 0;
 
 	delete _brush;
-	_brush = NULL;
+	_brush = nullptr;
 	undo_queue.clear();
 	redo_queue.clear();
 
@@ -148,7 +148,7 @@ TRY {
 }
 
 bool Editor::onTick(float dt) {
-	static const Uint8 *keys = SDL_GetKeyState(NULL);
+	static const Uint8 *keys = SDL_GetKeyState(nullptr);
 	bool active = (keys[SDLK_LSHIFT] != 0 || keys[SDLK_RSHIFT] != 0 || _layers_dialog->active()) && Map->loaded() && _tileset_dialog->hidden();
 	_layers_dialog->hide(!active);
 
@@ -183,7 +183,7 @@ bool Editor::onTick(float dt) {
 		int z;
 		if (_add_object->get(classname, animation, z)) {
 			delete _brush; 
-			_brush = NULL;
+			_brush = nullptr;
 			TRY {
 				_brush = new ObjectBrush(this, classname, animation, z);
 			} CATCH("adding object brush", {});
@@ -323,13 +323,13 @@ void Editor::render(sdlx::Surface &surface, const float dt) {
 	}
 	
 	if ((show_layer_name || highlight_layer) && !_layer_name.empty()) {
-		//int w = _small_font->render(NULL, 0, 0, _layer_name);
+		//int w = _small_font->render(nullptr, 0, 0, _layer_name);
 		_small_font->render(surface, 8, 8, _layer_name);
 	}
 	
-	if (_brush == NULL && _highlight_object) {
+	if (_brush == nullptr && _highlight_object) {
 		static const sdlx::Surface *hl;
-		if (hl == NULL) 
+		if (hl == nullptr) 
 			hl = ResourceManager->load_surface("object.png");
 		
 		v2<float> pos;
@@ -438,7 +438,7 @@ void Editor::run() {
 void Editor::deinit() {
 
 	delete _hud;
-	_hud = NULL;
+	_hud = nullptr;
 
 	ResourceManager->clear();
 	Window->deinit();
@@ -459,7 +459,7 @@ bool Editor::onKey(const SDL_keysym sym) {
 		if ((sym.mod & KMOD_CTRL) == 0)
 			break;
 		{
-			if (_brush != NULL || _selecting || _selection1.quick_distance(_selection2) < 1024)
+			if (_brush != nullptr || _selecting || _selection1.quick_distance(_selection2) < 1024)
 				return true;
 			
 			Layer * l = Map->getLayer(_current_layer_z);
@@ -513,7 +513,7 @@ bool Editor::onKey(const SDL_keysym sym) {
 	case SDLK_ESCAPE: 
 		if (_brush) {
 			delete _brush;
-			_brush = NULL;
+			_brush = nullptr;
 		}
 		return true;
 
@@ -662,7 +662,7 @@ bool Editor::onKey(const SDL_keysym sym) {
 			addCommand(cmd);
 			currentCommand().exec();
 			
-			_highlight_object = NULL;
+			_highlight_object = nullptr;
 		}
 		return true;
 		
@@ -670,7 +670,7 @@ bool Editor::onKey(const SDL_keysym sym) {
 		dir = -2;
 	case SDLK_LEFTBRACKET: 
 		++dir;
-		if (_highlight_object == NULL)
+		if (_highlight_object == nullptr)
 			return false;
 		{
 			int dirs = _highlight_object->get_directions_number();
@@ -689,7 +689,7 @@ bool Editor::onKey(const SDL_keysym sym) {
 	case SDLK_PLUS:
 	case SDLK_KP_PLUS:
 		dir += 10;
-		if (_highlight_object == NULL)
+		if (_highlight_object == nullptr)
 			return false;
 		{
 			Command cmd(Command::ChangeObjectProperties, _highlight_object, _highlight_object->get_z() + dir, Variants(_highlight_object->get_variants()));
@@ -724,7 +724,7 @@ bool Editor::onMouse(const int button, const bool pressed, const int x, const in
 		return false;
 	}
 	
-	static const Uint8 *keys = SDL_GetKeyState(NULL);
+	static const Uint8 *keys = SDL_GetKeyState(nullptr);
 	if (keys[SDLK_LSHIFT] != 0) {
 		
 		if (button == SDL_BUTTON_WHEELUP) {
@@ -770,7 +770,7 @@ bool Editor::onMouse(const int button, const bool pressed, const int x, const in
 		}
 		//LOG_DEBUG(("click"));
 		ObjectBrush *object_brush = dynamic_cast<ObjectBrush *>(_brush);
-		if (object_brush != NULL) {
+		if (object_brush != nullptr) {
 			Command cmd(object_brush->classname, object_brush->animation, 
 				v2<int>(map_pos.x + x - _brush->size.x / 2, map_pos.y + y - _brush->size.y / 2), object_brush->z);
 			addCommand(cmd);
@@ -795,7 +795,7 @@ bool Editor::onMouse(const int button, const bool pressed, const int x, const in
 		addCommand(cmd);
 		
 		Object *object = currentCommand().getObject();
-		assert(object != NULL);
+		assert(object != nullptr);
 		v2<int> pos;
 		object->get_position(pos);
 		currentCommand().save(pos.x, pos.y);
@@ -820,7 +820,7 @@ bool Editor::onMouse(const int button, const bool pressed, const int x, const in
 		return true;
 	}
 	
-	if (button == SDL_BUTTON_RIGHT && pressed && !_selecting && _highlight_object == NULL) {
+	if (button == SDL_BUTTON_RIGHT && pressed && !_selecting && _highlight_object == nullptr) {
 		_selecting = true;
 		LOG_DEBUG(("start selection"));
 		_selection1 = _selection2 = v2<int>(x + map_pos.x, y + map_pos.y);
@@ -847,7 +847,7 @@ bool Editor::onMouseMotion(const int state, const int x, const int y, const int 
 		return true;
 	const bool lmb = (state & SDL_BUTTON_LMASK) != 0;
 
-	if (_render_objects && _brush == NULL && state == 0 && _add_object->hidden()) {
+	if (_render_objects && _brush == nullptr && state == 0 && _add_object->hidden()) {
 		//LOG_DEBUG(("mouse %d %d", x, y));
 		_highlight_object = World->getObjectByXY((int)map_pos.x + x, (int)map_pos.y + y);
 		if (_highlight_object) {
@@ -855,9 +855,9 @@ bool Editor::onMouseMotion(const int state, const int x, const int y, const int 
 		}
 	}
 		
-	static const Uint8 *keys = SDL_GetKeyState(NULL);
+	static const Uint8 *keys = SDL_GetKeyState(nullptr);
 
-	if (lmb && _brush != NULL && !_brush->size.is0() && keys[SDLK_SPACE] == 0 && !undo_queue.empty()) { //no space
+	if (lmb && _brush != nullptr && !_brush->size.is0() && keys[SDLK_SPACE] == 0 && !undo_queue.empty()) { //no space
 		v2<int> tile_pos ((map_pos.x + x)/ _tile_size.x, (map_pos.y + y) / _tile_size.y);
 		v2<int> dpos = tile_pos - _last_tile_painted;
 		v2<int> shift (math::abs(dpos.x), math::abs(dpos.y));
@@ -911,7 +911,7 @@ void Editor::notifyLoadingBar(const int progress, const char *what) {
 	float old_progress = 1.0 * _loading_bar_now / _loading_bar_total;
 	_loading_bar_now += progress;
 	
-	if (_hud->renderLoadingBar(Window->get_surface(), old_progress, 1.0 * _loading_bar_now / _loading_bar_total, NULL, false)) {
+	if (_hud->renderLoadingBar(Window->get_surface(), old_progress, 1.0 * _loading_bar_now / _loading_bar_total, nullptr, false)) {
 		Window->flip();
 		Window->get_surface().fill(Window->get_surface().map_rgb(255, 255, 255));
 	}
@@ -972,7 +972,7 @@ try {
 	} catch(const std::exception &e) {
 		sdlx::System::deinit();
 		LOG_ERROR(("main:%s", e.what()));
-		MessageBox(NULL, e.what(), "Error", MB_OK | MB_ICONERROR | MB_TASKMODAL);
+		MessageBox(nullptr, e.what(), "Error", MB_OK | MB_ICONERROR | MB_TASKMODAL);
 		return 1;
 	}
 #else 

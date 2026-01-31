@@ -65,7 +65,7 @@ bool Slider::onMouse(const int button, const bool pressed, const int x, const in
 		int xp = (int)(_value * _n * w + w/2);
 		if (math::abs(x - xp) < w / 2) {
 			_grab = true;
-			_grab_state = SDL_GetMouseState(NULL, NULL);
+			_grab_state = SDL_GetMouseState(nullptr, nullptr);
 		} else {
 			int dir = math::sign(x - xp);
 			_value += dir / (float)_n;

@@ -36,7 +36,7 @@
 template <class T> struct delete_ptr2 {
 	void operator()(T &x) {
 		delete x.second;
-		x.second = NULL;
+		x.second = nullptr;
 	}
 };
 

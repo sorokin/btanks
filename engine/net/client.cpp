@@ -40,12 +40,12 @@
 #include "connection.h"
 #include "config.h"
 
-Client::Client(): _monitor(NULL), sent_req(false) {
+Client::Client(): _monitor(nullptr), sent_req(false) {
 }
 
 Client::~Client() {
 	delete _monitor;
-	_monitor = NULL;
+	_monitor = nullptr;
 }
 
 void Client::init(const mrt::Socket::addr &host) {
@@ -74,7 +74,7 @@ void Client::send(const Message &m) {
 
 
 void Client::tick(const float dt) {	
-	if (_monitor == NULL) 
+	if (_monitor == nullptr) 
 		return;
 		
 	if (!sent_req && connected()) {

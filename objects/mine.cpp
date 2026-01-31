@@ -37,7 +37,7 @@ public:
 	virtual Object * clone() const;
 	virtual void on_spawn();
 	virtual void tick(const float dt);
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 };
 
 void Mine::on_spawn() {
@@ -60,7 +60,7 @@ void Mine::tick(const float dt) {
 	if (has_owners() && get_state() == "armed") 
 		disown();
 	if (get_state() == "armed" && _variants.has("bomberman")) {
-		emit("death", NULL);
+		emit("death", nullptr);
 	}
 }
 
@@ -101,7 +101,7 @@ void Mine::emit(const std::string &event, Object * emitter) {
 		}
 		Object::emit(event, emitter);	
 	} if (event == "collision") {
-		if (emitter != NULL && get_state() == "armed") {
+		if (emitter != nullptr && get_state() == "armed") {
 			GET_CONFIG_VALUE("objects.regular-mine.triggering-mass", int, m, 20);
 			if (emitter->mass < m)
 				return;

@@ -35,7 +35,7 @@
 #include <ctype.h>
 
 void TextControl::changing() const {
-	Mixer->playSample(NULL, "menu/change.ogg", false);
+	Mixer->playSample(nullptr, "menu/change.ogg", false);
 }
 
 NumericControl::NumericControl(const std::string &font, const int value) : TextControl(font, 8) {
@@ -182,8 +182,8 @@ void TextControl::render(sdlx::Surface &surface, const int x, const int y) const
 	int xc = xp; 
 	int cw = 0, curw = 0;
 	if (_cursor_visible && _cursor_position < _text.size()) {
-		cw = _font->render(NULL, 0, 0, std::string(&_text[_cursor_position], 1));
-		curw = _font->render(NULL, 0, 0, "_");
+		cw = _font->render(nullptr, 0, 0, std::string(&_text[_cursor_position], 1));
+		curw = _font->render(nullptr, 0, 0, "_");
 	}
 	
 	if (!_text.empty() && _cursor_position < _text.size())
@@ -196,5 +196,5 @@ void TextControl::render(sdlx::Surface &surface, const int x, const int y) const
 
 void TextControl::get_size(int &w, int &h) const {
 	h = _font->get_height();
-	w = (_text.empty())?0:_font->render(NULL, 0, 0, _text);
+	w = (_text.empty())?0:_font->render(nullptr, 0, 0, _text);
 }

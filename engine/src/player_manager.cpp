@@ -88,7 +88,7 @@ void IPlayerManager::on_disconnect(const int cid) {
 		std::string name = slot.name;
 		Object *obj = slot.getObject();
 		if (obj)
-			obj->Object::emit("death", NULL);
+			obj->Object::emit("death", nullptr);
 	
 		slot.clear();
 
@@ -104,8 +104,8 @@ void IPlayerManager::on_disconnect(const int cid) {
 
 void IPlayerManager::on_message(const int cid, const Message &message) {
 	if (
-		(_client == NULL && _server == NULL) || 
-		(_client != NULL && !_client->connected()) || 
+		(_client == nullptr && _server == nullptr) || 
+		(_client != nullptr && !_client->connected()) || 
 		(!Map->loaded() && (message.type == Message::UpdateWorld || message.type == Message::UpdatePlayers))
 		) {
 		LOG_DEBUG(("dropping late message %d:%s", cid, message.getType()));
@@ -158,7 +158,7 @@ TRY {
 		RTConfig->deserialize(s);
 		
 		Map->deserialize(s);
-		GameMonitor->loadMap(NULL, Map->getName(), false, true);
+		GameMonitor->loadMap(nullptr, Map->getName(), false, true);
 		
 		if (message.has("fog")) {
 			Var v_true = Var::create_bool(true);
@@ -247,7 +247,7 @@ TRY {
 		slot.visible = true;
 		slot.remote = id;
 
-		assert(slot.control_method == NULL);
+		assert(slot.control_method == nullptr);
 		if (_local_clients == 1) {
 			GET_CONFIG_VALUE("profile." + profile + ".control-method", std::string, control_method, "keys");	
 			slot.createControlMethod(control_method);
@@ -285,7 +285,7 @@ TRY {
 		break;
 	} 
 	case Message::RequestObjects: {
-		assert(_server != NULL);
+		assert(_server != nullptr);
 		
 		int first_id;
 		{
@@ -339,7 +339,7 @@ TRY {
 			throw_ex(("client in connection %d sent wrong channel id %d", cid, id));
 
 /*		ExternalControl * ex = dynamic_cast<ExternalControl *>(slot.control_method);
-		if (ex == NULL)
+		if (ex == nullptr)
 			throw_ex(("player with id %d uses non-external control method", id));
 		
 		ex->state.deserialize(s);
@@ -355,7 +355,7 @@ TRY {
 		}
 
 		Object * obj = slot.getObject();
-		if (obj == NULL) {
+		if (obj == nullptr) {
 			LOG_WARN(("player state for non-existent object %d recv'ed", slot.id));
 			break;
 		}
@@ -394,7 +394,7 @@ TRY {
 			PlayerSlot *slot = get_slot_by_id(id);
 			bool my_state = false;
 			
-			if (slot != NULL) {
+			if (slot != nullptr) {
 				my_state = slot->visible;
 			} 
 			
@@ -407,7 +407,7 @@ TRY {
 			bool dont_interpolate;
 			s.get(dont_interpolate);
 			
-			if (o == NULL) {
+			if (o == nullptr) {
 				LOG_WARN(("nothing known about object id %d now, skip update", id));
 				continue;
 			}
@@ -667,8 +667,8 @@ TRY {
 }
 
 void IPlayerManager::onMap() {
-	if (_server == NULL || !_server->active()) {
-		LOG_DEBUG(("server is inactive. exists: %s", _server != NULL? "yes": "nope"));
+	if (_server == nullptr || !_server->active()) {
+		LOG_DEBUG(("server is inactive. exists: %s", _server != nullptr? "yes": "nope"));
 		return;
 	}
 	LOG_DEBUG(("server is active. restarting players."));
@@ -676,7 +676,7 @@ void IPlayerManager::onMap() {
 }
 
 void IPlayerManager::ping() {
-	if (_client == NULL)
+	if (_client == nullptr)
 		throw_ex(("ping is possible only in client mode"));
 	
 	unsigned ts = SDL_GetTicks();
@@ -703,7 +703,7 @@ TRY {
 			continue;
 		
 		Object *o = slot.getObject();
-		if (o != NULL /* && !o->is_dead() */) {
+		if (o != nullptr /* && !o->is_dead() */) {
 			
 			//check for Special Zones ;)
 			v2<int> p;
@@ -778,7 +778,7 @@ TRY {
 		slot.spawn_player(i, slot.classname, slot.animation);
 		Object *player = slot.getObject();
 
-		if (player != NULL) {
+		if (player != nullptr) {
 			Mixer->playSample(slot.getObject(), "respawn.ogg", false);
 		}
 		
@@ -787,7 +787,7 @@ TRY {
 			m.channel = i;
 			mrt::DictionarySerializator s;
 			serialize_slots(s);
-			if (player != NULL) {
+			if (player != nullptr) {
 				World->serializeObject(s, player, true);
 			} else {
 				s.add(0);
@@ -808,11 +808,11 @@ TRY {
 	for(size_t i = 0; i < _players.size(); ++i) {
 		PlayerSlot &slot = _players[i];
 		if (slot.spectator) {
-			if (slot.control_method != NULL) {
+			if (slot.control_method != nullptr) {
 				bool old_fire = slot.old_state.fire != 0;
 				Team::ID old_team = slot.team;
 				slot.updateState(slot.old_state, dt);
-				if (_client != NULL && slot.team != old_team) {
+				if (_client != nullptr && slot.team != old_team) {
 					LOG_DEBUG(("sending JoinTeam request"));
 					Message m(Message::JoinTeam);
 					m.channel = i;
@@ -863,8 +863,8 @@ TRY {
 		}
 
 		Object *obj = slot.getObject();
-		if (obj != NULL) {
-			if (slot.control_method != NULL) {
+		if (obj != nullptr) {
+			if (slot.control_method != nullptr) {
 				PlayerState state = obj->get_player_state();
 				bool hint = state.hint_control;
 				slot.updateState(state, dt);
@@ -898,7 +898,7 @@ TRY {
 			
 			if (!slot.spectator) {
 				const Object * o = slot.getObject();
-				if (o == NULL)
+				if (o == nullptr)
 					continue;
 				
 				o->get_player_state().serialize(s);
@@ -927,7 +927,7 @@ TRY {
 				//LOG_DEBUG(("object in slot %d: %s (%d) need sync [%s]", 
 				//	j, slot.getObject()->animation.c_str(), slot.getObject()->get_id(), slot.getObject()->get_player_state().dump().c_str()));
 				const Object * o = slot.getObject();
-				if (o == NULL)
+				if (o == nullptr)
 					continue;
 				
 				s.add(slot.id);
@@ -944,7 +944,7 @@ TRY {
 			for(ObjectStates::const_iterator i = _object_states.begin(); i != _object_states.end(); ++i) {
 				const int id = *i;
 				const Object * o = World->getObjectByID(id);
-				if (o == NULL)
+				if (o == nullptr)
 					continue;
 			
 				s.add(id);
@@ -970,7 +970,7 @@ TRY {
 }
 
 IPlayerManager::IPlayerManager() : 
-	_server(NULL), _client(NULL), _players(), _next_ping(0), _ping(false), _next_sync(true), _game_joined(false), _connection_id(0) 
+	_server(nullptr), _client(nullptr), _players(), _next_ping(0), _ping(false), _next_sync(true), _game_joined(false), _connection_id(0) 
 {
 	on_destroy_map_slot.assign(this, &IPlayerManager::on_destroy_map, Map->destroyed_cells_signal);
 	on_load_map_slot.assign(this, &IPlayerManager::onMap, Map->load_map_final_signal);
@@ -986,35 +986,35 @@ void IPlayerManager::start_server() {
 	clear();
 	_local_clients = 0;
 	TRY {
-		if (_client != NULL) {
+		if (_client != nullptr) {
 			delete _client;
-			_client = NULL;
+			_client = nullptr;
 			_recent_address.clear();
 		}
-		if (_server == NULL && !RTConfig->disable_network) {
+		if (_server == nullptr && !RTConfig->disable_network) {
 			_server = new Server;
 			_server->init();
 		}
 	} CATCH("server initialization", {
-		if (_server != NULL) {
+		if (_server != nullptr) {
 			delete _server;
-			_server = NULL;
+			_server = nullptr;
 		}
 	});
 }
 
 void IPlayerManager::start_client(const mrt::Socket::addr &address, const size_t n) {
 	clear();
-	if (_server != NULL) {
+	if (_server != nullptr) {
 		delete _server;
-		_server = NULL;
+		_server = nullptr;
 	}
-	//if (_client != NULL && _recent_address == address) {
+	//if (_client != nullptr && _recent_address == address) {
 	//	LOG_DEBUG(("skipping connection to the same address (%s)", address.c_str()));
 	//	return;
 	//}
 	delete _client;
-	_client = NULL;
+	_client = nullptr;
 	
 	_local_clients = n;
 	
@@ -1025,7 +1025,7 @@ void IPlayerManager::start_client(const mrt::Socket::addr &address, const size_t
 		_client = new Client;
 		_client->init(address);
 	} CATCH("_client.init", { 
-		delete _client; _client = NULL; 
+		delete _client; _client = nullptr; 
 		Game->clear();
 		GameMonitor->displayMessage("errors", "multiplayer-exception", 1);
 		return;
@@ -1038,8 +1038,8 @@ void IPlayerManager::clear(bool disconnect) {
 	_ping = false;
 	_game_joined = false;
 	if (disconnect) {
-		delete _server; _server = NULL;
-		delete _client; _client = NULL;
+		delete _server; _server = nullptr;
+		delete _client; _client = nullptr;
 		_local_clients = 0;
 	}
 	_net_stats.clear();
@@ -1093,14 +1093,14 @@ const int IPlayerManager::get_slot_id(const int object_id) const {
 
 PlayerSlot *IPlayerManager::get_slot_by_id(const int id) {
 	if (id <= 0)
-		return NULL;
+		return nullptr;
 	
 	for(std::vector<PlayerSlot>::iterator i = _players.begin(); i != _players.end(); ++i) {
 		PlayerSlot &slot = *i;
 		if (slot.id == id) 
 			return &*i;
 	}
-	return NULL;
+	return nullptr;
 }
 const PlayerSlot *IPlayerManager::get_slot_by_id(const int id) const {
 	for(std::vector<PlayerSlot>::const_iterator i = _players.begin(); i != _players.end(); ++i) {
@@ -1108,7 +1108,7 @@ const PlayerSlot *IPlayerManager::get_slot_by_id(const int id) const {
 		if (slot.id == id) 
 			return &*i;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1126,7 +1126,7 @@ const int IPlayerManager::find_empty_slot() {
 				LOG_DEBUG(("found ai player in slot %d, dropping...", i));
 				Object *ai = slot.getObject();
 				if (ai)
-					ai->emit("death", NULL);
+					ai->emit("death", nullptr);
 
 				std::string name = slot.name;
 				slot.clear();
@@ -1168,7 +1168,7 @@ void IPlayerManager::validate_viewports() {
 }
 
 void IPlayerManager::tick(const float dt) {
-	if (_server != NULL && (!Map->loaded() || _players.empty()))
+	if (_server != nullptr && (!Map->loaded() || _players.empty()))
 		return;
 TRY {
 	Uint32 now = SDL_GetTicks();
@@ -1210,7 +1210,7 @@ TRY {
 		if (!slot.visible)
 			continue;
 		const Object * o = slot.getObject();
-		if (o == NULL)
+		if (o == nullptr)
 			continue;
 
 		v2<float> pos, vel;
@@ -1314,7 +1314,7 @@ void IPlayerManager::deserialize_slots(const mrt::Serializator &s) {
 }
 
 void IPlayerManager::broadcast(const Message &_m, const bool per_connection) {
-	assert(_server != NULL);
+	assert(_server != nullptr);
 	
 	size_t n = _players.size();
 	if (per_connection) {
@@ -1341,7 +1341,7 @@ void IPlayerManager::broadcast(const Message &_m, const bool per_connection) {
 }
 
 void IPlayerManager::send(const PlayerSlot &slot, const Message & msg) {
-	if (_server == NULL)
+	if (_server == nullptr)
 		throw_ex(("PlayerManager->send() allowed only in server mode"));
 	int cid = slot.remote;
 	if (cid != -1)
@@ -1350,7 +1350,7 @@ void IPlayerManager::send(const PlayerSlot &slot, const Message & msg) {
 
 
 const bool IPlayerManager::is_server_active() const {
-	if (_server == NULL || !_server->active())
+	if (_server == nullptr || !_server->active())
 		return false;
 	
 	int n = _players.size();
@@ -1365,9 +1365,9 @@ const bool IPlayerManager::is_server_active() const {
 #include "special_owners.h"
 
 void IPlayerManager::onPlayerDeath(const Object *player, const Object *killer) {
-	if (player == NULL || 
-		killer == NULL || 
-		_client != NULL || 
+	if (player == nullptr || 
+		killer == nullptr || 
+		_client != nullptr || 
 		GameMonitor->game_over())
 		return;
 
@@ -1376,10 +1376,10 @@ void IPlayerManager::onPlayerDeath(const Object *player, const Object *killer) {
 	
 	//LOG_DEBUG(("handler %s %s", player->animation.c_str(), killer->animation.c_str()));
 
-	PlayerSlot *player_slot = NULL;
+	PlayerSlot *player_slot = nullptr;
 	if (RTConfig->game_type != GameTypeCooperative) { //skip this check in coop mode
 		player_slot = get_slot_by_id(player->get_id());
-		if (player_slot == NULL)
+		if (player_slot == nullptr)
 			return;
 	} else {
 		if (player->has_owner(OWNER_COOPERATIVE) || player->get_slot() >= 0) {
@@ -1390,7 +1390,7 @@ void IPlayerManager::onPlayerDeath(const Object *player, const Object *killer) {
 	if (killer->get_slot() < 0 || 
 		killer->get_slot() >= (int)_players.size()) {
 		//various environmental effects
-		if (player_slot == NULL)
+		if (player_slot == nullptr)
 			return;
 		action(*player_slot, "environment", killer->registered_name);
 		return;
@@ -1406,7 +1406,7 @@ void IPlayerManager::onPlayerDeath(const Object *player, const Object *killer) {
 		if (add_frags && slot.frags > 0)
 			--(slot.frags);
 	} else {
-		if (player_slot != NULL) {
+		if (player_slot != nullptr) {
 			std::string type = player->has_effect("telefrag")?std::string("telefrag"): killer->classname;
 			action(slot, "kill", type, player_slot);
 		}
@@ -1490,7 +1490,7 @@ PlayerSlot *IPlayerManager::get_my_slot() {
 			return &_players[i];
 
 	}
-	return NULL;
+	return nullptr;
 }
 
 void IPlayerManager::broadcast_message(const std::string &area, const std::string &message, const float duration) {
@@ -1522,7 +1522,7 @@ void IPlayerManager::send_hint(const int slot_id, const std::string &area, const
 #include "i18n.h"
 
 void IPlayerManager::action(const PlayerSlot &slot, const std::string &type, const std::string &subtype, const PlayerSlot *killer_slot) {
-	if (_client != NULL)
+	if (_client != nullptr)
 		return;
 	//LOG_DEBUG(("action(%s %s)", type.c_str(), subtype.c_str()));
 	//insults :)
@@ -1558,7 +1558,7 @@ void IPlayerManager::action(const PlayerSlot &slot, const std::string &type, con
 	//remove before release, starting from here.
 	std::string message = I18n->get(key_i18n);
 	mrt::replace(message, "$1", slot.name);
-	if (killer_slot != NULL) {
+	if (killer_slot != nullptr) {
 		m.set("2", killer_slot->name);
 		mrt::replace(message, "$2", killer_slot->name);
 	}
@@ -1567,7 +1567,7 @@ void IPlayerManager::action(const PlayerSlot &slot, const std::string &type, con
 	if (!RTConfig->server_mode)
 		Game->getChat()->addAction(message);
 
-	if (_server == NULL) //do not send anything if not server
+	if (_server == nullptr) //do not send anything if not server
 		return; 
 
 	m.set("text", message);
@@ -1583,7 +1583,7 @@ TRY {
 	m.set("text", message);
 	
 	if (_server) {
-		PlayerSlot *my_slot = NULL;
+		PlayerSlot *my_slot = nullptr;
 		for(size_t i = 0; i < _players.size(); ++i) {
 			if (_players[i].visible) {
 				my_slot = &_players[i];
@@ -1591,7 +1591,7 @@ TRY {
 			}
 		}
 		
-		if (my_slot == NULL) 
+		if (my_slot == nullptr) 
 			throw_ex(("cannot get my slot."));
 		
 		Game->getChat()->add_message(*my_slot, message);
@@ -1661,14 +1661,14 @@ void IPlayerManager::fix_checkpoints(PlayerSlot &slot, const SpecialZone &zone) 
 }
 
 void IPlayerManager::send_object_state(const int id, const PlayerState & state) {
-	if (!is_server_active() || get_slot_by_id(id) != NULL) //object doesnt reside in any slot.
+	if (!is_server_active() || get_slot_by_id(id) != nullptr) //object doesnt reside in any slot.
 		return;
 	_object_states.insert(id);
 }
 
 
 void IPlayerManager::request_objects(const int first_id) {
-	if (_client == NULL)
+	if (_client == nullptr)
 		return;
 	Message m(Message::RequestObjects);
 	mrt::Serializator s;
@@ -1678,7 +1678,7 @@ void IPlayerManager::request_objects(const int first_id) {
 }
 
 void IPlayerManager::disconnect_all() {
-	if (_server == NULL) 
+	if (_server == nullptr) 
 		return;
 	LOG_DEBUG(("disconnecting all clients"));
 	_server->disconnect_all();

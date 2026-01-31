@@ -49,7 +49,7 @@ const v2<float> Object::get_relative_position(const Object *obj) const {
 	return Map->distance(this->get_center_position(), obj->get_center_position());
 }
 
-Object::Event::Event() : name(), repeat(false), sound(), gain(1.0f), played(false), cached_pose(NULL) {}
+Object::Event::Event() : name(), repeat(false), sound(), gain(1.0f), played(false), cached_pose(nullptr) {}
 
 Object::Event::Event(const std::string name, const bool repeat, const std::string &sound, const float gain, const Pose * p): 
 	name(name), repeat(repeat), sound(sound), gain(gain), played(false), cached_pose(p) {}
@@ -59,20 +59,20 @@ void Object::Event::serialize(mrt::Serializator &s) const {
 	s.add(repeat);
 }
 void Object::Event::deserialize(const mrt::Serializator &s) {
-	cached_pose = NULL;
+	cached_pose = nullptr;
 	s.get(name);
 	s.get(repeat);
 }
 
 Object * Object::clone() const {
 	throw_ex(("object %s:%s doesnt provide clone() method", registered_name.c_str(), animation.c_str()));
-	return NULL;
+	return nullptr;
 }
 
 Object * Object::deep_clone() const {
 	Object *r = clone();
-	r->_fadeout_surface = NULL;
-	r->clunk_object = NULL;
+	r->_fadeout_surface = nullptr;
+	r->clunk_object = nullptr;
 	
 	for(Group::iterator i = r->_group.begin(); i != r->_group.end(); ++i) {
 		i->second = i->second->deep_clone();
@@ -91,16 +91,16 @@ const bool Object::ai_disabled() const {
 Object::Object(const std::string &classname) : 
 	BaseObject(classname), 
 	registered_name(), animation(), fadeout_time(0),  
-	_parent(NULL), 
-	_animation(NULL), 	_model(NULL), _surface(NULL),
-	_fadeout_surface(NULL), _fadeout_alpha(0), _cmap(NULL),
+	_parent(nullptr), 
+	_animation(nullptr), 	_model(nullptr), _surface(nullptr),
+	_fadeout_surface(nullptr), _fadeout_alpha(0), _cmap(nullptr),
 	_events(), _effects(), 
 	_tw(0), _th(0), _direction_idx(0), _directions_n(8), _pos(0), 
 	_way(), _next_target(), _next_target_rel(), 
 	_rotation_time(0), 
 	_dst_direction(-1), 
 	_group(), _slot_id(-1), 
-	clunk_object(NULL)
+	clunk_object(nullptr)
 	 { }
 	 
 
@@ -111,14 +111,14 @@ Object::~Object() {
 	}
 	_group.clear();
 	
-	if (clunk_object != NULL) {
+	if (clunk_object != nullptr) {
 		if (clunk_object->active()) {
 			clunk_object->autodelete();
 		} else {
 		//inactive object. can delete it right now.
 			delete clunk_object;
 		}
-		clunk_object = NULL; //just for fun 
+		clunk_object = nullptr; //just for fun 
 	}
 }
 
@@ -135,7 +135,7 @@ const bool Object::get_nearest(const std::set<std::string> &classnames, const fl
 
 const Object * Object::get_nearest_object(const std::set<std::string> &classnames, const float range, const bool check_shooting_range) const {
 	if (ai_disabled())
-		return NULL;
+		return nullptr;
 	
 	return World->get_nearest_object(this, classnames, range, check_shooting_range);
 }
@@ -171,7 +171,7 @@ void Object::play(const std::string &id, const bool repeat) {
 		_pos = 0;
 	check_animation();
 	const Pose *pose = _model->getPose(id);
-	if (pose == NULL) {
+	if (pose == nullptr) {
 		LOG_WARN(("%d:%s:%s: animation model %s does not have pose '%s'", 
 			get_id(), registered_name.c_str(), animation.c_str(), _animation->model.c_str(), id.c_str()));
 		return;
@@ -184,7 +184,7 @@ void Object::play_now(const std::string &id) {
 	check_animation();
 
 	const Pose *pose = _model->getPose(id);
-	if (pose == NULL) {
+	if (pose == nullptr) {
 		LOG_WARN(("animation model %s does not have pose %s", _animation->model.c_str(), id.c_str()));
 		return;
 	}
@@ -196,7 +196,7 @@ void Object::cancel() {
 	if (_events.empty()) 
 		return;
 
-	if (clunk_object != NULL) {
+	if (clunk_object != nullptr) {
 		const std::string &sound = _events.front().sound;
 		clunk_object->cancel(sound);
 	}
@@ -211,7 +211,7 @@ void Object::cancel_repeatable() {
 			if (i == _events.begin())
 				_pos = 0;
 
-			if (clunk_object != NULL)
+			if (clunk_object != nullptr)
 				clunk_object->cancel(i->sound);
 
 			i = _events.erase(i);
@@ -223,7 +223,7 @@ void Object::cancel_repeatable() {
 
 void Object::cancel_all() {
 	while(!_events.empty()) {
-		if (clunk_object != NULL)
+		if (clunk_object != nullptr)
 		clunk_object->cancel(_events.front().sound);
 		_events.pop_front();
 	}
@@ -233,7 +233,7 @@ void Object::cancel_all() {
 
 
 void Object::tick(const float dt) {
-	if (clunk_object != NULL) {
+	if (clunk_object != nullptr) {
 		v3<float> listener_pos, listener_len;
 		float r;
 		Mixer->get_listener(listener_pos, listener_len, r);
@@ -257,12 +257,12 @@ void Object::tick(const float dt) {
 		++ei;
 	}
 
-	const Pose * pose = NULL;
+	const Pose * pose = nullptr;
 	
 	if (_events.empty()) {
-		if (_parent == NULL) {
+		if (_parent == nullptr) {
 			LOG_DEBUG(("%s: no state, committing suicide", animation.c_str()));
-			emit("death", NULL);
+			emit("death", nullptr);
 		}
 		return;
 	}
@@ -270,12 +270,12 @@ void Object::tick(const float dt) {
 	Event & event = _events.front();
 	//LOG_DEBUG(("%p: event: %s, pos = %f", (void *)this, event.name.c_str(), _pos));
 	pose = event.cached_pose;
-	if (pose == NULL) {
+	if (pose == nullptr) {
 		check_animation();
 		event.cached_pose = pose = _model->getPose(event.name);
 	}
 	
-	if (pose == NULL) {
+	if (pose == nullptr) {
 		LOG_WARN(("animation model %s does not have pose %s", _animation->model.c_str(), event.name.c_str()));
 		cancel();
 		return;
@@ -330,7 +330,7 @@ void Object::group_tick(const float dt) {
 	
 	for(Group::iterator i = _group.begin(); i != _group.end(); ) {
 		Object *o = i->second;
-		assert(o != NULL);
+		assert(o != nullptr);
 		assert(o->_parent == this);
 		
 		if (o->is_dead()) {
@@ -340,9 +340,9 @@ void Object::group_tick(const float dt) {
 				_group.erase(i++);
 			} else {
 				Object *parent = o->_parent;
-				assert(parent != NULL);
+				assert(parent != nullptr);
 				
-				while(parent->_parent != NULL)
+				while(parent->_parent != nullptr)
 					parent = parent->_parent;
 				
 				World->sync(parent->get_id());
@@ -388,11 +388,11 @@ void Object::play_sound(const std::string &name, const bool loop, const float ga
 }
 
 bool Object::playing_sound(const std::string &name) const {
-	return clunk_object != NULL && clunk_object->playing(name + ".ogg");
+	return clunk_object != nullptr && clunk_object->playing(name + ".ogg");
 }
 
 void Object::fadeout_sound(const std::string &name) {
-	if (clunk_object != NULL)
+	if (clunk_object != nullptr)
 		clunk_object->fade_out(name + ".ogg");
 }
 
@@ -403,19 +403,19 @@ void Object::play_random_sound(const std::string &classname, const bool loop, co
 
 const bool Object::get_render_rect(sdlx::Rect &src) const {
 	if (_events.empty()) {
-		if (!is_dead() && _parent == NULL)
+		if (!is_dead() && _parent == nullptr)
 			LOG_WARN(("%s: no animation played. latest position: %g", registered_name.c_str(), _pos));
 		return false;
 	}
 
 	const Event & event = _events.front();
 	const Pose * pose = event.cached_pose;
-	if (pose == NULL) {
+	if (pose == nullptr) {
 		check_animation();
 		event.cached_pose = pose = _model->getPose(event.name);
 	}
 
-	if (pose == NULL) {
+	if (pose == nullptr) {
 		LOG_WARN(("%s:%s pose '%s' is not supported", registered_name.c_str(), animation.c_str(), _events.front().name.c_str()));
 		return false;
 	}
@@ -503,14 +503,14 @@ void Object::render(sdlx::Surface &surface, const int x_, const int y_) {
 	GET_CONFIG_VALUE("engine.fadeout-strip-alpha-bits", int, strip_alpha_bits, 4);
 	alpha &= ~((1 << strip_alpha_bits) - 1);
 	
-	if (_fadeout_surface != NULL && alpha == _fadeout_alpha) {
+	if (_fadeout_surface != nullptr && alpha == _fadeout_alpha) {
 		surface.blit(*_fadeout_surface, x, y);
 		//LOG_DEBUG(("skipped all fadeout stuff"));
 		return;
 	}
 	_fadeout_alpha = alpha;
 	
-	if (_fadeout_surface == NULL) {
+	if (_fadeout_surface == nullptr) {
 		_fadeout_surface = new sdlx::Surface;
 		_fadeout_surface->create_rgb(_tw, _th, 32, SDL_SWSURFACE);
 		_fadeout_surface->display_format_alpha();
@@ -545,7 +545,7 @@ void Object::render(sdlx::Surface &surface, const int x_, const int y_) {
 
 const bool Object::collides(const Object *other, const int x, const int y, const bool hidden_by_other) const {
 	sdlx::Rect src, other_src;
-	assert(other != NULL);
+	assert(other != nullptr);
 	if (!get_render_rect(src)) 
 		return false;
 	if (!other->get_render_rect(other_src)) 
@@ -564,7 +564,7 @@ const bool Object::collides(const Object *other, const int x, const int y, const
 }
 
 const bool Object::collides(const sdlx::CollisionMap *other, const int x, const int y, const bool hidden_by_other) const {
-	assert(other != NULL);
+	assert(other != nullptr);
 	sdlx::Rect src;
 	if (!get_render_rect(src)) 
 		return false;
@@ -648,7 +648,7 @@ try {
 		s.get(name);
 		s.get(rn);
 		Object * o = _group[name];
-		if (o == NULL || o->registered_name != rn) {
+		if (o == nullptr || o->registered_name != rn) {
 			delete o;
 			o = ResourceManager->createObject(rn);
 			o->_parent = this;
@@ -671,7 +671,7 @@ try {
 			++i;
 		} else {
 			delete i->second;
-			i->second = NULL; //just for fun :)
+			i->second = nullptr; //just for fun :)
 			_group.erase(i++);
 		}
 	}
@@ -698,10 +698,10 @@ try {
 	s.get(_rotation_time);
 	s.get(_dst_direction);
 
-	_animation = NULL;
-	_model = NULL;
-	_surface = NULL;
-	_cmap = NULL;
+	_animation = nullptr;
+	_model = nullptr;
+	_surface = nullptr;
+	_cmap = nullptr;
 
 	check_animation();
 } CATCH("deserialize", throw);
@@ -713,7 +713,7 @@ void Object::emit(const std::string &event, Object * emitter) {
 			drop("#ctf-flag");
 		}
 	
-		if (emitter != NULL && !_dead && _parent == NULL && !piercing) {
+		if (emitter != nullptr && !_dead && _parent == nullptr && !piercing) {
 			World->on_object_death.emit(this, emitter);
 		}
 		_dead = true;
@@ -721,7 +721,7 @@ void Object::emit(const std::string &event, Object * emitter) {
 			i->second->emit("death", emitter);
 		}
 	} else if (event == "collision") {
-		if (piercing && emitter != NULL)
+		if (piercing && emitter != nullptr)
 			emitter->add_damage(this);
 	} else 
 		LOG_WARN(("%s[%d]: unhandled event '%s'", registered_name.c_str(), _id, event.c_str()));
@@ -954,7 +954,7 @@ Object *Object::drop(const std::string &name, const v2<float> &dpos) {
 	Object *o = i->second;
 	World->push(this, o, dpos);
 	o->invalidate();
-	o->_parent = NULL;
+	o->_parent = nullptr;
 	_group.erase(i);
 	invalidate();
 	return o;
@@ -968,7 +968,7 @@ Object* Object::add(const std::string &name, const std::string &classname, const
 
 	Object *obj = ResourceManager->createObject(classname, animation);
 
-	assert(obj != NULL);
+	assert(obj != nullptr);
 	assert(obj->_owners.empty());
 
 	obj->_parent = this;
@@ -1023,7 +1023,7 @@ void Object::remove(const std::string &name) {
 		return;
 	
 	Object * o = i->second;
-	assert(o != NULL);
+	assert(o != nullptr);
 	o->emit("death", this);
 	delete o;
 
@@ -1037,7 +1037,7 @@ void Object::group_emit(const std::string &name, const std::string &event) {
 	if (i == _group.end())
 		throw_ex(("there's no object '%s' in group", name.c_str()));
 	Object * o = i->second;
-	assert(o != NULL);
+	assert(o != nullptr);
 	o->emit(event, this);
 }
 
@@ -1060,7 +1060,7 @@ void Object::remove_effect(const std::string &name) {
 }
 
 void Object::calculate(const float dt) {
-	if (_parent != NULL) {
+	if (_parent != nullptr) {
 		if (_directions_n > 1) {
 			_direction = _parent->_direction;
 			_direction_idx = _parent->_direction_idx * _directions_n / _parent->_directions_n;
@@ -1116,7 +1116,7 @@ const int Object::get_target_position(v2<float> &relative_position, const std::s
 const bool Object::check_distance(const v2<float> &_map1, const v2<float>& map2, const int z, const bool use_pierceable_fixes) {
 	const v2<int> pfs = Map->getPathTileSize();
 	const Matrix<int> &matrix = Map->get_impassability_matrix(z);
-	const Matrix<int> *pmatrix = use_pierceable_fixes? &Map->get_impassability_matrix(z, true): NULL;
+	const Matrix<int> *pmatrix = use_pierceable_fixes? &Map->get_impassability_matrix(z, true): nullptr;
 
 	v2<float> map1 = _map1;
 	v2<float> dp = Map->distance(map1, map2);
@@ -1140,7 +1140,7 @@ const bool Object::check_distance(const v2<float> &_map1, const v2<float>& map2,
 		//	LOG_DEBUG(("         %d", pmatrix->get(map_pos.y, map_pos.x)));
 		
 		if (matrix.get(map_pos.y, map_pos.x) < 0) {
-			if (pmatrix == NULL || pmatrix->get(map_pos.y, map_pos.x) >= 0)
+			if (pmatrix == nullptr || pmatrix->get(map_pos.y, map_pos.x) >= 0)
 				return false;
 		}
 		
@@ -1289,8 +1289,8 @@ void Object::check_surface() const {
 		return;
 	Object *nc_this = const_cast<Object *>(this);
 	ResourceManager->check_surface(animation, nc_this->_surface, nc_this->_cmap);
-	assert(_surface != NULL);
-	assert(_cmap != NULL);
+	assert(_surface != nullptr);
+	assert(_cmap != nullptr);
 }
 
 void Object::close(const v2<int> & vertex) {
@@ -1423,7 +1423,7 @@ const bool Object::find_path_done(Way &way) {
 				continue;			
 			}
 			
-			float im = World->getImpassability(this, world_pos, NULL, true, true);
+			float im = World->getImpassability(this, world_pos, nullptr, true, true);
 			//LOG_DEBUG(("%d, %d, world: %g", world_pos.x, world_pos.y, im));
 			assert(im >= 0);
 			if (im >= 1.0f) {
@@ -1522,7 +1522,7 @@ const std::string Object::get_nearest_waypoint(const std::string &name) const {
 }
 
 void Object::add_damage(Object *from, const bool emitDeath) {
-	if (from == NULL || !from->piercing)
+	if (from == nullptr || !from->piercing)
 		return;
 	if (has_same_owner(from)) //friendly fire
 		return;
@@ -1532,7 +1532,7 @@ void Object::add_damage(Object *from, const bool emitDeath) {
 #include "player_slot.h"
 
 void Object::add_damage(Object *from, const int d, const bool emitDeath) {
-	if (hp < 0 || d == 0 || from == NULL || has_effect("invulnerability"))
+	if (hp < 0 || d == 0 || from == nullptr || has_effect("invulnerability"))
 		return;
 	
 	int damage = d;
@@ -1563,23 +1563,23 @@ void Object::add_damage(Object *from, const int d, const bool emitDeath) {
 	{
 		PlayerSlot *slot = PlayerManager->get_slot_by_id(from->get_summoner());
 
-		if (slot == NULL) {
+		if (slot == nullptr) {
 			std::deque<int> owners;
 			from->get_owners(owners);
 			for(std::deque<int>::const_iterator i = owners.begin(); i != owners.end(); ++i) {
 				slot = PlayerManager->get_slot_by_id(*i);
-				if (slot != NULL) 
+				if (slot != nullptr) 
 					break;
 			}
 		}
-		if (slot != NULL) {
+		if (slot != nullptr) {
 			//LOG_DEBUG(("damage from slot: %s", slot->animation.c_str()));
 			slot->addScore(o->hp);
 		}
 		
 		
 		GET_CONFIG_VALUE("engine.score-decreasing-factor-for-damage", float, sdf, 0.25f);
-		if ((slot = PlayerManager->get_slot_by_id(get_id())) != NULL) {
+		if ((slot = PlayerManager->get_slot_by_id(get_id())) != nullptr) {
 			slot->addScore(- (int)(o->hp * sdf));
 		}
 		
@@ -1604,12 +1604,12 @@ const float Object::get_state_progress() const {
 	const Event & event = _events.front();
 	//LOG_DEBUG(("%p: event: %s, pos = %f", (void *)this, event.name.c_str(), _pos));
 	const Pose * pose = event.cached_pose;
-	if (pose == NULL) { 
+	if (pose == nullptr) { 
 		check_animation();
 		event.cached_pose = pose = _model->getPose(event.name);
 	}
 	
-	if (pose == NULL) {
+	if (pose == nullptr) {
 		return 0;
 	}
 	
@@ -1629,7 +1629,7 @@ void Object::set_zbox(const int zb) {
 	
 	for(Group::const_iterator i = _group.begin(); i != _group.end(); ++i) {
 		Object *o = i->second;
-		assert(o != NULL);
+		assert(o != nullptr);
 		o->set_zbox(zb);
 	}
 }
@@ -1661,7 +1661,7 @@ const bool Object::take(const BaseObject *obj, const std::string &type) {
 			for(size_t i = 0; i < n; ++i) {
 				PlayerSlot &slot = PlayerManager->get_slot(i);
 				Object *o = slot.getObject();
-				if (o != NULL && o->get_id() != get_id()) 
+				if (o != nullptr && o->get_id() != get_id()) 
 					o->add_effect(type, d);
 			}
 			return true;
@@ -1671,11 +1671,11 @@ const bool Object::take(const BaseObject *obj, const std::string &type) {
 }
 
 const bool Object::attachVehicle(Object *vehicle) {
-	if (vehicle == NULL) 
+	if (vehicle == nullptr) 
 		return false;
 	
 	PlayerSlot *slot = PlayerManager->get_slot_by_id(get_id());
-	if (slot == NULL)
+	if (slot == nullptr)
 		return false;
 	
 	if (clunk_object)
@@ -1713,7 +1713,7 @@ const bool Object::attachVehicle(Object *vehicle) {
 const bool Object::detachVehicle() {
 	PlayerSlot * slot = PlayerManager->get_slot_by_id(get_id());
 	if (
-		slot == NULL || 
+		slot == nullptr || 
 		classname == "monster" ||
 		(disable_ai && 
 			(registered_name == "machinegunner" || registered_name == "civilian")
@@ -1737,7 +1737,7 @@ const bool Object::detachVehicle() {
 		assert(i != _group.end());
 
 		man = i->second;
-		man->_parent = NULL;
+		man->_parent = nullptr;
 		_group.erase(i);
 	} else {
 		man = ResourceManager->createObject(disable_ai?"machinegunner(player)": "machinegunner-player(player)", "machinegunner");

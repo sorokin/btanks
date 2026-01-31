@@ -152,11 +152,11 @@ class Generator(object):
 			typedef base_signalXXX %s signal_type; 
 			typedef return_type (object_type::*func_t) %s; 
 
-			inline slotXXX () : object(NULL), func(NULL) {}
-			inline slotXXX(object_type *object, func_t func, signal_type * signal = NULL) : object(object), func(func) {}
+			inline slotXXX () : object(nullptr), func(nullptr) {}
+			inline slotXXX(object_type *object, func_t func, signal_type * signal = nullptr) : object(object), func(func) {}
 
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
-			inline void assign(object_type *o, func_t f, signal_type &signal_ref = NULL) { object = o; func = f; this->connect(signal_ref); }
+			inline void assign(object_type *o, func_t f, signal_type &signal_ref = nullptr) { object = o; func = f; this->connect(signal_ref); }
 	
 			inline return_type operator() %s const { 
 				return (object->*func) %s ;
@@ -187,7 +187,7 @@ class Generator(object):
 			typedef base_signalXXX %s signal_type; 
 			typedef void (object_type::*func_t) %s ;
 
-			inline slotXXX () : object(NULL), func(NULL) {}
+			inline slotXXX () : object(nullptr), func(nullptr) {}
 			inline slotXXX (object_type *object, func_t func) : object(object), func(func) {}
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
 			inline void assign(object_type *o, func_t f, signal_type &signal_ref) { object = o; func = f; this->connect(signal_ref); }

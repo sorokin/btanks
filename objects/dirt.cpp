@@ -35,7 +35,7 @@ public:
 	Dirt() : Object("dirt") { pierceable = true; hp = -1; }
 	virtual Object * clone() const;
 	virtual void on_spawn();
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 };
 
 void Dirt::on_spawn() {
@@ -46,7 +46,7 @@ void Dirt::on_spawn() {
 }
 
 void Dirt::emit(const std::string &event, Object * emitter) {
-	if (emitter != NULL && emitter->speed != 0 && event == "collision") {
+	if (emitter != nullptr && emitter->speed != 0 && event == "collision") {
 		GET_CONFIG_VALUE("engine.drifting-duration", float, dd, 0.1);
 		if (!emitter->has_effect("drifting"))
 			emitter->add_effect("drifting", dd);

@@ -213,14 +213,14 @@ void SpecialZone::onCheckpoint(const int slot_id) {
 void SpecialZone::onWarp(const int slot_id, const bool enter) {
 	PlayerSlot &slot = PlayerManager->get_slot(slot_id);
 	Object *o = slot.getObject();
-	if (o == NULL)
+	if (o == nullptr)
 		return;
 }
 
 void SpecialZone::onTick(const int slot_id) {
 	PlayerSlot &slot = PlayerManager->get_slot(slot_id);
 	Object *o = slot.getObject();
-	if (o == NULL)
+	if (o == nullptr)
 		return;
 
 	v2<float> pos, vel;

@@ -58,7 +58,7 @@ void Grid::render(sdlx::Surface &surface, const int x, const int y) const {
 		const Row &row = _controls[i];
 		for(size_t j = 0; j < row.size(); ++j) {
 			const ControlDescriptor &d = row[j];
-			if (d.c != NULL && !d.c->hidden()) {
+			if (d.c != nullptr && !d.c->hidden()) {
 				int xc, yc;
 				int cw, ch;
 				d.c->get_size(cw, ch);
@@ -105,7 +105,7 @@ Grid::ControlDescriptor * Grid::find(int& x, int& y) {
 	int yp = 0;
 	for(size_t i = 0; i < _controls.size(); ++i) {
 		if (yp > y)
-			return NULL;
+			return nullptr;
 		
 		int xp = 0;
 		Row &row = _controls[i];
@@ -114,7 +114,7 @@ Grid::ControlDescriptor * Grid::find(int& x, int& y) {
 				break;
 			
 			ControlDescriptor &d = row[j];
-			if (d.c != NULL && !d.c->hidden()) {
+			if (d.c != nullptr && !d.c->hidden()) {
 				int xc, yc;
 				int cw, ch;
 				d.c->get_size(cw, ch);
@@ -160,7 +160,7 @@ Grid::ControlDescriptor * Grid::find(int& x, int& y) {
 		}
 		yp += _split_h[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -177,7 +177,7 @@ void Grid::recalculate(const int w, const int h) {
 		for(size_t j = 0; j < row.size(); ++j) {
 			const ControlDescriptor &d = row[j];
 			const Control *c = d.c;
-			if (c == NULL)
+			if (c == nullptr)
 				continue;
 			int cw = -1, ch = -1;
 			c->get_size(cw, ch);
@@ -229,7 +229,7 @@ bool Grid::onKey(const SDL_keysym sym) {
 		Row &row = _controls[i];
 		for(size_t j = 0; j < row.size(); ++j) {
 			Control *c = row[j].c;
-			if (c != NULL && !c->hidden() && row[j].c->onKey(sym))
+			if (c != nullptr && !c->hidden() && row[j].c->onKey(sym))
 				return true;
 		}
 	}
@@ -240,7 +240,7 @@ bool Grid::onMouse(const int button, const bool pressed, const int x, const int 
 	//LOG_DEBUG(("%d, %d", x, y));
 	int rx = x, ry = y;
 	ControlDescriptor * d = find(rx, ry);
-	if (d == NULL || d->c == NULL || d->c->hidden())
+	if (d == nullptr || d->c == nullptr || d->c->hidden())
 		return false;
 	return d->c->onMouse(button, pressed, rx, ry);
 }
@@ -248,7 +248,7 @@ bool Grid::onMouse(const int button, const bool pressed, const int x, const int 
 bool Grid::onMouseMotion(const int state, const int x, const int y, const int xrel, const int yrel) {
 	int rx = x, ry = y;
 	ControlDescriptor * d = find(rx, ry);
-	if (d == NULL || d->c == NULL || d->c->hidden())
+	if (d == nullptr || d->c == nullptr || d->c->hidden())
 		return false;
 	return d->c->onMouseMotion(state, rx, ry, xrel, yrel);
 }

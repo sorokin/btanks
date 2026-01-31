@@ -43,7 +43,7 @@ public:
 
 	virtual Object * clone() const;
 	virtual void on_spawn();
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 
 	virtual void serialize(mrt::Serializator &s) const {
 		Object::serialize(s);
@@ -63,7 +63,7 @@ private:
 
 const int Cow::getComfortDistance(const Object *other) const {
 	GET_CONFIG_VALUE("objects.cow.comfort-distance", int, cd, 200);
-	return (other == NULL || other->registered_name == registered_name)?cd:-1; //fixme names if you want
+	return (other == nullptr || other->registered_name == registered_name)?cd:-1; //fixme names if you want
 }
 
 
@@ -112,7 +112,7 @@ void Cow::on_spawn() {
 void Cow::emit(const std::string &event, Object * emitter) {
 	if (event == "death") {
 		spawn("corpse", "dead-cow", v2<float>(), v2<float>());
-	} else if (emitter != NULL && emitter->piercing && event == "collision") {
+	} else if (emitter != nullptr && emitter->piercing && event == "collision") {
 		v2<float> v; 
 		emitter->get_velocity(v);
 		int dirs = get_directions_number();

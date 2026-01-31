@@ -48,7 +48,7 @@ public:
 
 	virtual void on_spawn();
 	virtual void tick(const float dt);
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	const bool take(const BaseObject *obj, const std::string &type) {
 		return false;
 	}
@@ -98,7 +98,7 @@ void BaseZombie::tick(const float dt) {
 void BaseZombie::emit(const std::string &event, Object * emitter) {
 	if (event == "death") {
 		spawn("corpse(zombie-death)", "dead-zombie", v2<float>(), v2<float>());
-	} else if (emitter != NULL && event == "collision") {
+	} else if (emitter != nullptr && event == "collision") {
 		if (get_state() != "punch" && emitter->registered_name != "zombie") {
 			_state.fire = true;
 		}	
@@ -154,7 +154,7 @@ private:
 
 const int Zombie::getComfortDistance(const Object *other) const {
 	GET_CONFIG_VALUE("objects.zombie.comfort-distance", int, cd, 120);
-	return (other == NULL || other->classname == classname)?cd:-1; //fixme names if you want
+	return (other == nullptr || other->classname == classname)?cd:-1; //fixme names if you want
 }
 
 

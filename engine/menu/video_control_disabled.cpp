@@ -5,7 +5,7 @@
 #include "sdlx/surface.h"
 
 DisabledVideoControl::DisabledVideoControl(const std::string &base, const std::string &name) : 
-screenshot(NULL)
+screenshot(nullptr)
 {
 	std::string fname = "maps/" + name + "_disabled.jpg";
 	if (Finder->exists(base, fname)) {

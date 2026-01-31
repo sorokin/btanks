@@ -2,7 +2,7 @@
 #include "resource_manager.h"
 
 NetworkStatusControl::NetworkStatusControl() : 
-	Tooltip("menu", "network-status", true), _bclose(NULL) {
+	Tooltip("menu", "network-status", true), _bclose(nullptr) {
 }
 
 void NetworkStatusControl::render(sdlx::Surface &surface, const int x, const int y) const {

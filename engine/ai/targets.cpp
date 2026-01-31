@@ -5,7 +5,7 @@ using namespace ai;
 IMPLEMENT_SINGLETON(ai::Targets, ai::ITargets);
 
 void ITargets::insert(std::set<std::string> &x, const char * array[]) {
-	for(const char **t = array; *t != NULL; ++t) { 
+	for(const char **t = array; *t != nullptr; ++t) { 
 		x.insert(*t); 
 	}
 }
@@ -16,7 +16,7 @@ ITargets::ITargets() {
 	players_and_monsters = players;
 	players_and_monsters.insert("monster");
 
-	const char *a2[] = {"cannon", "barrack", "pillbox", "fighting-vehicle", "trooper", "kamikaze", "boat", "helicopter", "monster", "watchtower", NULL};
+	const char *a2[] = {"cannon", "barrack", "pillbox", "fighting-vehicle", "trooper", "kamikaze", "boat", "helicopter", "monster", "watchtower", nullptr};
 	insert(troops, a2);
 
 	troops_and_train = troops;
@@ -28,10 +28,10 @@ ITargets::ITargets() {
 	troops_train_and_missiles = troops_and_train;
 	troops_train_and_missiles.insert("missile");
 	
-	const char *a4[] = {"fighting-vehicle", "trooper", "cannon", "watchtower", "creature", "civilian", "barrack", NULL};
+	const char *a4[] = {"fighting-vehicle", "trooper", "cannon", "watchtower", "creature", "civilian", "barrack", nullptr};
 	insert(monster, a4);
 
-	const char *a5[] = {"fighting-vehicle", "trooper", "monster", "kamikaze", "barrack", NULL};
+	const char *a5[] = {"fighting-vehicle", "trooper", "monster", "kamikaze", "barrack", nullptr};
 	insert(infantry, a5);
 
 	infantry_and_train = infantry;

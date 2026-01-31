@@ -82,7 +82,7 @@ void UDPSocket::connect(const std::string &host, const int port) {
 	if (addr.sin_addr.s_addr == (in_addr_t)-1) {
 		//try to resolve host
 		hostent *he = gethostbyname(host.c_str());
-		if (he == NULL)
+		if (he == nullptr)
 			throw_ex(("host '%s' was not found", host.c_str()));
 		addr.sin_addr = *(struct in_addr*)(he->h_addr_list[0]);
 	}
@@ -113,7 +113,7 @@ void UDPSocket::create() {
 
 	// disable  new behavior using
 	// IOCTL: SIO_UDP_CONNRESET
-	status = WSAIoctl(_sock, SIO_UDP_CONNRESET, &bNewBehavior, sizeof(bNewBehavior), NULL, 0, &dwBytesReturned, NULL, NULL);
+	status = WSAIoctl(_sock, SIO_UDP_CONNRESET, &bNewBehavior, sizeof(bNewBehavior), nullptr, 0, &dwBytesReturned, nullptr, nullptr);
 
 #endif	
 }
@@ -171,17 +171,17 @@ void UDPSocket::broadcast(const mrt::Chunk &data, const int port) {
 
 void UDPSocket::broadcast(const mrt::Chunk &data, const int port) {
 	LOG_DEBUG(("broadcasting packet[%u]", (unsigned)data.get_size()));
-	struct ifaddrs * ifs = NULL;
+	struct ifaddrs * ifs = nullptr;
 	TRY {
 		if (getifaddrs(&ifs) == -1)
 			throw_net(("getifaddrs"));
 		
-		for(struct ifaddrs * i = ifs; i->ifa_next != NULL; i = i->ifa_next) {
+		for(struct ifaddrs * i = ifs; i->ifa_next != nullptr; i = i->ifa_next) {
 			int flags = i->ifa_flags;
 			if (!(flags & IFF_BROADCAST) || !(flags & IFF_UP) || flags & IFF_LOOPBACK)
 				 continue;
 #		ifdef __linux__	
-			if (i->ifa_ifu.ifu_broadaddr == NULL || i->ifa_ifu.ifu_broadaddr->sa_family != PF_INET)
+			if (i->ifa_ifu.ifu_broadaddr == nullptr || i->ifa_ifu.ifu_broadaddr->sa_family != PF_INET)
 				continue;
 			
 			sockaddr_in *addr = (sockaddr_in *)i->ifa_ifu.ifu_broadaddr;
@@ -195,7 +195,7 @@ void UDPSocket::broadcast(const mrt::Chunk &data, const int port) {
 #		endif
 		}
 	} CATCH("broadcast", {});
-	if (ifs != NULL) 	
+	if (ifs != nullptr) 	
 		freeifaddrs(ifs);
 }
 

@@ -75,7 +75,7 @@ public:
 	}
 	
 	virtual Object * clone() const;
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	virtual void on_spawn();
 
 	virtual const bool skip_rendering() const;

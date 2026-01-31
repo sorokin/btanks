@@ -44,7 +44,7 @@
 #include "game.h"
 #include "sdlx/joystick.h"
 
-OptionsMenu::OptionsMenu(const int w, const int h) : _shoot(0.5f, false), _gamepad(NULL) {
+OptionsMenu::OptionsMenu(const int w, const int h) : _shoot(0.5f, false), _gamepad(nullptr) {
 	Mixer->loadSample("shot.ogg");
 	bool has_gamepad = sdlx::Joystick::getCount() > 0;
 	
@@ -110,7 +110,7 @@ OptionsMenu::OptionsMenu(const int w, const int h) : _shoot(0.5f, false), _gamep
 		_b_setup_gamepad->get_size(sw, sh);
 		add(w / 2, yp + 6, _b_setup_gamepad);
 	} else {
-		_b_setup_gamepad = NULL;
+		_b_setup_gamepad = nullptr;
 	}
 
 	yp += sh + 20;
@@ -426,7 +426,7 @@ void OptionsMenu::tick(const float dt) {
 		Mixer->setFXVolume(_fx->get());
 		if (_shoot.tick(dt)) {
 			Mixer->set_listener(v3<float>(), v3<float>(), 64);
-			Mixer->playSample(NULL, "shot.ogg", false);
+			Mixer->playSample(nullptr, "shot.ogg", false);
 			_shoot.reset();
 		}
 	}
@@ -451,9 +451,9 @@ void OptionsMenu::tick(const float dt) {
 		_b_redefine->reset();
 		_keys->hide(false);
 	} 
-	if (_b_setup_gamepad != NULL && _b_setup_gamepad->changed()) {
+	if (_b_setup_gamepad != nullptr && _b_setup_gamepad->changed()) {
 		_b_setup_gamepad->reset();
-		if (_gamepad != NULL) //does not really needed
+		if (_gamepad != nullptr) //does not really needed
 			_gamepad->hide(false);
 	}
 	Container::tick(dt);
@@ -479,14 +479,14 @@ bool OptionsMenu::onKey(const SDL_keysym sym) {
 
 	case SDLK_j: 
 	case SDLK_g: 
-		if (_gamepad != NULL && _keys->hidden()) {
+		if (_gamepad != nullptr && _keys->hidden()) {
 			_gamepad->hide(false);
 		}
 			
 		return true;
 
 	case SDLK_r: 
-		if (_gamepad == NULL || _gamepad->hidden())
+		if (_gamepad == nullptr || _gamepad->hidden())
 			_keys->hide(false);
 		return true;
 

@@ -12,7 +12,7 @@
 #include "button.h"
 #include "main_menu.h"
 
-SimpleGamepadSetup::SimpleGamepadSetup() : bg_table(ResourceManager->load_surface("menu/gamepad_table.png")), selection(NULL) {
+SimpleGamepadSetup::SimpleGamepadSetup() : bg_table(ResourceManager->load_surface("menu/gamepad_table.png")), selection(nullptr) {
 	int joys = joy.getCount();
 	if (joys <= 0)
 		throw_ex(("no gamepad found"));

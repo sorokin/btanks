@@ -13,7 +13,7 @@
 
 #define EFFECT_LEN (0.5f)
 
-Medals::Medals(int w, int h) : _w(w), _h(h), campaign(NULL), active(0), length(0), dir_x(0) {
+Medals::Medals(int w, int h) : _w(w), _h(h), campaign(nullptr), active(0), length(0), dir_x(0) {
 	_modal = true;
 	add(0, 0, background = new Box("menu/background_box_dark.png", w, h));
 	
@@ -32,7 +32,7 @@ Medals::Medals(int w, int h) : _w(w), _h(h), campaign(NULL), active(0), length(0
 	b_right->get_size(bw, bh);
 	add(w - bw, h / 2 - bh / 2, b_right);
 
-	hint = NULL;
+	hint = nullptr;
 }
 
 void Medals::render(sdlx::Surface &surface, const int x, const int y) const {
@@ -42,7 +42,7 @@ void Medals::render(sdlx::Surface &surface, const int x, const int y) const {
 void Medals::hide(const bool hide) {
 	Container::hide(hide);
 	if (hide) {
-		if (campaign != NULL) {
+		if (campaign != nullptr) {
 			LOG_DEBUG(("unloading resources"));
 			for(size_t i = 0; i < campaign->medals.size(); ++i) {
 				ResourceManager->unload_surface(campaign->medals[i].tile);
@@ -54,8 +54,8 @@ void Medals::hide(const bool hide) {
 		}
 		return;
 	}
-	if (campaign == NULL) 
-		throw_ex(("campaign == NULL"));
+	if (campaign == nullptr) 
+		throw_ex(("campaign == nullptr"));
 
 	tiles.resize(campaign->medals.size());
 	for(size_t i = 0; i < tiles.size(); ++i) {
@@ -129,7 +129,7 @@ void Medals::update() {
 	if (tiles.empty())
 		return;
 
-	assert(campaign != NULL);
+	assert(campaign != nullptr);
 	
 	int idx = active;
 	int n = tiles.size();
@@ -175,7 +175,7 @@ void Medals::update() {
 	numbers->get_size(bw, bh);
 	numbers->set_base((_w - bw) / 2, _h / 2 + ih / 2 - bh);
 	
-	if (hint != NULL) {
+	if (hint != nullptr) {
 		remove(hint);
 	}
 

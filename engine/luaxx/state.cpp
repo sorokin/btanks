@@ -10,7 +10,7 @@ using namespace luaxx;
 static void *l_alloc (void *ud, void *ptr, size_t osize, size_t nsize) {
 	if (nsize == 0) {
 		free(ptr);
-		return NULL;
+		return nullptr;
 	} else {
 		 return realloc(ptr, nsize);
 	}
@@ -43,7 +43,7 @@ struct reader_state {
 
 
 static const char * chunk_reader(lua_State *L, void *data, size_t *size) {
-	assert(size != NULL);
+	assert(size != nullptr);
 	reader_state * x = (reader_state *) data;
 	if (x->pos < x->data.get_size()) {
 		*size = x->data.get_size();
@@ -52,7 +52,7 @@ static const char * chunk_reader(lua_State *L, void *data, size_t *size) {
 		return ptr;
 	}
 	*size = 0;
-	return NULL;
+	return nullptr;
 }
 
 
@@ -78,10 +78,10 @@ void State::call(const int nargs, const int nresults) const {
 }
 
 void State::init() {
-	assert(state == NULL);
+	assert(state == nullptr);
 
 	state = luaL_newstate();
-	if (state == NULL)
+	if (state == nullptr)
 		throw_ex(("cannot create lua interpreter"));
 
 	static const luaL_Reg libs[] = {
@@ -93,7 +93,7 @@ void State::init() {
 		{LUA_STRLIBNAME, luaopen_string},
 		{LUA_MATHLIBNAME, luaopen_math},
 		 //  {LUA_DBLIBNAME, luaopen_debug},
-		{NULL, NULL}
+		{nullptr, nullptr}
 	};
 	
 	for (const luaL_Reg *lib = libs; lib->func; ++lib) {
@@ -104,19 +104,19 @@ void State::init() {
 	}	
 }
 
-State::State() : state(NULL) {
+State::State() : state(nullptr) {
 	init();
 }
 
 void State::clear() {
 	lua_close(state);
 
-	state = NULL;
+	state = nullptr;
 	init();
 }
 
 State::~State() {
-	if (state != NULL)
+	if (state != nullptr)
 		lua_close(state);
 }
 

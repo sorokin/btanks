@@ -48,8 +48,8 @@ public:
 			v2<float> pos = get_position();
 			if (react) {
 				Object *target = World->getObjectByID(target_id);
-				if (target == NULL) {
-					Object::emit("death", NULL); //just hide 
+				if (target == nullptr) {
+					Object::emit("death", nullptr); //just hide 
 					return;
 				}
 				speed = target->speed * 1.3f;
@@ -60,7 +60,7 @@ public:
 			if (speed != speed_backup) {
 				speed = speed_backup;
 				Object *target = World->getObjectByID(target_id);
-				ttl = ((target != NULL)?get_relative_position(target).length():512.0f) / speed;
+				ttl = ((target != nullptr)?get_relative_position(target).length():512.0f) / speed;
 				set_direction(12);
 			}
 			_velocity = v2<float>(0, 1);
@@ -68,10 +68,10 @@ public:
 			
 			v2<float> pos = get_center_position(), tpos;
 
-			if (target != NULL)			
+			if (target != nullptr)			
 				tpos = target->get_center_position();
 			
-			if (target == NULL || tpos.y <= 0) {
+			if (target == nullptr || tpos.y <= 0) {
 				tpos = pos + v2<float>(0, 50);
 			}
 			
@@ -81,9 +81,9 @@ public:
 					spawn("nuke-explosion", "nuke-explosion");
 				}
 			
-				emit("death", NULL);
+				emit("death", nullptr);
 				if (target) 
-					target->emit("death", NULL);
+					target->emit("death", nullptr);
 			} else {
 				if (math::abs(_velocity.x) * 5 > _velocity.y)
 					_velocity.x = _velocity.y / 5;
@@ -94,8 +94,8 @@ public:
 	void emit(const std::string &event, Object * emitter) {
 		if (event == "death") {
 			Object *target = World->getObjectByID(target_id);
-			if (target != NULL)
-				target->emit("death", NULL);
+			if (target != nullptr)
+				target->emit("death", nullptr);
 			if (animation == "nuke-missile") {
 				spawn("nuke-explosion", "nuke-explosion");
 			}

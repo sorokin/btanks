@@ -95,7 +95,7 @@ void MouseControl::_updateState(PlayerSlot &slot, PlayerState &state, const floa
 	}
 
 	Object *object = slot.getObject();
-	if (object == NULL)
+	if (object == nullptr)
 		return;
 	
 	v2<float> pos;

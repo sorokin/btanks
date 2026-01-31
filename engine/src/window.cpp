@@ -130,7 +130,7 @@ void IWindow::initSDL() {
 		SDL_version compiled;
 		SDL_VERSION(&compiled);
 		const SDL_version *linked = SDL_Linked_Version();
-		assert(linked != NULL); //paranoid, 1.2 SDL got return &static_version; there.
+		assert(linked != nullptr); //paranoid, 1.2 SDL got return &static_version; there.
 		LOG_DEBUG(("compiled version: %u.%u.%u, linked: %u.%u.%u", 
 			compiled.major, compiled.minor, compiled.patch, 
 			linked->major, linked->minor, linked->patch
@@ -157,7 +157,7 @@ void IWindow::initSDL() {
 
 	if (_opengl) {
 		LOG_DEBUG(("loading GL library"));
-		int r = SDL_GL_LoadLibrary(NULL);
+		int r = SDL_GL_LoadLibrary(nullptr);
 		if (r == -1) {
 			LOG_WARN(("SDL_GL_LoadLibrary failed: %s", SDL_GetError()));
 			_opengl = false;
@@ -197,7 +197,7 @@ static std::string getGLString(const GLenum name) {
 	ptr_hack.ptr = SDL_GL_GetProcAddress("glGetString");
 	if (ptr_hack.pglGetString) {
 		const char * cstr = (const char *) ptr_hack.pglGetString(name);
-		if (cstr != NULL) {
+		if (cstr != nullptr) {
 			return cstr;
 		} else {
 			LOG_WARN(("could not get value for GLenum %d.", (int)name));
@@ -278,10 +278,10 @@ void IWindow::init(const int argc, char *argv[]) {
 #ifdef _WIN32
 	LOG_DEBUG(("loading icon..."));
 	TRY {
-		HANDLE h = LoadImage(GetModuleHandle(NULL), MAKEINTRESOURCE(1), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
-		if (h == NULL)
+		HANDLE h = LoadImage(GetModuleHandle(nullptr), MAKEINTRESOURCE(1), IMAGE_ICON, 0, 0, LR_DEFAULTSIZE);
+		if (h == nullptr)
 			throw_ex(("LoadImage failed"));
-		ULONG r = SetClassLongPtr(NULL, GCLP_HICON, (LONG_PTR)h);
+		ULONG r = SetClassLongPtr(nullptr, GCLP_HICON, (LONG_PTR)h);
 		LOG_DEBUG(("SetClassLongPtr returned %08lx", (unsigned long)r));
 
 	} CATCH("icon setup", {});
@@ -298,7 +298,7 @@ SDL_WM_SetCaption(("Battle tanks - " + getVersion()).c_str(), "btanks");
 
 		sdlx::Surface icon;
 		icon.load_image(data);
-		SDL_WM_SetIcon(icon.get_sdl_surface(), NULL);
+		SDL_WM_SetIcon(icon.get_sdl_surface(), nullptr);
 	} CATCH("setting icon", {});
 
 	//does not mean a thing in macosx (always present) and windows (d3d)
@@ -341,10 +341,10 @@ void IWindow::createMainWindow() {
 	TRY {
 		SDL_Rect **modes;
 		/* Get available fullscreen/hardware modes */
-		modes = SDL_ListModes(NULL, SDL_FULLSCREEN);
+		modes = SDL_ListModes(nullptr, SDL_FULLSCREEN);
 
 		/* Check is there are any modes available */
-		if(modes == (SDL_Rect **)NULL) 
+		if(modes == (SDL_Rect **)nullptr) 
 			throw_ex(("No video modes available"));
     
 	    /* Check if our resolution is restricted */
@@ -353,7 +353,7 @@ void IWindow::createMainWindow() {
 		} else {
 			/* Print valid modes */
 			LOG_DEBUG(("available modes:"));
-			for(int i = 0; modes[i] != NULL; ++i) {
+			for(int i = 0; modes[i] != nullptr; ++i) {
 				int w = modes[i]->w, h = modes[i]->h;
 				if (w < 800 || h < 600)
 					continue;

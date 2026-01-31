@@ -48,9 +48,9 @@ Shilka::Shilka(const std::string &classname)
 
 FakeMod *Shilka::getMod(const std::string &name) {
 	Object *o = get(name);
-	assert(o != NULL);
+	assert(o != nullptr);
 	FakeMod *f = dynamic_cast<FakeMod*>(o);
-	if (f == NULL)
+	if (f == nullptr)
 		throw_ex(("cannot get FakeMod instance. [got %s(%s)]", o->registered_name.c_str(), o->classname.c_str()));
 	return f;
 }

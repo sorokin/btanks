@@ -30,4 +30,4 @@
 #include "mrt/tcp_socket.h"
 
 Connection::Connection(mrt::TCPSocket *s) : sock(s) /*, last_message_ts(-1), last_my_ts(-1), delta(0)*/ {}
-Connection::~Connection() { delete sock; sock = NULL; }
+Connection::~Connection() { delete sock; sock = nullptr; }

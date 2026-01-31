@@ -35,7 +35,7 @@
 #include "sdlx/font.h"
 
 Credits::Credits() : _w(0), _h(0) {
-	Mixer->playSample(NULL, "menu/select.ogg", false);
+	Mixer->playSample(nullptr, "menu/select.ogg", false);
 	GET_CONFIG_VALUE("engine.credits-tune", std::string, tune, "glory.ogg");
 	Mixer->play(tune, true);
 	
@@ -91,12 +91,12 @@ Credits::Credits() : _w(0), _h(0) {
 
 	//copy-paste ninja was here ;)
 	for(std::vector<std::string>::const_iterator i = lines.begin(); i != lines.end(); ++i) {
-		unsigned w = _font->render(NULL, 0, 0, *i);
+		unsigned w = _font->render(nullptr, 0, 0, *i);
 		if (w > _w)
 			_w = w;
 	}
 	for(std::vector<std::string>::const_iterator i = lines2.begin(); i != lines2.end(); ++i) {
-		unsigned w = _medium_font->render(NULL, 0, 0, *i);
+		unsigned w = _medium_font->render(nullptr, 0, 0, *i);
 		if (w > _w)
 			_w = w;
 	}
@@ -107,12 +107,12 @@ Credits::Credits() : _w(0), _h(0) {
 	
 	for(size_t i = 0; i < lines.size(); ++i) {	
 		const std::string &str = lines[i];
-		int w = _font->render(NULL, 0, 0, str);
+		int w = _font->render(nullptr, 0, 0, str);
 		_font->render(_surface, (_w - w) / 2, i * fh, str);
 	}
 	for(size_t i = 0; i < lines2.size(); ++i) {
 		const std::string &str = lines2[i];
-		int w = _medium_font->render(NULL, 0, 0, str);
+		int w = _medium_font->render(nullptr, 0, 0, str);
 		_medium_font->render(_surface, (_w - w) / 2, lines.size() * fh + i * mfh, str);
 	}
 	//copy-paste ninja has been done its evil deed and vanishes.
@@ -141,6 +141,6 @@ void Credits::render(const float dt, sdlx::Surface &surface) {
 }
 
 Credits::~Credits() {
-	Mixer->playSample(NULL, "menu/return.ogg", false);
+	Mixer->playSample(nullptr, "menu/return.ogg", false);
 	Mixer->play();
 }

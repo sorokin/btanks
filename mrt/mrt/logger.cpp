@@ -33,19 +33,19 @@ using namespace mrt;
 
 IMPLEMENT_SINGLETON(mrt::Logger, ILogger);
 
-ILogger::ILogger() : _level(LL_DEBUG), _lines(0), fd(NULL) {}
+ILogger::ILogger() : _level(LL_DEBUG), _lines(0), fd(nullptr) {}
 
 void ILogger::assign(const std::string &file) {
 	close();
 	fd = fopen(file.c_str(), "wt");	
-	if (fd == NULL)
+	if (fd == nullptr)
 		throw_io(("fopen('%s', 'wt')", file.c_str()));
 }
 
 void ILogger::close() {
-	if (fd != NULL) {
+	if (fd != nullptr) {
 		fclose(fd);
-		fd = NULL;
+		fd = nullptr;
 	}
 }
 
@@ -79,7 +79,7 @@ void ILogger::log(const int level, const char *file, const int line, const std::
 #else
 	struct timeval tv;
 	memset(&tv, 0, sizeof(tv));
-	gettimeofday(&tv, NULL);
+	gettimeofday(&tv, nullptr);
 	
 	struct tm tm;
 	localtime_r(&tv.tv_sec, &tm);

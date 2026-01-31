@@ -18,7 +18,7 @@ public:
 	virtual void on_spawn();
 	virtual Object * clone() const;
 
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	~Teleport();
 
 	virtual void tick(const float dt);
@@ -57,13 +57,13 @@ void Teleport::tick(const float dt) {
 			return;
 		
 		const Object *o = World->getObjectByID(track);
-		if (o == NULL) {
+		if (o == nullptr) {
 			track = 0;
 			invalidate();
 			return;
 		}
 		PlayerSlot *slot = PlayerManager->get_slot_by_id(track);
-		if (slot != NULL) {
+		if (slot != nullptr) {
 			slot->dont_interpolate = true;
 			slot->need_sync = true;
 		}
@@ -80,7 +80,7 @@ void Teleport::tick(const float dt) {
 
 
 void Teleport::emit(const std::string &event, Object * emitter) {
-	if (event == "collision" && emitter != NULL) {
+	if (event == "collision" && emitter != nullptr) {
 		if (emitter->classname == "helicopter") 
 			return;
 		
@@ -120,7 +120,7 @@ void Teleport::emit(const std::string &event, Object * emitter) {
 			//telefrag detection
 			PlayerSlot *slot = PlayerManager->get_slot_by_id(dst->track);
 			Object *o;
-			if (slot != NULL && (o = slot->getObject()) != NULL) {
+			if (slot != nullptr && (o = slot->getObject()) != nullptr) {
 				//LOG_DEBUG(("telefragged %s", o->animation.c_str()));
 				o->add_effect("telefrag", -1);
 				o->emit("death", emitter);

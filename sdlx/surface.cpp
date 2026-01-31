@@ -32,7 +32,7 @@ void Surface::set_default_flags(const Uint32 flags) {
 }
 
 
-Surface::Surface():surface(NULL) {}
+Surface::Surface():surface(nullptr) {}
 Surface::Surface(SDL_Surface *x) : surface(x) {}
 
 void Surface::assign(SDL_Surface *x) {
@@ -65,7 +65,7 @@ void Surface::create_rgb(int width, int height, int depth, Uint32 flags) {
 #endif
 	surface = SDL_CreateRGBSurface(flags, width, height, depth,
 								   rmask, gmask, bmask, amask);
-	if(surface == NULL) throw_sdl(("SDL_CreateRGBSurface(%d, %d, %d)", width, height, depth));
+	if(surface == nullptr) throw_sdl(("SDL_CreateRGBSurface(%d, %d, %d)", width, height, depth));
 }
 
 void Surface::create_rgb_from(void *pixels, int width, int height, int depth,  int pitch) {
@@ -87,7 +87,7 @@ void Surface::create_rgb_from(void *pixels, int width, int height, int depth,  i
 
 	surface = SDL_CreateRGBSurfaceFrom(pixels, width, height, depth, pitch,
 									   rmask, gmask, bmask, amask);
-	if(surface == NULL) 
+	if(surface == nullptr) 
 		throw_sdl(("SDL_CreateRGBSurface"));
 
 }
@@ -97,7 +97,7 @@ void Surface::convert(Surface &dest, PixelFormat *fmt, Uint32 flags)  const {
 	if (flags == Default) throw_ex(("setup default flags before using it."));
 
 	SDL_Surface *x = SDL_ConvertSurface(surface, fmt, flags);
-	if (x == NULL) 
+	if (x == nullptr) 
 		throw_sdl(("SDL_ConvertSurface"));
 	dest.assign(x);
 }
@@ -107,7 +107,7 @@ void Surface::convert(Uint32 flags) {
 	if (flags == Default) throw_ex(("setup default flags before using it."));
 
 	SDL_Surface *x = SDL_ConvertSurface(surface, surface->format, flags);
-	if (x == NULL) 
+	if (x == nullptr) 
 		throw_sdl(("SDL_ConvertSurface"));
 	assign(x);
 }
@@ -118,13 +118,13 @@ void Surface::set_video_mode(int w, int h, int bpp, int flags) {
 	if (flags == Default) flags = default_flags;
 	if (flags == Default) throw_ex(("setup default flags before using it."));
     free();
-    if ((surface = SDL_SetVideoMode(w, h, bpp, flags)) == NULL ) 
+    if ((surface = SDL_SetVideoMode(w, h, bpp, flags)) == nullptr ) 
 		throw_sdl(("SDL_SetVideoMode(%d, %d, %d, %x)", w, h, bpp, flags));
 }
 
 
 void Surface::put_pixel(int x, int y, Uint32 pixel) {
-	if (surface->pixels == NULL)
+	if (surface->pixels == nullptr)
 		throw_ex(("put_pixel called on unlocked surface without pixel information"));
 	if (!(x >= 0 && y >= 0 && x < surface->w && y < surface->h))
 		return;
@@ -163,7 +163,7 @@ void Surface::put_pixel(int x, int y, Uint32 pixel) {
 }
 
 Uint32 Surface::get_pixel(int x, int y) const{
-	if (surface->pixels == NULL)
+	if (surface->pixels == nullptr)
 		throw_ex(("get_pixel called on unlocked surface without pixel information"));
 	int bpp = surface->format->BytesPerPixel;
 	/* Here p is the address to the pixel we want to retrieve */
@@ -194,7 +194,7 @@ Uint32 Surface::get_pixel(int x, int y) const{
 void Surface::load_bmp(const std::string &fname) {
 	free();
 	surface = SDL_LoadBMP(fname.c_str());
-	if (surface == NULL)
+	if (surface == nullptr)
 		throw_sdl(("SDL_LoadBMP"));
 }
 
@@ -209,18 +209,18 @@ void Surface::save_bmp(const std::string &fname)  const {
 
 void Surface::load_image(const std::string &str) {
     free();
-    if ((surface = IMG_Load(str.c_str())) == NULL ) throw_sdl(("IMG_Load"));
+    if ((surface = IMG_Load(str.c_str())) == nullptr ) throw_sdl(("IMG_Load"));
 }
 
 void Surface::load_image(const mrt::Chunk &memory) {
 	free();
 	SDL_RWops *op = SDL_RWFromMem(memory.get_ptr(), memory.get_size());
-	if (op == NULL) throw_sdl(("SDL_RWFromMem"));
+	if (op == nullptr) throw_sdl(("SDL_RWFromMem"));
 	try {
 		surface = IMG_Load_RW(op, 0);
 		SDL_FreeRW(op);
-		op = NULL;
-		if (surface == NULL)
+		op = nullptr;
+		if (surface == nullptr)
 			throw_sdl(("IMG_Load_RW"));
 	} CATCH("load_image", {SDL_FreeRW(op); throw;})
 }
@@ -233,7 +233,7 @@ void Surface::blit(const Surface &from, const int x, const int y) {
 	memset(&dst, 0, sizeof(dst));
     dst.x = x;
     dst.y = y;
-    if (SDL_BlitSurface(from.surface, NULL, surface, &dst) == -1) 
+    if (SDL_BlitSurface(from.surface, nullptr, surface, &dst) == -1) 
 		throw_sdl(("SDL_BlitSurface"));
 }
 
@@ -245,7 +245,7 @@ void Surface::blit(const Surface &from, const Rect &fromRect, const int x, const
 }
 
 void Surface::blit(const Surface &from, const Rect &fromRect) {
-    if (SDL_BlitSurface(from.surface, const_cast<Rect*>(&fromRect), surface, NULL) == -1) throw_sdl(("SDL_BlitSurface"));
+    if (SDL_BlitSurface(from.surface, const_cast<Rect*>(&fromRect), surface, nullptr) == -1) throw_sdl(("SDL_BlitSurface"));
 }
 
 void Surface::update(const Rect &rect) {
@@ -276,7 +276,7 @@ void Surface::toggle_fullscreen() {
 }
 
 void Surface::fill(Uint32 color) {
-    if ( SDL_FillRect(surface, NULL, color) == -1) throw_sdl(("SDL_FillRect"));
+    if ( SDL_FillRect(surface, nullptr, color) == -1) throw_sdl(("SDL_FillRect"));
 }
 
 void Surface::fill_rect(const Rect &r, Uint32 color) {
@@ -296,7 +296,7 @@ void Surface::display_format_alpha() {
 	if (r == surface) 
 		return; //hack :)
 
-	if (r == NULL)
+	if (r == nullptr)
 		throw_sdl(("SDL_DisplayFormatAlpha"));
 	assign(r);
 }
@@ -306,16 +306,16 @@ void Surface::display_format() {
 	if (r == surface)
 		return;
 	
-	if (r == NULL)
+	if (r == nullptr)
 		throw_sdl(("SDL_DisplayFormat"));
 	assign(r);
 }
 
 
 void Surface::free() {
-    if (surface == NULL) return;
+    if (surface == nullptr) return;
     SDL_FreeSurface(surface);
-    surface = NULL;
+    surface = nullptr;
 }
 
 void Surface::lock() const {
@@ -335,7 +335,7 @@ void Surface::set_clip_rect(const sdlx::Rect &rect) {
 	SDL_SetClipRect(surface, const_cast<sdlx::Rect*>(&rect));
 }
 void Surface::reset_clip_rect() {
-	SDL_SetClipRect(surface, NULL);
+	SDL_SetClipRect(surface, nullptr);
 }
 void Surface::get_clip_rect(sdlx::Rect &rect) {
 	SDL_GetClipRect(surface, &rect);
@@ -350,17 +350,17 @@ void Surface::load_from_resource(const char * lpResName) {
 #ifdef _WIN32
 	free();
 
-	HINSTANCE hInst = GetModuleHandle(NULL);
+	HINSTANCE hInst = GetModuleHandle(nullptr);
 
 	HBITMAP hBitmap;
 	BITMAP bm;
-	Uint8 *bits = NULL;
-	Uint8 *temp = NULL;
-	SDL_Surface *surf = NULL;
+	Uint8 *bits = nullptr;
+	Uint8 *temp = nullptr;
+	SDL_Surface *surf = nullptr;
 
 	//Load Bitmap From the Resource into HBITMAP
 	hBitmap = (HBITMAP)LoadImage(hInst, lpResName, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
-	if (hBitmap == NULL)
+	if (hBitmap == nullptr)
 		throw_ex(("LoadImage(%p, '%p') failed", (void *)hInst, lpResName));
 
 	//Now Get a BITMAP structure for the HBITMAP
@@ -370,7 +370,7 @@ void Surface::load_from_resource(const char * lpResName) {
 	//create a new surface
 	surf = SDL_CreateRGBSurface(SDL_SWSURFACE, bm.bmWidth, bm.bmHeight, bm.bmBitsPixel,
 					0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000);
-	if (surf == NULL)
+	if (surf == nullptr)
 		throw_sdl(("SDL_CreateRGBSurface(%d, %d, %d)", bm.bmWidth, bm.bmHeight, bm.bmBitsPixel));
 
 	bits = new Uint8[bm.bmWidthBytes*bm.bmHeight];
@@ -438,16 +438,16 @@ void Surface::rotozoom(const sdlx::Surface &src, double angle, double zoom, bool
 		throw_ex(("rotozoomSurfaceSize returns invalid size: %dx%d", dstwidth, dstheight));
 	
 	SDL_Surface * r = ::rotozoomSurface((SDL_Surface *)src.get_sdl_surface(), angle, zoom, smooth? SMOOTHING_ON: SMOOTHING_OFF);
-	if (r == NULL)
+	if (r == nullptr)
 		throw_sdl(("rotozoomSurface(%dx%d, %g, %g, %s)", src.get_width(), src.get_height(), angle, zoom, smooth?"true":"false"));
 	assign(r);
 }
 
 void Surface::zoom(double xfactor, double yfactor, bool smooth) {
-	if (surface == NULL)
+	if (surface == nullptr)
 		throw_ex(("rotozooming null surface"));
 	SDL_Surface * r = zoomSurface(surface, xfactor, yfactor, smooth);
-	if (r == NULL)
+	if (r == nullptr)
 		throw_sdl(("zoomSurface"));
 	free();
 	surface = r;

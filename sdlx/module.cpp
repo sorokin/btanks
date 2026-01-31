@@ -32,26 +32,26 @@ const std::string Module::mangle(const std::string &name) {
 #endif
 }
 
-Module::Module() : handle(NULL) {}
+Module::Module() : handle(nullptr) {}
 
 void Module::load(const std::string &name) {
 	unload();
 	handle = SDL_LoadObject(name.c_str());
-	if (handle == NULL)
+	if (handle == nullptr)
 		throw_sdl(("SDL_LoadObject('%s')", name.c_str()));
 }
 
 void *Module::sym(const std::string &name) const {
-	if (handle == NULL)
-		return NULL;
+	if (handle == nullptr)
+		return nullptr;
 	return SDL_LoadFunction(handle, name.c_str());
 }
 
 void Module::unload() {
-	if (handle == NULL)
+	if (handle == nullptr)
 		return;
 	SDL_UnloadObject(handle);
-	handle = NULL;
+	handle = nullptr;
 }
 
 Module::~Module() {
@@ -59,5 +59,5 @@ Module::~Module() {
 }
 
 void Module::leak() {
-	handle = NULL;
+	handle = nullptr;
 }

@@ -83,7 +83,7 @@ void RaiderHeli::calculate(const float dt) {
 
 		if (players == 0) {
 			LOG_DEBUG(("no players... "));
-			emit("death", NULL);
+			emit("death", nullptr);
 			return;
 		}
 		LOG_DEBUG(("setting up %d players", players));
@@ -100,7 +100,7 @@ void RaiderHeli::calculate(const float dt) {
 		pos += (size * 0.9).convert<int>();
 		if (pos.x > map_size.x || pos.y > map_size.y) {
 			LOG_DEBUG(("escaped"));
-			Object::emit("death", NULL);
+			Object::emit("death", nullptr);
 		}
 		_velocity = v2<float>(4, 3);
 		
@@ -111,7 +111,7 @@ void RaiderHeli::calculate(const float dt) {
 	//main ai
 		PlayerSlot &slot = PlayerManager->get_slot(_player);
 		Object *player = slot.getObject();
-		if (player == NULL || _toggle.tick(dt)) {
+		if (player == nullptr || _toggle.tick(dt)) {
 			(++_player) %= PlayerManager->get_slots_count();
 			//LOG_DEBUG(("changing player to %d", _player));
 			return;

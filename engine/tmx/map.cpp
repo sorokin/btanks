@@ -63,7 +63,7 @@ IMap::IMap() : _w(0), _h(0), _tw(0), _th(0), _ptw(0), _pth(0), _firstgid(0), _sp
 	_generator(new MapGenerator), _torus(false) 
 {
 	_lastz = -1001;
-	_image = NULL;
+	_image = nullptr;
 }
 
 Matrix<int> &IMap::getMatrix(int z, const bool only_pierceable) {
@@ -103,14 +103,14 @@ const Matrix<int>& IMap::get_impassability_matrix(const int z, const bool only_p
 }
 
 inline const bool IMap::collides(const Object *obj, const int dx, const int dy, const sdlx::CollisionMap *tile) const {
-	if (tile == NULL) {
+	if (tile == nullptr) {
 		return false;
 	}
 	return obj->collides(tile, -dx, -dy);
 }
 
 inline const bool IMap::hiddenBy(const Object *obj, const int dx, const int dy, const sdlx::CollisionMap *tile) const {
-	if (tile == NULL)
+	if (tile == nullptr)
 		return false;
 	return obj->collides(tile, -dx, -dy, true);
 }
@@ -128,7 +128,7 @@ static const int im2(const int im1, const int im2) {
 
 const int IMap::getImpassability(const Object *obj, const v2<int>&pos, TilePosition *tile_pos, bool *hidden) const {
 TRY {
-	assert(obj != NULL);
+	assert(obj != nullptr);
 	
 	if (obj->impassability >= 0 && obj->impassability < 1.0f) {
 		return 0;
@@ -140,7 +140,7 @@ TRY {
 	GET_CONFIG_VALUE("engine.disable-outlines", bool, disable_outlines, false);
 
 	if (disable_outlines) {
-		hidden = NULL;
+		hidden = nullptr;
 	}
 	
 	v2<float> position, velocity;
@@ -378,11 +378,11 @@ void IMap::updateMatrix(const int x, const int y) {
 				if (tid == 0)
 					continue;
 				const sdlx::CollisionMap *cmap = getCollisionMap(l->second, x, y);
-				if (cmap == NULL || cmap->is_empty())
+				if (cmap == nullptr || cmap->is_empty())
 					continue;
 
 				Matrix<int> &imp_map = getMatrix(l->first, false);
-				Matrix<int> *pmap = (l->second->pierceable) ? &getMatrix(l->first, true): NULL;
+				Matrix<int> *pmap = (l->second->pierceable) ? &getMatrix(l->first, true): nullptr;
 				
 				//break;
 				//if (im == 100) 
@@ -394,7 +394,7 @@ void IMap::updateMatrix(const int x, const int y) {
 				cmap->project(proj, _split, _split);
 				//LOG_DEBUG(("projection: %s", proj.dump().c_str()));
 				//_imp_map.set(y, x, im);
-				const bool destructable = dynamic_cast<const DestructableLayer *>(l->second) != NULL;
+				const bool destructable = dynamic_cast<const DestructableLayer *>(l->second) != nullptr;
 				if (destructable)
 					im = -100;
 				
@@ -434,7 +434,7 @@ void IMap::updateMatrix(Matrix<int> &imp_map, const Layer *layer) {
 				continue;
 
 			const sdlx::CollisionMap *cmap = getCollisionMap(layer, x, y);
-			if (cmap == NULL || cmap->is_empty())
+			if (cmap == nullptr || cmap->is_empty())
 				continue;
 
 			Matrix<bool> proj;
@@ -479,7 +479,7 @@ void IMap::load(const std::string &name) {
 	
 	parse_file(file);
 	delete _image;
-	_image = NULL;
+	_image = nullptr;
 	
 	correctGids();
 
@@ -489,17 +489,17 @@ void IMap::load(const std::string &name) {
 	
 	
 	for(std::map<std::string, std::string>::const_iterator i = _damage4.begin(); i != _damage4.end(); ++i) {
-		Layer *dl = NULL, *l = NULL;
+		Layer *dl = nullptr, *l = nullptr;
 		dl = _layers[_layer_z[i->first]];
-		if (dl == NULL)
+		if (dl == nullptr)
 			throw_ex(("layer %s doesnt exits", i->first.c_str()));
 		int slave_z = _layer_z[i->second];
 		l = _layers[slave_z];
-		if (l == NULL)
+		if (l == nullptr)
 			throw_ex(("layer %s doesnt exits", i->second.c_str()));
 		LOG_DEBUG(("mapping damage layers: %s -> %s", i->first.c_str(), i->second.c_str()));
 		ChainedDestructableLayer *cl = dynamic_cast<ChainedDestructableLayer *>(dl);
-		if (cl == NULL) 
+		if (cl == nullptr) 
 			throw_ex(("layer %s is not destructable", i->first.c_str()));
 		cl->setSlave(slave_z, l);
 	}
@@ -536,7 +536,7 @@ void IMap::generateMatrixes() {
 		for(int ty = 0; ty < _h; ++ty) {
 			for(int tx = 0; tx < _w; ++tx) {
 				const sdlx::CollisionMap * vmap = getVisibilityMap(l->second, tx, ty);
-				if (vmap == NULL)
+				if (vmap == nullptr)
 					continue;
 				if (vmap->is_full()) {
 					_cover_map.set(ty, tx, l->first);
@@ -684,7 +684,7 @@ void IMap::end(const std::string &name) {
 		if (e.attrs.find("id") == e.attrs.end())
 			throw_ex(("tile.id was not found")); 
 			
-		if (_image == NULL) 
+		if (_image == nullptr) 
 			throw_ex(("tile must contain <image> inside it."));
 		
 		unsigned int id = atol(e.attrs["id"].c_str());
@@ -697,7 +697,7 @@ void IMap::end(const std::string &name) {
 			_tiles.resize(id + 20);
 		
 		TileMap::value_type &tile = _tiles[id];	
-		if (tile.surface != NULL)
+		if (tile.surface != nullptr)
 			throw_ex(("duplicate tile %d found", id));
 
 		tile.cmap = new sdlx::CollisionMap;
@@ -706,7 +706,7 @@ void IMap::end(const std::string &name) {
 		tile.vmap->init(_image, sdlx::CollisionMap::AnyVisible);
 		tile.surface = _image;
 		
-		_image = NULL;
+		_image = nullptr;
 
 	} else if (name == "data") {
 		std::string enc = e.attrs["encoding"];
@@ -736,7 +736,7 @@ void IMap::end(const std::string &name) {
 	} else if (name == "image") {
 		status = "tileset";
 		delete _image;
-		_image = NULL;
+		_image = nullptr;
 		
 		_image = new sdlx::Surface;
 		std::string source = e.attrs["source"];
@@ -785,20 +785,20 @@ void IMap::end(const std::string &name) {
 				pierceable = pc == 't' || pc == 'T' || pc == '1';
 			}
 		}
-		Layer *layer = NULL;
+		Layer *layer = nullptr;
 		if (!RTConfig->editor_mode) {
 		
 		if (!_properties["visible-if-damaged"].empty()) {
 			layer = new DestructableLayer(true);
 		}
 		if (!_properties["invisible-if-damaged"].empty()) {
-			if (layer != NULL) 
+			if (layer != nullptr) 
 				throw_ex(("visible/invisible options is mutually exclusive"));
 			layer = new DestructableLayer(false);
 		}
 		const std::string damage = _properties["damage-for"];
 		if (!damage.empty()) {
-			if (layer != NULL)
+			if (layer != nullptr)
 				throw_ex(("damage-for cannot be combined with (in)visible-if-damaged"));
 			layer = new ChainedDestructableLayer();
 			_damage4[_layer_name] = damage;
@@ -809,7 +809,7 @@ void IMap::end(const std::string &name) {
 		LOG_DEBUG(("layer '%s'. %dx%d. z: %d, size: %u, impassability: %d", e.attrs["name"].c_str(), w, h, z, (unsigned)_data.get_size(), impassability));
 		if (_layers.find(z) != _layers.end())
 			throw_ex(("layer with z %d already exists", z));
-		if(layer == NULL)
+		if(layer == nullptr)
 			layer = new Layer;
 			
 		if (RTConfig->editor_mode) {
@@ -871,7 +871,7 @@ void IMap::end(const std::string &name) {
 
 			layer->init(w, h, _data); 
 		} CATCH(mrt::format_string("layer '%s'", _layer_name.c_str()).c_str(), 
-			{delete layer; layer = NULL; throw; }
+			{delete layer; layer = nullptr; throw; }
 		);
 		
 		if (!RTConfig->editor_mode) 
@@ -899,7 +899,7 @@ void IMap::end(const std::string &name) {
 				throw_ex(("duplicate property name '%s' found", name.c_str()));
 			properties[name] = e.attrs["value"];
 		}
-	} else if (name == "tileset" && _image != NULL && _image_is_tileset) {
+	} else if (name == "tileset" && _image != nullptr && _image_is_tileset) {
 		status = "tileset";
 
 		int n = ((_image->get_width() - 1) / _tw + 1) * ((_image->get_height() - 1) / _th + 1);
@@ -914,7 +914,7 @@ void IMap::end(const std::string &name) {
 		addTiles(_image, _firstgid);
 
 		delete _image;
-		_image = NULL;
+		_image = nullptr;
 	}
 	
 	_stack.pop();
@@ -1031,7 +1031,7 @@ void IMap::render(sdlx::Surface &window, const sdlx::Rect &src, const sdlx::Rect
 				}
 				
 				const sdlx::Surface * s = get_surface(l->second, sx, sy);
-				if (s == NULL)
+				if (s == nullptr)
 					continue;
 				
 				const int dx = dst.x + tx * _tw + shift_pos.x, dy = dst.y + ty * _th + shift_pos.y;
@@ -1070,7 +1070,7 @@ void IMap::clear() {
 
 	//LOG_DEBUG(("deleting intermediate parser objects..."));
 	delete _image;
-	_image = NULL;
+	_image = nullptr;
 	_lastz = -1001;
 	_w = _h = _tw = _th = _firstgid = 0;
 	
@@ -1198,19 +1198,19 @@ const Uint32 IMap::getTile(const Layer *l, const int x, const int y) const {
 const sdlx::Surface* IMap::get_surface(const Layer *l, const int x, const int y) const {
 	Uint32 t = getTile(l, x, y);
 	if (t == 0 || t >= _tiles.size())
-		return NULL;
+		return nullptr;
 	return _tiles[t].surface;
 }
 const sdlx::CollisionMap* IMap::getCollisionMap(const Layer *l, const int x, const int y) const {
 	Uint32 t = getTile(l, x, y);
 	if (t == 0 || t >= _tiles.size())
-		return NULL;
+		return nullptr;
 	return _tiles[t].cmap;
 }
 const sdlx::CollisionMap* IMap::getVisibilityMap(const Layer *l, const int x, const int y) const {
 	Uint32 t = getTile(l, x, y);
 	if (t == 0 || t >= _tiles.size())
-		return NULL;
+		return nullptr;
 	return _tiles[t].vmap;
 }
 
@@ -1233,9 +1233,9 @@ void IMap::serialize(mrt::Serializator &s) const {
 	for(LayerMap::const_iterator i = _layers.begin(); i != _layers.end(); ++i) {
 		s.add(i->first);
 		int type = 'l';
-		if (dynamic_cast<ChainedDestructableLayer *>(i->second) != NULL) 
+		if (dynamic_cast<ChainedDestructableLayer *>(i->second) != nullptr) 
 			type = 'c';
-		else if (dynamic_cast<DestructableLayer *>(i->second) != NULL) 
+		else if (dynamic_cast<DestructableLayer *>(i->second) != nullptr) 
 			type = 'd';
 
 		s.add(type);
@@ -1272,7 +1272,7 @@ void IMap::deserialize(const mrt::Serializator &s) {
 		int gid;
 		s.get(name);	
 		s.get(gid);	
-		sdlx::Surface *image  = NULL;
+		sdlx::Surface *image  = nullptr;
 		int n = 0;
 		TRY {
 			std::string fname = Finder->find("maps/" + name, false);
@@ -1294,7 +1294,7 @@ void IMap::deserialize(const mrt::Serializator &s) {
 			n = addTiles(image, gid);
 			
 			delete image;
-			image = NULL;
+			image = nullptr;
 		} CATCH("deserialize", { delete image; throw; });
 		
 		_tilesets.add(name, gid, n);
@@ -1307,7 +1307,7 @@ void IMap::deserialize(const mrt::Serializator &s) {
 		s.get(z);
 		s.get(type);
 
-		Layer *layer = NULL;
+		Layer *layer = nullptr;
 		TRY {
 			switch(type) {
 			case 'c': 
@@ -1334,7 +1334,7 @@ void IMap::deserialize(const mrt::Serializator &s) {
 
 	for(LayerMap::iterator i = _layers.begin(); i != _layers.end(); ++i) {
 		ChainedDestructableLayer * cdl = dynamic_cast<ChainedDestructableLayer *>(i->second);
-		if (cdl == NULL)
+		if (cdl == nullptr)
 			continue;
 		LayerMap::iterator l = _layers.find(cdl->slave_z);
 		if (l == _layers.end())
@@ -1413,11 +1413,11 @@ TRY {
 				_tiles.resize(first_gid + id + 20);
 				
 			delete _tiles[first_gid + id].surface;
-			_tiles[first_gid + id].surface = NULL;
+			_tiles[first_gid + id].surface = nullptr;
 			delete _tiles[first_gid + id].cmap;
-			_tiles[first_gid + id].cmap = NULL;
+			_tiles[first_gid + id].cmap = nullptr;
 			delete _tiles[first_gid + id].vmap;
-			_tiles[first_gid + id].vmap = NULL;
+			_tiles[first_gid + id].vmap = nullptr;
 				
 			_tiles[first_gid + id].cmap = new sdlx::CollisionMap;
 			_tiles[first_gid + id].cmap->init(s, sdlx::CollisionMap::OnlyOpaque);
@@ -1425,7 +1425,7 @@ TRY {
 			_tiles[first_gid + id].vmap->init(s, sdlx::CollisionMap::AnyVisible);
 			_tiles[first_gid + id].surface = s;
 			++id;
-			s = NULL;
+			s = nullptr;
 		}
 	}
 	const_cast<sdlx::Surface *>(image)->set_alpha(0, SDL_SRCALPHA);	//fixme: dangerous
@@ -1512,7 +1512,7 @@ void IMap::deleteLayer(const int kill_z) {
 
 void IMap::addLayer(const int after_z, const std::string &name) {
 	int z = -1000;
-	Layer *layer = NULL;
+	Layer *layer = nullptr;
 	
 	if (!_layers.empty()) {
 		LayerMap::iterator i = _layers.find(after_z);
@@ -1534,7 +1534,7 @@ void IMap::addLayer(const int after_z, const std::string &name) {
 		}
 		//LOG_DEBUG(("%s -> %d", l->second->name.c_str(), z));
 		if (new_map.find(z) != new_map.end()) {
-			if (layer != NULL)
+			if (layer != nullptr)
 				delete layer;
 			throw_ex(("no room for layer"));
 		}

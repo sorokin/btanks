@@ -51,7 +51,7 @@ Tileset::Tileset()
 const GeneratorObject *Tileset::getObject(const std::string &name) const {
 	if (name == "?") {
 		if (_objects.empty())
-			return NULL;
+			return nullptr;
 		
 		int n = mrt::random(_objects.size());
 		Objects::const_iterator i = _objects.begin();
@@ -63,9 +63,9 @@ const GeneratorObject *Tileset::getObject(const std::string &name) const {
 	
 	Objects::const_iterator i = _objects.find(name);
 	if (i == _objects.end())
-		return NULL;
+		return nullptr;
 
-	assert(i->second != NULL);
+	assert(i->second != nullptr);
 	
 	return i->second.get();
 }

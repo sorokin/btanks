@@ -39,7 +39,7 @@
 
 static size_t stream_read_func  (void *ptr, size_t size, size_t nmemb, void *datasource) {
 	//LOG_DEBUG(("read(%p, %u, %u)", ptr, (unsigned)size, (unsigned)nmemb));
-	assert(datasource != NULL);
+	assert(datasource != nullptr);
 	mrt::BaseFile *file = (mrt::BaseFile *)datasource;
 	TRY { 
 		int r = file->read(ptr, nmemb * size);
@@ -52,7 +52,7 @@ static size_t stream_read_func  (void *ptr, size_t size, size_t nmemb, void *dat
 
 static int    stream_seek_func  (void *datasource, ogg_int64_t offset, int whence) {
 	//LOG_DEBUG(("seek(%u, %d)", (unsigned)offset, whence));
-	assert(datasource != NULL);
+	assert(datasource != nullptr);
 	mrt::BaseFile *file = (mrt::BaseFile *)datasource;
 	TRY { 
 		file->seek(offset, whence);
@@ -62,7 +62,7 @@ static int    stream_seek_func  (void *datasource, ogg_int64_t offset, int whenc
 
 static int    stream_close_func (void *datasource) {
 	//LOG_DEBUG(("close()"));
-	assert(datasource != NULL);
+	assert(datasource != nullptr);
 	mrt::BaseFile *file = (mrt::BaseFile *)datasource;
 	TRY { 
 		file->close();
@@ -73,7 +73,7 @@ static int    stream_close_func (void *datasource) {
 
 static long   stream_tell_func  (void *datasource) {
 	//LOG_DEBUG(("tell"));
-	assert(datasource != NULL);
+	assert(datasource != nullptr);
 	mrt::BaseFile *file = (mrt::BaseFile *)datasource;
 	TRY { 
 		return file->tell();
@@ -91,7 +91,7 @@ OggStream::OggStream(const std::string &fname) {
 	ov_cb.tell_func = stream_tell_func;
 	ov_cb.close_func = stream_close_func;
 
-	int r = ov_open_callbacks(_file.release(), &_ogg_stream, NULL, 0, ov_cb);
+	int r = ov_open_callbacks(_file.release(), &_ogg_stream, nullptr, 0, ov_cb);
 	if (r < 0)
 		throw_ogg(r, ("ov_open('%s')", fname.c_str()));
 	
@@ -103,7 +103,7 @@ OggStream::OggStream(const std::string &fname) {
 	_spec.channels = _vorbis_info->channels;
 
 	//_vorbis_comment = ov_comment(&_ogg_stream, -1);
-	assert(_vorbis_info != NULL);
+	assert(_vorbis_info != nullptr);
 }
 
 void OggStream::rewind() {
@@ -153,7 +153,7 @@ void OggStream::decode(clunk::Sample &sample, const std::string &fname) {
 	OggStream ogg(fname);
 
 	vorbis_info const *info = ogg.get_info();
-	assert(info != NULL);
+	assert(info != nullptr);
 
 	// At first glance the only reason when file
 	// can be non-seekable is when we didn't pass

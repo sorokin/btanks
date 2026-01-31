@@ -5,7 +5,7 @@
 #include "box.h"
 
 ImageView::ImageView(int w, int h) : 
-_w(w), _h(h), _image(NULL), _overlay(NULL), 
+_w(w), _h(h), _image(nullptr), _overlay(nullptr), 
 _box(new Box("menu/background_box.png", _w, _h)) {
 	add(0, 0, _box);
 }
@@ -22,7 +22,7 @@ void ImageView::init(const sdlx::Surface *image) {
 
 void ImageView::render(sdlx::Surface &surface, const int x, const int y) const {
 	Container::render(surface, x, y);
-	if (_image == NULL)
+	if (_image == nullptr)
 		return;
 	int mx, my;
 	_box->getMargins(mx, my);
@@ -31,13 +31,13 @@ void ImageView::render(sdlx::Surface &surface, const int x, const int y) const {
 	surface.get_clip_rect(clip);
 	surface.set_clip_rect(sdlx::Rect(mx + x, my + y, _w - 2 * mx, _h - 2 * my));
 	surface.blit(*_image, x + mx - (int)position.x, y + my - (int)position.y);
-	if (_overlay != NULL) 
+	if (_overlay != nullptr) 
 		surface.blit(*_overlay, x + mx - (int)position.x + _overlay_dpos.x, y + my - (int)position.y + _overlay_dpos.y);
 	surface.set_clip_rect(clip);
 }
 
 void ImageView::validate(v2<float> & pos) {
-	if (_image == NULL)
+	if (_image == nullptr)
 		return;
 	if (pos.x < 0) 
 		pos.x = 0;

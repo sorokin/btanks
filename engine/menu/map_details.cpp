@@ -35,7 +35,7 @@
 #include "map_desc.h"
 #include "mrt/chunk.h"
 
-MapDetails::MapDetails(const int w, const int h) : _w(w), _h(h), _map_desc(NULL), _ai_hint(NULL), has_tactics(false) {
+MapDetails::MapDetails(const int w, const int h) : _w(w), _h(h), _map_desc(nullptr), _ai_hint(nullptr), has_tactics(false) {
 	mrt::Chunk data;
 	Finder->load(data, "maps/null.png");
 	_null_screenshot.load_image(data);
@@ -98,14 +98,14 @@ void MapDetails::set(const MapDesc & map_desc) {
 	has_tactics = Finder->exists(base, fname);
 
 	delete _map_desc; 
-	_map_desc = NULL;
+	_map_desc = nullptr;
 	
 	delete _map_desc;
 	//const std::string &comments = I18n->has("maps/descriptions", map)?I18n->get("maps/descriptions", map): 
 	//I18n->get("maps/descriptions", "(default)");
 	
 	_map_desc = new Tooltip("maps/descriptions", I18n->has("maps/descriptions", map)? map:"(default)" , false, _w);
-	if (_ai_hint != NULL) {
+	if (_ai_hint != nullptr) {
 		_ai_hint->hide(map_desc.game_type != GameTypeDeathMatch);
 	}
 }
@@ -124,7 +124,7 @@ void MapDetails::render(sdlx::Surface &surface, const int x, const int y) const 
 	
 	if (has_tactics) {
 		std::string click_here = I18n->get("menu", "view-map");
-		int w = _small_font->render(NULL, 0, 0, click_here);
+		int w = _small_font->render(nullptr, 0, 0, click_here);
 		_small_font->render(surface, x + (_w - w) / 2, y + yp, click_here);
 	}
 	yp += _small_font->get_height() + 12;

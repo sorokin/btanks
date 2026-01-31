@@ -20,7 +20,7 @@ public:
 	
 	struct Medal {
 		std::string id, tile;
-		Medal() : icon(NULL) {}
+		Medal() : icon(nullptr) {}
 		const sdlx::Surface *icon;
 	};
 
@@ -33,7 +33,7 @@ public:
 		bool no_medals, secret;
 		mutable bool last_opened;
 		int time, score;
-		Map() : id(), visible_if(), map_frame(NULL), position(), no_medals(false), secret(false), last_opened(false), time(0), score(0) {}
+		Map() : id(), visible_if(), map_frame(nullptr), position(), no_medals(false), secret(false), last_opened(false), time(0), score(0) {}
 		bool got_medal(const Campaign &campaign, const Medal &medal) const;
 	};
 	

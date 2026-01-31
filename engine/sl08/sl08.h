@@ -90,11 +90,11 @@ namespace sl08 {
 			typedef base_signal0 <return_type> signal_type; 
 			typedef return_type (object_type::*func_t) (); 
 
-			inline slot0 () : object(NULL), func(NULL) {}
-			inline slot0(object_type *object, func_t func, signal_type * signal = NULL) : object(object), func(func) {}
+			inline slot0 () : object(nullptr), func(nullptr) {}
+			inline slot0(object_type *object, func_t func, signal_type * signal = nullptr) : object(object), func(func) {}
 
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
-			inline void assign(object_type *o, func_t f, signal_type &signal_ref = NULL) { object = o; func = f; this->connect(signal_ref); }
+			inline void assign(object_type *o, func_t f, signal_type &signal_ref = nullptr) { object = o; func = f; this->connect(signal_ref); }
 	
 			inline return_type operator() () const { 
 				return (object->*func) () ;
@@ -112,7 +112,7 @@ namespace sl08 {
 			typedef base_signal0 <void> signal_type; 
 			typedef void (object_type::*func_t) () ;
 
-			inline slot0 () : object(NULL), func(NULL) {}
+			inline slot0 () : object(nullptr), func(nullptr) {}
 			inline slot0 (object_type *object, func_t func) : object(object), func(func) {}
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
 			inline void assign(object_type *o, func_t f, signal_type &signal_ref) { object = o; func = f; this->connect(signal_ref); }
@@ -265,11 +265,11 @@ namespace sl08 {
 			typedef base_signal1 <return_type, arg1_type> signal_type; 
 			typedef return_type (object_type::*func_t) (arg1_type a1); 
 
-			inline slot1 () : object(NULL), func(NULL) {}
-			inline slot1(object_type *object, func_t func, signal_type * signal = NULL) : object(object), func(func) {}
+			inline slot1 () : object(nullptr), func(nullptr) {}
+			inline slot1(object_type *object, func_t func, signal_type * signal = nullptr) : object(object), func(func) {}
 
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
-			inline void assign(object_type *o, func_t f, signal_type &signal_ref = NULL) { object = o; func = f; this->connect(signal_ref); }
+			inline void assign(object_type *o, func_t f, signal_type &signal_ref = nullptr) { object = o; func = f; this->connect(signal_ref); }
 	
 			inline return_type operator() (arg1_type a1) const { 
 				return (object->*func) (a1) ;
@@ -287,7 +287,7 @@ namespace sl08 {
 			typedef base_signal1 <void, arg1_type> signal_type; 
 			typedef void (object_type::*func_t) (arg1_type a1) ;
 
-			inline slot1 () : object(NULL), func(NULL) {}
+			inline slot1 () : object(nullptr), func(nullptr) {}
 			inline slot1 (object_type *object, func_t func) : object(object), func(func) {}
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
 			inline void assign(object_type *o, func_t f, signal_type &signal_ref) { object = o; func = f; this->connect(signal_ref); }
@@ -440,11 +440,11 @@ namespace sl08 {
 			typedef base_signal2 <return_type, arg1_type, arg2_type> signal_type; 
 			typedef return_type (object_type::*func_t) (arg1_type a1, arg2_type a2); 
 
-			inline slot2 () : object(NULL), func(NULL) {}
-			inline slot2(object_type *object, func_t func, signal_type * signal = NULL) : object(object), func(func) {}
+			inline slot2 () : object(nullptr), func(nullptr) {}
+			inline slot2(object_type *object, func_t func, signal_type * signal = nullptr) : object(object), func(func) {}
 
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
-			inline void assign(object_type *o, func_t f, signal_type &signal_ref = NULL) { object = o; func = f; this->connect(signal_ref); }
+			inline void assign(object_type *o, func_t f, signal_type &signal_ref = nullptr) { object = o; func = f; this->connect(signal_ref); }
 	
 			inline return_type operator() (arg1_type a1, arg2_type a2) const { 
 				return (object->*func) (a1, a2) ;
@@ -462,7 +462,7 @@ namespace sl08 {
 			typedef base_signal2 <void, arg1_type, arg2_type> signal_type; 
 			typedef void (object_type::*func_t) (arg1_type a1, arg2_type a2) ;
 
-			inline slot2 () : object(NULL), func(NULL) {}
+			inline slot2 () : object(nullptr), func(nullptr) {}
 			inline slot2 (object_type *object, func_t func) : object(object), func(func) {}
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
 			inline void assign(object_type *o, func_t f, signal_type &signal_ref) { object = o; func = f; this->connect(signal_ref); }
@@ -615,11 +615,11 @@ namespace sl08 {
 			typedef base_signal3 <return_type, arg1_type, arg2_type, arg3_type> signal_type; 
 			typedef return_type (object_type::*func_t) (arg1_type a1, arg2_type a2, arg3_type a3); 
 
-			inline slot3 () : object(NULL), func(NULL) {}
-			inline slot3(object_type *object, func_t func, signal_type * signal = NULL) : object(object), func(func) {}
+			inline slot3 () : object(nullptr), func(nullptr) {}
+			inline slot3(object_type *object, func_t func, signal_type * signal = nullptr) : object(object), func(func) {}
 
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
-			inline void assign(object_type *o, func_t f, signal_type &signal_ref = NULL) { object = o; func = f; this->connect(signal_ref); }
+			inline void assign(object_type *o, func_t f, signal_type &signal_ref = nullptr) { object = o; func = f; this->connect(signal_ref); }
 	
 			inline return_type operator() (arg1_type a1, arg2_type a2, arg3_type a3) const { 
 				return (object->*func) (a1, a2, a3) ;
@@ -637,7 +637,7 @@ namespace sl08 {
 			typedef base_signal3 <void, arg1_type, arg2_type, arg3_type> signal_type; 
 			typedef void (object_type::*func_t) (arg1_type a1, arg2_type a2, arg3_type a3) ;
 
-			inline slot3 () : object(NULL), func(NULL) {}
+			inline slot3 () : object(nullptr), func(nullptr) {}
 			inline slot3 (object_type *object, func_t func) : object(object), func(func) {}
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
 			inline void assign(object_type *o, func_t f, signal_type &signal_ref) { object = o; func = f; this->connect(signal_ref); }
@@ -790,11 +790,11 @@ namespace sl08 {
 			typedef base_signal4 <return_type, arg1_type, arg2_type, arg3_type, arg4_type> signal_type; 
 			typedef return_type (object_type::*func_t) (arg1_type a1, arg2_type a2, arg3_type a3, arg4_type a4); 
 
-			inline slot4 () : object(NULL), func(NULL) {}
-			inline slot4(object_type *object, func_t func, signal_type * signal = NULL) : object(object), func(func) {}
+			inline slot4 () : object(nullptr), func(nullptr) {}
+			inline slot4(object_type *object, func_t func, signal_type * signal = nullptr) : object(object), func(func) {}
 
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
-			inline void assign(object_type *o, func_t f, signal_type &signal_ref = NULL) { object = o; func = f; this->connect(signal_ref); }
+			inline void assign(object_type *o, func_t f, signal_type &signal_ref = nullptr) { object = o; func = f; this->connect(signal_ref); }
 	
 			inline return_type operator() (arg1_type a1, arg2_type a2, arg3_type a3, arg4_type a4) const { 
 				return (object->*func) (a1, a2, a3, a4) ;
@@ -812,7 +812,7 @@ namespace sl08 {
 			typedef base_signal4 <void, arg1_type, arg2_type, arg3_type, arg4_type> signal_type; 
 			typedef void (object_type::*func_t) (arg1_type a1, arg2_type a2, arg3_type a3, arg4_type a4) ;
 
-			inline slot4 () : object(NULL), func(NULL) {}
+			inline slot4 () : object(nullptr), func(nullptr) {}
 			inline slot4 (object_type *object, func_t func) : object(object), func(func) {}
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
 			inline void assign(object_type *o, func_t f, signal_type &signal_ref) { object = o; func = f; this->connect(signal_ref); }
@@ -965,11 +965,11 @@ namespace sl08 {
 			typedef base_signal5 <return_type, arg1_type, arg2_type, arg3_type, arg4_type, arg5_type> signal_type; 
 			typedef return_type (object_type::*func_t) (arg1_type a1, arg2_type a2, arg3_type a3, arg4_type a4, arg5_type a5); 
 
-			inline slot5 () : object(NULL), func(NULL) {}
-			inline slot5(object_type *object, func_t func, signal_type * signal = NULL) : object(object), func(func) {}
+			inline slot5 () : object(nullptr), func(nullptr) {}
+			inline slot5(object_type *object, func_t func, signal_type * signal = nullptr) : object(object), func(func) {}
 
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
-			inline void assign(object_type *o, func_t f, signal_type &signal_ref = NULL) { object = o; func = f; this->connect(signal_ref); }
+			inline void assign(object_type *o, func_t f, signal_type &signal_ref = nullptr) { object = o; func = f; this->connect(signal_ref); }
 	
 			inline return_type operator() (arg1_type a1, arg2_type a2, arg3_type a3, arg4_type a4, arg5_type a5) const { 
 				return (object->*func) (a1, a2, a3, a4, a5) ;
@@ -987,7 +987,7 @@ namespace sl08 {
 			typedef base_signal5 <void, arg1_type, arg2_type, arg3_type, arg4_type, arg5_type> signal_type; 
 			typedef void (object_type::*func_t) (arg1_type a1, arg2_type a2, arg3_type a3, arg4_type a4, arg5_type a5) ;
 
-			inline slot5 () : object(NULL), func(NULL) {}
+			inline slot5 () : object(nullptr), func(nullptr) {}
 			inline slot5 (object_type *object, func_t func) : object(object), func(func) {}
 			inline void assign(object_type *o, func_t f) { object = o; func = f; }
 			inline void assign(object_type *o, func_t f, signal_type &signal_ref) { object = o; func = f; this->connect(signal_ref); }

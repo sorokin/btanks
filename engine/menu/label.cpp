@@ -36,13 +36,13 @@
 
 Label::Label(const sdlx::Font *font, const std::string &label) : 
 	_font(font), _label(label), _max_width(0), _max_height(0),  x_pos(0), x_vel(LABEL_SPEED) {
-		_font->render_multiline(_label_w, _label_h, NULL, 0, 0, label);
+		_font->render_multiline(_label_w, _label_h, nullptr, 0, 0, label);
 	}
 
 Label::Label(const std::string &font, const std::string &label) : 
 	_font(ResourceManager->loadFont(font, true)), _label(label), 
 	_max_width(0), _max_height(0), x_pos(0), x_vel(LABEL_SPEED) {
-		_font->render_multiline(_label_w, _label_h, NULL, 0, 0, label);
+		_font->render_multiline(_label_w, _label_h, nullptr, 0, 0, label);
 	}
 
 void Label::get_size(int &w, int &h) const {
@@ -52,17 +52,17 @@ void Label::get_size(int &w, int &h) const {
 
 void Label::setFont(const std::string &font) {
 	_font = ResourceManager->loadFont(font, true);
-	_font->render_multiline(_label_w, _label_h, NULL, 0, 0, _label);
+	_font->render_multiline(_label_w, _label_h, nullptr, 0, 0, _label);
 }
 
 void Label::set(const std::string &label) {
 	_label = label;
-	_font->render_multiline(_label_w, _label_h, NULL, 0, 0, _label);
+	_font->render_multiline(_label_w, _label_h, nullptr, 0, 0, _label);
 }
 
 void Label::set(const std::string &base, const std::string &id) {
 	_label = I18n->get(base, id);
-	_font->render_multiline(_label_w, _label_h, NULL, 0, 0, _label);
+	_font->render_multiline(_label_w, _label_h, nullptr, 0, 0, _label);
 }
 
 const std::string Label::get() const { 

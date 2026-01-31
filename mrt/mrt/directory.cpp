@@ -43,15 +43,15 @@ void Directory::open(const std::string &path) {
 	if (path.empty())
 		throw_ex(("Directory::open called with empty path"));
 	_handle = opendir(path.c_str());
-	if (_handle == NULL)
+	if (_handle == nullptr)
 		throw_io(("opendir('%s')", path.c_str()));
 }
 
 const std::string Directory::read() const {
-	if (_handle == NULL)
+	if (_handle == nullptr)
 		throw_ex(("Directory::read called on uninitialized object"));
 	struct dirent *dir = readdir(_handle);
-	if (dir == NULL) {
+	if (dir == nullptr) {
 		//if (errno) 
 		//	throw_io(("readdir"));
 		return std::string();
@@ -60,9 +60,9 @@ const std::string Directory::read() const {
 }
 
 void Directory::close() {
-	if (_handle != NULL) {
+	if (_handle != nullptr) {
 		closedir(_handle);
-		_handle = NULL;
+		_handle = nullptr;
 	}
 }
 
@@ -131,7 +131,7 @@ void Directory::close() {
 
 void Directory::create(const std::string &path, const bool recurse) {
 	if (!recurse) {
-		::CreateDirectory(path.c_str(), NULL);
+		::CreateDirectory(path.c_str(), nullptr);
 	} else {
 		//LOG_DEBUG(("create(%s, true)", path.c_str()));
 		std::string p = normalize(path);
@@ -146,12 +146,12 @@ void Directory::create(const std::string &path, const bool recurse) {
 		p = res[0];
 		
 		//LOG_DEBUG(("creating directory: %s", p.c_str()));
-		::CreateDirectory(p.c_str(), NULL);
+		::CreateDirectory(p.c_str(), nullptr);
 		for(size_t i = 1; i < res.size(); ++i) {
 			p += "/";
 			p += res[i];
 			//LOG_DEBUG(("creating directory: %s", p.c_str()));
-			::CreateDirectory(p.c_str(), NULL);
+			::CreateDirectory(p.c_str(), nullptr);
 		}
 	}
 }
@@ -172,7 +172,7 @@ const std::string Directory::get_app_dir(const std::string &name, const std::str
 }
 
 const std::string Directory::get_home() {
-	HWND hwnd = NULL;
+	HWND hwnd = nullptr;
 /*
     SDL_SysWMinfo   info;
     SDL_VERSION(&info.version);
@@ -180,7 +180,7 @@ const std::string Directory::get_home() {
         hwnd = info.window;
 */
     TCHAR path[MAX_PATH];
-   	if (FAILED(::SHGetFolderPath(hwnd, CSIDL_APPDATA | CSIDL_FLAG_CREATE, NULL, SHGFP_TYPE_CURRENT, path)))
+   	if (FAILED(::SHGetFolderPath(hwnd, CSIDL_APPDATA | CSIDL_FLAG_CREATE, nullptr, SHGFP_TYPE_CURRENT, path)))
    		throw_ex(("GetFolderPath(CSIDL_APPDATA|CSIDL_FLAG_CREATE) failed"));
 	return path;
 }
@@ -189,7 +189,7 @@ const std::string Directory::get_home() {
 
 const std::string Directory::get_home() {
 	const char *home_env = getenv("HOME");
-	if (home_env == NULL) 
+	if (home_env == nullptr) 
 		throw_ex(("getting home directory now is possible only via HOME variable. fix it if you want."));
 	return home_env;
 }

@@ -50,7 +50,7 @@ class Animation;
 class AnimationModel;
 class Pose;
 
-#define AUTOLOAD_SURFACE(surface, filename) if ((surface) == NULL) surface = ResourceManager->load_surface(filename)
+#define AUTOLOAD_SURFACE(surface, filename) if ((surface) == nullptr) surface = ResourceManager->load_surface(filename)
 
 class BTANKSAPI IResourceManager : public NotifyingXMLParser {
 public:

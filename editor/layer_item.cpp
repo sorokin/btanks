@@ -33,7 +33,7 @@
 #include <assert.h>
 
 LayerItem::LayerItem(const int z, Layer *layer) : z(z), layer(layer) {
-	assert(layer != NULL);
+	assert(layer != nullptr);
 	
 	int cw, ch;
 	const std::string name = mrt::format_string("%3d: %s", z, layer->name.c_str());

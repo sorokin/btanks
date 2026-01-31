@@ -26,7 +26,7 @@ void Campaign::start(const std::string &name, Attrs &attr) {
 		}
 		Uint32 color = Window->get_surface().map_rgb(r, g, b);
 
-		sdlx::Surface * s = NULL;
+		sdlx::Surface * s = nullptr;
 		try {
 			mrt::Chunk data;
 			std::string tname = "tiles/" + file;
@@ -68,7 +68,7 @@ void Campaign::start(const std::string &name, Attrs &attr) {
 		map.id = attr["id"];
 		map.visible_if = attr["visible"];
 		map.position.fromString(attr["position"]);
-		map.map_frame = NULL;
+		map.map_frame = nullptr;
 		
 		map.no_medals = !attr.get("medals", true);
 		map.secret = attr.get("secret", false);
@@ -210,7 +210,7 @@ const std::pair<bool, bool> Campaign::visible(const Map &map) const {
 	return std::pair<bool, bool>(false, false);
 }
 
-Campaign::Campaign() : minimal_score(0), map(NULL), disable_donations(false), disable_network(false), _wares_section(false) {}
+Campaign::Campaign() : minimal_score(0), map(nullptr), disable_donations(false), disable_network(false), _wares_section(false) {}
 
 #include "game_monitor.h"
 #include "finder.h"
@@ -218,7 +218,7 @@ Campaign::Campaign() : minimal_score(0), map(NULL), disable_donations(false), di
 
 void Campaign::init(const std::string &base, const std::string &filename, bool preparse) {
 	this->base = base;
-	map = NULL;
+	map = nullptr;
 	_wares_section = false;
 	_preparse = preparse;
 	auto ptr = Finder->get_file(filename, "rt");
@@ -285,7 +285,7 @@ const Campaign::ShopItem * Campaign::find(const std::string &name) const {
 		if (i->name == name) 
 			return & *i;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void Campaign::clearBonuses() {

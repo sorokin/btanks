@@ -44,7 +44,7 @@ void Rush::calculateW(Way &way, Object *object, const std::string &area) {
 	if (im != 1) {
 		LOG_WARN(("object %s:%d is now on non-hint area (%d:%d value: %d)", 
 			object->animation.c_str(), object->get_id(), pos.y / tile_size.y, pos.x / tile_size.x, im));
-		object->emit("death", NULL); //bam! 
+		object->emit("death", nullptr); //bam! 
 		return;
 	}
 	

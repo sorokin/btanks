@@ -41,7 +41,7 @@
 #include "mrt/fs_node.h"
 
 TilesetDialog::TilesetDialog(const int w, const int h) : 
-	_w(w), _h(h), _current_tileset(NULL), _current_tileset_idx(-1), _current_tileset_gid(0), _selecting(false), _selected(false), 
+	_w(w), _h(h), _current_tileset(nullptr), _current_tileset_idx(-1), _current_tileset_gid(0), _selecting(false), _selected(false), 
 	_tileset_added(false)
 	{
 	init_map_slot.assign(this, &TilesetDialog::initMap, Map->load_map_signal);
@@ -109,7 +109,7 @@ void TilesetDialog::initMap() {
 bool TilesetDialog::onMouse(const int button, const bool pressed, const int x, const int y) {
 	if (!Map->loaded())
 		return false;
-	if (_current_tileset != NULL && x <= _current_tileset->get_width()) {
+	if (_current_tileset != nullptr && x <= _current_tileset->get_width()) {
 	switch(button) {
 	case SDL_BUTTON_LEFT: 
 		if (pressed) {
@@ -141,7 +141,7 @@ bool TilesetDialog::onMouse(const int button, const bool pressed, const int x, c
 			_editor_brush.size = v2<int>(x1 - x0 + 1, y1 - y0 + 1);
 			invalidate();
 			
-			static const Uint8 *keys = SDL_GetKeyState(NULL);
+			static const Uint8 *keys = SDL_GetKeyState(nullptr);
 			if (keys[SDLK_LCTRL] == 0)
 				hide();
 		}
@@ -201,7 +201,7 @@ void TilesetDialog::tick(const float dt) {
 		_tileset_added = true;
 	}
 
-	if (_current_tileset == NULL || hidden())
+	if (_current_tileset == nullptr || hidden())
 		return;
 
 	GET_CONFIG_VALUE("editor.scrolling-speed", int, ss, 500);
@@ -281,7 +281,7 @@ void TilesetDialog::set(const int tileset) {
 
 void TilesetDialog::render(sdlx::Surface &surface, const int x, const int y) const {
 	Container::render(surface, x, y);
-	if (_current_tileset == NULL)
+	if (_current_tileset == nullptr)
 		return;
 	surface.blit(*_current_tileset, -(int)_pos.x, -(int)_pos.y);
 

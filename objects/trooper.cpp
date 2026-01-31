@@ -104,7 +104,7 @@ void Trooper::tick(const float dt) {
 
 const bool Trooper::take(const BaseObject *obj, const std::string &type) {
 	if (obj->classname == "missiles" && type == "nuke" && _variants.has("player") && !_variants.has("nukeman")) {
-		if (GameMonitor->getCampaign() != NULL || RTConfig->game_type == GameTypeCTF) 
+		if (GameMonitor->getCampaign() != nullptr || RTConfig->game_type == GameTypeCTF) 
 			return Object::take(obj, type);
 
 		_variants.add("nukeman");
@@ -126,7 +126,7 @@ void Trooper::on_spawn() {
 
 	int sid = get_summoner();
 	const Object *summoner = World->getObjectByID(sid);
-	if (summoner != NULL) {
+	if (summoner != nullptr) {
 		const std::string &a = summoner->animation;
 		static const char *colors[4] = {"red-", "green-", "yellow-", "blue-"};
 		int i;
@@ -187,7 +187,7 @@ bool Trooper::can_attach(Object *vehicle) const {
 void Trooper::emit(const std::string &event, Object * emitter) {
 	if (event == "death") {
 		spawn("corpse(human-death)", "dead-" + animation, v2<float>(), v2<float>());
-	} else if (event == "collision" && emitter != NULL && emitter->classname == "vehicle" && !_variants.has("nukeman")) {
+	} else if (event == "collision" && emitter != nullptr && emitter->classname == "vehicle" && !_variants.has("nukeman")) {
 		if (can_attach(emitter) && attachVehicle(emitter))
 			return;
 	}

@@ -70,7 +70,7 @@ const std::string ScrollList::getValue() const {
 	
 	Control *c = _list[_current_item]; 
 	TextualControl *l = dynamic_cast<TextualControl *>(c);
-	if (l == NULL)
+	if (l == nullptr)
 		throw_ex(("cannot getValue from item %d", _current_item));
 	return l->get();
 }
@@ -290,7 +290,7 @@ bool ScrollList::onKey(const SDL_keysym sym) {
 		int c = tolower(sym.sym);
 		for(i = 0; i < _list.size(); ++i) {
 			TextualControl *l = dynamic_cast<TextualControl *>(_list[(i + _current_item + 1) % _list.size()]);
-			if (l != NULL && !l->get().empty()) {
+			if (l != nullptr && !l->get().empty()) {
 				int fc = tolower(l->get()[0]);
 				if (fc == c) 
 					break;
@@ -440,9 +440,9 @@ struct textual_less_eq {
 	bool operator()(Control * a, Control * b) const {
 		TextualControl * ta = dynamic_cast<TextualControl *>(a);
 		TextualControl * tb = dynamic_cast<TextualControl *>(b);
-		if (ta == NULL) 
+		if (ta == nullptr) 
 			return true;
-		if (tb == NULL)
+		if (tb == nullptr)
 			return false;
 		
 		return ta->get() < tb->get();

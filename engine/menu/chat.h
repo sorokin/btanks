@@ -31,7 +31,7 @@ private:
 	const sdlx::Font *_font[5];
 	TextControl *_input;
 	struct Line {
-		Line() : font(NULL), t(0) {}
+		Line() : font(nullptr), t(0) {}
 		Line(const std::string &nick, const std::string &message, const sdlx::Font *font): 
 			nick(nick), message(message), font(font), t(0) {}
 		

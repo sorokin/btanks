@@ -36,7 +36,7 @@ public:
 	virtual void on_spawn();
 	virtual void calculate(const float dt);
 	virtual void tick(const float dt);
-	virtual void emit(const std::string &event, Object * emitter = NULL);
+	virtual void emit(const std::string &event, Object * emitter = nullptr);
 
 	virtual void serialize(mrt::Serializator &s) const {
 		Object::serialize(s);
@@ -77,7 +77,7 @@ void Bomb::tick(const float dt) {
 
 void Bomb::emit(const std::string &event, Object * emitter) {
 	if (event == "collision") {
-		if (emitter == NULL || get_state_progress() >= 0.8) 
+		if (emitter == nullptr || get_state_progress() >= 0.8) 
 			emit("death", emitter);
 		return; //do not emit add_damage
 	} else if (event == "death") {

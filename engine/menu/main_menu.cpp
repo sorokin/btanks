@@ -21,7 +21,7 @@
 
 bool MainMenu::generate_key_events_for_gamepad;
 
-MainMenu::MainMenu(int w, int h) : active(NULL), w(w), h(h), _netstat(new NetworkStatusControl) {
+MainMenu::MainMenu(int w, int h) : active(nullptr), w(w), h(h), _netstat(new NetworkStatusControl) {
 	std::string profile;
 	Config->get("engine.profile", profile, std::string());
 	
@@ -37,7 +37,7 @@ void MainMenu::init() {
 	CampaignMenu * cm = new CampaignMenu(w, h);
 	if (cm->empty()) {
 		delete cm;
-		cm = NULL;
+		cm = nullptr;
 	} else {
 		add(new MenuItem("big", "menu", "start-campaign"), cm);
 	}
@@ -75,19 +75,19 @@ void MainMenu::tick(const float dt) {
 	if (changed()) {
 		reset();
 		LOG_DEBUG(("changed %d", current_item));
-		if (current_item >=0 && current_item < (int)items.size() && (active = items[current_item]) != NULL) {
+		if (current_item >=0 && current_item < (int)items.size() && (active = items[current_item]) != nullptr) {
 			active->hide(false);
 		} else {
-			active = NULL;
+			active = nullptr;
 			MenuItem * item = dynamic_cast<MenuItem *>(get_current_item());
-			if (item != NULL)
+			if (item != nullptr)
 				menu_signal.emit(item->get_id());
 		}
 	}
-	if (active != NULL) {
+	if (active != nullptr) {
 		if (active->hidden()) {
-			active = NULL;
-			Mixer->playSample(NULL, "menu/return.ogg", false);
+			active = nullptr;
+			Mixer->playSample(nullptr, "menu/return.ogg", false);
 		} else 
 			active->tick(dt);
 	}
@@ -97,7 +97,7 @@ void MainMenu::render(sdlx::Surface &surface, const int x, const int y) const {
 	if (hidden())
 		return;
 	
-	if (active != NULL && !active->hidden())
+	if (active != nullptr && !active->hidden())
 		active->render(surface, x, y);
 	else
 		Menu::render(surface, x + dx, y + dy);
@@ -110,7 +110,7 @@ bool MainMenu::onKey(const SDL_keysym sym) {
 	if (hidden())
 		return false;
 	
-	if (active != NULL && !active->hidden()) 
+	if (active != nullptr && !active->hidden()) 
 		return active->onKey(sym);
 	else 
 		return Menu::onKey(sym);
@@ -120,7 +120,7 @@ bool MainMenu::onMouse(const int button, const bool pressed, const int x, const 
 	if (hidden())
 		return false;
 
-	if (_netstat != NULL && PlayerManager->is_server_active() && _netstat->onMouse(button, pressed, x, y)) {
+	if (_netstat != nullptr && PlayerManager->is_server_active() && _netstat->onMouse(button, pressed, x, y)) {
 		if (_netstat->changed()) {
 			_netstat->reset();
 			PlayerManager->disconnect_all();
@@ -128,7 +128,7 @@ bool MainMenu::onMouse(const int button, const bool pressed, const int x, const 
 		return true;
 	}
 	
-	if (active != NULL && !active->hidden())
+	if (active != nullptr && !active->hidden())
 		return active->onMouse(button, pressed, x , y);
 	else 
 		return Menu::onMouse(button, pressed, x - dx, y - dy);
@@ -138,7 +138,7 @@ bool MainMenu::onMouseMotion(const int state, const int x, const int y, const in
 	if (hidden())
 		return false;
 	
-	if (active != NULL && !active->hidden())
+	if (active != nullptr && !active->hidden())
 		return active->onMouseMotion(state, x, y, xrel, yrel);
 	else
 		return Menu::onMouseMotion(state, x - dx, y - dy, xrel, yrel);
@@ -148,7 +148,7 @@ void MainMenu::on_mouse_enter(bool enter) {
 	if (hidden())
 		return;
 	
-	if (active != NULL && !active->hidden())
+	if (active != nullptr && !active->hidden())
 		active->on_mouse_enter(enter);
 	else
 		Menu::on_mouse_enter(enter);
@@ -220,6 +220,6 @@ void MainMenu::hide(const bool hide) {
 	if (!Map->loaded() && !hidden())
 		return;
 	
-	Mixer->playSample(NULL, hide? "menu/return.ogg": "menu/select.ogg", false);
+	Mixer->playSample(nullptr, hide? "menu/return.ogg": "menu/select.ogg", false);
 	Menu::hide(hide);
 }

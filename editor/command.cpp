@@ -36,26 +36,26 @@
 
 Command::Command(Layer *layer) : layer(layer) {}
 Command::Command(const ObjectCommandType type, const Object *object, const int arg, const Variants &vars) : 
-	layer(NULL), type(type), z(arg), vars(vars)  {
+	layer(nullptr), type(type), z(arg), vars(vars)  {
 		z_backup = object->get_z();
 		vars_backup = object->get_variants();
 		
-		assert(object != NULL);
+		assert(object != nullptr);
 		property_backup = GameMonitor->find(object).property;
 	}
 
 Command::Command(const std::string &classname, const std::string &animation, const v2<int> &position, const int z) 
- : layer(NULL), type(CreateObject), 
+ : layer(nullptr), type(CreateObject), 
  	classname(classname), animation(animation), position(position), z(z) {}
 
 Command::~Command() {}
 
 void Command::deleteObject(const int id) {
 	Object *o = World->getObjectByID(id);
-	if (o == NULL) 
+	if (o == nullptr) 
 		throw_ex(("object with id %d not found", id));
 	
-	o->Object::emit("death", NULL); //sorry for this ugly hack
+	o->Object::emit("death", nullptr); //sorry for this ugly hack
 	World->purge(0);
 }
 
@@ -74,7 +74,7 @@ void Command::move(const int x, const int y) {
 
 
 void Command::setTile(const int x, const int y, const int tile) {
-	if (layer == NULL)
+	if (layer == nullptr)
 		throw_ex(("setTile valid only for layer-related commands"));
 	queue.push_back(Queue::value_type(x, y, tile));
 }
@@ -141,7 +141,7 @@ void Command::exec() {
 		Object * object = getObject();
 		deleteObject(object->get_id());
 		Map->properties.erase(property_backup);
-		object = NULL;
+		object = nullptr;
 	} break;
 	
 	case ChangeObjectProperties: {
@@ -188,7 +188,7 @@ void Command::undo() {
 	} break;
 	
 	case MoveObject: {
-		assert(layer == NULL);
+		assert(layer == nullptr);
 		assert(!backup.empty());
 		Object *object = getObject();
 		int x = 0, y = 0;
@@ -236,6 +236,6 @@ void Command::undo() {
 Object *Command::getObject() {
 	GameItem & item = GameMonitor->find(property_backup);
 	Object * object = World->getObjectByID(item.id);	
-	assert(object != NULL);
+	assert(object != nullptr);
 	return object;
 }
