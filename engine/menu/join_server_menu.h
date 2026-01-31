@@ -47,7 +47,6 @@ public:
 
 	void tick(const float dt);
 	void join();
-	void remove();
 	
 	virtual bool onKey(const SDL_keysym sym);
 	

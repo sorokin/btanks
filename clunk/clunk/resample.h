@@ -57,10 +57,7 @@ namespace clunk {
 		template<> struct SampleResampler<int16_t, int16_t>	{ static void Write(int16_t &dst, const int16_t &src)	{ dst = src; } };
 
 		template<int DstChannels, int SrcChannels>
-		struct ChannelResampler {
-			template<typename DstType, typename SrcType>
-			static void resample(DstType * &dst, const SrcType *src);
-		};
+		struct ChannelResampler;
 
 		template<>
 		struct ChannelResampler<1, 1> {

@@ -14,7 +14,6 @@ class Label;
 class JoinTeamControl : public Container {
 public: 
 	JoinTeamControl();
-	void update();
 	virtual void render(sdlx::Surface& surface, const int x, const int y) const;
 	
 	void left();

@@ -54,7 +54,6 @@ public:
 	
 private:
 	void reload(); 
-	void loadScreenshot();
 	void scan(const std::string &dir);
 
 	int _index;

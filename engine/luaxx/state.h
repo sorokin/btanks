@@ -16,7 +16,6 @@ public:
 	void load(const std::string &fname, const mrt::Chunk &data);
 	void loadFile(const std::string &fname);
 	
-	void open();
 	void call(const int nargs, const int nresults) const;
 	~State();
 	
