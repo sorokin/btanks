@@ -46,7 +46,7 @@ Context::Context() : _listener(nullptr), max_sources(8), fx_volume(1), distance_
 
 template<class Sources>
 void Context::process_object(Object *o, Sources &sset, std::vector<source_t> &lsources, unsigned n) {
-	typedef typename std::map<typename Sources::key_type, unsigned> stats_type;
+	typedef std::map<typename Sources::key_type, unsigned> stats_type;
 	stats_type sources_stats;
 	
 	for(typename Sources::iterator j = sset.begin(); j != sset.end(); ) {
