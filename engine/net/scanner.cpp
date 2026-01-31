@@ -68,7 +68,7 @@ TRY {
 		if (he == NULL) 
 			throw_net(("gethostbyname"));
 		
-		for (int i = 0; he->h_addr_list[i] != 0; ++i) {
+		for (int i = 0; he->h_addr_list[i] != NULL; ++i) {
 			struct in_addr addr;
 	        memcpy(&addr, he->h_addr_list[i], sizeof(struct in_addr));
 

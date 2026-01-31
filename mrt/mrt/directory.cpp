@@ -23,13 +23,13 @@
 
 using namespace mrt;
 
-Directory::Directory() : _handle(0) {}
+Directory::Directory() : _handle() {}
 Directory::~Directory() {
 	close();
 }
 
 bool Directory::opened() const {
-	return _handle != 0;
+	return _handle != handle_type();
 }
 
 #ifndef _WIN32

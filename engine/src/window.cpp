@@ -344,7 +344,7 @@ void IWindow::createMainWindow() {
 		modes = SDL_ListModes(NULL, SDL_FULLSCREEN);
 
 		/* Check is there are any modes available */
-		if(modes == (SDL_Rect **)0) 
+		if(modes == (SDL_Rect **)NULL) 
 			throw_ex(("No video modes available"));
     
 	    /* Check if our resolution is restricted */

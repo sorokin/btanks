@@ -104,7 +104,7 @@ public:
 	void _destroy(const int z, const v2<int> &cell);
 	
 	struct TileDescriptor {
-		inline TileDescriptor() : surface(0), cmap(0), vmap(0) {}
+		inline TileDescriptor() : surface(NULL), cmap(NULL), vmap(NULL) {}
 		inline TileDescriptor(sdlx::Surface * surface, sdlx::CollisionMap *cmap, sdlx::CollisionMap *vmap) : 
 			surface(surface), cmap(cmap), vmap(vmap) {}
 		

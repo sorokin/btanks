@@ -315,7 +315,7 @@ void IResourceManager::cdata(const std::string &data) {
 	_data += data;
 }
 
-IResourceManager::IResourceManager() : _am(0) {
+IResourceManager::IResourceManager() : _am(NULL) {
 }
 
 const bool IResourceManager::hasAnimation(const std::string &id) const {

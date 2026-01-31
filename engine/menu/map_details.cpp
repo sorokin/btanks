@@ -35,7 +35,7 @@
 #include "map_desc.h"
 #include "mrt/chunk.h"
 
-MapDetails::MapDetails(const int w, const int h) : _w(w), _h(h), _map_desc(0), _ai_hint(NULL), has_tactics(false) {
+MapDetails::MapDetails(const int w, const int h) : _w(w), _h(h), _map_desc(NULL), _ai_hint(NULL), has_tactics(false) {
 	mrt::Chunk data;
 	Finder->load(data, "maps/null.png");
 	_null_screenshot.load_image(data);

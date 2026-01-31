@@ -148,7 +148,7 @@ TRY {
 }
 
 bool Editor::onTick(float dt) {
-	static const Uint8 *keys = SDL_GetKeyState(0);
+	static const Uint8 *keys = SDL_GetKeyState(NULL);
 	bool active = (keys[SDLK_LSHIFT] != 0 || keys[SDLK_RSHIFT] != 0 || _layers_dialog->active()) && Map->loaded() && _tileset_dialog->hidden();
 	_layers_dialog->hide(!active);
 
@@ -724,7 +724,7 @@ bool Editor::onMouse(const int button, const bool pressed, const int x, const in
 		return false;
 	}
 	
-	static const Uint8 *keys = SDL_GetKeyState(0);
+	static const Uint8 *keys = SDL_GetKeyState(NULL);
 	if (keys[SDLK_LSHIFT] != 0) {
 		
 		if (button == SDL_BUTTON_WHEELUP) {
@@ -855,7 +855,7 @@ bool Editor::onMouseMotion(const int state, const int x, const int y, const int 
 		}
 	}
 		
-	static const Uint8 *keys = SDL_GetKeyState(0);
+	static const Uint8 *keys = SDL_GetKeyState(NULL);
 
 	if (lmb && _brush != NULL && !_brush->size.is0() && keys[SDLK_SPACE] == 0 && !undo_queue.empty()) { //no space
 		v2<int> tile_pos ((map_pos.x + x)/ _tile_size.x, (map_pos.y + y) / _tile_size.y);

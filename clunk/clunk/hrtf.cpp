@@ -74,7 +74,7 @@ void Hrtf::idt_iit(const v3f &position, float &idt_offset, float &angle_gr, floa
 
 void Hrtf::get_kemar_data(kemar_ptr & kemar_data, int & elev_n, const v3f &pos) {
 	
-	kemar_data = 0;
+	kemar_data = NULL;
 	elev_n = 0;
 	if (pos.is0())
 		return;

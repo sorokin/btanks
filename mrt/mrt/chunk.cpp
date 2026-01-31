@@ -156,7 +156,7 @@ void Chunk::pop(size_t n) {
 const std::string Chunk::dump() const {
 	if (ptr == NULL)
 		return "empty memory chunk";
-	assert(ptr != 0);
+	assert(ptr != NULL);
 	
 	std::string result = format_string("-[memory dump]-[size: %u]---", (unsigned)size);
 	size_t n = (size - 1)/ 16 + 1;

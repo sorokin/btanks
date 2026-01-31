@@ -132,7 +132,7 @@ void Buffer::free() {
 const std::string Buffer::dump() const {
 	if (_ptr == NULL)
 		return "empty memory buffer";
-	assert(_ptr != 0);
+	assert(_ptr != NULL);
 	
 	std::string result = clunk::format_string("-[memory dump]-[size: %u]---", (unsigned)_size);
 	size_t n = (_size - 1)/ 16 + 1;

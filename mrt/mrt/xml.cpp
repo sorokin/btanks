@@ -142,7 +142,7 @@ const std::string XMLParser::getErrorMessage() const {
 	
 void XMLParser::cdata(const std::string &data) {}
 	
-XMLParser::XMLParser() : _parser(0) {}
+XMLParser::XMLParser() : _parser(NULL) {}
 	
 
 XMLParser::~XMLParser() {

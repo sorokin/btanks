@@ -46,10 +46,14 @@ public:
 private: 
 
 #ifdef _WIN32
-	intptr_t _handle;
+	typedef intptr_t handle_type;
+
+	handle_type _handle;
 	mutable std::string _first_value;
 #else
-	DIR * _handle;
+	typedef DIR * handle_type;
+
+	handle_type _handle;
 #endif
 
 };

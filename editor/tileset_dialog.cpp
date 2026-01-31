@@ -141,7 +141,7 @@ bool TilesetDialog::onMouse(const int button, const bool pressed, const int x, c
 			_editor_brush.size = v2<int>(x1 - x0 + 1, y1 - y0 + 1);
 			invalidate();
 			
-			static const Uint8 *keys = SDL_GetKeyState(0);
+			static const Uint8 *keys = SDL_GetKeyState(NULL);
 			if (keys[SDLK_LCTRL] == 0)
 				hide();
 		}

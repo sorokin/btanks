@@ -37,7 +37,7 @@ struct quad_rect {
 	T x0, y0, x1, y1;
 	V value;
 	
-	quad_rect() : x0(0), y0(0), x1(0), y1(0), value(0) {}
+	quad_rect() : x0(0), y0(0), x1(0), y1(0), value() {}
 	quad_rect(const V& v) : x0(0), y0(0), x1(0), y1(0), value(v) {}
 	quad_rect(const T& x0, const T& y0, const T& x1, const T& y1, const V& v) : x0(x0), y0(y0), x1(x1), y1(y1), value(v) {}
 	
