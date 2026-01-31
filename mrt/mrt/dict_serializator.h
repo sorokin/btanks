@@ -29,6 +29,9 @@ public:
 	DictionarySerializator(const mrt::Chunk *chunk);
 	~DictionarySerializator();
 	
+	using Serializator::add;
+	using Serializator::get;
+
 	virtual void add(const std::string &str);
 	virtual void get(std::string &str) const;
 
