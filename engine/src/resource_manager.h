@@ -45,7 +45,6 @@ namespace sdlx {
 }
 
 class Object;
-class Object;
 class Animation;
 class AnimationModel;
 class Pose;
