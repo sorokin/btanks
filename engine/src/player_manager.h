@@ -129,9 +129,9 @@ public:
 private: 
 	void onPlayerDeath(const Object *player, const Object *killer);
 	
-	sl08::slot1<void, const std::set<v3<int> > &, IPlayerManager> on_destroy_map_slot;
-	sl08::slot0<void, IPlayerManager> on_load_map_slot;
-	sl08::slot2<void, const Object *, const Object *, IPlayerManager> on_object_death_slot;
+	sl08::slot<void (const std::set<v3<int> > &), IPlayerManager> on_destroy_map_slot;
+	sl08::slot<void (), IPlayerManager> on_load_map_slot;
+	sl08::slot<void (const Object *, const Object *), IPlayerManager> on_object_death_slot;
 	
 	void serialize_slots(mrt::Serializator &s) const;
 	void deserialize_slots(const mrt::Serializator &s);

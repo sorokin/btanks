@@ -46,7 +46,7 @@ public:
 
 private: 
 	bool onMouseMotion(const int state, const int x, const int y, const int xrel, const int yrel);
-	sl08::slot5<bool, const int, const int, const int, const int, const int, Slider> mm_slot;
+	sl08::slot<bool (const int, const int, const int, const int, const int), Slider> mm_slot;
 
 	const sdlx::Surface * _tiles;
 	int _n;

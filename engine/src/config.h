@@ -84,7 +84,7 @@ private:
 	virtual void end(const std::string &name);
 	virtual void cdata(const std::string &data);
 	
-	sl08::slot2<const std::string, const std::string &, const std::string &, IConfig> on_console_slot;
+	sl08::slot<const std::string (const std::string &, const std::string &), IConfig> on_console_slot;
 	const std::string onConsole(const std::string &cmd, const std::string &param);
 
 	typedef std::map<std::string, Var> VarMap;

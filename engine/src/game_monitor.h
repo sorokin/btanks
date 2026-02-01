@@ -144,7 +144,7 @@ public:
 	const bool usedInCampaign(const std::string &base, const std::string &id) const;
 	const void useInCampaign(const std::string &base, const std::string &id);
 
-	sl08::slot4<void, int, int, int, int, IGameMonitor> on_map_resize_slot;	
+	sl08::slot<void (int, int, int, int), IGameMonitor> on_map_resize_slot;	
 	void parseWaypoints(int, int, int, int);
 	
 	void onTooltip(const std::string &event, const int slot_id, const std::string &area, const std::string &message);
@@ -155,14 +155,14 @@ public:
 	const int getBase(const Team::ID id) const;
 
 private:
-	sl08::slot1<void, const Object *, IGameMonitor> add_object_slot;
-	sl08::slot1<void, const Object *, IGameMonitor> delete_object_slot;
+	sl08::slot<void (const Object *), IGameMonitor> add_object_slot;
+	sl08::slot<void (const Object *), IGameMonitor> delete_object_slot;
 	void addObject(const Object *o);
 	void deleteObject(const Object *o);
 
 	void saveCampaign();
 
-	sl08::slot2<const std::string, const std::string &, const std::string &, IGameMonitor> on_console_slot;
+	sl08::slot<const std::string (const std::string &, const std::string &), IGameMonitor> on_console_slot;
 	const std::string onConsole(const std::string &cmd, const std::string &param);
 
 	bool _game_over, _win;

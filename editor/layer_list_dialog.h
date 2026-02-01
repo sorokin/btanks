@@ -47,7 +47,7 @@ public:
 
 private: 
 	void initMap();
-	sl08::slot0<void, LayerListDialog> init_map_slot;
+	sl08::slot<void (), LayerListDialog> init_map_slot;
 	Prompt *_new_layer;
 };
 

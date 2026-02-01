@@ -64,10 +64,10 @@ public:
 	
 private: 
 
-	sl08::slot0<void, Hud> init_map_slot;
+	sl08::slot<void (), Hud> init_map_slot;
 	void initMap();
 	
-	sl08::slot1<void, const std::set<v3<int> > &, Hud> on_destroy_map_slot;
+	sl08::slot<void (const std::set<v3<int> > &), Hud> on_destroy_map_slot;
 	void on_destroy_map(const std::set<v3<int> > & cells);
 
 	void generateRadarBG(const sdlx::Rect &viewport);

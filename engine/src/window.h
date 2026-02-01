@@ -42,12 +42,12 @@ public:
 	std::deque<SDL_Rect> resolutions;
 
 	//signals
-	sl08::signal1<void, const SDL_Event& > event_signal;
-	sl08::signal1<bool, float, sl08::exclusive_validator<bool> > tick_signal;
-	sl08::signal2<bool, const SDL_keysym, const bool, sl08::exclusive_validator<bool> > key_signal;
-	sl08::signal3<void, const int, const int, const bool> joy_button_signal;
-	sl08::signal4<bool, const int, const bool, const int, const int, sl08::exclusive_validator<bool> > mouse_signal;
-	sl08::signal5<bool, const int, const int, const int, const int, const int, sl08::exclusive_validator<bool> > mouse_motion_signal;
+	sl08::signal<void (const SDL_Event&)> event_signal;
+	sl08::signal<bool (float), sl08::exclusive_validator> tick_signal;
+	sl08::signal<bool (const SDL_keysym, const bool), sl08::exclusive_validator> key_signal;
+	sl08::signal<void (const int, const int, const bool)> joy_button_signal;
+	sl08::signal<bool (const int, const bool, const int, const int), sl08::exclusive_validator> mouse_signal;
+	sl08::signal<bool (const int, const int, const int, const int, const int), sl08::exclusive_validator> mouse_motion_signal;
 
 	IWindow();
 	void init(const int argc, char *argv[]);

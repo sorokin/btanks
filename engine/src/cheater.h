@@ -39,7 +39,7 @@ class Cheater {
 public: 
 	Cheater();
 private: 
-	sl08::slot1<void, const SDL_Event &, Cheater> on_event_slot;
+	sl08::slot<void (const SDL_Event &), Cheater> on_event_slot;
 	void onEvent(const SDL_Event &event);
 	std::vector<std::string> _cheats;
 	size_t _buf_size;

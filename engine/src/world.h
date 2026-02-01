@@ -59,11 +59,11 @@ class BTANKSAPI IWorld : public mrt::Serializable {
 public:
 	DECLARE_SINGLETON(IWorld);
 	
-	sl08::signal1<void, const Object *> on_object_add;
-	sl08::signal1<void, const Object *> on_object_update;
-	sl08::signal1<void, const Object *> on_object_broke;
-	sl08::signal1<void, const Object *> on_object_delete;
-	sl08::signal2<void, const Object *, const Object *> on_object_death; //death emitted after collision handler
+	sl08::signal<void (const Object *)> on_object_add;
+	sl08::signal<void (const Object *)> on_object_update;
+	sl08::signal<void (const Object *)> on_object_broke;
+	sl08::signal<void (const Object *)> on_object_delete;
+	sl08::signal<void (const Object *, const Object *)> on_object_death; //death emitted after collision handler
 
 	void clear();
 	~IWorld();
@@ -131,7 +131,7 @@ private:
 	void _tick(Object &o, const float dt, const bool do_calculate = true);
 	void _tick(ObjectMap &objects, const float dt, const bool do_calculate = true);
 
-	sl08::slot0<void, IWorld> init_map_slot;
+	sl08::slot<void (), IWorld> init_map_slot;
 	void initMap();
 	
 	void updateObject(Object *o);
@@ -159,7 +159,7 @@ private:
 	
 	void setSpeed(const float speed);
 	
-	sl08::slot4<void, int, int, int, int, IWorld> map_resize_slot;
+	sl08::slot<void (int, int, int, int), IWorld> map_resize_slot;
 	void onMapResize(int left, int right, int up, int down);
 
 	ObjectMap _objects;

@@ -100,40 +100,40 @@ public:
 	void add_logo(sdlx::Surface * surface, float duration, Uint32 color, bool fade = true);
 
 private:
-	sl08::slot1<void, const int, IGame> reset_slot;
+	sl08::slot<void (const int), IGame> reset_slot;
 	void resetLoadingBar(const int total);
 
-	sl08::slot2<void, const int, const char *, IGame> notify_slot;
+	sl08::slot<void (const int, const char *), IGame> notify_slot;
 	void notifyLoadingBar(const int progress, const char *what);
 
-	sl08::slot1<bool, float, IGame> on_tick_slot;
+	sl08::slot<bool (float), IGame> on_tick_slot;
 	bool onTick(float dt);
-	sl08::slot1<bool, float, IGame> on_logo_tick_slot;
+	sl08::slot<bool (float), IGame> on_logo_tick_slot;
 	bool logo_tick(float dt);
 	bool tick(float dt);
 
-	sl08::slot2<bool, const SDL_keysym, const bool, IGame>  on_key_slot;
+	sl08::slot<bool (const SDL_keysym, const bool), IGame>  on_key_slot;
 	bool onKey(const SDL_keysym sym, const bool pressed);
 
-	sl08::slot3<void, const int, const int, const bool, IGame> on_joy_slot;
+	sl08::slot<void (const int, const int, const bool), IGame> on_joy_slot;
 	void onJoyButton(const int, const int, const bool);
 
-	sl08::slot4<bool, const int, const bool, const int, const int, IGame> on_mouse_slot;
+	sl08::slot<bool (const int, const bool, const int, const int), IGame> on_mouse_slot;
 	bool onMouse(const int button, const bool pressed, const int x, const int y);
 
-	sl08::slot5<bool, const int, const int, const int, const int, const int, IGame> on_mouse_motion_slot;
+	sl08::slot<bool (const int, const int, const int, const int, const int), IGame> on_mouse_motion_slot;
 	bool onMouseMotion(const int state, const int x, const int y, const int xrel, const int yrel);
 
-	sl08::slot1<void, const std::string &, IGame> on_menu_slot;
+	sl08::slot<void (const std::string &), IGame> on_menu_slot;
 	void onMenu(const std::string &name);
 
-	sl08::slot0<void, IGame> on_map_slot;	
+	sl08::slot<void (), IGame> on_map_slot;	
 	void onMap();
 
-	sl08::slot2<const std::string, const std::string &, const std::string &, IGame> on_console_slot;
+	sl08::slot<const std::string (const std::string &, const std::string &), IGame> on_console_slot;
 	const std::string onConsole(const std::string &cmd, const std::string &param);
 
-	sl08::slot1<void, const SDL_Event &, IGame> on_event_slot;
+	sl08::slot<void (const SDL_Event &), IGame> on_event_slot;
 	void onEvent(const SDL_Event &event);
 
 	void quit();

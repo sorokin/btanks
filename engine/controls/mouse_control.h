@@ -46,7 +46,7 @@ private:
 	virtual void get_name(std::vector<std::string> &controls, const PlayerState &state) const;
 	static const std::string get_button_name(int idx);
 
-	sl08::slot4<bool, const int, const bool, const int, const int, MouseControl> on_mouse_slot;	
+	sl08::slot<bool (const int, const bool, const int, const int), MouseControl> on_mouse_slot;
 	bool onMouse(const int button, const bool pressed, const int x, const int y);
 	v2<int> target_screen;
 	bool target_screen_set;

@@ -78,19 +78,19 @@ private:
 	void render(sdlx::Surface &surface, const float dt);
 
 	//slots:	
-	sl08::slot1<bool, float, Editor> on_tick_slot;
+	sl08::slot<bool (float), Editor> on_tick_slot;
 	bool onTick(float dt);
 
-	sl08::slot2<bool, const SDL_keysym, const bool, Editor> on_key_slot;
+	sl08::slot<bool (const SDL_keysym, const bool), Editor> on_key_slot;
 	bool onKeySignal(const SDL_keysym sym, const bool pressed);
 	
-	sl08::slot4<bool, const int, const bool, const int, const int, Editor> on_mouse_slot;
+	sl08::slot<bool (const int, const bool, const int, const int), Editor> on_mouse_slot;
 	bool onMouseSignal(const int button, const bool pressed, const int x, const int y);
 	
-	sl08::slot5<bool, const int, const int, const int, const int, const int, Editor> on_mouse_motion_slot;
+	sl08::slot<bool (const int, const int, const int, const int, const int), Editor> on_mouse_motion_slot;
 	bool onMouseMotionSignal(const int state, const int x, const int y, const int xrel, const int yrel);
 	
-	sl08::slot1<void, const SDL_Event &, Editor> on_event_slot;
+	sl08::slot<void (const SDL_Event &), Editor> on_event_slot;
 	void onEvent(const SDL_Event &event);
 	
 	void displayStatusMessage(const Object *o);
@@ -114,9 +114,9 @@ private:
 	int _loading_bar_total, _loading_bar_now;
 
 	//slots: 
-	sl08::slot1<void, const int, Editor> reset_slot;
+	sl08::slot<void (const int), Editor> reset_slot;
 	void resetLoadingBar(const int total);
-	sl08::slot2<void, const int, const char *, Editor> notify_slot;
+	sl08::slot<void (const int, const char *), Editor> notify_slot;
 	void notifyLoadingBar(const int progress, const char *what);
 	
 	int _current_layer_z;

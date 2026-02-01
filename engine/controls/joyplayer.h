@@ -39,7 +39,7 @@ public:
 	JoyPlayer(const int idx);
 
 private:
-	sl08::slot1<void, const SDL_Event&, JoyPlayer> event_slot;
+	sl08::slot<void (const SDL_Event&), JoyPlayer> event_slot;
 	void on_event(const SDL_Event &event);
 
 	virtual void get_name(std::vector<std::string> &controls, const PlayerState &state) const;

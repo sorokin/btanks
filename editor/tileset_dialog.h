@@ -55,7 +55,7 @@ public:
 private: 
 	void set(const int tileset);
 	void initMap();
-	sl08::slot0<void, TilesetDialog> init_map_slot;
+	sl08::slot<void (), TilesetDialog> init_map_slot;
 	
 	virtual void tick(const float dt);
 	virtual bool onMouse(const int button, const bool pressed, const int x, const int y);

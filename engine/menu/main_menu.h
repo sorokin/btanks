@@ -35,7 +35,7 @@ class NetworkStatusControl;
 
 class MainMenu : public Menu {
 public: 
-	sl08::signal1<void, const std::string &, MainMenu> menu_signal; //backward compatibility, remove later
+	sl08::signal<void (const std::string &), MainMenu> menu_signal; //backward compatibility, remove later
 
 
 	MainMenu(int w, int h);

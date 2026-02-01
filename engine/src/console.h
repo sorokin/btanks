@@ -50,7 +50,7 @@ public:
 	
 	void init();
 
-	sl08::signal2<const std::string, const std::string &, const std::string &, validator > on_command;
+	sl08::signal<const std::string (const std::string &, const std::string &), validator> on_command;
 	
 	void render(sdlx::Surface &window);
 	
@@ -61,7 +61,7 @@ protected:
 	~IConsole();
 	
 private:
-	sl08::slot2<bool, const SDL_keysym, const bool, IConsole> on_key_slot;
+	sl08::slot<bool (const SDL_keysym, const bool), IConsole> on_key_slot;
 	bool onKey(const SDL_keysym sym, const bool pressed);
 	bool _active; 
 

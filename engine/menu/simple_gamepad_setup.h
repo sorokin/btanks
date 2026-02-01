@@ -30,7 +30,7 @@ private:
 	virtual bool onMouseMotion(const int state, const int x, const int y, const int xrel, const int yrel);
 	void refresh();
 
-	sl08::slot1<void, const SDL_Event &, SimpleGamepadSetup> on_event_slot;
+	sl08::slot<void (const SDL_Event &), SimpleGamepadSetup> on_event_slot;
 	virtual void on_event(const SDL_Event &event);
 
 	Box * bg;

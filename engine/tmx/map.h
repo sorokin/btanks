@@ -59,12 +59,12 @@ class MapGenerator;
 
 class BTANKSAPI IMap : public NotifyingXMLParser, public mrt::Serializable {
 public:
-	sl08::signal0<void> load_map_signal;
-	sl08::signal0<void> load_map_final_signal;
-	sl08::signal4<void, int, int, int, int> map_resize_signal;
+	sl08::signal<void ()> load_map_signal;
+	sl08::signal<void ()> load_map_final_signal;
+	sl08::signal<void (int, int, int, int)> map_resize_signal;
 	
 	typedef std::set<v3<int> > destroyed_cells;
-	sl08::signal1<void, const destroyed_cells& > destroyed_cells_signal;
+	sl08::signal<void (const destroyed_cells&)> destroyed_cells_signal;
 
 	DECLARE_SINGLETON(IMap);
 	struct TilePosition {

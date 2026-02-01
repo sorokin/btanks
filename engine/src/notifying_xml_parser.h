@@ -35,8 +35,8 @@
 class NotifyingXMLParser : public mrt::XMLParser {
 public: 
 	NotifyingXMLParser();
-	sl08::signal1<void, const int> reset_progress;
-	sl08::signal2<void, const int, const char *> notify_progress;
+	sl08::signal<void (const int)> reset_progress;
+	sl08::signal<void (const int, const char *)> notify_progress;
 
 protected:	
 	virtual void parse_file(const std::string &file);

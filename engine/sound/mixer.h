@@ -90,8 +90,8 @@ public:
 	IMixer& operator=(IMixer const& other) = delete;
 
 private:
-	sl08::slot1<void, const Object *, IMixer> update_object_slot;
-	sl08::slot1<void, const Object *, IMixer> delete_object_slot;
+	sl08::slot<void (const Object *), IMixer> update_object_slot;
+	sl08::slot<void (const Object *), IMixer> delete_object_slot;
 	//sl08::slot2<void, const Object *, const Object *, IMixer> replace_id_object_slot;
 
 	bool _nosound, _nomusic;
