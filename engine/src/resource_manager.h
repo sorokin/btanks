@@ -105,7 +105,7 @@ private:
 	typedef std::map<std::string, Animation*> AnimationMap;
 	AnimationMap _animations;
 
-	typedef std::map<std::string, AnimationModel *> AnimationModelMap;
+	typedef std::map<std::string, std::unique_ptr<AnimationModel>> AnimationModelMap;
 	AnimationModelMap _animation_models;
 
 	typedef std::map<std::string, sdlx::Surface *> SurfaceMap;
@@ -118,7 +118,7 @@ private:
 	CollisionMap _cmaps;
 
 	//parser specific stuff	
-	AnimationModel *_am;
+	std::unique_ptr<AnimationModel> _am;
 	std::unique_ptr<Pose> _pose;
 	std::string _data, _pose_id, _am_id;
 	

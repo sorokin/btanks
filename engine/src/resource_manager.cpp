@@ -197,7 +197,7 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 		if (speed == 0)
 			throw_ex(("animation model must have default speed"));
 		
-		_am = new AnimationModel(speed);
+		_am = std::make_unique<AnimationModel>(speed);
 		_am_id = id;		
 	} else if (name == "pose") {
 		if (_am == nullptr)
@@ -301,9 +301,7 @@ void IResourceManager::end(const std::string &name) {
 		}
 		_am->addPose(_pose_id, std::move(_pose));
 	} else if (name == "animation-model") {
-		delete _animation_models[_am_id];
-		_animation_models[_am_id] = _am;
-		_am = nullptr;
+		_animation_models[_am_id] = std::move(_am);
 		LOG_DEBUG(("added animation model '%s'", _am_id.c_str()));
 	} else if (name == "resources") {
 		_base_dir.clear();
@@ -315,7 +313,7 @@ void IResourceManager::cdata(const std::string &data) {
 	_data += data;
 }
 
-IResourceManager::IResourceManager() : _am(nullptr) {
+IResourceManager::IResourceManager() {
 }
 
 const bool IResourceManager::hasAnimation(const std::string &id) const {
@@ -342,7 +340,7 @@ AnimationModel *IResourceManager::get_animation_model(const std::string &id) {
 	AnimationModelMap::iterator i = _animation_models.find(id);
 	if (i == _animation_models.end()) 
 		throw_ex(("could not find animation model with id '%s'", id.c_str()));
-	return i->second;
+	return i->second.get();
 }
 
 const sdlx::Surface *IResourceManager::get_surface(const std::string &id) const  {
@@ -452,7 +450,6 @@ void IResourceManager::clear() {
 	LOG_DEBUG(("freeing resources"));
 	std::for_each(_animations.begin(), _animations.end(), delete_ptr2<AnimationMap::value_type>());
 	_animations.clear();
-	std::for_each(_animation_models.begin(), _animation_models.end(), delete_ptr2<AnimationModelMap::value_type>());
 	_animation_models.clear();
 	std::for_each(_surfaces.begin(), _surfaces.end(), delete_ptr2<SurfaceMap::value_type>());
 	_surfaces.clear();
