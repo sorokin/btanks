@@ -185,7 +185,7 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 		if (_animations.find(id) != _animations.end())
 			throw_ex(("attempt to create animation with duplicate name ('%s')", id.c_str()));
 
-		_animations[id] = new Animation(model, _base_dir, tile, tw, th);
+		_animations[id] = std::make_unique<Animation>(model, _base_dir, tile, tw, th);
 	} else if (name == "animation-model") {
 		status = "model";
 
@@ -325,7 +325,7 @@ Animation *IResourceManager::getAnimation(const std::string &id) {
 	assert(i != _animations.end());	
 	if (i == _animations.end()) 
 		throw_ex(("could not find animation with id '%s'", id.c_str()));
-	return i->second;
+	return i->second.get();
 }
 
 const Animation *IResourceManager::getAnimation(const std::string &id) const {
@@ -333,7 +333,7 @@ const Animation *IResourceManager::getAnimation(const std::string &id) const {
 	assert(i != _animations.end());	
 	if (i == _animations.end()) 
 		throw_ex(("could not find animation with id '%s'", id.c_str()));
-	return i->second;
+	return i->second.get();
 }
 
 AnimationModel *IResourceManager::get_animation_model(const std::string &id) {
@@ -448,7 +448,6 @@ void IResourceManager::init(const std::vector<std::pair<std::string, std::string
 
 void IResourceManager::clear() {
 	LOG_DEBUG(("freeing resources"));
-	std::for_each(_animations.begin(), _animations.end(), delete_ptr2<AnimationMap::value_type>());
 	_animations.clear();
 	_animation_models.clear();
 	std::for_each(_surfaces.begin(), _surfaces.end(), delete_ptr2<SurfaceMap::value_type>());

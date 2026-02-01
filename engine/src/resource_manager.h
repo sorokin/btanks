@@ -102,7 +102,7 @@ private:
 	virtual void end(const std::string &name);
 	virtual void cdata(const std::string &data);
 	
-	typedef std::map<std::string, Animation*> AnimationMap;
+	typedef std::map<std::string, std::unique_ptr<Animation>> AnimationMap;
 	AnimationMap _animations;
 
 	typedef std::map<std::string, std::unique_ptr<AnimationModel>> AnimationModelMap;
