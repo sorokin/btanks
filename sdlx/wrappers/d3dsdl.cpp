@@ -220,7 +220,7 @@ error:
 	return g_screen;
 }
 
-static void d3d_Shutdown(void) {
+static void d3d_Shutdown() {
 	LOG_DEBUG(("direct3d shutdown, releasing textures..."));
 	if (!g_textures.empty()) {
 		for(size_t i = 0; i < g_textures.size(); ++i) {
@@ -238,7 +238,7 @@ static void d3d_Shutdown(void) {
 	LOG_DEBUG(("...done"));
 }
 
-SDL_Surface *d3dSDL_GetVideoSurface(void) {
+SDL_Surface *d3dSDL_GetVideoSurface() {
 	return SDL_GetVideoSurface();
 }
 
