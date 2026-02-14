@@ -143,7 +143,6 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 		if (th == 0) th = _th;
 		if (sz != 0) tw = th = sz;
 
-		sdlx::Surface *s = nullptr;
 		bool real_load = !attr["persistent"].empty();
 
 		GET_CONFIG_VALUE("engine.preload", bool , preload_all, false);
@@ -155,27 +154,26 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 		
 		if (_surfaces.find(tile) == _surfaces.end()) {
 			TRY { 		
+				std::unique_ptr<sdlx::Surface> s;
 				std::unique_ptr<sdlx::CollisionMap> cmap;
 				if (real_load) {
 					mrt::Chunk data;
 					std::string tname = "tiles/" + tile;
 					Finder->load(data, tname);
 					
-					s = new sdlx::Surface;
+					s = std::make_unique<sdlx::Surface>();
 					s->load_image(data);
 					s->display_format_alpha();
 					
-					cmap = create_cmap(s, tname);
+					cmap = create_cmap(s.get(), tname);
 			
 					LOG_DEBUG(("loaded animation '%s'", id.c_str()));
 				}
 			
-				_surfaces[tile] = s;
-				s = nullptr;
-			
+				_surfaces[tile] = std::move(s);
 				_cmaps[tile] = std::move(cmap);
 			
-			} CATCH(mrt::format_string("loading animation \"%s\"", tile.c_str()).c_str(), { delete s; s = nullptr; throw; });
+			} CATCH(mrt::format_string("loading animation \"%s\"", tile.c_str()).c_str(), { throw; });
 		//	
 		} else { 
 			LOG_DEBUG(("tile '%s' was already loaded, skipped.", tile.c_str()));
@@ -346,30 +344,28 @@ const sdlx::Surface *IResourceManager::get_surface(const std::string &id) const 
 	SurfaceMap::const_iterator i = _surfaces.find(id);
 	if (i == _surfaces.end()) 
 		throw_ex(("could not find surface with id '%s'", id.c_str()));
-	return i->second;
+	return i->second.get();
 }
 
 void IResourceManager::unload_surface(const std::string &id) {
 	SurfaceMap::iterator i = _surfaces.find(id);
 	if (i == _surfaces.end())
 		return;
-	delete i->second;
 	_surfaces.erase(i);
 }
 
 const sdlx::Surface *IResourceManager::load_surface(const std::string &id, int scale_to_w, int scale_to_h) {
 	SurfaceMap::iterator i = _surfaces.find(id);
 	if (i != _surfaces.end() && i->second != nullptr)
-		return i->second;
+		return i->second.get();
 	
-	sdlx::Surface *s = nullptr;
 	TRY {
 		GET_CONFIG_VALUE("engine.generate-alpha-tiles", bool, gat, false);
 		mrt::Chunk data;
 		std::string tname = "tiles/" + id;
 		Finder->load(data, tname);
 
-		s = new sdlx::Surface;
+		auto s = std::make_unique<sdlx::Surface>();
 		s->load_image(data);
 		LOG_DEBUG(("loaded surface '%s'", id.c_str()));
 		if (scale_to_w != 0 || scale_to_h != 0) {
@@ -381,9 +377,9 @@ const sdlx::Surface *IResourceManager::load_surface(const std::string &id, int s
 			s->zoom(1.0 * scale_to_w / s->get_width(), 1.0 * scale_to_h / s->get_height());
 		}
 		s->display_format_alpha();
-		_surfaces[id] = s;
-	} CATCH("loading surface", { delete s; throw; });
-	return s;
+		_surfaces[id] = std::move(s);
+	} CATCH("loading surface", { throw; });
+	return _surfaces[id].get();
 }
 
 const sdlx::Font *IResourceManager::loadFont(const std::string &name, const bool alpha) {
@@ -449,7 +445,6 @@ void IResourceManager::clear() {
 	LOG_DEBUG(("freeing resources"));
 	_animations.clear();
 	_animation_models.clear();
-	std::for_each(_surfaces.begin(), _surfaces.end(), delete_ptr2<SurfaceMap::value_type>());
 	_surfaces.clear();
 	_cmaps.clear();
 	_fonts.clear();
@@ -611,12 +606,11 @@ void IResourceManager::check_surface(const std::string &animation, const sdlx::S
 	const Animation * a = getAnimation(animation);
 	std::string tname = "tiles/" + a->surface;
 	
-	sdlx::Surface *s = _surfaces[a->surface];
-	if (s == nullptr) {
+	if (_surfaces[a->surface] == nullptr) {
 		TRY {
 			mrt::Chunk data;
 			Finder->load(data, tname);
-			s = new sdlx::Surface;
+			auto s = std::make_unique<sdlx::Surface>();
 			s->load_image(data);
 			s->display_format_alpha();
 			GET_CONFIG_VALUE("engine.strip-alpha-from-object-tiles", bool, strip_alpha, false);
@@ -633,13 +627,13 @@ void IResourceManager::check_surface(const std::string &animation, const sdlx::S
 			}
 
 			LOG_DEBUG(("loaded animation '%s'", animation.c_str()));
-			_surfaces[a->surface] = s;
-		} CATCH("loading surface", { delete s; throw; });
+			_surfaces[a->surface] = std::move(s);
+		} CATCH("loading surface", { throw; });
 	}
-	surface_ptr = s;
+	surface_ptr = _surfaces[a->surface].get();
 	
 	if (_cmaps[a->surface] == nullptr) {
-		_cmaps[a->surface] = create_cmap(s, tname);
+		_cmaps[a->surface] = create_cmap(surface_ptr, tname);
 	}
 	cmap_ptr = _cmaps[a->surface].get();
 }

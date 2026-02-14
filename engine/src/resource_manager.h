@@ -108,7 +108,7 @@ private:
 	typedef std::map<std::string, std::unique_ptr<AnimationModel>> AnimationModelMap;
 	AnimationModelMap _animation_models;
 
-	typedef std::map<std::string, sdlx::Surface *> SurfaceMap;
+	typedef std::map<std::string, std::unique_ptr<sdlx::Surface>> SurfaceMap;
 	SurfaceMap _surfaces;
 
 	typedef std::map<std::pair<std::string, bool>, std::unique_ptr<sdlx::Font>> FontMap;
