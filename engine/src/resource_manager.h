@@ -62,7 +62,7 @@ public:
 	
 	AnimationModel *get_animation_model(const std::string &id);
 	
-	void registerObject(const std::string &classname, Object *);
+	void registerObject(const std::string &classname, std::unique_ptr<Object>);
 	Object *createObject(const std::string &classname) const;
 	Object *createObject(const std::string &classname, const std::string &animation) const;
 	const Object *getClass(const std::string &classname) const;
@@ -124,7 +124,7 @@ private:
 	
 	long _tw, _th;
 	
-	typedef std::map<std::string, Object *> ObjectMap;
+	typedef std::map<std::string, std::unique_ptr<Object>> ObjectMap;
 	ObjectMap _objects;
 	
 	mutable PreloadMap _preload_map, _object_preload_map;

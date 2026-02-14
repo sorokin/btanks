@@ -235,7 +235,7 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 			if ((parent = _objects.find(attr["parent"])) == _objects.end()) {
 				throw_ex(("class '%s' declared as parent of '%s' was not registered. skipped.", attr["parent"].c_str(), classname.c_str()));
 			}
-			object->second->inherit_parameters(parent->second);
+			object->second->inherit_parameters(parent->second.get());
 		}
 	
 		for (Attrs::iterator i = attr.begin(); i != attr.end(); ++i) {
@@ -448,7 +448,6 @@ void IResourceManager::clear() {
 	_surfaces.clear();
 	_cmaps.clear();
 	_fonts.clear();
-	std::for_each(_objects.begin(), _objects.end(), delete_ptr2<ObjectMap::value_type>());
 	_objects.clear();
 
 	_am = nullptr;
@@ -501,7 +500,7 @@ void IResourceManager::clear() {
 IResourceManager::~IResourceManager() {
 }
 
-void IResourceManager::registerObject(const std::string &classname, Object *o) {
+void IResourceManager::registerObject(const std::string &classname, std::unique_ptr<Object> o) {
 	Variants vars;
 	vars.parse(classname);
 	if (!vars.empty())
@@ -511,11 +510,9 @@ void IResourceManager::registerObject(const std::string &classname, Object *o) {
 	*const_cast<std::string *>(&o->registered_name) = classname;
 	assert(!o->registered_name.empty());
 	
-	Object *old = _objects[classname];
-	if (old != nullptr) 
+	if (_objects[classname] != nullptr)
 		LOG_DEBUG(("overriding object %s", classname.c_str()));
-	delete old;
-	_objects[classname] = o;
+	_objects[classname] = std::move(o);
 	//LOG_DEBUG(("classname %s registered at %p", classname.c_str(), (void*)o));
 }
 
@@ -536,14 +533,14 @@ void IResourceManager::createAlias(const std::string &name, const std::string &_
 	if (_objects.find(name) != _objects.end())
 		throw_ex(("attempt to create alias with duplicate name ('%s')", name.c_str()));
 
-	Object * r = i->second->clone();
+	std::unique_ptr<Object> r(i->second->clone());
 	if (r == nullptr)
 		throw_ex(("%s->clone(\"\") returns nullptr", classname.c_str()));
 
 	*const_cast<std::string *>(&r->registered_name) = name;
 
 	r->update_variants(vars);
-	_objects[name] = r;
+	_objects[name] = std::move(r);
 }
 
 Object *IResourceManager::createObject(const std::string &_classname) const {
@@ -590,7 +587,7 @@ const Object *IResourceManager::getClass(const std::string &classname) const {
 	ObjectMap::const_iterator i = _objects.find(classname);
 	if (i == _objects.end())
 		throw_ex(("classname '%s' was not registered", classname.c_str()));
-	return i->second;	
+	return i->second.get();
 }
 
 const bool IResourceManager::hasClass(const std::string &classname) const {
