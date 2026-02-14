@@ -93,3 +93,8 @@ if (WIN32)
 	target_link_libraries(bted PRIVATE sdlx_main User32 DxGuid)
 endif()
 add_dependencies(bted data_copy)
+
+set_property(
+	DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+	PROPERTY VS_STARTUP_PROJECT btanks
+)
