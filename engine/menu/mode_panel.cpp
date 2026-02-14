@@ -113,6 +113,14 @@ void ModePanel::validate() {
 			_teams->disable(i, false);
 		try {
 			_teams->set(mrt::format_string("%d", t));
-		} CATCH("set", {});
+		} CATCH("set", {
+			/*
+				The config has an invalid value for "multiplayer.teams".
+				Let's just mark the chooser as changed.
+				On the next tick, we'll recognize the change and
+				re-read a valid value for "multiplayer.teams" from it.
+			*/
+			_teams->invalidate();
+		});
 	}
 }
