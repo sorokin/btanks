@@ -92,7 +92,7 @@ public:
 private:
 	Animation *getAnimation(const std::string &id);
 	
-	static sdlx::CollisionMap * create_cmap(const sdlx::Surface *s, const std::string &tile);
+	static std::unique_ptr<sdlx::CollisionMap> create_cmap(const sdlx::Surface *s, const std::string &tile);
 
 	//xml stuff
 	std::string _base_dir;
@@ -114,7 +114,7 @@ private:
 	typedef std::map<std::pair<std::string, bool>, std::unique_ptr<sdlx::Font>> FontMap;
 	FontMap _fonts;
 
-	typedef std::map<std::string, sdlx::CollisionMap *> CollisionMap;
+	typedef std::map<std::string, std::unique_ptr<sdlx::CollisionMap>> CollisionMap;
 	CollisionMap _cmaps;
 
 	//parser specific stuff	

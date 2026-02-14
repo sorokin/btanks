@@ -144,7 +144,6 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 		if (sz != 0) tw = th = sz;
 
 		sdlx::Surface *s = nullptr;
-		sdlx::CollisionMap *cmap = nullptr;
 		bool real_load = !attr["persistent"].empty();
 
 		GET_CONFIG_VALUE("engine.preload", bool , preload_all, false);
@@ -156,6 +155,7 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 		
 		if (_surfaces.find(tile) == _surfaces.end()) {
 			TRY { 		
+				std::unique_ptr<sdlx::CollisionMap> cmap;
 				if (real_load) {
 					mrt::Chunk data;
 					std::string tname = "tiles/" + tile;
@@ -173,10 +173,9 @@ void IResourceManager::start(const std::string &name, Attrs &attr) {
 				_surfaces[tile] = s;
 				s = nullptr;
 			
-				_cmaps[tile] = cmap;
-				cmap = nullptr;
+				_cmaps[tile] = std::move(cmap);
 			
-			} CATCH(mrt::format_string("loading animation \"%s\"", tile.c_str()).c_str(), { delete s; s = nullptr; delete cmap; cmap = nullptr; throw; });
+			} CATCH(mrt::format_string("loading animation \"%s\"", tile.c_str()).c_str(), { delete s; s = nullptr; throw; });
 		//	
 		} else { 
 			LOG_DEBUG(("tile '%s' was already loaded, skipped.", tile.c_str()));
@@ -433,7 +432,7 @@ const sdlx::CollisionMap *IResourceManager::getCollisionMap(const std::string &i
 	CollisionMap::const_iterator i = _cmaps.find(id);
 	if (i == _cmaps.end()) 
 		throw_ex(("could not find collision map with id '%s'", id.c_str()));
-	return i->second;
+	return i->second.get();
 }
 
 
@@ -452,7 +451,6 @@ void IResourceManager::clear() {
 	_animation_models.clear();
 	std::for_each(_surfaces.begin(), _surfaces.end(), delete_ptr2<SurfaceMap::value_type>());
 	_surfaces.clear();
-	std::for_each(_cmaps.begin(), _cmaps.end(), delete_ptr2<CollisionMap::value_type>());
 	_cmaps.clear();
 	_fonts.clear();
 	std::for_each(_objects.begin(), _objects.end(), delete_ptr2<ObjectMap::value_type>());
@@ -614,9 +612,6 @@ void IResourceManager::check_surface(const std::string &animation, const sdlx::S
 	std::string tname = "tiles/" + a->surface;
 	
 	sdlx::Surface *s = _surfaces[a->surface];
-	sdlx::CollisionMap *cmap = _cmaps[a->surface];
-
-	
 	if (s == nullptr) {
 		TRY {
 			mrt::Chunk data;
@@ -643,11 +638,10 @@ void IResourceManager::check_surface(const std::string &animation, const sdlx::S
 	}
 	surface_ptr = s;
 	
-	if (cmap == nullptr) {
-		cmap = create_cmap(s, tname);
-		_cmaps[a->surface] = cmap;
+	if (_cmaps[a->surface] == nullptr) {
+		_cmaps[a->surface] = create_cmap(s, tname);
 	}
-	cmap_ptr = cmap;
+	cmap_ptr = _cmaps[a->surface].get();
 }
 
 void IResourceManager::getAllClasses(std::set<std::string> &classes) {
@@ -692,8 +686,8 @@ void IResourceManager::preload() {
 	}
 }
 
-sdlx::CollisionMap * IResourceManager::create_cmap(const sdlx::Surface *s, const std::string &name) {
-	sdlx::CollisionMap * cmap = new sdlx::CollisionMap;
+std::unique_ptr<sdlx::CollisionMap> IResourceManager::create_cmap(const sdlx::Surface *s, const std::string &name) {
+	auto cmap = std::make_unique<sdlx::CollisionMap>();
 	GET_CONFIG_VALUE("engine.generate-static-collision-maps", bool, gscm, false);
 	if (true || !gscm) {
 		try {
