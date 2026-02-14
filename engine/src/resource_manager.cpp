@@ -363,26 +363,26 @@ const sdlx::Surface *IResourceManager::load_surface(const std::string &id, int s
 		return i->second;
 	
 	sdlx::Surface *s = nullptr;
-		TRY {
-			GET_CONFIG_VALUE("engine.generate-alpha-tiles", bool, gat, false);
-			mrt::Chunk data;
-			std::string tname = "tiles/" + id;
-			Finder->load(data, tname);
+	TRY {
+		GET_CONFIG_VALUE("engine.generate-alpha-tiles", bool, gat, false);
+		mrt::Chunk data;
+		std::string tname = "tiles/" + id;
+		Finder->load(data, tname);
 
-			s = new sdlx::Surface;
-			s->load_image(data);
-			LOG_DEBUG(("loaded surface '%s'", id.c_str()));
-			if (scale_to_w != 0 || scale_to_h != 0) {
-				if (scale_to_w == 0) 
-					scale_to_w = scale_to_h * s->get_width() / s->get_height();
-				if (scale_to_h == 0) 
-					scale_to_h = scale_to_w * s->get_height() / s->get_width();
-				LOG_DEBUG(("scaling surface to %dx%d", scale_to_w, scale_to_h));
-				s->zoom(1.0 * scale_to_w / s->get_width(), 1.0 * scale_to_h / s->get_height());
-			}
-			s->display_format_alpha();
-			_surfaces[id] = s;
-		} CATCH("loading surface", { delete s; throw; });
+		s = new sdlx::Surface;
+		s->load_image(data);
+		LOG_DEBUG(("loaded surface '%s'", id.c_str()));
+		if (scale_to_w != 0 || scale_to_h != 0) {
+			if (scale_to_w == 0)
+				scale_to_w = scale_to_h * s->get_width() / s->get_height();
+			if (scale_to_h == 0)
+				scale_to_h = scale_to_w * s->get_height() / s->get_width();
+			LOG_DEBUG(("scaling surface to %dx%d", scale_to_w, scale_to_h));
+			s->zoom(1.0 * scale_to_w / s->get_width(), 1.0 * scale_to_h / s->get_height());
+		}
+		s->display_format_alpha();
+		_surfaces[id] = s;
+	} CATCH("loading surface", { delete s; throw; });
 	return s;
 }
 
