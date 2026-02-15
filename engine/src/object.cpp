@@ -64,19 +64,19 @@ void Object::Event::deserialize(const mrt::Serializator &s) {
 	s.get(repeat);
 }
 
-Object * Object::clone() const {
+std::unique_ptr<Object> Object::clone() const {
 	throw_ex(("object %s:%s doesnt provide clone() method", registered_name.c_str(), animation.c_str()));
 	return nullptr;
 }
 
-Object * Object::deep_clone() const {
-	Object *r = clone();
+std::unique_ptr<Object> Object::deep_clone() const {
+	std::unique_ptr<Object> r = clone();
 	r->_fadeout_surface = nullptr;
 	r->clunk_object = nullptr;
 	
 	for(Group::iterator i = r->_group.begin(); i != r->_group.end(); ++i) {
-		i->second = i->second->deep_clone();
-		i->second->_parent = r;
+		i->second = i->second->deep_clone().release();
+		i->second->_parent = r.get();
 	}
 	return r;
 }

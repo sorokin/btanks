@@ -198,6 +198,6 @@ const bool Trooper::validateFire(const int idx) {
 	return true;
 }
 
-Object* Trooper::clone() const  {
-	return new Trooper(*this);
+std::unique_ptr<Object> Trooper::clone() const  {
+	return std::make_unique<Trooper>(*this);
 }

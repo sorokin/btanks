@@ -53,7 +53,7 @@ public:
 		RotatingObject::tick(dt);
 	}
 	
-	Object *clone() const { return new GTACar(*this); }
+	std::unique_ptr<Object> clone() const { return std::make_unique<GTACar>(*this); }
 };
 
 REGISTER_OBJECT("static-gta-car", GTACar, ());

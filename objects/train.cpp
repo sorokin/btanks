@@ -47,7 +47,7 @@ public:
 		}
 		add_owner(o->get_id());	
 	}	
-	virtual Object * clone() const { return new Wagon(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<Wagon>(*this); }
 	virtual void calculate(const float dt) {
 		Object *o = World->getObjectByID(get_summoner());
 		if (o == nullptr) {
@@ -76,7 +76,7 @@ public:
 class Train : public Object {
 public:
 	Train() : Object("train"), _smoke(1.0, true), _wagon_id(0) { set_directions_number(1); }
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void calculate(const float dt);
 	virtual void tick(const float dt);
@@ -154,8 +154,8 @@ void Train::calculate(const float dt) {
 	Object::calculate(dt);
 }
 
-Object* Train::clone() const  {
-	return new Train(*this);
+std::unique_ptr<Object> Train::clone() const  {
+	return std::make_unique<Train>(*this);
 }
 
 REGISTER_OBJECT("choo-choo-train", Train, ());

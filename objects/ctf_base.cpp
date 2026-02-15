@@ -42,7 +42,7 @@ public:
 		pierceable = true;
 	}
 	
-	virtual Object * clone() const { return new CTFBase(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<CTFBase>(*this); }
 	
 	void on_spawn() {
 		play("main", true);

@@ -56,7 +56,7 @@ public:
 		return (idx == 0)? canFire() : true;
 	}
 
-	virtual Object * clone() const { return new AIHeli(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<AIHeli>(*this); }
 	virtual void onIdle(const float dt);
 	
 private: 

@@ -187,7 +187,7 @@ public:
 		s.get(_left_fire);
 	}
 	
-	virtual Object * clone() const { return new ShilkaTurret(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<ShilkaTurret>(*this); }
 	
 
 private:

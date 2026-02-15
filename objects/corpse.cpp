@@ -33,7 +33,7 @@ class Corpse : public Object {
 public:
 	Corpse(const int fc, const bool play_dead) : Object("corpse"), _fire_cycles(fc), _play_dead(play_dead) {}
 
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void tick(const float dt);
 	virtual void on_spawn();
 
@@ -99,8 +99,8 @@ void Corpse::on_spawn() {
 }
 
 
-Object* Corpse::clone() const  {
-	return new Corpse(*this);
+std::unique_ptr<Object> Corpse::clone() const  {
+	return std::make_unique<Corpse>(*this);
 }
 
 REGISTER_OBJECT("corpse", Corpse, (16, true));

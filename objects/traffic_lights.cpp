@@ -33,7 +33,7 @@ class TrafficLights : public Object {
 public:
 	TrafficLights() : Object("traffic-lights"), _idx(0), _broken(false) {}
 	virtual void tick(const float dt);
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void add_damage(Object *from, const int hp, const bool emitDeath = true);
 	virtual void on_spawn();
 
@@ -86,8 +86,8 @@ void TrafficLights::tick(const float dt) {
 	}
 }
 
-Object* TrafficLights::clone() const  {
-	return new TrafficLights(*this);
+std::unique_ptr<Object> TrafficLights::clone() const  {
+	return std::make_unique<TrafficLights>(*this);
 }
 
 REGISTER_OBJECT("traffic-lights", TrafficLights, ());

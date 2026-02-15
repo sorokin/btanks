@@ -36,8 +36,8 @@ public:
 	virtual void on_spawn();
 	virtual void onBreak();
 
-	Object* clone() const  {
-		return new Explosive(*this);
+	std::unique_ptr<Object> clone() const  {
+		return std::make_unique<Explosive>(*this);
 	}
 };
 

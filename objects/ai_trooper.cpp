@@ -57,7 +57,7 @@ public:
 		s.get(_aim_missiles);
 	}
 	virtual void calculate(const float dt);
-	virtual Object* clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 
 	virtual void onIdle(const float dt);
 	
@@ -130,8 +130,8 @@ void AITrooper::on_spawn() {
 		classname = "monster";
 }
 
-Object* AITrooper::clone() const  {
-	return new AITrooper(*this);
+std::unique_ptr<Object> AITrooper::clone() const  {
+	return std::make_unique<AITrooper>(*this);
 }
 
 
@@ -228,7 +228,7 @@ class TrooperInWatchTower : public Trooper, private ai::Base {
 public: 
 	TrooperInWatchTower(const std::string &object, const bool aim_missiles) : 
 		Trooper("trooper", object), _reaction(true), _aim_missiles(aim_missiles) {}
-	virtual Object * clone() const { return new TrooperInWatchTower(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<TrooperInWatchTower>(*this); }
 	
 	virtual void on_spawn() { 
 		ai::Base::on_spawn(this);

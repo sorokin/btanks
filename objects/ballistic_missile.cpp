@@ -9,7 +9,7 @@
 
 class BallisticMissile : public Object {
 public: 
-	virtual Object * clone() const { return new BallisticMissile(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<BallisticMissile>(*this); }
 	
 	BallisticMissile() : Object("ballistic-missile"), _fall(false), _launch(false), _reaction(true) {
 		set_directions_number(16);
@@ -128,7 +128,7 @@ private:
 
 class BallisticMissileTarget : public Object {
 public: 
-	virtual Object * clone() const { return new BallisticMissileTarget(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<BallisticMissileTarget>(*this); }
 	
 	BallisticMissileTarget() : Object("mark"), _reaction(true) {
 		set_directions_number(1);

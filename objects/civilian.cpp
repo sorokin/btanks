@@ -127,7 +127,7 @@ public:
 		s.get(_guard);
 	}
 
-	Object *clone() const { return new AICivilian(*this); }
+	std::unique_ptr<Object> clone() const { return std::make_unique<AICivilian>(*this); }
 private: 
 	Alarm _thinking_timer, _guard_timer;
 	bool _thinking, _guard;

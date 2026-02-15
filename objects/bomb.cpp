@@ -32,7 +32,7 @@
 class Bomb : public Object {
 public:
 	Bomb() : Object("bomb"), z1(0), z2(0) { piercing = true; pierceable = true; }
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void calculate(const float dt);
 	virtual void tick(const float dt);
@@ -88,8 +88,8 @@ void Bomb::emit(const std::string &event, Object * emitter) {
 }
 
 
-Object* Bomb::clone() const  {
-	return new Bomb(*this);
+std::unique_ptr<Object> Bomb::clone() const  {
+	return std::make_unique<Bomb>(*this);
 }
 
 REGISTER_OBJECT("bomb", Bomb, ());

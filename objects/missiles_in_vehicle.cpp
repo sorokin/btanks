@@ -74,7 +74,7 @@ public:
 		return n;
 	}
 	
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	virtual void on_spawn();
 
@@ -198,8 +198,8 @@ void MissilesInVehicle::emit(const std::string &event, Object * emitter) {
 }
 
 
-Object* MissilesInVehicle::clone() const  {
-	return new MissilesInVehicle(*this);
+std::unique_ptr<Object> MissilesInVehicle::clone() const  {
+	return std::make_unique<MissilesInVehicle>(*this);
 }
 
 REGISTER_OBJECT("missiles-on-launcher", MissilesInVehicle, ("launcher"));

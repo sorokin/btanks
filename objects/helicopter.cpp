@@ -43,7 +43,7 @@ public:
 		 _active(false), _spawn(true), _paratrooper(para), _idle_time(0) {}
 	virtual void calculate(const float dt);
 	virtual void tick(const float dt);
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	void on_spawn();
 	void emit(const std::string &event, Object * emitter);
 
@@ -164,8 +164,8 @@ void Helicopter::calculate(const float dt) {
 }
 
 
-Object* Helicopter::clone() const  {
-	return new Helicopter(*this);
+std::unique_ptr<Object> Helicopter::clone() const  {
+	return std::make_unique<Helicopter>(*this);
 }
 
 REGISTER_OBJECT("helicopter-with-kamikazes", Helicopter, ("paratrooper-kamikaze"));

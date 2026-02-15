@@ -16,7 +16,7 @@ public:
 	}
 
 	virtual void on_spawn();
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 
 	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	~Teleport();
@@ -142,8 +142,8 @@ void Teleport::on_spawn() {
 	_teleports.insert(this);
 }
 
-Object * Teleport::clone() const {
-	return new Teleport(*this);
+std::unique_ptr<Object> Teleport::clone() const {
+	return std::make_unique<Teleport>(*this);
 }
 
 REGISTER_OBJECT("teleport", Teleport, ());

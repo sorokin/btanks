@@ -72,8 +72,8 @@ void Shilka::on_spawn() {
 	play("hold", true);
 }
 
-Object * Shilka::clone() const {
-	return new Shilka(*this);
+std::unique_ptr<Object> Shilka::clone() const {
+	return std::make_unique<Shilka>(*this);
 }
 
 #include "math/binary.h"

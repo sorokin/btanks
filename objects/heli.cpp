@@ -145,8 +145,8 @@ void Heli::emit(const std::string &event, Object * emitter) {
 	Object::emit(event, emitter);
 }
 
-Object* Heli::clone() const  {
-	return new Heli(*this);
+std::unique_ptr<Object> Heli::clone() const  {
+	return std::make_unique<Heli>(*this);
 }
 
 REGISTER_OBJECT("static-helicopter", Heli, ("vehicle"));

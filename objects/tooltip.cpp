@@ -56,8 +56,8 @@ public:
 	
 	virtual void set_direction(const int dir) {}
 
-	virtual Object * clone() const {
-		return new TooltipObject(*this);
+	virtual std::unique_ptr<Object> clone() const {
+		return std::make_unique<TooltipObject>(*this);
 	}
 
 	virtual void serialize(mrt::Serializator &s) const {

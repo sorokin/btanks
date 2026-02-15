@@ -104,7 +104,7 @@ public:
 		pierceable = true;
 	}
 	
-	virtual Object * clone() const { return new CTFFlag(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<CTFFlag>(*this); }
 	
 	void on_spawn() {
 		play("main", true);

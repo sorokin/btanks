@@ -32,7 +32,7 @@
 class PoisonCloud : public Object {
 public:
 	PoisonCloud() : Object("poison"), _damage(true) { pierceable = true; }
-	virtual Object * clone() const { return new PoisonCloud(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<PoisonCloud>(*this); }
 	virtual void on_spawn();
 	virtual void tick(const float dt);
 	virtual void emit(const std::string &event, Object * emitter = nullptr);

@@ -41,7 +41,7 @@ public:
 				_variants.add("make-pierceable");
 		}
 
-	virtual Object* clone() const  { return new Barrack(*this); }
+	virtual std::unique_ptr<Object> clone() const  { return std::make_unique<Barrack>(*this); }
 	
 	virtual void tick(const float dt);
 	virtual void on_spawn();

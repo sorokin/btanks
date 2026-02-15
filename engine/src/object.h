@@ -30,6 +30,7 @@
 
 #include <string>
 #include <map>
+#include <memory>
 #include <set>
 #include <queue>
 
@@ -83,8 +84,8 @@ public:
 	
 	void init(const std::string &animation); //do not use it, needed for resman
 
-	virtual Object * clone() const;
-	Object * deep_clone() const;
+	virtual std::unique_ptr<Object> clone() const;
+	std::unique_ptr<Object> deep_clone() const;
 	
 	bool playing_sound(const std::string &name) const;
 	void play_sound(const std::string &name, const bool loop, const float gain = 1.0);

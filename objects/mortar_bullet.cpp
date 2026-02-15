@@ -32,7 +32,7 @@
 
 class MortarBullet : public Object {
 public:
-	Object *clone() const { return new MortarBullet(*this); }
+	std::unique_ptr<Object> clone() const { return std::make_unique<MortarBullet>(*this); }
 	
 	MortarBullet() : Object("bullet"), age(0) {
 		impassability = -1;

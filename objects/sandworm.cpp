@@ -183,8 +183,8 @@ public:
 		set_way(way);
 	}
 	
-	Object* clone() const  {
-		return new SandWorm(*this);
+	std::unique_ptr<Object> clone() const  {
+		return std::make_unique<SandWorm>(*this);
 	}
 	
 	virtual void serialize(mrt::Serializator &s) const {
@@ -217,7 +217,7 @@ REGISTER_OBJECT("sandworm", SandWorm, ());
 class SandWormHead : public Object {
 public:
 	SandWormHead() : Object("monster") {}
-	Object* clone() const  { return new SandWormHead(*this); }
+	std::unique_ptr<Object> clone() const  { return std::make_unique<SandWormHead>(*this); }
 
 	virtual void on_spawn();
 	virtual void tick(const float dt);

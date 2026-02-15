@@ -37,7 +37,7 @@ public:
 	Turrel(const std::string &classname) : 
 		Object(classname), _reaction(true), _fire(true), _left(false) { impassability = 1; set_directions_number(8); }
 	
-	virtual Object * clone() const { return new Turrel(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<Turrel>(*this); }
 	virtual void on_spawn();
 	virtual void tick(const float dt);
 	virtual void calculate(const float dt);

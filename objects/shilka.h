@@ -37,7 +37,7 @@ class FakeMod;
 class Shilka : public Object {
 public:
 	Shilka(const std::string &classname);
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 
 	virtual void emit(const std::string &event, Object * emitter);

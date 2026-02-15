@@ -41,7 +41,7 @@ public:
 	virtual void tick(const float dt);
 	virtual void calculate(const float dt);
 
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void emit(const std::string &event, Object * emitter = nullptr);
 
@@ -127,8 +127,8 @@ void Cow::emit(const std::string &event, Object * emitter) {
 }
 
 
-Object* Cow::clone() const  {
-	return new Cow(*this);
+std::unique_ptr<Object> Cow::clone() const  {
+	return std::make_unique<Cow>(*this);
 }
 
 REGISTER_OBJECT("cow", Cow, ("creature"));

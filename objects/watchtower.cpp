@@ -38,7 +38,7 @@ public:
 		}
 		
 		
-	Object *clone() const { return new WatchTower(*this); }
+	std::unique_ptr<Object> clone() const { return std::make_unique<WatchTower>(*this); }
 	
 	virtual void on_spawn() {
 		if (_object == "top") {

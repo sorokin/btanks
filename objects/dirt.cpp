@@ -33,7 +33,7 @@
 class Dirt : public Object {
 public:
 	Dirt() : Object("dirt") { pierceable = true; hp = -1; }
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void emit(const std::string &event, Object * emitter = nullptr);
 };
@@ -54,9 +54,8 @@ void Dirt::emit(const std::string &event, Object * emitter) {
 }
 
 
-Object* Dirt::clone() const  {
-	Object *a = new Dirt(*this);
-	return a;
+std::unique_ptr<Object> Dirt::clone() const  {
+	return std::make_unique<Dirt>(*this);
 }
 
 REGISTER_OBJECT("dirt", Dirt, ());

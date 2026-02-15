@@ -35,7 +35,7 @@ public:
 	Cannon(const int dir) : Object("cannon"), _fire(false), _reaction(true) {
 		set_direction(dir);
 	}
-	virtual Object* clone() const  { return new Cannon(*this); }
+	virtual std::unique_ptr<Object> clone() const  { return std::make_unique<Cannon>(*this); }
 	
 	virtual void calculate(const float dt);
 	virtual void tick(const float dt);

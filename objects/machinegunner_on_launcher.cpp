@@ -37,7 +37,7 @@ public:
 		Object("trooper-on-launcher"), _fire(true), _object(object)
 		{ hp = -1; impassability = 0; set_directions_number(16); }
 
-	virtual Object * clone() const { return new Machinegunner(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<Machinegunner>(*this); }
 	virtual void on_spawn();
 	virtual void tick(const float dt);
 	virtual void calculate(const float dt);

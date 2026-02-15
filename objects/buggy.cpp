@@ -39,7 +39,7 @@ public:
 	virtual void calculate(const float dt);
 	virtual void tick(const float dt);
 	virtual void on_spawn();
-	virtual Object * clone() const { return new Buggy(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<Buggy>(*this); }
 	
 	void emit(const std::string &event, Object * emitter);
 
@@ -115,7 +115,7 @@ class AIBuggy : public Buggy, public ai::Waypoints {
 public: 
 	AIBuggy(const std::string &classname) : Buggy(classname) {}
 	virtual void calculate(const float dt);
-	virtual Object * clone() const {return new AIBuggy(*this);}
+	virtual std::unique_ptr<Object> clone() const {return std::make_unique<AIBuggy>(*this);}
 	virtual void on_spawn();
 	virtual void serialize(mrt::Serializator &s) const {
 		Buggy::serialize(s);

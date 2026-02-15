@@ -44,7 +44,7 @@ public:
 	}
 	virtual void add_damage(BaseObject *from, const int hp, const bool emitDeath = true) {}
 	virtual void calculate(const float dt);
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	void on_spawn();
 
@@ -187,8 +187,8 @@ void Missile::emit(const std::string &event, Object * emitter) {
 }
 
 
-Object* Missile::clone() const  {
-	return new Missile(*this);
+std::unique_ptr<Object> Missile::clone() const  {
+	return std::make_unique<Missile>(*this);
 }
 
 REGISTER_OBJECT("guided-missile", Missile, ("guided"));

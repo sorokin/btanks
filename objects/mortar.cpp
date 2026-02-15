@@ -54,8 +54,8 @@ void Mortar::on_spawn() {
 	play("hold", true);
 }
 
-Object * Mortar::clone() const {
-	return new Mortar(*this);
+std::unique_ptr<Object> Mortar::clone() const {
+	return std::make_unique<Mortar>(*this);
 }
 
 void Mortar::emit(const std::string &event, Object * emitter) {

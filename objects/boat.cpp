@@ -37,7 +37,7 @@ class Boat : public Object {
 public:
 	Boat(const std::string &object);
 
-	virtual Object* clone() const  { return new Boat(*this); }
+	virtual std::unique_ptr<Object> clone() const  { return std::make_unique<Boat>(*this); }
 	
 	virtual void calculate(const float dt);
 	virtual void tick(const float dt);

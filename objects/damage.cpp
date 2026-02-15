@@ -36,7 +36,7 @@ public:
 	virtual void render(sdlx::Surface &surface, const int x, const int y);
 	virtual void on_spawn();
 	//virtual void tick(const float dt);
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 };
 
 
@@ -45,7 +45,7 @@ Damage::Damage() : Object("damage-digits") {
 	hp = -1;
 	set_directions_number(10);
 }
-Object * Damage::clone() const { return new Damage(*this); } 
+std::unique_ptr<Object> Damage::clone() const { return std::make_unique<Damage>(*this); } 
 
 void Damage::on_spawn() { 
 	play("main", true); 

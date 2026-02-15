@@ -69,8 +69,8 @@ void Item::emit(const std::string &event, Object * emitter) {
 }
 
 
-Object* Item::clone() const  {
-	return new Item(*this);
+std::unique_ptr<Object> Item::clone() const  {
+	return std::make_unique<Item>(*this);
 }
 
 REGISTER_OBJECT("base-item", Item, ("dummy"));

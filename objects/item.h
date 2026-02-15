@@ -34,7 +34,7 @@ class Item : public Object {
 public:
 	std::string type;
 	Item(const std::string &classname, const std::string &type = std::string());
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void tick(const float dt);
 	virtual void emit(const std::string &event, Object * emitter = nullptr);

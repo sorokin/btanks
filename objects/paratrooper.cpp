@@ -35,7 +35,7 @@ public:
 		Object(classname), _spawn_object(spawn_object), _spawn_animation(spawn_animation) { 
 	}
 	virtual void tick(const float dt);
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void serialize(mrt::Serializator &s) const {
 		Object::serialize(s);
@@ -67,9 +67,8 @@ void Paratrooper::on_spawn() {
 	play("main", false);
 }
 
-Object* Paratrooper::clone() const  {
-	Object *a = new Paratrooper(*this);
-	return a;
+std::unique_ptr<Object> Paratrooper::clone() const  {
+	return std::make_unique<Paratrooper>(*this);
 }
 
 REGISTER_OBJECT("paratrooper-kamikaze", Paratrooper, ("paratrooper", "kamikaze", "kamikaze"));

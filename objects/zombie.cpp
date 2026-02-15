@@ -35,7 +35,7 @@
 
 class BaseZombie : public Object {
 public: 
-	virtual Object * clone() const { return new BaseZombie(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<BaseZombie>(*this); }
 	BaseZombie(const std::string &classname): Object(classname), _can_punch(true) {}
 	
 	void get_impassability_penalty(const float impassability, float &base, float &base_value, float &penalty) const {
@@ -132,7 +132,7 @@ public:
 	
 	virtual void calculate(const float dt);
 
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 
 	virtual void serialize(mrt::Serializator &s) const {
@@ -214,8 +214,8 @@ void Zombie::on_spawn() {
 	_reaction.set(rt);
 }
 
-Object* Zombie::clone() const  {
-	return new Zombie(*this);
+std::unique_ptr<Object> Zombie::clone() const  {
+	return std::make_unique<Zombie>(*this);
 }
 
 REGISTER_OBJECT("zombie", Zombie, ("monster"));

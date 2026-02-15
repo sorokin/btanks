@@ -37,7 +37,7 @@ public:
 	virtual void calculate(const float dt);
 	virtual void tick(const float dt);
 	virtual void on_spawn();
-	virtual Object * clone() const { return new Car(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<Car>(*this); }
 	
 	void emit(const std::string &event, Object * emitter);
 
@@ -133,7 +133,7 @@ class AICar : public Car, public ai::Waypoints {
 public: 
 	AICar(const std::string &classname) : Car(classname){}
 	virtual void calculate(const float dt);
-	virtual Object * clone() const {return new AICar(*this);}
+	virtual std::unique_ptr<Object> clone() const {return std::make_unique<AICar>(*this);}
 	virtual void on_spawn();
 
 	virtual void serialize(mrt::Serializator &s) const {

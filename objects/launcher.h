@@ -35,7 +35,7 @@
 class Launcher : public Object {
 public:
 	Launcher(const std::string &classname);
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 
 	virtual void emit(const std::string &event, Object * emitter);
 	virtual const bool take(const BaseObject *obj, const std::string &type);

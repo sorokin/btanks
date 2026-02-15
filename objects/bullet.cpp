@@ -44,7 +44,7 @@ public:
 		set_directions_number(dirs);
 	}
 	virtual void calculate(const float dt);
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void tick(const float dt);
 	virtual void emit(const std::string &event, Object * emitter = nullptr);
@@ -236,8 +236,8 @@ void Bullet::emit(const std::string &event, Object * emitter) {
 }
 
 
-Object* Bullet::clone() const  {
-	return new Bullet(*this);
+std::unique_ptr<Object> Bullet::clone() const  {
+	return std::make_unique<Bullet>(*this);
 }
 
 REGISTER_OBJECT("bullet", Bullet, ("regular", 8));

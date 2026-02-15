@@ -63,8 +63,8 @@ void Tank::on_spawn() {
 	play("hold", true);
 }
 
-Object * Tank::clone() const {
-	return new Tank(*this);
+std::unique_ptr<Object> Tank::clone() const {
+	return std::make_unique<Tank>(*this);
 }
 
 void Tank::emit(const std::string &event, Object * emitter) {

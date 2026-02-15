@@ -33,7 +33,7 @@
 class Barrier : public Object {
 public:
 	Barrier() : Object("barrier"), _toggle(true) { pierceable = true; }
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void calculate(const float dt);
 	virtual void tick(const float dt);
@@ -78,8 +78,8 @@ void Barrier::tick(const float dt) {
 	}
 }
 
-Object* Barrier::clone() const  {
-	return new Barrier(*this);
+std::unique_ptr<Object> Barrier::clone() const  {
+	return std::make_unique<Barrier>(*this);
 }
 
 REGISTER_OBJECT("barrier", Barrier, ());

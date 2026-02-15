@@ -1895,12 +1895,12 @@ Object * IWorld::pop(Object *object) {
 	}
 	assert(r != nullptr);
 
-	Object *o = r->deep_clone();
+	std::unique_ptr<Object> o = r->deep_clone();
 	assert(o != nullptr);
 
 	r->_dead = true;
 	o->_position.clear();
 
 	_commands.push_back(cmd);
-	return o;
+	return o.release();
 }

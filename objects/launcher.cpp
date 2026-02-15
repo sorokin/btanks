@@ -45,8 +45,8 @@ Launcher::Launcher(const std::string &classname)
 : Object(classname), _fire(false) {
 }
 
-Object * Launcher::clone() const {
-	return new Launcher(*this);
+std::unique_ptr<Object> Launcher::clone() const {
+	return std::make_unique<Launcher>(*this);
 }
 
 void Launcher::on_spawn() {

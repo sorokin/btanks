@@ -34,7 +34,7 @@
 class Mine : public Object {
 public:
 	Mine() : Object("mine") { piercing = false; pierceable = true; impassability = -1; }
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void tick(const float dt);
 	virtual void emit(const std::string &event, Object * emitter = nullptr);
@@ -116,8 +116,8 @@ void Mine::emit(const std::string &event, Object * emitter) {
 }
 
 
-Object* Mine::clone() const  {
-	return new Mine(*this);
+std::unique_ptr<Object> Mine::clone() const  {
+	return std::make_unique<Mine>(*this);
 }
 
 REGISTER_OBJECT("regular-mine", Mine, ());

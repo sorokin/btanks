@@ -33,7 +33,7 @@
 class FakeMod : public Object {
 public: 
 	FakeMod();
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 
 	virtual void serialize(mrt::Serializator &s) const;
 	virtual void deserialize(const mrt::Serializator &s);

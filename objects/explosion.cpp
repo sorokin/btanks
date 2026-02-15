@@ -42,7 +42,7 @@
 class Explosion : public Object {
 public:
 	Explosion() : Object("explosion"), _damaged_objects(), _players_killed(0), _damage_done(false) { hp = -1; impassability = 0; pierceable = true; }
-	Object* clone() const  { return new Explosion(*this); }
+	std::unique_ptr<Object> clone() const  { return std::make_unique<Explosion>(*this); }
 
 	virtual void tick(const float dt);
 	virtual void on_spawn();

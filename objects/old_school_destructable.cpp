@@ -33,7 +33,7 @@ class OldSchoolDestructableObject : public Object {
 public:
 	OldSchoolDestructableObject(const int hops);
 
-	virtual Object * clone() const { return new OldSchoolDestructableObject(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<OldSchoolDestructableObject>(*this); }
 	virtual void tick(const float dt);
 	virtual void on_spawn();
 	virtual void add_damage(Object *from, const int hp, const bool emitDeath = true);

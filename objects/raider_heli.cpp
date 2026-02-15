@@ -33,7 +33,7 @@
 
 class RaiderHeli : public Heli {
 public:
-	virtual Object * clone() const { return new RaiderHeli(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<RaiderHeli>(*this); }
 	RaiderHeli() : Heli("helicopter"), _player(-1), _leaving(false), _toggle(true), _moving_time(0) {}
 	
 	virtual void on_spawn();

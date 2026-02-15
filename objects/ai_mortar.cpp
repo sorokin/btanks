@@ -39,7 +39,7 @@ public:
 	virtual void on_spawn();
 	virtual void calculate(const float dt);
 
-	virtual Object * clone() const { return new AIMortar(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<AIMortar>(*this); }
 
 	virtual const std::string getWeapon(const int idx) const;
 	virtual const int getWeaponAmount(const int idx) const;

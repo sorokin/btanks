@@ -37,7 +37,7 @@ public:
 			hp = -1;
 		}
 
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void tick(const float dt);
 	virtual void on_spawn();
 	virtual void render(sdlx::Surface &surface, const int x, const int y);
@@ -80,8 +80,8 @@ void SinglePose::on_spawn() {
 }
 
 
-Object* SinglePose::clone() const  {
-	return new SinglePose(*this);
+std::unique_ptr<Object> SinglePose::clone() const  {
+	return std::make_unique<SinglePose>(*this);
 }
 
 REGISTER_OBJECT("single-pose", SinglePose, ("main"));

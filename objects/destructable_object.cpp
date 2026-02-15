@@ -130,8 +130,8 @@ void DestructableObject::on_spawn() {
 }
 
 
-Object* DestructableObject::clone() const  {
-	return new DestructableObject(*this);
+std::unique_ptr<Object> DestructableObject::clone() const  {
+	return std::make_unique<DestructableObject>(*this);
 }
 
 REGISTER_OBJECT("destructable-object", DestructableObject, ("destructable-object"));

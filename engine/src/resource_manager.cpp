@@ -533,7 +533,7 @@ void IResourceManager::createAlias(const std::string &name, const std::string &_
 	if (_objects.find(name) != _objects.end())
 		throw_ex(("attempt to create alias with duplicate name ('%s')", name.c_str()));
 
-	std::unique_ptr<Object> r(i->second->clone());
+	std::unique_ptr<Object> r = i->second->clone();
 	if (r == nullptr)
 		throw_ex(("%s->clone(\"\") returns nullptr", classname.c_str()));
 
@@ -551,17 +551,17 @@ Object *IResourceManager::createObject(const std::string &_classname) const {
 	ObjectMap::const_iterator i = _objects.find(classname);
 	if (i == _objects.end())
 		throw_ex(("classname '%s' was not registered", classname.c_str()));
-	Object * r = i->second->clone();
+	std::unique_ptr<Object> r = i->second->clone();
 
 	if (r == nullptr)
 		throw_ex(("%s->clone() returns nullptr", classname.c_str()));
 
 	if (r->registered_name.empty())
-		throw_ex(("%s::clone() did not use copy ctor. (you must write \" return new Class(*this)\" or smth.)", classname.c_str()));
+		throw_ex(("%s::clone() did not use copy ctor. (you must write \" return std::make_unique<Class>(*this)\" or smth.)", classname.c_str()));
 
 	r->update_variants(vars);
 	
-	return r;
+	return r.release();
 }
 
 #include "tmx/map.h"

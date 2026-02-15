@@ -51,7 +51,7 @@ public:
 	virtual void tick(const float dt);
 	virtual void calculate(const float dt);
 
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void emit(const std::string &event, Object * emitter = nullptr);
 	void on_idle(const int range, const float dt);
@@ -144,8 +144,8 @@ void Kamikaze::emit(const std::string &event, Object * emitter) {
 }
 
 
-Object* Kamikaze::clone() const  {
-	return new Kamikaze(*this);
+std::unique_ptr<Object> Kamikaze::clone() const  {
+	return std::make_unique<Kamikaze>(*this);
 }
 
 REGISTER_OBJECT("kamikaze", Kamikaze, ());

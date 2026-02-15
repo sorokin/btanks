@@ -34,7 +34,7 @@
 class Submarine : public Object {
 public:
 	Submarine() : Object("submarine"), _wakeup(false) { impassability = 0; hp = -1; }
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void on_spawn();
 	virtual void tick(const float dt);
 
@@ -96,8 +96,8 @@ void Submarine::tick(const float dt) {
 	}
 }
 
-Object* Submarine::clone() const  {
-	return new Submarine(*this);
+std::unique_ptr<Object> Submarine::clone() const  {
+	return std::make_unique<Submarine>(*this);
 }
 
 REGISTER_OBJECT("submarine", Submarine, ());

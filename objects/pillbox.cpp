@@ -41,7 +41,7 @@ public:
 	PillBox(const std::string &object) : 
 		DestructableObject("pillbox"), _reaction(true), _fire(false), _object(object) {}
 
-	virtual Object * clone() const { return new PillBox(*this); }
+	virtual std::unique_ptr<Object> clone() const { return std::make_unique<PillBox>(*this); }
 	
 	virtual void on_spawn() { 
 		GET_CONFIG_VALUE("objects.pillbox.reaction-time", float, rt, 0.1);

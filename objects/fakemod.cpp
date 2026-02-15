@@ -34,8 +34,8 @@ FakeMod::FakeMod() : Object("fake-mod"), _type(), _n(0) {
 	pierceable = true;
 }
 
-Object * FakeMod::clone() const {
-	return new FakeMod(*this);
+std::unique_ptr<Object> FakeMod::clone() const {
+	return std::make_unique<FakeMod>(*this);
 }
 
 void FakeMod::setCount(const int n) {

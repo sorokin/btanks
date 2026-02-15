@@ -31,7 +31,7 @@ class DestructableObject : public Object {
 public:
 	DestructableObject(const std::string &classname);
 
-	virtual Object * clone() const;
+	virtual std::unique_ptr<Object> clone() const;
 	virtual void tick(const float dt);
 	virtual void on_spawn();
 	virtual void add_damage(Object *from, const int hp, const bool emitDeath = true);
