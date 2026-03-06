@@ -50,27 +50,9 @@ public:
 	inline void clear() { x = y = z = 0; }
 	inline const bool is0() const = delete;
 	
-	inline const T normalize() {
-		const T len = length();
-		if (len == (T)0 || len ==(T)1) 
-			return len;
-		
-		x /= len;
-		y /= len;
-		z /= len;
-		return len;
-	}
+	inline const T normalize() = delete;
 
-	inline const T normalize(const T nlen) {
-		const T len = length();
-		if (len == (T)0 || len == nlen) 
-			return len;
-		
-		x *= nlen / len;
-		y *= nlen / len;
-		z *= nlen / len;
-		return len;
-	}
+	inline const T normalize(const T nlen) = delete;
 	
 	inline const T length() const = delete;
 
@@ -79,11 +61,7 @@ public:
 	template <typename T2> 
 		inline v3<T2> convert() const { return v3<T2>((T2)x, (T2)y, (T2)z); }
 	
-	inline const T distance(const v3<T>& other) const {
-		v3<T>d(*this);
-		d-= other;
-		return d.length();
-	}
+	inline const T distance(const v3<T>& other) const = delete;
 	
 	
 	inline const T quick_distance(const v3<T>& other) const = delete;
