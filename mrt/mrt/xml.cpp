@@ -32,7 +32,7 @@ XMLException::XMLException() {}
 
 const std::string XMLException::get_custom_message() { return ""; }
 
-XMLException::~XMLException() throw() {}
+XMLException::~XMLException() {}
 
 static void XMLCALL startElement(void *userData, const char *name, const char **attrs) {
 	XMLParser * p = (XMLParser *)userData;

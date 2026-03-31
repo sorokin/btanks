@@ -35,13 +35,13 @@ namespace clunk
 	class CLUNKAPI Exception : public std::exception
 	{
 	public:
-		Exception() throw() {}
+		Exception() {}
 		void add_message(const char *file, int line);
 		void add_message(const std::string &msg);
 		virtual void add_custom_message() {}
 
-		virtual ~Exception() throw() {}
-		virtual const char* what() const throw() { return message.c_str(); }
+		virtual ~Exception() {}
+		virtual const char* what() const noexcept { return message.c_str(); }
 	private:
 		std::string message;
 	};

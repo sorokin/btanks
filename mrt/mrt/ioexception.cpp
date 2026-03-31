@@ -39,4 +39,4 @@ const std::string IOException::get_custom_message() {
 	return buf;
 }
 
-IOException::~IOException() throw() {}
+IOException::~IOException() {}

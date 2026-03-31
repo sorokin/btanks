@@ -22,10 +22,10 @@
 using namespace mrt;
 
 Exception::Exception() : _error() {}
-Exception::~Exception() throw() {}
+Exception::~Exception() {}
 
 const std::string Exception::get_custom_message() { return std::string(); }
-const char* Exception::what() const throw() { return _error.c_str(); }
+const char* Exception::what() const noexcept { return _error.c_str(); }
 
 
 void Exception::add_message(const char * file, const int line) {

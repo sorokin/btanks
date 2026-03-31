@@ -30,4 +30,4 @@ const std::string Exception::get_custom_message() {
 	return SDL_GetError();
 }
 
-Exception::~Exception() throw() {}
+Exception::~Exception() {}

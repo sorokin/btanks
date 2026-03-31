@@ -34,8 +34,8 @@ public:
 	void add_message(const char *file, const int line);
 	void add_message(const std::string &msg);
 	virtual const std::string get_custom_message();
-	virtual const char* what() const throw();
-	virtual ~Exception() throw();
+	virtual const char* what() const noexcept;
+	virtual ~Exception();
 private:
 	std::string _error;
 };
@@ -47,7 +47,7 @@ private:
 		public: \
 		name(); \
 		const std::string get_custom_message(); \
-		virtual ~name() throw(); \
+		virtual ~name(); \
 	} 
 
 #define DERIVE_EXCEPTION_NO_DEFAULT(export, name, ctor, data) \
@@ -55,7 +55,7 @@ private:
 		public: \
 		name ctor; \
 		const std::string get_custom_message(); \
-		virtual ~name() throw(); \
+		virtual ~name(); \
 		private: \
 		data \
 	} 
