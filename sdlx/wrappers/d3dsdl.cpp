@@ -129,7 +129,7 @@ SDL_Surface *d3dSDL_SetVideoMode(int width, int height, int bpp, Uint32 flags) {
     g_pD3D->GetDeviceCaps( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, &d3dCaps );
     g_max_w = d3dCaps.MaxTextureWidth;
     g_max_h = d3dCaps.MaxTextureHeight;
-	LOG_DEBUG(("maximum texture size: %dx%d, aspect ratio: %d", g_max_w, g_max_h, d3dCaps.MaxTextureAspectRatio));
+	LOG_DEBUG(("maximum texture size: %dx%d, aspect ratio: %d", g_max_w, g_max_h, (int)d3dCaps.MaxTextureAspectRatio));
 	g_non_pow2 = (d3dCaps.TextureCaps & D3DPTEXTURECAPS_NONPOW2CONDITIONAL) != 0;
 	LOG_DEBUG(("non-pow2 textures: %s", g_non_pow2?"yes":"no"));
 
