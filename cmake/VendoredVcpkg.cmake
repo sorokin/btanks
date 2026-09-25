@@ -6,7 +6,7 @@ if (BTANKS_ENABLE_VENDORED_VCPKG AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
 	FetchContent_Declare(
 		vcpkg
 		GIT_REPOSITORY https://github.com/microsoft/vcpkg.git
-		GIT_TAG c3867e714dd3a51c272826eea77267876517ed99) # 2026.03.18
+		GIT_TAG 9e593bb18ea69cc5095e012465dcd675a822ed0d) # 2026.07.27
 	FetchContent_MakeAvailable(vcpkg)
 
 	set(CMAKE_TOOLCHAIN_FILE "${vcpkg_SOURCE_DIR}/scripts/buildsystems/vcpkg.cmake" CACHE FILEPATH "Vcpkg toolchain file")
